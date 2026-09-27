@@ -3,49 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramos Infotec - Assistência Técnica Zona Leste SP</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-body{background:#0a0a0a;color:#fff}
-header{background:#000;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #00aaff;position:sticky;top:0}
-.logo{font-weight:800;font-size:24px}.logo span{color:#00aaff}
-.btn{background:#25D366;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:700}
-.hero{padding:80px 5%;text-align:center;background:linear-gradient(180deg,#0a0a0a,#151515)}
-.hero h1{font-size:42px;line-height:1.1;margin-bottom:15px}.hero h1 span{color:#00aaff}
-.hero p{color:#aaa;max-width:700px;margin:0 auto 25px;font-size:18px}
-.grid{padding:60px 5%;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;background:#111}
-.card{background:#1a1a1a;padding:25px;border-radius:12px;border:1px solid #222}
-.card h3{color:#00aaff;margin-bottom:8px}
-.card p{color:#9ca3af;font-size:14px}
-.cta{padding:70px 5%;text-align:center;background:#000}
-footer{padding:20px;text-align:center;color:#555;background:#080808;border-top:1px solid #222;font-size:13px}
-.wpp{position:fixed;bottom:20px;right:20px;background:#25D366;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;text-decoration:none;box-shadow:0 4px 15px #000}
-@media(max-width:600px){.hero h1{font-size:30px}}
-</style>
+<title>Ramos Infotec - Sistema</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body>
-<header><div class="logo">RAMOS <span>INFOTEC</span></div><a class="btn" href="https://wa.me/5511960304123" target="_blank">WhatsApp</a></header>
-<section class="hero">
-<h1>Assistência Técnica <br><span>Zona Leste - SP</span></h1>
-<p>Formatação, conserto de notebooks e PCs, remoção de vírus, upgrade para SSD e atendimento em domicílio. Rápido e com garantia.</p>
-<a class="btn" style="font-size:18px;padding:16px 30px" href="https://wa.me/5511960304123" target="_blank">FALAR NO WHATSAPP AGORA</a>
-<p style="margin-top:15px;color:#666">Itaquera • Arthur Alvim • Penha • Tatuapé • Aricanduva</p>
-</section>
-<section class="grid">
-<div class="card"><h3>💻 Formatação Completa</h3><p>Windows, Office, antivírus, drivers e backup dos seus arquivos.</p></div>
-<div class="card"><h3>🔧 Conserto de Notebook</h3><p>Troca de tela, teclado, bateria, limpeza e pasta térmica.</p></div>
-<div class="card"><h3>⚡ PC Lento? Resolvemos</h3><p>Instalação de SSD e memória RAM. Seu PC 10x mais rápido.</p></div>
-<div class="card"><h3>🛡️ Remoção de Vírus</h3><p>Elimina vírus, propagandas e travamentos.</p></div>
-<div class="card"><h3>🌐 Wi-Fi e Redes</h3><p>Instalação e configuração de roteadores e repetidores.</p></div>
-<div class="card"><h3>🏠 Atendimento em Domicílio</h3><p>Vamos até você! Atendemos toda Zona Leste de SP.</p></div>
-</section>
-<section class="cta">
-<h2 style="font-size:32px;margin-bottom:20px">Precisa de um técnico agora?</h2>
-<a class="btn" style="font-size:22px;padding:18px 40px" href="https://wa.me/5511960304123" target="_blank">Chamar no WhatsApp</a>
-<p style="margin-top:25px;color:#666">Ramos Infotec • Zona Leste - São Paulo - SP<br>contato@ramosinfotec.com.br</p>
-</section>
-<footer>© 2026 Ramos Infotec - Todos os direitos reservados</footer>
-<a class="wpp" href="https://wa.me/5511960304123" target="_blank">W</a>
+<body class="bg-black text-white">
+<div id="login" class="min-h-screen flex items-center justify-center p-4">
+<div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 w-full max-w-sm text-center">
+<h1 class="font-black text-2xl">RAMOS INFOTEC</h1><p class="text-zinc-500 text-xs mt-1">Sistema Interno</p>
+<input id="senha" type="password" placeholder="Senha" class="w-full mt-6 bg-black border border-zinc-700 rounded-xl px-4 py-3">
+<button onclick="logar()" class="w-full mt-3 bg-blue-600 py-3 rounded-xl font-bold">ENTRAR</button>
+<p id="erro" class="text-red-400 text-xs mt-2 hidden">Senha incorreta</p>
+</div>
+</div>
+<div id="sistema" class="hidden">
+<header class="bg-zinc-900 border-b border-zinc-800 p-4 flex justify-between"><span class="font-black">RAMOS INFOTEC | SISTEMA</span><button onclick="location.reload()" class="text-xs bg-zinc-800 px-3 py-1 rounded">Sair</button></header>
+<div class="max-w-5xl mx-auto p-4 grid md:grid-cols-3 gap-4">
+<div class="space-y-2">
+<button onclick="aba('orc')" id="b-orc" class="w-full text-left px-4 py-3 rounded-xl bg-blue-600 font-bold">+ Novo Orcamento</button>
+<button onclick="aba('cli')" id="b-cli" class="w-full text-left px-4 py-3 rounded-xl bg-zinc-900">Clientes</button>
+<button onclick="aba('rem')" id="b-rem" class="w-full text-left px-4 py-3 rounded-xl bg-zinc-900">Acesso Remoto</button>
+</div>
+<div class="md:col-span-2">
+<div id="a-orc" class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+<h2 class="font-bold text-lg mb-4">Gerar Orcamento PDF</h2>
+<input id="nNome" placeholder="Nome Cliente" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 mb-2">
+<input id="nZap" placeholder="WhatsApp 11 9xxxx" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 mb-2">
+<textarea id="nProb" placeholder="O que cliente quer?" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 h-24 mb-2"></textarea>
+<div class="grid grid-cols-2 gap-2">
+<input id="nMao" type="number" placeholder="Mao obra R$" class="bg-black border border-zinc-700 rounded-xl px-4 py-3">
+<input id="nPec" type="number" placeholder="Pecas R$" class="bg-black border border-zinc-700 rounded-xl px-4 py-3">
+</div>
+<input id="nPrazo" placeholder="Prazo ex: 2 dias" class="w-full mt-2 bg-black border border-zinc-700 rounded-xl px-4 py-3">
+<button onclick="gerarPDF()" class="w-full mt-4 bg-green-600 py-3 rounded-xl font-bold">GERAR PDF + SALVAR CLIENTE</button>
+</div>
+<div id="a-cli" class="hidden bg-zinc-900 border border-zinc-800 rounded-2xl p-6"><h2 class="font-bold text-lg mb-4">Clientes</h2><div id="lista"></div></div>
+<div id="a-rem" class="hidden bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+<h2 class="font-bold text-lg mb-2">Acesso Remoto com Senha</h2>
+<input id="rCli" placeholder="Nome Cliente" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 mb-2">
+<input id="rId" placeholder="ID AnyDesk / TeamViewer" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 mb-2">
+<button onclick="gerarAcesso()" class="w-full bg-blue-600 py-3 rounded-xl font-bold">GERAR SENHA TEMPORARIA</button>
+<div id="cardA" class="hidden mt-4 bg-black border border-blue-500/30 rounded-xl p-4">
+<p class="text-3xl font-black tracking-widest" id="senhaGerada"></p>
+<p id="detalheAcesso" class="text-xs text-zinc-400 mt-2"></p>
+<button onclick="navigator.clipboard.writeText(document.getElementById('senhaGerada').innerText);alert('Copiado!')" class="mt-3 w-full bg-zinc-800 py-2 rounded-xl text-sm">Copiar Senha e Enviar no Zap</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+const SENHA="@Xumone@531873";
+let clientes=JSON.parse(localStorage.getItem('ramos_c')||'[]');
+function logar(){if(document.getElementById('senha').value===SENHA){document.getElementById('login').classList.add('hidden');document.getElementById('sistema').classList.remove('hidden');attLista();}else{document.getElementById('erro').classList.remove('hidden');}}
+function aba(n){['orc','cli','rem'].forEach(x=>{document.getElementById('a-'+x).classList.add('hidden');document.getElementById('b-'+x).className='w-full text-left px-4 py-3 rounded-xl bg-zinc-900';});document.getElementById('a-'+n).classList.remove('hidden');document.getElementById('b-'+n).className='w-full text-left px-4 py-3 rounded-xl bg-blue-600 font-bold';if(n==='cli')attLista();}
+function attLista(){const d=document.getElementById('lista');if(!clientes.length){d.innerHTML='<p class=text-zinc-500>Sem clientes</p>';return;}d.innerHTML=clientes.map((c,i)=>`<div class='bg-black border border-zinc-800 p-3 rounded-xl mb-2'><b>${c.nome}</b><br><span class='text-xs text-zinc-400'>${c.zap} - ${c.data}</span><br><span class='text-xs'>${c.prob}</span></div>`).join('');}
+async function gerarPDF(){const {jsPDF}=window.jspdf;const doc=new jsPDF();const nome=document.getElementById('nNome').value||'Cliente';const zap=document.getElementById('nZap').value;const prob=document.getElementById('nProb').value;const mao=parseFloat(document.getElementById('nMao').value)||0;const pec=parseFloat(document.getElementById('nPec').value)||0;const total=mao+pec;doc.setFillColor(0,0,0);doc.rect(0,0,210,30,'F');doc.setTextColor(255,255,255);doc.setFontSize(16);doc.text('RAMOS INFOTEC',14,18);doc.setFontSize(9);doc.text('ramosinfotec.com.br - Zona Leste SP - (11)97199-5422',14,24);doc.setTextColor(0,0,0);doc.setFontSize(14);doc.text('ORCAMENTO TECNICO',14,45);doc.setFontSize(11);doc.text(`Cliente: ${nome}`,14,55);doc.text(`Zap: ${zap}`,14,61);doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`,14,67);doc.text('Descricao:',14,80);const lines=doc.splitTextToSize(prob||'Servico tecnico',180);doc.setFontSize(10);doc.text(lines,14,86);let y=86+lines.length*6+10;doc.text(`Mao obra: R$ ${mao.toFixed(2)}`,14,y);y+=7;doc.text(`Pecas: R$ ${pec.toFixed(2)}`,14,y);y+=10;doc.setFontSize(14);doc.setFont(undefined,'bold');doc.text(`TOTAL: R$ ${total.toFixed(2)}`,14,y);doc.save(`Orcamento-${nome}.pdf`);clientes.push({nome,zap,prob,data:new Date().toLocaleString()});localStorage.setItem('ramos_c',JSON.stringify(clientes));attLista();alert('PDF gerado e cliente salvo!');}
+function gerarAcesso(){const cli=document.getElementById('rCli').value||'Cliente';const id=document.getElementById('rId').value||'---';const s=Math.random().toString(36).substring(2,7).toUpperCase()+Math.floor(Math.random()*90);document.getElementById('senhaGerada').innerText=s;document.getElementById('detalheAcesso').innerText=`Cliente: ${cli} - ID: ${id} - Valida 2h`;document.getElementById('cardA').classList.remove('hidden');}
+</script>
 </body>
 </html>
