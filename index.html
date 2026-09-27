@@ -1,144 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>RAMOS INFOTEC V4.6 - CHAMADOS</title>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RAMOS V4.7 BOLETO PRO</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-body{background:#0b1220;color:#e2e8f0}
-.card{background:#141f38;border:1px solid #1e2f5a;border-radius:12px}
-.input-dark{background:#0b1220;border:1px solid #1e2f5a;color:#e2e8f0;padding:10px 12px;border-radius:8px;width:100%;outline:none}
-.label-top{font-size:10px;color:#94a3b8;text-transform:uppercase;margin-bottom:4px;display:block}
-.btn-cyan{background:#06b6d4;color:#001018;font-weight:800;padding:8px 16px;border-radius:8px}
-.status-aberto{background:#f59e0b;color:#000}
-.status-andamento{background:#3b82f6;color:#fff}
-.status-aguard{background:#8b5cf6;color:#fff}
-.status-fechado{background:#10b981;color:#000}
-</style>
+<style>body{background:#0b1220;color:#e2e8f0}.card{background:#141f38;border:1px solid #1e2f5a;border-radius:12px}.input-dark{background:#0b1220;border:1px solid #1e2f5a;color:#e2e8f0;padding:10px 12px;border-radius:8px;width:100%}.label-top{font-size:10px;color:#94a3b8;text-transform:uppercase;margin-bottom:4px;display:block}.btn-cyan{background:#06b6d4;color:#001018;font-weight:800;padding:8px 16px;border-radius:8px}</style>
 </head>
 <body>
-<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4">
-  <div class="card p-8 w-full max-w-[400px]">
-    <h1 class="text-2xl font-black text-center text-white">RAMOS INFOTEC</h1>
-    <p class="text-center text-[11px] text-slate-400">CNPJ 45.114.523/0001-05</p>
-    <p class="text-center text-cyan-400 text-xs font-bold mt-2 mb-6">V4.6 CHAMADOS</p>
-    <input id="loginUser" placeholder="Usuário" class="input-dark mb-3">
-    <input id="loginPass" type="password" placeholder="Senha" class="input-dark mb-4">
-    <button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-black py-3 rounded-lg">ENTRAR</button>
-    <p id="loginErro" class="hidden text-red-400 text-xs mt-3 text-center">Usuário ou senha inválidos</p>
-    <p class="text-[10px] text-center mt-4 text-slate-500">Admin: admin / Cliente: cliente1</p>
-  </div>
-</div>
-
-<div id="appScreen" class="hidden">
-<header class="bg-[#0f1e3d] border-b border-[#1e2f5a] p-3 flex justify-between">
-  <div class="font-black text-white text-sm">RAMOS INFOTEC <span id="userInfo" class="text-[11px] text-cyan-300 font-normal ml-2"></span></div>
-  <div class="flex gap-2">
-    <button onclick="exportarDados()" class="bg-emerald-600 px-3 py-1 rounded text-[11px]">EXPORTAR</button>
-    <button onclick="logout()" class="bg-red-600 px-3 py-1 rounded text-[11px]">SAIR</button>
-  </div>
-</header>
-<nav id="mainNav" class="flex flex-wrap gap-2 p-3 bg-[#0f1e3d]"></nav>
-<main class="p-4 max-w-6xl mx-auto">
-
-<div id="tab-clientes" class="tab">
-  <div class="card p-4 mb-4">
-    <h2 class="font-bold text-cyan-300 mb-3">Novo Cliente</h2>
-    <input id="cNome" placeholder="Nome completo" class="input-dark mb-2">
-    <input id="cCpf" placeholder="CPF/CNPJ" class="input-dark mb-2">
-    <input id="cZap" placeholder="WhatsApp" class="input-dark mb-2">
-    <button onclick="addCliente()" class="btn-cyan">Salvar Cliente</button>
-  </div>
-  <div id="listaClientes" class="grid gap-2"></div>
-</div>
-
-<div id="tab-usuarios" class="tab hidden">
-  <div class="card p-4 mb-4">
-    <h2 class="font-bold text-cyan-300">Criar Usuários</h2>
-    <p class="text-[10px] text-slate-400 mb-3">Senha: 6 letras + 2 especiais + 6 números - sem exibir!</p>
-    <input id="uNome" placeholder="Login" class="input-dark mb-2">
-    <input id="uSenha" type="password" placeholder="Senha forte" class="input-dark mb-2">
-    <select id="uTipo" class="input-dark mb-3"><option value="cliente">Cliente</option><option value="admin">Admin</option></select>
-    <p id="senhaInfo" class="text-[11px] mb-2"></p>
-    <button onclick="addUsuario()" class="btn-cyan">CRIAR</button>
-  </div>
-  <div id="listaUsuarios"></div>
-</div>
-
-<div id="tab-contratos" class="tab hidden">
-  <div class="card p-4 mb-4">
-    <h2 class="font-bold text-cyan-300">Contrato - 5 colunas: Início, Pagamento, Final, Mensal, Total</h2>
-    <div class="grid md:grid-cols-3 gap-3 mt-3">
-      <div><span class="label-top">Cliente</span><select id="ctCliente" class="input-dark"></select></div>
-      <div><span class="label-top">Início</span><input id="ctInicio" type="date" class="input-dark"></div>
-      <div><span class="label-top">Pagamento</span><input id="ctPagamento" placeholder="Dia 10" class="input-dark"></div>
-      <div><span class="label-top">Final</span><input id="ctFinal" type="date" class="input-dark"></div>
-      <div><span class="label-top">Mensal</span><input id="ctMensal" placeholder="R$" class="input-dark"></div>
-      <div><span class="label-top">Total</span><input id="ctTotal" placeholder="R$" class="input-dark"></div>
-      <div class="md:col-span-3"><span class="label-top">Descrição</span><input id="ctDesc" placeholder="Descrição" class="input-dark"></div>
-    </div>
-    <button onclick="addContrato()" class="btn-cyan mt-3">SALVAR CONTRATO</button>
-  </div>
-  <div id="listaContratos"></div>
-</div>
-
-<div id="tab-orcamentos" class="tab hidden">
-  <div class="card p-4 mb-4">
-    <h2 class="font-bold text-cyan-300 mb-3">Gerar Orçamento - Visita + Trabalho + Total</h2>
-    <div class="grid md:grid-cols-2 gap-3">
-      <div class="md:col-span-2"><span class="label-top">Cliente</span><select id="oCliente" class="input-dark"></select></div>
-      <div><span class="label-top">Serviço</span><input id="oServico" placeholder="Serviço" class="input-dark"></div>
-      <div><span class="label-top">Valor da Visita</span><input id="oVisita" placeholder="R$ 0,00" class="input-dark" oninput="calcOrc()"></div>
-      <div><span class="label-top">Valor do Trabalho</span><input id="oTrabalho" placeholder="R$ 0,00" class="input-dark" oninput="calcOrc()"></div>
-      <div><span class="label-top">Valor Total</span><input id="oTotal" readonly class="input-dark font-bold"></div>
-      <div><span class="label-top">Data Início</span><input id="oInicio" type="date" class="input-dark"></div>
-      <div><span class="label-top">Data Fim</span><input id="oFim" type="date" class="input-dark"></div>
-    </div>
-    <button onclick="addOrcamento()" class="btn-cyan mt-3">GERAR PDF (com PIX)</button>
-  </div>
-  <div id="listaOrcamentos"></div>
-</div>
-
-<div id="tab-chamados" class="tab hidden">
-  <div class="card p-4 mb-4">
-    <h2 class="font-bold text-cyan-300 mb-3">🎫 Abrir Novo Chamado</h2>
-    <div class="grid md:grid-cols-2 gap-3">
-      <div class="md:col-span-2"><span class="label-top">Título do problema</span><input id="chTitulo" placeholder="Ex: Computador não liga" class="input-dark"></div>
-      <div><span class="label-top">Prioridade</span><select id="chPrior" class="input-dark"><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select></div>
-      <div><span class="label-top">Categoria</span><select id="chCat" class="input-dark"><option>Suporte Técnico</option><option>Rede</option><option>Impressora</option><option>Software</option><option>Hardware</option></select></div>
-      <div class="md:col-span-2"><span class="label-top">Descrição detalhada</span><textarea id="chDesc" placeholder="Descreva o problema..." class="input-dark h-[80px]"></textarea></div>
-    </div>
-    <button onclick="addChamado()" class="btn-cyan mt-3">ABRIR CHAMADO</button>
-  </div>
-  <div id="listaChamados" class="grid gap-3"></div>
-</div>
-
-<div id="tab-remoto" class="tab hidden">
-  <div class="card p-4 mb-4">
-    <h2 class="font-bold text-cyan-300 mb-3">🖥️ Acesso Remoto</h2>
-    <div class="grid md:grid-cols-3 gap-3">
-      <div><span class="label-top">Cliente</span><select id="rCliente" class="input-dark"></select></div>
-      <div><span class="label-top">ID AnyDesk / TeamViewer</span><input id="rId" placeholder="Ex: 123 456 789" class="input-dark"></div>
-      <div><span class="label-top">Senha (se houver)</span><input id="rSenha" placeholder="Senha remoto" class="input-dark"></div>
-    </div>
-    <button onclick="addRemoto()" class="btn-cyan mt-3">SALVAR ACESSO</button>
-  </div>
-  <div id="listaRemoto"></div>
-</div>
-
-</main>
-  <script>
+<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4"><div class="card p-8 w-full max-w-[400px]"><h1 class="text-2xl font-black text-center text-white">RAMOS INFOTEC</h1><p class="text-center text-[11px] text-slate-400">CNPJ 45.114.523/0001-05</p><p class="text-center text-cyan-400 text-xs font-bold mt-2 mb-6">V4.7 BOLETO PRO COM LOGO</p><input id="loginUser" placeholder="Usuário" class="input-dark mb-3"><input id="loginPass" type="password" placeholder="Senha" class="input-dark mb-4"><button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-black py-3 rounded-lg">ENTRAR</button><p id="loginErro" class="hidden text-red-400 text-xs mt-3 text-center">Inválido</p></div></div>
+<div id="appScreen" class="hidden"><header class="bg-[#0f1e3d] border-b border-[#1e2f5a] p-3 flex justify-between"><div class="font-black text-white text-sm">RAMOS INFOTEC <span id="userInfo" class="text-[11px] text-cyan-300 font-normal ml-2"></span></div><div class="flex gap-2"><button onclick="logout()" class="bg-red-600 px-3 py-1 rounded text-[11px]">SAIR</button></div></header><nav id="mainNav" class="flex flex-wrap gap-2 p-3 bg-[#0f1e3d]"></nav><main class="p-4 max-w-6xl mx-auto">
+<div id="tab-clientes" class="tab"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">Novo Cliente</h2><input id="cNome" placeholder="Nome completo" class="input-dark mb-2"><input id="cCpf" placeholder="CPF/CNPJ" class="input-dark mb-2"><input id="cZap" placeholder="WhatsApp" class="input-dark mb-2"><button onclick="addCliente()" class="btn-cyan">Salvar Cliente</button></div><div id="listaClientes" class="grid gap-2"></div></div>
+<div id="tab-usuarios" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">Criar Usuários</h2><p class="text-[10px] text-slate-400 mb-3">Senha forte - não exibe</p><input id="uNome" placeholder="Login" class="input-dark mb-2"><input id="uSenha" type="password" placeholder="Senha forte" class="input-dark mb-2"><select id="uTipo" class="input-dark mb-3"><option value="cliente">Cliente</option><option value="admin">Admin</option></select><p id="senhaInfo" class="text-[11px] mb-2"></p><button onclick="addUsuario()" class="btn-cyan">CRIAR</button></div><div id="listaUsuarios"></div></div>
+<div id="tab-contratos" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">Contrato - 5 colunas: Início, Pagamento, Final, Mensal, Total</h2><div class="grid md:grid-cols-3 gap-3 mt-3"><div><span class="label-top">Cliente</span><select id="ctCliente" class="input-dark"></select></div><div><span class="label-top">Início</span><input id="ctInicio" type="date" class="input-dark"></div><div><span class="label-top">Pagamento</span><input id="ctPagamento" placeholder="Dia 10" class="input-dark"></div><div><span class="label-top">Final</span><input id="ctFinal" type="date" class="input-dark"></div><div><span class="label-top">Mensal</span><input id="ctMensal" placeholder="R$" class="input-dark"></div><div><span class="label-top">Total</span><input id="ctTotal" placeholder="R$" class="input-dark"></div><div class="md:col-span-3"><span class="label-top">Descrição</span><input id="ctDesc" placeholder="Descrição" class="input-dark"></div></div><button onclick="addContrato()" class="btn-cyan mt-3">SALVAR CONTRATO</button></div><div id="listaContratos"></div></div>
+<div id="tab-orcamentos" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">Gerar Orçamento - Visita + Trabalho + Total</h2><div class="grid md:grid-cols-2 gap-3"><div class="md:col-span-2"><span class="label-top">Cliente</span><select id="oCliente" class="input-dark"></select></div><div><span class="label-top">Serviço</span><input id="oServico" placeholder="Serviço" class="input-dark"></div><div><span class="label-top">Valor da Visita</span><input id="oVisita" placeholder="R$ 0,00" class="input-dark" oninput="calcOrc()"></div><div><span class="label-top">Valor do Trabalho</span><input id="oTrabalho" placeholder="R$ 0,00" class="input-dark" oninput="calcOrc()"></div><div><span class="label-top">Valor Total</span><input id="oTotal" readonly class="input-dark font-bold"></div><div><span class="label-top">Data Início</span><input id="oInicio" type="date" class="input-dark"></div><div><span class="label-top">Data Fim</span><input id="oFim" type="date" class="input-dark"></div></div><button onclick="addOrcamento()" class="btn-cyan mt-3">GERAR PDF COM LOGO + PIX</button></div><div id="listaOrcamentos"></div></div>
+<div id="tab-chamados" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">🎫 Abrir Novo Chamado</h2><div class="grid md:grid-cols-2 gap-3"><div class="md:col-span-2"><span class="label-top">Título</span><input id="chTitulo" placeholder="Ex: Computador não liga" class="input-dark"></div><div><span class="label-top">Prioridade</span><select id="chPrior" class="input-dark"><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select></div><div><span class="label-top">Categoria</span><select id="chCat" class="input-dark"><option>Suporte Técnico</option><option>Rede</option><option>Impressora</option><option>Software</option><option>Hardware</option></select></div><div class="md:col-span-2"><span class="label-top">Descrição</span><textarea id="chDesc" placeholder="Descreva o problema..." class="input-dark h-[80px]"></textarea></div></div><button onclick="addChamado()" class="btn-cyan mt-3">ABRIR CHAMADO</button></div><div id="listaChamados" class="grid gap-3"></div></div>
+<div id="tab-remoto" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">🖥️ Acesso Remoto</h2><div class="grid md:grid-cols-3 gap-3"><div><span class="label-top">Cliente</span><select id="rCliente" class="input-dark"></select></div><div><span class="label-top">ID AnyDesk / TeamViewer</span><input id="rId" placeholder="Ex: 123 456 789" class="input-dark"></div><div><span class="label-top">Senha</span><input id="rSenha" placeholder="Senha remoto" class="input-dark"></div></div><button onclick="addRemoto()" class="btn-cyan mt-3">SALVAR ACESSO</button></div><div id="listaRemoto"></div></div>
+</main></div>
+<script>
 const SENHA_ADMIN="@Xumone@197353";
+const LOGO_BASE64="data:image/png;base64,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";
 const CNPJ="45.114.523/0001-05"; const PIX="11 99626-4221";
 let USUARIO_LOGADO=null; let TIPO_LOGADO=null;
-
 function criptografar(t){return btoa(encodeURIComponent(t));}
 function descriptografar(t){try{return decodeURIComponent(atob(t))}catch{return ""}}
 function validarSenhaForte(s){const l=(s.match(/[A-Za-z]/g)||[]).length; const n=(s.match(/[0-9]/g)||[]).length; const e=(s.match(/[@#\$%&\*!]/g)||[]).length; return s.length>=14 && l>=6 && e>=2 && n>=6;}
 function getDados(ch){return JSON.parse(localStorage.getItem(ch)||"[]");}
 function setDados(ch,v){localStorage.setItem(ch,JSON.stringify(v));}
-
 function fazerLogin(){
   const u=document.getElementById('loginUser').value.trim();
   const p=document.getElementById('loginPass').value.trim();
@@ -154,199 +41,93 @@ function abrirApp(){
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('appScreen').classList.remove('hidden');
   document.getElementById('userInfo').textContent="👤 "+USUARIO_LOGADO+" ("+TIPO_LOGADO+")";
-  montarMenu();
-  renderTudo();
+  montarMenu(); renderTudo();
 }
 function logout(){localStorage.removeItem('logado'); localStorage.removeItem('tipo'); location.reload();}
 if(localStorage.getItem('logado')) abrirApp();
-
 function montarMenu(){
   const nav=document.getElementById('mainNav'); nav.innerHTML="";
-  const tabsAdmin=[
-    {id:'clientes', label:'Clientes'},
-    {id:'usuarios', label:'Usuários'},
-    {id:'contratos', label:'Contratos + Boleto'},
-    {id:'orcamentos', label:'Orçamentos'},
-    {id:'chamados', label:'Chamados'},
-    {id:'remoto', label:'Acesso Remoto'}
-  ];
-  const tabsCliente=[
-    {id:'chamados', label:'Meus Chamados 🎫'}
-  ];
+  const tabsAdmin=[{id:'clientes', label:'Clientes'},{id:'usuarios', label:'Usuários'},{id:'contratos', label:'Contratos + Boleto'},{id:'orcamentos', label:'Orçamentos'},{id:'chamados', label:'Chamados'},{id:'remoto', label:'Acesso Remoto'}];
+  const tabsCliente=[{id:'chamados', label:'Meus Chamados 🎫'}];
   const lista = (TIPO_LOGADO==='admin')? tabsAdmin : tabsCliente;
-  lista.forEach(t=>{
-    const b=document.createElement('button');
-    b.id='btn-'+t.id; b.textContent=t.label;
-    b.className=(t.id==='chamados' && TIPO_LOGADO!=='admin')? "bg-cyan-500 text-black px-4 py-1.5 rounded-full text-xs font-bold" : "bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs";
-    b.onclick=()=>showTab(t.id);
-    nav.appendChild(b);
-  });
-  // mostra primeiro
+  lista.forEach(t=>{const b=document.createElement('button'); b.id='btn-'+t.id; b.textContent=t.label; b.className=(t.id==='chamados' && TIPO_LOGADO!=='admin')? "bg-cyan-500 text-black px-4 py-1.5 rounded-full text-xs font-bold" : "bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs"; b.onclick=()=>showTab(t.id); nav.appendChild(b);});
   showTab(lista[0].id);
 }
-
 function showTab(t){
   document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));
   document.getElementById('tab-'+t).classList.remove('hidden');
   document.querySelectorAll('#mainNav button').forEach(b=>b.className="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs");
   const btn=document.getElementById('btn-'+t); if(btn) btn.className="bg-cyan-500 text-black px-4 py-1.5 rounded-full text-xs font-bold";
 }
-
-/* CLIENTES */
-function addCliente(){
-  const nome=document.getElementById('cNome').value; if(!nome) return alert('Nome');
-  const lista=getDados('ramos_clientes'); lista.push({id:Date.now(),nome,cpf:document.getElementById('cCpf').value,zap:document.getElementById('cZap').value});
-  setDados('ramos_clientes',lista); renderClientes();
-}
-function renderClientes(){
-  const lista=getDados('ramos_clientes');
-  document.getElementById('listaClientes').innerHTML=lista.slice(-50).reverse().map(c=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${c.nome}</b><br><span class="text-[11px] text-slate-400">${c.cpf} - ${c.zap}</span></div><button onclick="excluirItem('ramos_clientes',${c.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum cliente</p>";
-  const opt=lista.map(c=>`<option value="${c.nome}">${c.nome}</option>`).join('');
-  const ct=document.getElementById('ctCliente'); if(ct) ct.innerHTML=opt;
-  const oc=document.getElementById('oCliente'); if(oc) oc.innerHTML=opt;
-  const rc=document.getElementById('rCliente'); if(rc) rc.innerHTML=opt;
-}
-
-/* USUARIOS */
-function addUsuario(){
-  const nome=document.getElementById('uNome').value.trim(); const senha=document.getElementById('uSenha').value.trim(); const tipo=document.getElementById('uTipo').value; const info=document.getElementById('senhaInfo');
-  if(!nome) return alert('Login'); if(!validarSenhaForte(senha)){info.textContent="❌ Fraca! 6 letras + 2 especiais + 6 números"; info.className="text-[11px] text-red-400"; return;}
-  info.textContent="✅ Forte!"; info.className="text-[11px] text-emerald-400";
-  const lista=getDados('ramos_usuarios'); lista.push({id:Date.now(),nome,senhaCripto:criptografar(senha),tipo,bloqueado:false});
-  setDados('ramos_usuarios',lista); document.getElementById('uNome').value=""; document.getElementById('uSenha').value=""; renderUsuarios();
-}
-function renderUsuarios(){
-  const lista=getDados('ramos_usuarios');
-  document.getElementById('listaUsuarios').innerHTML=lista.map(u=>`<div class="card p-3 flex justify-between items-center"><div><b class="text-white">${u.nome}</b> <span class="text-[10px] bg-[#1a2b52] px-2 py-1 rounded">${u.tipo}</span> ${u.bloqueado?'<span class="text-[10px] bg-red-900 px-2 py-1 rounded ml-1">BLOQUEADO</span>':''}<br><span class="text-[11px] text-slate-500">Senha protegida</span></div><div class="flex gap-2"><button onclick="alterarSenha(${u.id})" class="bg-[#1a2b52] px-2 py-1 rounded text-xs">🔑</button><button onclick="toggleBloqueio(${u.id})" class="bg-[#1a2b52] px-2 py-1 rounded text-xs">${u.bloqueado?'🔓':'🔒'}</button><button onclick="excluirItem('ramos_usuarios',${u.id})" class="text-red-400 text-xs">🗑️</button></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Admin oculto</p>";
-}
+function addCliente(){const nome=document.getElementById('cNome').value; if(!nome) return alert('Nome'); const lista=getDados('ramos_clientes'); lista.push({id:Date.now(),nome,cpf:document.getElementById('cCpf').value,zap:document.getElementById('cZap').value}); setDados('ramos_clientes',lista); renderClientes();}
+function renderClientes(){const lista=getDados('ramos_clientes'); document.getElementById('listaClientes').innerHTML=lista.slice(-50).reverse().map(c=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${c.nome}</b><br><span class="text-[11px] text-slate-400">${c.cpf} - ${c.zap}</span></div><button onclick="excluirItem('ramos_clientes',${c.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum cliente</p>"; const opt=lista.map(c=>`<option value="${c.nome}">${c.nome}</option>`).join(''); const ct=document.getElementById('ctCliente'); if(ct) ct.innerHTML=opt; const oc=document.getElementById('oCliente'); if(oc) oc.innerHTML=opt; const rc=document.getElementById('rCliente'); if(rc) rc.innerHTML=opt;}
+function addUsuario(){const nome=document.getElementById('uNome').value.trim(); const senha=document.getElementById('uSenha').value.trim(); const tipo=document.getElementById('uTipo').value; const info=document.getElementById('senhaInfo'); if(!nome) return alert('Login'); if(!validarSenhaForte(senha)){info.textContent="❌ Fraca! 6 letras + 2 especiais + 6 números"; info.className="text-[11px] text-red-400"; return;} info.textContent="✅ Forte!"; info.className="text-[11px] text-emerald-400"; const lista=getDados('ramos_usuarios'); lista.push({id:Date.now(),nome,senhaCripto:criptografar(senha),tipo,bloqueado:false}); setDados('ramos_usuarios',lista); document.getElementById('uNome').value=""; document.getElementById('uSenha').value=""; renderUsuarios();}
+function renderUsuarios(){const lista=getDados('ramos_usuarios'); document.getElementById('listaUsuarios').innerHTML=lista.map(u=>`<div class="card p-3 flex justify-between items-center"><div><b class="text-white">${u.nome}</b> <span class="text-[10px] bg-[#1a2b52] px-2 py-1 rounded">${u.tipo}</span> ${u.bloqueado?'<span class="text-[10px] bg-red-900 px-2 py-1 rounded ml-1">BLOQUEADO</span>':''}<br><span class="text-[11px] text-slate-500">Senha protegida</span></div><div class="flex gap-2"><button onclick="alterarSenha(${u.id})" class="bg-[#1a2b52] px-2 py-1 rounded text-xs">🔑</button><button onclick="toggleBloqueio(${u.id})" class="bg-[#1a2b52] px-2 py-1 rounded text-xs">${u.bloqueado?'🔓':'🔒'}</button><button onclick="excluirItem('ramos_usuarios',${u.id})" class="text-red-400 text-xs">🗑️</button></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Admin oculto</p>";}
 function alterarSenha(id){const nova=prompt("Nova senha forte:"); if(!nova) return; if(!validarSenhaForte(nova)) return alert("Fraca!"); let lista=getDados('ramos_usuarios'); const idx=lista.findIndex(x=>x.id===id); if(idx>-1){lista[idx].senhaCripto=criptografar(nova); setDados('ramos_usuarios',lista); alert("Alterada!"); renderUsuarios();}}
 function toggleBloqueio(id){let lista=getDados('ramos_usuarios'); const idx=lista.findIndex(x=>x.id===id); if(idx>-1){lista[idx].bloqueado=!lista[idx].bloqueado; setDados('ramos_usuarios',lista); renderUsuarios();}}
-
-/* CONTRATOS */
-function addContrato(){
-  const cliente=document.getElementById('ctCliente').value; if(!cliente) return alert('Cliente');
-  const lista=getDados('ramos_contratos'); lista.push({id:Date.now(),cliente,inicio:document.getElementById('ctInicio').value,pagamento:document.getElementById('ctPagamento').value,final:document.getElementById('ctFinal').value,mensal:document.getElementById('ctMensal').value,total:document.getElementById('ctTotal').value,desc:document.getElementById('ctDesc').value});
-  setDados('ramos_contratos',lista); renderContratos();
-}
-function renderContratos(){
-  const lista=getDados('ramos_contratos');
-  document.getElementById('listaContratos').innerHTML=lista.slice(-50).reverse().map(c=>`<div class="card p-3"><div class="flex justify-between"><div><b class="text-white">${c.cliente}</b><br><span class="text-[11px] text-slate-400">Inicio:${c.inicio} Pag:${c.pagamento} Final:${c.final} Mensal:R$${c.mensal} Total:R$${c.total}</span><br><span class="text-[11px] text-slate-300">${c.desc}</span></div><div class="flex gap-1"><button onclick="gerarBoletoContrato('${c.cliente}','${c.mensal}','${c.final}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 Boleto</button><button onclick="excluirItem('ramos_contratos',${c.id})" class="text-red-400 text-xs">🗑️</button></div></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum contrato</p>";
-}
-
-/* ORCAMENTOS */
+function addContrato(){const cliente=document.getElementById('ctCliente').value; if(!cliente) return alert('Cliente'); const lista=getDados('ramos_contratos'); lista.push({id:Date.now(),cliente,inicio:document.getElementById('ctInicio').value,pagamento:document.getElementById('ctPagamento').value,final:document.getElementById('ctFinal').value,mensal:document.getElementById('ctMensal').value,total:document.getElementById('ctTotal').value,desc:document.getElementById('ctDesc').value}); setDados('ramos_contratos',lista); renderContratos();}
+function renderContratos(){const lista=getDados('ramos_contratos'); document.getElementById('listaContratos').innerHTML=lista.slice(-50).reverse().map(c=>`<div class="card p-3"><div class="flex justify-between"><div><b class="text-white">${c.cliente}</b><br><span class="text-[11px] text-slate-400">Inicio:${c.inicio} Pag:${c.pagamento} Final:${c.final} Mensal:R$${c.mensal} Total:R$${c.total}</span><br><span class="text-[11px] text-slate-300">${c.desc}</span></div><div class="flex gap-1"><button onclick="gerarBoletoContrato('${c.cliente}','${c.mensal}','${c.final}','${c.inicio}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 Boleto PRO</button><button onclick="excluirItem('ramos_contratos',${c.id})" class="text-red-400 text-xs">🗑️</button></div></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum contrato</p>";}
 function calcOrc(){const v=parseFloat(document.getElementById('oVisita').value.replace(',','.'))||0; const t=parseFloat(document.getElementById('oTrabalho').value.replace(',','.'))||0; document.getElementById('oTotal').value=(v+t).toFixed(2);}
-function addOrcamento(){
-  const cliente=document.getElementById('oCliente').value; if(!cliente) return alert('Cliente');
-  const lista=getDados('ramos_orcamentos'); lista.push({id:Date.now(),cliente,servico:document.getElementById('oServico').value,visita:document.getElementById('oVisita').value,trabalho:document.getElementById('oTrabalho').value,total:document.getElementById('oTotal').value,inicio:document.getElementById('oInicio').value,fim:document.getElementById('oFim').value});
-  setDados('ramos_orcamentos',lista); renderOrcamentos();
-}
-function renderOrcamentos(){
-  const lista=getDados('ramos_orcamentos');
-  document.getElementById('listaOrcamentos').innerHTML=lista.slice(-50).reverse().map(o=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${o.cliente}</b> - ${o.servico}<br><span class="text-[11px] text-slate-400">Visita:R$${o.visita}+Trabalho:R$${o.trabalho}=Total:R$${o.total}</span><br><span class="text-[11px] text-slate-500">${o.inicio} até ${o.fim}</span></div><div class="flex gap-1"><button onclick="gerarOrcamentoPDF('${o.cliente}','${o.servico}','${o.visita}','${o.trabalho}','${o.total}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 PDF</button><button onclick="excluirItem('ramos_orcamentos',${o.id})" class="text-red-400 text-xs">🗑️</button></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum orçamento</p>";
-}
-
-/* CHAMADOS - NOVO SISTEMA */
-function addChamado(){
-  const titulo=document.getElementById('chTitulo').value; if(!titulo) return alert('Título');
-  const lista=getDados('ramos_chamados');
-  const novo={
-    id:Date.now(),
-    cliente: USUARIO_LOGADO,
-    titulo: titulo,
-    prioridade: document.getElementById('chPrior').value,
-    categoria: document.getElementById('chCat').value,
-    desc: document.getElementById('chDesc').value,
-    status: 'Aberto',
-    data: new Date().toLocaleString('pt-BR'),
-    comentarios: [{autor: USUARIO_LOGADO, texto: document.getElementById('chDesc').value, data: new Date().toLocaleString('pt-BR')}],
-    avaliacao: null
-  };
-  lista.push(novo); setDados('ramos_chamados',lista);
-  document.getElementById('chTitulo').value=""; document.getElementById('chDesc').value="";
-  alert("Chamado aberto! ID: "+novo.id); renderChamados();
-}
-function renderChamados(){
-  let lista=getDados('ramos_chamados');
-  // CLIENTE vê só os dele
-  if(TIPO_LOGADO!=='admin'){ lista=lista.filter(c=>c.cliente===USUARIO_LOGADO); }
-  document.getElementById('listaChamados').innerHTML=lista.slice(-50).reverse().map(ch=>{
-    const statusClass = ch.status==='Aberto'?'status-aberto':ch.status==='Em Andamento'?'status-andamento':ch.status==='Fechado'?'status-fechado':'status-aguard';
-    const coments = (ch.comentarios||[]).map(cm=>`<div class="text-[11px] border-l-2 border-cyan-700 pl-2 mt-2"><b>${cm.autor}</b> <span class="text-slate-500">${cm.data}</span><br>${cm.texto}</div>`).join('');
-    const avaliacao = ch.avaliacao? `<div class="mt-2 text-[11px] bg-[#0b1220] p-2 rounded">⭐ Avaliação: ${ch.avaliacao.nota}/5 - ${ch.avaliacao.comentario}</div>` : '';
-    const botoesAdmin = (TIPO_LOGADO==='admin')? `
-      <div class="flex gap-1 mt-2 flex-wrap">
-        <button onclick="addAndamento(${ch.id})" class="bg-blue-600 px-3 py-1 rounded text-xs">➕ Andamento</button>
-        <button onclick="mudarStatus(${ch.id},'Em Andamento')" class="bg-yellow-600 px-3 py-1 rounded text-xs">🔧 Em Andamento</button>
-        <button onclick="mudarStatus(${ch.id},'Aguardando Cliente')" class="bg-purple-600 px-3 py-1 rounded text-xs">⏳ Aguardar</button>
-        <button onclick="fecharChamado(${ch.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs">✅ Fechar</button>
-      </div>` : '';
-    const botoesCliente = (TIPO_LOGADO!=='admin' && ch.status!=='Fechado')? `
-      <div class="flex gap-1 mt-2">
-        <button onclick="addAndamento(${ch.id})" class="bg-blue-600 px-3 py-1 rounded text-xs">💬 Responder / Info</button>
-      </div>` : '';
-    const botaoAvaliar = (TIPO_LOGADO!=='admin' && ch.status==='Fechado' &&!ch.avaliacao)? `<button onclick="avaliarChamado(${ch.id})" class="bg-yellow-500 text-black px-3 py-1 rounded text-xs mt-2 font-bold">⭐ Avaliar Chamado</button>` : '';
-    return `<div class="card p-4">
-      <div class="flex justify-between items-start">
-        <div><b class="text-white">#${ch.id} - ${ch.titulo}</b> <span class="text-[10px] ${statusClass} px-2 py-1 rounded-full ml-2">${ch.status}</span><br>
-        <span class="text-[11px] text-slate-400">Cliente: ${ch.cliente} | ${ch.categoria} | ${ch.prioridade} | ${ch.data}</span></div>
-        <button onclick="excluirItem('ramos_chamados',${ch.id})" class="text-red-400 text-xs">🗑️</button>
-      </div>
-      ${coments}
-      ${avaliacao}
-      ${botoesAdmin}
-      ${botoesCliente}
-      ${botaoAvaliar}
-    </div>`;
-  }).join('')||"<p class='text-slate-500 text-xs'>Nenhum chamado aberto</p>";
-}
-function addAndamento(id){
-  const texto=prompt("Digite o andamento / informação:");
-  if(!texto) return;
-  let lista=getDados('ramos_chamados'); const idx=lista.findIndex(x=>x.id===id);
-  if(idx>-1){lista[idx].comentarios.push({autor: USUARIO_LOGADO, texto, data: new Date().toLocaleString('pt-BR')}); setDados('ramos_chamados',lista); renderChamados();}
-}
+function addOrcamento(){const cliente=document.getElementById('oCliente').value; if(!cliente) return alert('Cliente'); const lista=getDados('ramos_orcamentos'); lista.push({id:Date.now(),cliente,servico:document.getElementById('oServico').value,visita:document.getElementById('oVisita').value,trabalho:document.getElementById('oTrabalho').value,total:document.getElementById('oTotal').value,inicio:document.getElementById('oInicio').value,fim:document.getElementById('oFim').value}); setDados('ramos_orcamentos',lista); renderOrcamentos();}
+function renderOrcamentos(){const lista=getDados('ramos_orcamentos'); document.getElementById('listaOrcamentos').innerHTML=lista.slice(-50).reverse().map(o=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${o.cliente}</b> - ${o.servico}<br><span class="text-[11px] text-slate-400">Visita:R$${o.visita}+Trabalho:R$${o.trabalho}=Total:R$${o.total}</span><br><span class="text-[11px] text-slate-500">${o.inicio} até ${o.fim}</span></div><div class="flex gap-1"><button onclick="gerarOrcamentoPDF('${o.cliente}','${o.servico}','${o.visita}','${o.trabalho}','${o.total}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 PDF PRO</button><button onclick="excluirItem('ramos_orcamentos',${o.id})" class="text-red-400 text-xs">🗑️</button></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum orçamento</p>";}
+function addChamado(){const titulo=document.getElementById('chTitulo').value; if(!titulo) return alert('Título'); const lista=getDados('ramos_chamados'); const novo={id:Date.now(),cliente: USUARIO_LOGADO,titulo: titulo,prioridade: document.getElementById('chPrior').value,categoria: document.getElementById('chCat').value,desc: document.getElementById('chDesc').value,status: 'Aberto',data: new Date().toLocaleString('pt-BR'),comentarios: [{autor: USUARIO_LOGADO, texto: document.getElementById('chDesc').value, data: new Date().toLocaleString('pt-BR')}],avaliacao: null}; lista.push(novo); setDados('ramos_chamados',lista); document.getElementById('chTitulo').value=""; document.getElementById('chDesc').value=""; alert("Chamado aberto! ID: "+novo.id); renderChamados();}
+function renderChamados(){let lista=getDados('ramos_chamados'); if(TIPO_LOGADO!=='admin'){ lista=lista.filter(c=>c.cliente===USUARIO_LOGADO); } document.getElementById('listaChamados').innerHTML=lista.slice(-50).reverse().map(ch=>{const coments = (ch.comentarios||[]).map(cm=>`<div class="text-[11px] border-l-2 border-cyan-700 pl-2 mt-2"><b>${cm.autor}</b> <span class="text-slate-500">${cm.data}</span><br>${cm.texto}</div>`).join(''); const avaliacao = ch.avaliacao? `<div class="mt-2 text-[11px] bg-[#0b1220] p-2 rounded">⭐ Avaliação: ${ch.avaliacao.nota}/5 - ${ch.avaliacao.comentario}</div>` : ''; const botoesAdmin = (TIPO_LOGADO==='admin')? `<div class="flex gap-1 mt-2 flex-wrap"><button onclick="addAndamento(${ch.id})" class="bg-blue-600 px-3 py-1 rounded text-xs">➕ Andamento</button><button onclick="mudarStatus(${ch.id},'Em Andamento')" class="bg-yellow-600 px-3 py-1 rounded text-xs">🔧 Em Andamento</button><button onclick="mudarStatus(${ch.id},'Aguardando Cliente')" class="bg-purple-600 px-3 py-1 rounded text-xs">⏳ Aguardar</button><button onclick="fecharChamado(${ch.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs">✅ Fechar</button></div>` : ''; const botoesCliente = (TIPO_LOGADO!=='admin' && ch.status!=='Fechado')? `<div class="flex gap-1 mt-2"><button onclick="addAndamento(${ch.id})" class="bg-blue-600 px-3 py-1 rounded text-xs">💬 Responder / Info</button></div>` : ''; const botaoAvaliar = (TIPO_LOGADO!=='admin' && ch.status==='Fechado' &&!ch.avaliacao)? `<button onclick="avaliarChamado(${ch.id})" class="bg-yellow-500 text-black px-3 py-1 rounded text-xs mt-2 font-bold">⭐ Avaliar Chamado</button>` : ''; return `<div class="card p-4"><div class="flex justify-between items-start"><div><b class="text-white">#${ch.id} - ${ch.titulo}</b> <span class="text-[10px] bg-[#1a2b52] px-2 py-1 rounded-full ml-2">${ch.status}</span><br><span class="text-[11px] text-slate-400">Cliente: ${ch.cliente} | ${ch.categoria} | ${ch.prioridade} | ${ch.data}</span></div><button onclick="excluirItem('ramos_chamados',${ch.id})" class="text-red-400 text-xs">🗑️</button></div>${coments}${avaliacao}${botoesAdmin}${botoesCliente}${botaoAvaliar}</div>`;}).join('')||"<p class='text-slate-500 text-xs'>Nenhum chamado aberto</p>";}
+function addAndamento(id){const texto=prompt("Digite o andamento / informação:"); if(!texto) return; let lista=getDados('ramos_chamados'); const idx=lista.findIndex(x=>x.id===id); if(idx>-1){lista[idx].comentarios.push({autor: USUARIO_LOGADO, texto, data: new Date().toLocaleString('pt-BR')}); setDados('ramos_chamados',lista); renderChamados();}}
 function mudarStatus(id,novo){let lista=getDados('ramos_chamados'); const idx=lista.findIndex(x=>x.id===id); if(idx>-1){lista[idx].status=novo; setDados('ramos_chamados',lista); renderChamados();}}
-function fecharChamado(id){
-  if(!confirm("Fechar chamado? Cliente poderá avaliar.")) return;
-  mudarStatus(id,'Fechado');
-}
-function avaliarChamado(id){
-  const nota=prompt("Nota de 1 a 5 estrelas:"); if(!nota) return;
-  const coment=prompt("Comentário da avaliação:")||"";
-  let lista=getDados('ramos_chamados'); const idx=lista.findIndex(x=>x.id===id);
-  if(idx>-1){lista[idx].avaliacao={nota, comentario: coment, data: new Date().toLocaleString('pt-BR')}; setDados('ramos_chamados',lista); alert("Obrigado pela avaliação! ⭐"); renderChamados();}
-}
-
-/* ACESSO REMOTO */
-function addRemoto(){
-  const cliente=document.getElementById('rCliente').value; const idRem=document.getElementById('rId').value; if(!cliente||!idRem) return alert('Preencha');
-  const lista=getDados('ramos_remoto'); lista.push({id:Date.now(),cliente,remotoId:idRem,senha:document.getElementById('rSenha').value});
-  setDados('ramos_remoto',lista); renderRemoto();
-}
-function renderRemoto(){
-  const lista=getDados('ramos_remoto');
-  document.getElementById('listaRemoto').innerHTML=lista.slice(-50).reverse().map(r=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${r.cliente}</b><br><span class="text-[11px] text-slate-400">ID: ${r.remotoId} | Senha: ${r.senha||' - '}</span></div><button onclick="excluirItem('ramos_remoto',${r.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum acesso remoto salvo</p>";
-}
-
+function fecharChamado(id){if(!confirm("Fechar chamado? Cliente poderá avaliar.")) return; mudarStatus(id,'Fechado');}
+function avaliarChamado(id){const nota=prompt("Nota de 1 a 5 estrelas:"); if(!nota) return; const coment=prompt("Comentário da avaliação:")||""; let lista=getDados('ramos_chamados'); const idx=lista.findIndex(x=>x.id===id); if(idx>-1){lista[idx].avaliacao={nota, comentario: coment, data: new Date().toLocaleString('pt-BR')}; setDados('ramos_chamados',lista); alert("Obrigado pela avaliação! ⭐"); renderChamados();}}
+function addRemoto(){const cliente=document.getElementById('rCliente').value; const idRem=document.getElementById('rId').value; if(!cliente||!idRem) return alert('Preencha'); const lista=getDados('ramos_remoto'); lista.push({id:Date.now(),cliente,remotoId:idRem,senha:document.getElementById('rSenha').value}); setDados('ramos_remoto',lista); renderRemoto();}
+function renderRemoto(){const lista=getDados('ramos_remoto'); document.getElementById('listaRemoto').innerHTML=lista.slice(-50).reverse().map(r=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${r.cliente}</b><br><span class="text-[11px] text-slate-400">ID: ${r.remotoId} | Senha: ${r.senha||' - '}</span></div><button onclick="excluirItem('ramos_remoto',${r.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum acesso remoto salvo</p>";}
 function excluirItem(chave,id){if(!confirm('Excluir?')) return; let lista=getDados(chave); lista=lista.filter(x=>x.id!==id); setDados(chave,lista); renderTudo();}
 function renderTudo(){renderClientes(); renderUsuarios(); renderContratos(); renderOrcamentos(); renderChamados(); renderRemoto();}
 
-function gerarBoletoContrato(cliente, valor, venc){
+// BOLETO PROFISSIONAL V4.7 COM LOGO
+function gerarBoletoContrato(cliente, valor, venc, inicio){
   const { jsPDF }=window.jspdf; const doc=new jsPDF();
-  doc.text("RAMOS INFOTEC - "+CNPJ+" - PIX: "+PIX,10,15);
-  doc.text("BOLETO - Cliente: "+cliente+" Valor: "+valor+" Venc: "+venc,10,25);
-  doc.save("Boleto_"+cliente+".pdf");
+  try{ doc.addImage(LOGO_BASE64,'PNG',10,8,28,28); }catch(e){}
+  doc.setFontSize(16); doc.setFont(undefined,'bold'); doc.text("RAMOS INFOTEC", 45, 18);
+  doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.text("Solucoes em TI | CNPJ: "+CNPJ+" | PIX: "+PIX, 45, 24);
+  doc.setFontSize(8); doc.text("Contato: (11) 99626-4221 | ramos.infotec@email.com", 45, 28);
+  doc.setLineWidth(0.5); doc.line(10,35,200,35);
+  doc.setFontSize(14); doc.setFont(undefined,'bold'); doc.text("BOLETO / RECIBO DE MENSALIDADE", 10, 43);
+  doc.setFontSize(10); doc.setFont(undefined,'normal');
+  doc.rect(10,47,190,32);
+  doc.text("Pagador: "+cliente, 12, 54);
+  doc.text("Valor Mensal: R$ "+valor, 12, 60);
+  doc.text("Vencimento: "+venc+" | Inicio Contrato: "+(inicio||""), 12, 66);
+  doc.text("Referente: Servicos de Informatica - Contrato Mensal", 12, 72);
+  doc.setFontSize(11); doc.setFont(undefined,'bold'); doc.text("PIX Copia e Cola: "+PIX+" (Telefone)", 12, 85);
+  doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.text("Chave PIX CNPJ: "+CNPJ, 12, 90);
+  doc.text("Linha Digitavel (simulada): 00190.00009 04511.452305 00001.05 8 000000000"+valor.replace('.','').replace(',',''), 12, 95);
+  doc.rect(10,100,190,25);
+  doc.text("INSTRUCOES:", 12, 105); doc.setFontSize(8);
+  doc.text("- Pague via PIX usando a chave acima ou escaneie o QR Code", 12, 110);
+  doc.text("- Apos pagamento envie comprovante via WhatsApp", 12, 114);
+  doc.text("- Em caso de atraso multa de 2% + juros de 1% ao mes", 12, 118);
+  doc.setFontSize(10); doc.setFont(undefined,'bold'); doc.text("Recebedor: RAMOS INFOTEC - CNPJ "+CNPJ, 12, 135);
+  doc.setFontSize(8); doc.setFont(undefined,'normal'); doc.text("Documento gerado automaticamente em "+new Date().toLocaleString('pt-BR'), 12, 140);
+  doc.text("Obrigado pela preferencia! - Ramos Infotec", 12, 144);
+  doc.save("Boleto_PRO_"+cliente+"_"+venc+".pdf");
 }
 function gerarOrcamentoPDF(cliente, servico, visita, trabalho, total){
   const { jsPDF }=window.jspdf; const doc=new jsPDF();
-  doc.text("RAMOS INFOTEC - ORCAMENTO",10,15);
-  doc.text("CNPJ "+CNPJ+" PIX: "+PIX,10,22);
-  doc.text("Cliente: "+cliente+" Servico: "+servico,10,32);
-  doc.text("Visita: R$"+visita+" Trabalho: R$"+trabalho+" Total: R$"+total,10,42);
-  doc.save("Orcamento_"+cliente+".pdf");
+  try{ doc.addImage(LOGO_BASE64,'PNG',10,8,28,28); }catch(e){}
+  doc.setFontSize(16); doc.setFont(undefined,'bold'); doc.text("RAMOS INFOTEC", 45, 18);
+  doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.text("CNPJ: "+CNPJ+" | PIX: "+PIX, 45, 24);
+  doc.setLineWidth(0.5); doc.line(10,35,200,35);
+  doc.setFontSize(14); doc.setFont(undefined,'bold'); doc.text("ORCAMENTO TECNICO", 10, 43);
+  doc.setFontSize(10); doc.setFont(undefined,'normal');
+  doc.text("Cliente: "+cliente, 12, 52);
+  doc.text("Servico: "+servico, 12, 58);
+  doc.text("Valor da Visita Tecnica: R$ "+visita, 12, 68);
+  doc.text("Valor do Trabalho / Mao de Obra: R$ "+trabalho, 12, 74);
+  doc.setFontSize(13); doc.setFont(undefined,'bold'); doc.text("TOTAL: R$ "+total, 12, 83);
+  doc.setFontSize(9); doc.setFont(undefined,'normal');
+  doc.text("Validade: 7 dias | Forma Pag: PIX "+PIX, 12, 92);
+  doc.text("CNPJ PIX: "+CNPJ, 12, 97);
+  doc.save("Orcamento_PRO_"+cliente+".pdf");
 }
 function exportarDados(){const dados={clientes:getDados('ramos_clientes'),usuarios:getDados('ramos_usuarios'),contratos:getDados('ramos_contratos'),orcamentos:getDados('ramos_orcamentos'),chamados:getDados('ramos_chamados'),remoto:getDados('ramos_remoto')}; const blob=new Blob([JSON.stringify(dados)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="backup_ramos_"+Date.now()+".json"; a.click();}
 </script>
 </body>
 </html>
-</div>
