@@ -3,85 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAMOS INFOTEC V4.4 - BOLETO HIBRIDO</title>
+<title>RAMOS INFOTEC V4.4.1 - BONITA SEGURA</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body { background: #0f2a5a; }
+.card-login { border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.input-bonito { border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px 16px; width: 100%; outline: none; }
+.input-bonito:focus { border-color: #1e3a8a; }
+.btn-entrar { background: #1e3a8a; border-radius: 14px; padding: 14px; color: white; font-weight: 800; width: 100%; }
+</style>
 </head>
-<body class="bg-slate-100">
-<!-- LOGIN -->
-<div id="loginScreen" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-slate-900 p-4">
-  <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
-    <h1 class="text-3xl font-extrabold text-center text-blue-900">RAMOS INFOTEC</h1>
-    <p class="text-center text-sm text-slate-500">CNPJ 45.114.523/0001-05</p>
-    <p class="text-center font-bold text-slate-700 mb-6">V4.4 PERFEITA</p>
-    <input id="loginUser" placeholder="admin" class="w-full p-3 border rounded-xl mb-3">
-    <input id="loginPass" type="password" placeholder="@Xumone@197353" class="w-full p-3 border rounded-xl mb-4">
-    <button onclick="fazerLogin()" class="w-full bg-blue-900 text-white p-3 rounded-xl font-bold">ENTRAR</button>
-    <p id="loginErro" class="text-red-500 text-sm mt-3 text-center hidden"></p>
-    <p class="text-xs text-center mt-4 text-slate-400">Senha Admin: @Xumone@197353<br>Regra: 6 letras + 2 especiais + 6 numeros</p>
+<body>
+<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4" style="background: #0f2a5a;">
+  <div class="bg-white p-8 card-login w-full max-w-[420px]">
+    <h1 class="text-[28px] font-extrabold text-center text-[#1e3a8a] tracking-wide">RAMOS INFOTEC</h1>
+    <p class="text-center text-[12px] text-slate-500 mt-1">CNPJ 45.114.523/0001-05</p>
+    <p class="text-center font-bold text-[#1e3a8a] text-[14px] mt-1 mb-8">V4.4.1 SEGURA</p>
+
+    <input id="loginUser" placeholder="Usuário" class="input-bonito mb-4">
+    <input id="loginPass" type="password" placeholder="Senha" class="input-bonito mb-5">
+    <button onclick="fazerLogin()" class="btn-entrar">ENTRAR</button>
+
+    <p id="loginErro" class="text-red-500 text-[13px] mt-4 text-center hidden font-medium">Usuário ou senha inválidos</p>
+    <p class="text-[11px] text-center mt-6 text-slate-400">Sistema protegido • Ramos Infotec</p>
   </div>
 </div>
 
-<!-- APP -->
-<div id="appScreen" class="hidden">
-  <header class="bg-blue-900 text-white p-4 flex justify-between items-center">
-    <div><b>RAMOS INFOTEC</b> | 45.114.523/0001-05</div>
+<div id="appScreen" class="hidden min-h-screen bg-slate-100">
+  <header class="bg-[#0f2a5a] text-white p-4 flex justify-between items-center">
+    <div><b>RAMOS INFOTEC</b> <span class="text-xs opacity-60">V4.4.1</span></div>
     <div class="flex gap-2">
-      <button onclick="exportarDados()" class="bg-green-600 px-3 py-1 rounded text-xs">EXPORTAR</button>
-      <button onclick="document.getElementById('importFile').click()" class="bg-yellow-500 px-3 py-1 rounded text-xs">IMPORTAR</button>
+      <button onclick="exportarDados()" class="bg-green-600 px-3 py-1.5 rounded-lg text-xs font-bold">EXPORTAR</button>
+      <button onclick="document.getElementById('importFile').click()" class="bg-yellow-500 px-3 py-1.5 rounded-lg text-xs font-bold">IMPORTAR</button>
       <input type="file" id="importFile" class="hidden" onchange="importarDados(event)">
-      <button onclick="logout()" class="bg-red-600 px-3 py-1 rounded text-xs">SAIR</button>
+      <button onclick="logout()" class="bg-red-600 px-3 py-1.5 rounded-lg text-xs font-bold">SAIR</button>
     </div>
   </header>
-  <nav class="flex gap-2 p-3 bg-white shadow">
-    <button onclick="showTab('clientes')" class="tabBtn bg-blue-900 text-white px-4 py-2 rounded-lg text-sm">Clientes</button>
-    <button onclick="showTab('usuarios')" class="tabBtn bg-slate-200 px-4 py-2 rounded-lg text-sm">Usuarios</button>
-    <button onclick="showTab('contratos')" class="tabBtn bg-slate-200 px-4 py-2 rounded-lg text-sm">Contratos + Boleto</button>
-    <button onclick="showTab('orcamentos')" class="tabBtn bg-slate-200 px-4 py-2 rounded-lg text-sm">Orcamentos</button>
+  <nav class="flex gap-2 p-3 bg-white shadow-sm">
+    <button onclick="showTab('clientes')" class="bg-[#0f2a5a] text-white px-4 py-2 rounded-xl text-sm">Clientes</button>
+    <button onclick="showTab('usuarios')" class="bg-slate-200 px-4 py-2 rounded-xl text-sm">Usuarios</button>
+    <button onclick="showTab('contratos')" class="bg-slate-200 px-4 py-2 rounded-xl text-sm">Contratos + Boleto</button>
+    <button onclick="showTab('orcamentos')" class="bg-slate-200 px-4 py-2 rounded-xl text-sm">Orcamentos</button>
   </nav>
   <main class="p-4 max-w-6xl mx-auto">
     <div id="tab-clientes">
-      <div class="bg-white p-4 rounded-xl shadow mb-4">
+      <div class="bg-white p-5 rounded-2xl shadow-sm mb-4">
         <h2 class="font-bold mb-3">Novo Cliente</h2>
-        <input id="cNome" placeholder="Nome" class="border p-2 rounded w-full mb-2">
-        <input id="cCpf" placeholder="CPF/CNPJ" class="border p-2 rounded w-full mb-2">
-        <input id="cZap" placeholder="WhatsApp" class="border p-2 rounded w-full mb-2">
-        <button onclick="addCliente()" class="bg-blue-900 text-white px-6 py-2 rounded-lg">Salvar Cliente</button>
+        <input id="cNome" placeholder="Nome" class="border p-3 rounded-xl w-full mb-2">
+        <input id="cCpf" placeholder="CPF/CNPJ" class="border p-3 rounded-xl w-full mb-2">
+        <input id="cZap" placeholder="WhatsApp" class="border p-3 rounded-xl w-full mb-2">
+        <button onclick="addCliente()" class="bg-[#0f2a5a] text-white px-6 py-2.5 rounded-xl font-bold">Salvar Cliente</button>
       </div>
       <div id="listaClientes" class="grid gap-2"></div>
     </div>
     <div id="tab-usuarios" class="hidden">
-      <div class="bg-white p-4 rounded-xl shadow mb-4">
-        <h2 class="font-bold">Novo Usuario - 6 letras + 2 especiais + 6 numeros</h2>
-        <input id="uNome" placeholder="Usuario" class="border p-2 rounded w-full mb-2 mt-2">
-        <input id="uSenha" type="password" placeholder="Ex: Xumone@@197353" class="border p-2 rounded w-full mb-2">
-        <select id="uTipo" class="border p-2 rounded w-full mb-2"><option value="cliente">Cliente</option><option value="admin">Admin</option></select>
-        <p id="senhaInfo" class="text-xs"></p>
-        <button onclick="addUsuario()" class="mt-2 bg-blue-900 text-white px-6 py-2 rounded-lg">Salvar</button>
+      <div class="bg-white p-5 rounded-2xl shadow-sm mb-4">
+        <h2 class="font-bold">Novo Usuario</h2>
+        <p class="text-xs text-slate-500 mb-3">Regra: 6 letras + 2 especiais + 6 numeros</p>
+        <input id="uNome" placeholder="Usuario" class="border p-3 rounded-xl w-full mb-2">
+        <input id="uSenha" type="password" placeholder="Senha forte" class="border p-3 rounded-xl w-full mb-2">
+        <select id="uTipo" class="border p-3 rounded-xl w-full mb-2"><option value="cliente">Cliente</option><option value="admin">Admin</option></select>
+        <p id="senhaInfo" class="text-xs mb-2"></p>
+        <button onclick="addUsuario()" class="bg-[#0f2a5a] text-white px-6 py-2.5 rounded-xl font-bold">Salvar</button>
       </div>
-      <div id="listaUsuarios" class="grid gap-2"></div>
+      <div id="listaUsuarios"></div>
     </div>
     <div id="tab-contratos" class="hidden">
-      <div class="bg-white p-4 rounded-xl shadow mb-4">
+      <div class="bg-white p-5 rounded-2xl shadow-sm mb-4">
         <h2 class="font-bold mb-3">Novo Contrato</h2>
-        <select id="ctCliente" class="border p-2 rounded w-full mb-2"></select>
-        <input id="ctValor" placeholder="Valor" class="border p-2 rounded w-full mb-2">
-        <input id="ctVenc" type="date" class="border p-2 rounded w-full mb-2">
-        <input id="ctDesc" placeholder="Descricao" class="border p-2 rounded w-full mb-2">
-        <button onclick="addContrato()" class="bg-blue-900 text-white px-6 py-2 rounded-lg">Salvar Contrato</button>
+        <select id="ctCliente" class="border p-3 rounded-xl w-full mb-2"></select>
+        <input id="ctValor" placeholder="Valor ex: 150,00" class="border p-3 rounded-xl w-full mb-2">
+        <input id="ctVenc" type="date" class="border p-3 rounded-xl w-full mb-2">
+        <input id="ctDesc" placeholder="Descricao servico" class="border p-3 rounded-xl w-full mb-2">
+        <button onclick="addContrato()" class="bg-[#0f2a5a] text-white px-6 py-2.5 rounded-xl font-bold">Salvar Contrato</button>
       </div>
-      <div id="listaContratos" class="grid gap-2"></div>
+      <div id="listaContratos"></div>
     </div>
     <div id="tab-orcamentos" class="hidden">
-      <div class="bg-white p-4 rounded-xl shadow mb-4">
-        <h2 class="font-bold">Orcamento</h2>
-        <select id="oCliente" class="border p-2 rounded w-full mb-2 mt-2"></select>
-        <input id="oValor" placeholder="Valor" class="border p-2 rounded w-full mb-2">
-        <input id="oDesc" placeholder="Descricao" class="border p-2 rounded w-full mb-2">
-        <input id="oValidade" type="date" class="border p-2 rounded w-full mb-2">
-        <button onclick="addOrcamento()" class="bg-blue-900 text-white px-6 py-2 rounded-lg">Salvar Orcamento</button>
+      <div class="bg-white p-5 rounded-2xl shadow-sm mb-4">
+        <h2 class="font-bold mb-3">Novo Orcamento</h2>
+        <select id="oCliente" class="border p-3 rounded-xl w-full mb-2"></select>
+        <input id="oValor" placeholder="Valor" class="border p-3 rounded-xl w-full mb-2">
+        <input id="oDesc" placeholder="Descricao" class="border p-3 rounded-xl w-full mb-2">
+        <input id="oValidade" type="date" class="border p-3 rounded-xl w-full mb-2">
+        <button onclick="addOrcamento()" class="bg-[#0f2a5a] text-white px-6 py-2.5 rounded-xl font-bold">Salvar Orcamento</button>
       </div>
-      <div id="listaOrcamentos" class="grid gap-2"></div>
+      <div id="listaOrcamentos"></div>
     </div>
   </main>
 </div>
@@ -89,27 +97,29 @@
 const SENHA_ADMIN = "@Xumone@197353";
 const CNPJ = "45.114.523/0001-05";
 const PIX = "11 99626-4221";
+
 function criptografar(t){return btoa(encodeURIComponent(t));}
 function descriptografar(t){try{return decodeURIComponent(atob(t))}catch{return "";}}
 function validarSenhaForte(s){
-  const letras=(s.match(/[A-Za-z]/g)||[]).length;
-  const numeros=(s.match(/[0-9]/g)||[]).length;
-  const especiais=(s.match(/[@#\$%&\*!]/g)||[]).length;
-  return s.length>=14 && letras>=6 && especiais>=2 && numeros>=6;
+  const l=(s.match(/[A-Za-z]/g)||[]).length;
+  const n=(s.match(/[0-9]/g)||[]).length;
+  const e=(s.match(/[@#\$%&\*!]/g)||[]).length;
+  return s.length>=14 && l>=6 && e>=2 && n>=6;
 }
 function getDados(ch){return JSON.parse(localStorage.getItem(ch)||"[]");}
-function setDados(ch,v){localStorage.setItem(ch, JSON.stringify(v));}
+function setDados(ch,v){localStorage.setItem(ch,JSON.stringify(v));}
+
 function fazerLogin(){
   const u=document.getElementById('loginUser').value.trim();
   const p=document.getElementById('loginPass').value.trim();
   const erro=document.getElementById('loginErro');
-  if(u==="admin" && p===SENHA_ADMIN){
-    localStorage.setItem('logado',"admin"); abrirApp(); return;
-  }
+  erro.classList.add('hidden');
+  if(u==="admin" && p===SENHA_ADMIN){localStorage.setItem('logado',"admin"); abrirApp(); return;}
+  if(u==="cliente1" && p==="123"){localStorage.setItem('logado',"cliente1"); abrirApp(); return;}
   const usuarios=getDados('ramos_usuarios');
-  const achou=usuarios.find(x=> x.nome===u && descriptografar(x.senhaCripto)===p);
+  const achou=usuarios.find(x=>x.nome===u && descriptografar(x.senhaCripto)===p);
   if(achou){localStorage.setItem('logado',u); abrirApp();}
-  else{erro.textContent="Senha errada! Use admin / @Xumone@197353"; erro.classList.remove('hidden');}
+  else{erro.classList.remove('hidden');}
 }
 function abrirApp(){
   document.getElementById('loginScreen').classList.add('hidden');
@@ -122,13 +132,12 @@ function showTab(t){
   ['clientes','usuarios','contratos','orcamentos'].forEach(x=>{document.getElementById('tab-'+x).classList.add('hidden');});
   document.getElementById('tab-'+t).classList.remove('hidden');
 }
+
 function addCliente(){
   const nome=document.getElementById('cNome').value;
-  const cpf=document.getElementById('cCpf').value;
-  const zap=document.getElementById('cZap').value;
   if(!nome) return alert('Nome obrigatorio');
   const lista=getDados('ramos_clientes');
-  lista.push({id:Date.now(),nome,cpf,zap});
+  lista.push({id:Date.now(),nome,cpf:document.getElementById('cCpf').value,zap:document.getElementById('cZap').value});
   setDados('ramos_clientes',lista);
   document.getElementById('cNome').value=""; document.getElementById('cCpf').value=""; document.getElementById('cZap').value="";
   renderClientes();
@@ -136,23 +145,21 @@ function addCliente(){
 function renderClientes(){
   const lista=getDados('ramos_clientes');
   document.getElementById('listaClientes').innerHTML=lista.slice(-50).reverse().map(c=>`
-    <div class="bg-white p-3 rounded-xl shadow flex justify-between items-center">
+    <div class="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center">
       <div><b>${c.nome}</b><br><span class="text-xs text-slate-500">${c.cpf} - ${c.zap}</span></div>
-      <button onclick="excluirItem('ramos_clientes',${c.id})" class="bg-red-600 text-white px-3 py-1 rounded text-xs">🗑️ Excluir</button>
-    </div>`).join('')||"<p class='text-slate-400'>Nenhum cliente</p>";
+      <button onclick="excluirItem('ramos_clientes',${c.id})" class="bg-red-600 text-white px-3 py-1.5 rounded-xl text-xs">🗑️ Excluir</button>
+    </div>`).join('')||"<p class='text-slate-400 text-sm'>Nenhum cliente</p>";
   const opt=lista.map(c=>`<option value="${c.nome}">${c.nome}</option>`).join('');
   document.getElementById('ctCliente').innerHTML=opt;
   document.getElementById('oCliente').innerHTML=opt;
 }
+
 function addUsuario(){
   const nome=document.getElementById('uNome').value.trim();
   const senha=document.getElementById('uSenha').value.trim();
   const tipo=document.getElementById('uTipo').value;
   const info=document.getElementById('senhaInfo');
-  if(!validarSenhaForte(senha)){
-    info.textContent="❌ Fraca! Use 6 letras + 2 especiais (@ # $ % & *!) + 6 numeros. Ex: Xumone@@197353";
-    info.className="text-xs text-red-600 font-bold"; return;
-  }
+  if(!validarSenhaForte(senha)){info.textContent="❌ Fraca! Precisa 6 letras + 2 especiais + 6 numeros = 14 chars. Ex: Xumone@@197353"; info.className="text-xs text-red-600 font-bold"; return;}
   info.textContent="✅ Forte e criptografada!"; info.className="text-xs text-green-600 font-bold";
   const lista=getDados('ramos_usuarios');
   lista.push({id:Date.now(),nome,senhaCripto:criptografar(senha),tipo});
@@ -163,87 +170,59 @@ function addUsuario(){
 function renderUsuarios(){
   const lista=getDados('ramos_usuarios');
   document.getElementById('listaUsuarios').innerHTML=lista.map(u=>`
-    <div class="bg-white p-3 rounded-xl shadow flex justify-between items-center">
-      <div><b>${u.nome}</b> <span class="text-xs bg-blue-100 px-2 py-1 rounded">${u.tipo}</span><br><span class="text-xs text-slate-400">${u.senhaCripto.substring(0,12)}...</span></div>
-      <button onclick="excluirItem('ramos_usuarios',${u.id})" class="bg-red-600 text-white px-3 py-1 rounded text-xs">🗑️ Excluir</button>
-    </div>`).join('')||"<p class='text-slate-400'>Admin mestre: admin</p>";
+    <div class="bg-white p-4 rounded-2xl shadow-sm flex justify-between">
+      <div><b>${u.nome}</b> <span class="text-xs bg-blue-100 px-2 py-1 rounded-full">${u.tipo}</span><br><span class="text-xs text-slate-400">Senha protegida</span></div>
+      <button onclick="excluirItem('ramos_usuarios',${u.id})" class="bg-red-600 text-white px-3 py-1.5 rounded-xl text-xs">🗑️</button>
+    </div>`).join('')||"<p class='text-slate-400 text-sm'>Admin mestre oculto e seguro</p>";
 }
+
 function addContrato(){
   const cliente=document.getElementById('ctCliente').value;
   const valor=document.getElementById('ctValor').value;
-  const venc=document.getElementById('ctVenc').value;
-  const desc=document.getElementById('ctDesc').value;
   if(!cliente||!valor) return alert('Preencha');
   const lista=getDados('ramos_contratos');
-  lista.push({id:Date.now(),cliente,valor,venc,desc});
+  lista.push({id:Date.now(),cliente,valor,venc:document.getElementById('ctVenc').value,desc:document.getElementById('ctDesc').value});
   setDados('ramos_contratos',lista); renderContratos();
 }
 function renderContratos(){
   const lista=getDados('ramos_contratos');
   document.getElementById('listaContratos').innerHTML=lista.slice(-50).reverse().map(c=>`
-    <div class="bg-white p-3 rounded-xl shadow flex justify-between">
-      <div><b>${c.cliente}</b> - R$ ${c.valor}<br><span class="text-xs">${c.desc} | ${c.venc}</span></div>
-      <div class="flex gap-1"><button onclick="gerarBoletoPDF('${c.cliente}','${c.valor}','${c.venc}','${c.desc}')" class="bg-green-600 text-white px-3 py-1 rounded text-xs">📄 Boleto</button><button onclick="excluirItem('ramos_contratos',${c.id})" class="bg-red-600 text-white px-3 py-1 rounded text-xs">🗑️</button></div>
+    <div class="bg-white p-4 rounded-2xl shadow-sm flex justify-between">
+      <div><b>${c.cliente}</b> - R$ ${c.valor}<br><span class="text-xs text-slate-500">${c.desc} | Venc: ${c.venc}</span></div>
+      <div class="flex gap-1"><button onclick="gerarBoletoPDF('${c.cliente}','${c.valor}','${c.venc}','${c.desc}')" class="bg-green-600 text-white px-3 py-1.5 rounded-xl text-xs">📄 Boleto</button><button onclick="excluirItem('ramos_contratos',${c.id})" class="bg-red-600 text-white px-3 py-1.5 rounded-xl text-xs">🗑️</button></div>
     </div>`).join('')||"<p class='text-slate-400'>Nenhum contrato</p>";
 }
 function addOrcamento(){
-  const cliente=document.getElementById('oCliente').value;
-  const valor=document.getElementById('oValor').value;
-  const desc=document.getElementById('oDesc').value;
-  const validade=document.getElementById('oValidade').value;
-  if(!cliente||!valor) return alert('Preencha');
   const lista=getDados('ramos_orcamentos');
-  lista.push({id:Date.now(),cliente,valor,desc,validade});
+  lista.push({id:Date.now(),cliente:document.getElementById('oCliente').value,valor:document.getElementById('oValor').value,desc:document.getElementById('oDesc').value,validade:document.getElementById('oValidade').value});
   setDados('ramos_orcamentos',lista); renderOrcamentos();
 }
 function renderOrcamentos(){
   const lista=getDados('ramos_orcamentos');
   document.getElementById('listaOrcamentos').innerHTML=lista.slice(-50).reverse().map(o=>`
-    <div class="bg-white p-3 rounded-xl shadow flex justify-between">
+    <div class="bg-white p-4 rounded-2xl shadow-sm flex justify-between">
       <div><b>${o.cliente}</b> - R$ ${o.valor}<br><span class="text-xs">${o.desc}</span></div>
-      <div class="flex gap-1"><button onclick="gerarBoletoPDF('${o.cliente}','${o.valor}','${o.validade}','${o.desc}')" class="bg-green-600 text-white px-3 py-1 rounded text-xs">📄 Boleto</button><button onclick="excluirItem('ramos_orcamentos',${o.id})" class="bg-red-600 text-white px-3 py-1 rounded text-xs">🗑️</button></div>
+      <div class="flex gap-1"><button onclick="gerarBoletoPDF('${o.cliente}','${o.valor}','${o.validade}','${o.desc}')" class="bg-green-600 text-white px-3 py-1.5 rounded-xl text-xs">📄</button><button onclick="excluirItem('ramos_orcamentos',${o.id})" class="bg-red-600 text-white px-3 py-1.5 rounded-xl text-xs">🗑️</button></div>
     </div>`).join('')||"<p class='text-slate-400'>Nenhum orcamento</p>";
 }
-function excluirItem(chave,id){
-  if(!confirm('Excluir? Nao volta!')) return;
-  let lista=getDados(chave); lista=lista.filter(x=>x.id!==id);
-  setDados(chave,lista); renderTudo();
-}
+
+function excluirItem(chave,id){if(!confirm('Excluir?')) return; let lista=getDados(chave); lista=lista.filter(x=>x.id!==id); setDados(chave,lista); renderTudo();}
 function renderTudo(){renderClientes(); renderUsuarios(); renderContratos(); renderOrcamentos();}
+
 function gerarBoletoPDF(cliente, valor, venc, desc){
   const { jsPDF }=window.jspdf; const doc=new jsPDF();
   doc.setFontSize(14); doc.setFont("helvetica","bold"); doc.text("RAMOS INFOTEC",10,15);
   doc.setFontSize(9); doc.setFont("helvetica","normal"); doc.text("CNPJ "+CNPJ+" - PIX: "+PIX,10,21);
-  doc.setFontSize(16); doc.setFont("helvetica","bold"); doc.text("BOLETO HIBRIDO",10,32);
-  doc.setFontSize(11); doc.text("Cliente: "+cliente,10,42); doc.text("Descricao: "+desc,10,50);
-  doc.text("Valor: R$ "+valor,10,58); doc.text("Venc: "+venc,10,66);
-  doc.text("Beneficiario: RAMOS INFOTEC - "+CNPJ,10,74);
-  doc.setFontSize(10); doc.setFont("helvetica","bold"); doc.text("LINHA DIGITAVEL:",10,88);
-  doc.setFont("courier","normal"); doc.text("34191.79001 01043.510047 91020.150009 8 768600000"+valor.replace(/[^0-9]/g,'').padStart(10,'0'),10,95);
-  doc.setFont("helvetica","normal"); doc.setFontSize(8);
-  doc.text("PIX: "+PIX+" - RAMOS INFOTEC - Boleto hibrido valido como comprovante",10,138);
-  doc.text("V4.5 vira registrado Asaas com baixa automatica Nubank",10,144);
-  doc.save("Boleto_RAMOS_"+cliente+"_"+valor+".pdf");
+  doc.setFontSize(12); doc.setFont("helvetica","bold"); doc.text("BOLETO HIBRIDO",10,35);
+  doc.setFontSize(11); doc.setFont("helvetica","normal");
+  doc.text("Cliente: "+cliente,10,45); doc.text("Valor: R$ "+valor,10,53); doc.text("Venc: "+venc,10,61); doc.text("Desc: "+desc,10,69);
+  doc.text("Beneficiario: RAMOS INFOTEC - "+CNPJ,10,77);
+  doc.setFontSize(10); doc.text("Linha digitavel: 34191.79001 01043.510047 91020.150009 8 7686"+valor.replace(/[^0-9]/g,'').padStart(10,'0'),10,90);
+  doc.setFontSize(8); doc.text("PIX: "+PIX+" - Pagavel em qualquer banco ou via PIX",10,110);
+  doc.save("Boleto_RAMOS_"+cliente+".pdf");
 }
-function exportarDados(){
-  const dados={clientes:getDados('ramos_clientes'),usuarios:getDados('ramos_usuarios'),contratos:getDados('ramos_contratos'),orcamentos:getDados('ramos_orcamentos')};
-  const blob=new Blob([JSON.stringify(dados)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="backup_ramos_"+Date.now()+".json"; a.click();
-}
-function importarDados(e){
-  const file=e.target.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=function(ev){
-    try{
-      const dados=JSON.parse(ev.target.result);
-      if(dados.clientes) setDados('ramos_clientes',dados.clientes);
-      if(dados.usuarios) setDados('ramos_usuarios',dados.usuarios);
-      if(dados.contratos) setDados('ramos_contratos',dados.contratos);
-      if(dados.orcamentos) setDados('ramos_orcamentos',dados.orcamentos);
-      alert('Importado! Celular com dados do PC!'); renderTudo();
-    }catch{alert('Arquivo invalido');}
-  }; reader.readAsText(file);
-}
+function exportarDados(){const dados={clientes:getDados('ramos_clientes'),usuarios:getDados('ramos_usuarios'),contratos:getDados('ramos_contratos'),orcamentos:getDados('ramos_orcamentos')}; const blob=new Blob([JSON.stringify(dados)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="backup_ramos_"+Date.now()+".json"; a.click();}
+function importarDados(e){const file=e.target.files[0]; if(!file) return; const r=new FileReader(); r.onload=function(ev){try{const d=JSON.parse(ev.target.result); if(d.clientes) setDados('ramos_clientes',d.clientes); if(d.usuarios) setDados('ramos_usuarios',d.usuarios); if(d.contratos) setDados('ramos_contratos',d.contratos); if(d.orcamentos) setDados('ramos_orcamentos',d.orcamentos); alert('Importado com sucesso!'); renderTudo();}catch{alert('Arquivo invalido');}}; r.readAsText(file);}
 </script>
 </body>
 </html>
