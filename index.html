@@ -53,7 +53,7 @@
 </div>
 </div>
 <script>
-const SENHA="@Xumone@531873";
+const SENHA="@Xumone@531973";
 let clientes=JSON.parse(localStorage.getItem('ramos_c')||'[]');
 function logar(){if(document.getElementById('senha').value===SENHA){document.getElementById('login').classList.add('hidden');document.getElementById('sistema').classList.remove('hidden');attLista();}else{document.getElementById('erro').classList.remove('hidden');}}
 function aba(n){['orc','cli','rem'].forEach(x=>{document.getElementById('a-'+x).classList.add('hidden');document.getElementById('b-'+x).className='w-full text-left px-4 py-3 rounded-xl bg-zinc-900';});document.getElementById('a-'+n).classList.remove('hidden');document.getElementById('b-'+n).className='w-full text-left px-4 py-3 rounded-xl bg-blue-600 font-bold';if(n==='cli')attLista();}
