@@ -1,74 +1,161 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>RAMOS V4.7 BOLETO PRO</title>
+<title>RAMOS V4.8 FIX</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>body{background:#0b1220;color:#e2e8f0}.card{background:#141f38;border:1px solid #1e2f5a;border-radius:12px}.input-dark{background:#0b1220;border:1px solid #1e2f5a;color:#e2e8f0;padding:10px 12px;border-radius:8px;width:100%}.label-top{font-size:10px;color:#94a3b8;text-transform:uppercase;margin-bottom:4px;display:block}.btn-cyan{background:#06b6d4;color:#001018;font-weight:800;padding:8px 16px;border-radius:8px}</style>
+<style>body{background:#0b1220;color:#e2e8f0}.card{background:#141f38;border:1px solid #1e2f5a;border-radius:12px}.input-dark{background:#0b1220;border:1px solid #1e2f5a;color:#e2e8f0;padding:10px 12px;border-radius:8px;width:100%}.label-top{font-size:10px;color:#94a3b8;text-transform:uppercase;margin-bottom:4px;display:block}.btn-cyan{background:#06b6d4;color:#001018;font-weight:800;padding:8px 16px;border-radius:8px}.modal-bg{background:rgba(0,0,0,0.8);position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:100}</style>
 </head>
 <body>
-<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4"><div class="card p-8 w-full max-w-[400px]"><h1 class="text-2xl font-black text-center text-white">RAMOS INFOTEC</h1><p class="text-center text-[11px] text-slate-400">CNPJ 45.114.523/0001-05</p><p class="text-center text-cyan-400 text-xs font-bold mt-2 mb-6">V4.7 BOLETO PRO COM LOGO</p><input id="loginUser" placeholder="Usuário" class="input-dark mb-3"><input id="loginPass" type="password" placeholder="Senha" class="input-dark mb-4"><button onclick="login()" class="w-full bg-cyan-500 text-black font-black py-3 rounded-lg">ENTRAR</button><p id="loginErro" class="hidden text-red-400 text-xs mt-3 text-center">Inválido</p></div></div>
-<div id="appScreen" class="hidden"><header class="bg-[#0f1e3d] border-b border-[#1e2f5a] p-3 flex justify-between"><div class="font-black text-white text-sm">RAMOS INFOTEC <span id="userInfo" class="text-[11px] text-cyan-300 font-normal ml-2"></span></div><div class="flex gap-2"><button onclick="logout()" class="bg-red-600 px-3 py-1 rounded text-[11px]">SAIR</button></div></header><nav id="mainNav" class="flex flex-wrap gap-2 p-3 bg-[#0f1e3d]"></nav><main class="p-4 max-w-6xl mx-auto">
+<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4"><div class="card p-8 w-full max-w-[400px]"><h1 class="text-2xl font-black text-center text-white">RAMOS INFOTEC</h1><p class="text-center text-[11px] text-slate-400">CNPJ 45.114.523/0001-05</p><p class="text-center text-cyan-400 text-xs font-bold mt-2 mb-6">V4.8 FIX 3 BUGS</p><input id="loginUser" placeholder="Usuário" class="input-dark mb-3"><input id="loginPass" type="password" placeholder="Senha" class="input-dark mb-4"><button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-black py-3 rounded-lg">ENTRAR</button><p id="loginErro" class="hidden text-red-400 text-xs mt-3 text-center">Inválido</p></div></div>
+<div id="appScreen" class="hidden"><header class="bg-[#0f1e3d] border-b border-[#1e2f5a] p-3 flex justify-between"><div class="font-black text-white text-sm">RAMOS INFOTEC <span id="userInfo" class="text-[11px] text-cyan-300 font-normal ml-2"></span></div><button onclick="logout()" class="bg-red-600 px-3 py-1 rounded text-[11px]">SAIR</button></header><nav id="mainNav" class="flex flex-wrap gap-2 p-3 bg-[#0f1e3d]"></nav><main class="p-4 max-w-6xl mx-auto">
 <div id="tab-clientes" class="tab"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">Novo Cliente</h2><input id="cNome" placeholder="Nome completo" class="input-dark mb-2"><input id="cCpf" placeholder="CPF/CNPJ" class="input-dark mb-2"><input id="cZap" placeholder="WhatsApp" class="input-dark mb-2"><button onclick="addCliente()" class="btn-cyan">Salvar Cliente</button></div><div id="listaClientes" class="grid gap-2"></div></div>
 <div id="tab-usuarios" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">Criar Usuários</h2><input id="uNome" placeholder="Login" class="input-dark mb-2"><input id="uSenha" type="password" placeholder="Senha" class="input-dark mb-2"><select id="uTipo" class="input-dark mb-3"><option value="cliente">Cliente</option><option value="admin">Admin</option></select><button onclick="addUsuario()" class="btn-cyan">CRIAR</button></div><div id="listaUsuarios"></div></div>
-<div id="tab-contratos" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">Contrato</h2><div class="grid md:grid-cols-3 gap-3 mt-3"><div><span class="label-top">Cliente</span><select id="ctCliente" class="input-dark"></select></div><div><span class="label-top">Início</span><input id="ctInicio" type="date" class="input-dark"></div><div><span class="label-top">Pagamento</span><input id="ctPagamento" placeholder="Dia 10" class="input-dark"></div><div><span class="label-top">Final</span><input id="ctFinal" type="date" class="input-dark"></div><div><span class="label-top">Mensal</span><input id="ctMensal" placeholder="R$" class="input-dark"></div><div><span class="label-top">Total</span><input id="ctTotal" placeholder="R$" class="input-dark"></div></div><button onclick="addContrato()" class="btn-cyan mt-3">SALVAR CONTRATO</button></div><div id="listaContratos"></div></div>
-<div id="tab-orcamentos" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">Gerar Orçamento</h2><div class="grid md:grid-cols-2 gap-3"><div class="md:col-span-2"><span class="label-top">Cliente</span><select id="oCliente" class="input-dark"></select></div><div><span class="label-top">Serviço</span><input id="oServico" placeholder="Serviço" class="input-dark"></div><div><span class="label-top">Valor da Visita</span><input id="oVisita" placeholder="R$ 0,00" class="input-dark" oninput="calcOrc()"></div><div><span class="label-top">Valor do Trabalho</span><input id="oTrabalho" placeholder="R$ 0,00" class="input-dark" oninput="calcOrc()"></div><div><span class="label-top">Valor Total</span><input id="oTotal" readonly class="input-dark font-bold"></div></div><button onclick="addOrcamento()" class="btn-cyan mt-3">GERAR PDF</button></div><div id="listaOrcamentos"></div></div>
-<div id="tab-chamados" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">🎫 Chamado</h2><div class="grid md:grid-cols-2 gap-3"><div class="md:col-span-2"><span class="label-top">Título</span><input id="chTitulo" placeholder="Ex: PC não liga" class="input-dark"></div><div><span class="label-top">Prioridade</span><select id="chPrior" class="input-dark"><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select></div><div><span class="label-top">Categoria</span><select id="chCat" class="input-dark"><option>Suporte Técnico</option><option>Rede</option><option>Impressora</option><option>Software</option></select></div><div class="md:col-span-2"><span class="label-top">Descrição</span><textarea id="chDesc" class="input-dark h-[80px]"></textarea></div></div><button onclick="addChamado()" class="btn-cyan mt-3">ABRIR CHAMADO</button></div><div id="listaChamados" class="grid gap-3"></div></div>
+<div id="tab-contratos" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">Contrato</h2><div class="grid md:grid-cols-3 gap-3 mt-3"><div><span class="label-top">Cliente</span><select id="ctCliente" class="input-dark"></select></div><div><span class="label-top">Início</span><input id="ctInicio" type="date" class="input-dark"></div><div><span class="label-top">Pagamento</span><input id="ctPagamento" placeholder="Dia 10" class="input-dark"></div><div><span class="label-top">Final</span><input id="ctFinal" type="date" class="input-dark"></div><div><span class="label-top">Mensal</span><input id="ctMensal" placeholder="R$" class="input-dark"></div><div><span class="label-top">Total</span><input id="ctTotal" placeholder="R$" class="input-dark"></div></div><button onclick="addContrato()" class="btn-cyan mt-3">SALVAR</button></div><div id="listaContratos"></div></div>
+<div id="tab-orcamentos" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">Gerar Orçamento - Visita + Trabalho + Total</h2><div class="grid md:grid-cols-2 gap-3"><div class="md:col-span-2"><span class="label-top">Cliente</span><select id="oCliente" class="input-dark"></select></div><div><span class="label-top">Serviço</span><input id="oServico" placeholder="Ex: Manutenção" class="input-dark"></div><div><span class="label-top">Valor da Visita</span><input id="oVisita" placeholder="80,00" class="input-dark" oninput="calcOrc()"></div><div><span class="label-top">Valor do Trabalho</span><input id="oTrabalho" placeholder="160,00" class="input-dark" oninput="calcOrc()"></div><div><span class="label-top">Valor Total</span><input id="oTotal" readonly class="input-dark font-bold bg-[#0f1e3d]"></div></div><button onclick="addOrcamento()" class="btn-cyan mt-3">GERAR PDF COM LOGO</button></div><div id="listaOrcamentos"></div></div>
+<div id="tab-chamados" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">🎫 Abrir Novo Chamado</h2><div class="grid md:grid-cols-2 gap-3"><div class="md:col-span-2"><span class="label-top">Título</span><input id="chTitulo" placeholder="Ex: PC não liga" class="input-dark"></div><div><span class="label-top">Prioridade</span><select id="chPrior" class="input-dark"><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select></div><div><span class="label-top">Categoria</span><select id="chCat" class="input-dark"><option>Suporte Técnico</option><option>Rede</option><option>Impressora</option><option>Software</option><option>Hardware</option></select></div><div class="md:col-span-2"><span class="label-top">Descrição</span><textarea id="chDesc" class="input-dark h-[80px]"></textarea></div></div><button onclick="addChamado()" class="btn-cyan mt-3">ABRIR CHAMADO</button></div><div id="listaChamados" class="grid gap-3"></div></div>
 <div id="tab-remoto" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">🖥️ Acesso Remoto</h2><div class="grid md:grid-cols-3 gap-3"><div><span class="label-top">Cliente</span><select id="rCliente" class="input-dark"></select></div><div><span class="label-top">ID AnyDesk</span><input id="rId" placeholder="123 456 789" class="input-dark"></div><div><span class="label-top">Senha</span><input id="rSenha" class="input-dark"></div></div><button onclick="addRemoto()" class="btn-cyan mt-3">SALVAR</button></div><div id="listaRemoto"></div></div>
 </main></div>
+<div id="modalChamado" class="hidden modal-bg" onclick="fecharModal()"><div class="card p-6 w-full max-w-[500px] m-4" onclick="event.stopPropagation()"><h2 class="font-bold text-cyan-300 mb-3" id="modalTitulo">Detalhes do Chamado</h2><div id="modalConteudo" class="text-sm"></div><div class="flex flex-wrap gap-2 mt-4"><button onclick="editarChamado()" class="bg-blue-600 px-3 py-2 rounded text-xs">✏️ ALTERAR TÍTULO</button><button onclick="addAndamentoModal()" class="bg-cyan-600 px-3 py-2 rounded text-xs">💬 ADD ANDAMENTO</button><button onclick="mudarStatusModal('Em Andamento')" class="bg-yellow-600 px-3 py-2 rounded text-xs">🔧 EM ANDAMENTO</button><button onclick="mudarStatusModal('Aguardando Cliente')" class="bg-purple-600 px-3 py-2 rounded text-xs">⏳ AGUARDAR</button><button onclick="mudarStatusModal('Fechado')" class="bg-emerald-600 px-3 py-2 rounded text-xs">✅ FECHAR</button><button onclick="mudarStatusModal('Finalizado')" class="bg-green-800 px-3 py-2 rounded text-xs">🏁 FINALIZAR</button><button onclick="avaliarModal()" class="bg-yellow-500 text-black px-3 py-2 rounded text-xs">⭐ AVALIAR</button><button onclick="excluirChamadoModal()" class="bg-red-600 px-3 py-2 rounded text-xs">🗑️ EXCLUIR</button><button onclick="fecharModal()" class="bg-slate-600 px-3 py-2 rounded text-xs">❌ FECHAR JANELA</button></div></div></div>
 <script>
-const S="@Xumone@197353",C="45.114.523/0001-05",P="11 99626-4221";
-let UL=null,TL=null;
-function getD(k){return JSON.parse(localStorage.getItem(k)||"[]")}function setD(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function login(){let u=loginUser.value,p=loginPass.value;if(u=="admin"&&p==S){localStorage.setItem('logado','admin');localStorage.setItem('tipo','admin');go();return}if(u=="cliente1"&&p=="123"){localStorage.setItem('logado','cliente1');localStorage.setItem('tipo','cliente');go();return}loginErro.classList.remove('hidden')}
-function go(){UL=localStorage.getItem('logado');TL=localStorage.getItem('tipo');loginScreen.classList.add('hidden');appScreen.classList.remove('hidden');userInfo.textContent=UL+" ("+TL+")";menu();all()}
-function logout(){localStorage.clear();location.reload()}if(localStorage.getItem('logado'))go();
-function menu(){mainNav.innerHTML="";let a=[{id:'clientes',t:'Clientes'},{id:'usuarios',t:'Usuários'},{id:'contratos',t:'Contratos'},{id:'orcamentos',t:'Orçamentos'},{id:'chamados',t:'Chamados'},{id:'remoto',t:'Remoto'}],c=[{id:'chamados',t:'Meus Chamados'}],l=TL=='admin'?a:c;l.forEach(x=>{let b=document.createElement('button');b.id='btn-'+x.id;b.textContent=x.t;b.className="bg-[#1a2b52] px-3 py-1 rounded-full text-xs";b.onclick=()=>tab(x.id);mainNav.appendChild(b)});tab(l[0].id)}
-function tab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));document.getElementById('tab-'+t).classList.remove('hidden')}
-function addCliente(){let l=getD('ramos_clientes');l.push({id:Date.now(),nome:cNome.value,cpf:cCpf.value,zap:cZap.value});setD('ramos_clientes',l);all()}
-function all(){let l=getD('ramos_clientes');listaClientes.innerHTML=l.map(x=>`<div class="card p-2 flex justify-between"><span>${x.nome}</span><button onclick="del('ramos_clientes',${x.id})" class="text-red-400">🗑️</button></div>`).join('');let o=l.map(x=>`<option value="${x.nome}">${x.nome}</option>`).join('');ctCliente.innerHTML=o;oCliente.innerHTML=o;rCliente.innerHTML=o;renderC();renderO();renderCH();renderR()}
-function renderC(){let l=getD('ramos_contratos');listaContratos.innerHTML=l.map(c=>`<div class="card p-2 flex justify-between"><span>${c.cliente} R$${c.mensal}</span><button onclick="boleto('${c.cliente}','${c.mensal}','${c.final}')" class="bg-emerald-600 px-2 py-1 rounded text-xs">📄 BOLETO PRO</button></div>`).join('')}
-function addContrato(){let l=getD('ramos_contratos');l.push({id:Date.now(),cliente:ctCliente.value,mensal:ctMensal.value,final:ctFinal.value,inicio:ctInicio.value});setD('ramos_contratos',l);all()}
-function renderO(){let l=getD('ramos_orcamentos');listaOrcamentos.innerHTML=l.map(o=>`<div class="card p-2 flex justify-between"><span>${o.cliente} R$${o.total}</span><button onclick="orc('${o.cliente}','${o.servico}','${o.total}')" class="bg-emerald-600 px-2 py-1 rounded text-xs">📄 PDF</button></div>`).join('')}
-function addOrcamento(){calcOrc();let l=getD('ramos_orcamentos');l.push({id:Date.now(),cliente:oCliente.value,servico:oServico.value,visita:oVisita.value,trabalho:oTrabalho.value,total:oTotal.value});setD('ramos_orcamentos',l);all()}
-function calcOrc(){oTotal.value=(parseFloat(oVisita.value||0)+parseFloat(oTrabalho.value||0)).toFixed(2)}
-function addChamado(){let l=getD('ramos_chamados');l.push({id:Date.now(),cliente:UL,titulo:chTitulo.value,status:'Aberto',data:new Date().toLocaleString()});setD('ramos_chamados',l);renderCH()}
-function renderCH(){let l=getD('ramos_chamados');if(TL!='admin')l=l.filter(x=>x.cliente==UL);listaChamados.innerHTML=l.map(c=>`<div class="card p-2">#${c.id} ${c.titulo} ${c.status}</div>`).join('')}
-function addRemoto(){let l=getD('ramos_remoto');l.push({id:Date.now(),cliente:rCliente.value,remotoId:rId.value,senha:rSenha.value});setD('ramos_remoto',l);renderR()}
-function renderR(){let l=getD('ramos_remoto');listaRemoto.innerHTML=l.map(x=>`<div class="card p-2">${x.cliente} ${x.remotoId}</div>`).join('')}
-function del(k,id){let l=getD(k);l=l.filter(x=>x.id!=id);setD(k,l);all()}
-function addUsuario(){let l=getD('ramos_usuarios');l.push({id:Date.now(),nome:uNome.value});setD('ramos_usuarios',l)}
+const SENHA_ADMIN="@Xumone@197353";
+const CNPJ="45.114.523/0001-05";
+const PIX="11 99626-4221";
+const LOGO_BASE64="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAADA0lEQVR4nO3dQW7bMBBG4UnRrLLrCXKgHqHHyxFyuyzaRTCA0siSaZGcmcf/rYNC5NcxG6u2nl5+vf41he1H9AWosQkYnoDhCRiegOEJGJ6A4QkYnoDhCRiegOEtB/zx9h59CVN7WuVmwx7s85/fAVcytyUm+NbUrjDN6AluAaROMxL4ymTSoFHAZ7BbvJafrRzmDG4FOwOknM/lJ7jHJJKnuSzwCBQidDngGQgk6FJn8KyNJ53PJSY4cqKqT3NqWkoJnHkzM1/bXunO4OwbWO18TjPB2WH3qnDN4cAVNumszGsIA868KY+WcU0hZ3DGjehRxvN56gRTYffKstYpwFkWG1H02ocCRy8uU1F7MewMFu7Xos7n7hMs2PNm7lE3YMG2N2PPfl7+E04S7O18b0b++jT092Dh3tfIfUp3s0H1TcDwBAxPwPAEDE/A8AQMT8DwBAxPwPAEDG/4zYYMHb2ZT3+/HA18z10a/xkqNPYluvUWXLZPJPQKCfwoFhEZB3wViYaMAu6FQ0JGAavvYYB7Tx1lijHAaj8BwxMwPAHDEzA8AcPDAPe+WUC5+YABVvuhgGd9V2WlUMBm13FIuGZAYLPHkWi4ZlBgs3YsIq4Z/L/s3PMBayqshwb26IhHYV+i1WcChidgeAKGJ2B4AoYnYHgChidgeAKGJ2B4Q4Epnw4Y3ch9Gn6zgf4B6yvNGAB943tAJb/x/f8E/b2IPRl2Bmd8SFRkUX/h9dykwUWvXU8+G1SWtYY8nDLL4keUbW0hb3RQz+dsuGZ6fnCXMq8hHNjLvEm3qnDNaYC9CptW4Rq9dDcbsp/PlXDNEk7wtkybmelaWkoN7EVublVYrwSwN3Ozq8N66c7go2adzxRcs2ITvG0EAgnWKwvs9UAhwnrlgb1HkMiwXqkz+KjW83kFXDPQBG+78o8tCqyHBPZaoGmwHhrYW/k7OjBn8FG3EOm4ZotM8LaPt/clYL3lgFdriZfolRMwPAHDEzA8AcMTMDwBwxMwPAHDEzC8fyfXcM4ry3r7AAAAAElFTkSuQmCC";
+let USUARIO_LOGADO=null, TIPO_LOGADO=null, CHAMADO_ATUAL=null;
 
-// BOLETO PRO V4.7 - PROFISSIONAL COM SEU LOGO EM TEXTO
-function boleto(cliente,valor,venc){
- const {jsPDF}=window.jspdf; const d=new jsPDF();
- d.setFillColor(11,18,32); d.rect(0,0,210,36,'F');
- d.setTextColor(6,182,212); d.setFontSize(20); d.setFont('helvetica','bold'); d.text('⬡ RAMOS INFOTEC',12,22);
- d.setTextColor(255,255,255); d.setFontSize(9); d.text('CNPJ: '+C+' | PIX: '+P+' | (11) 99626-4221',12,29);
- d.setTextColor(0,0,0); d.setFontSize(14); d.text('BOLETO HIBRIDO COM PIX',10,48);
- d.setDrawColor(6,182,212); d.setLineWidth(0.8); d.line(10,50,200,50);
- d.setFontSize(11); d.text('CLIENTE: '+cliente.toUpperCase(),10,58);
- d.text('VENCIMENTO: '+venc+' | VALOR: R$ '+valor,10,66);
- d.setFillColor(230,242,255); d.rect(10,72,190,14,'F');
- d.setFontSize(9); d.setFont('helvetica','bold'); d.text('LINHA DIGITAVEL: 34191.09008 00000.000000 00000.000000 1 000000000'+valor.replace('.','').replace(',',''),12,81);
- d.setFillColor(6,182,212); d.rect(10,90,190,16,'F');
- d.setFontSize(12); d.text('CHAVE PIX CELULAR: '+P+' | CNPJ PIX: '+C,12,100);
- d.setFontSize(10); d.setTextColor(40,40,40); d.setFont('helvetica','normal');
- d.text('Pague via PIX Copia e Cola e envie comprovante no WhatsApp',10,115);
- d.text('Multa 2% + Juros 1% a.m. apos vencimento',10,121);
- d.setFontSize(7); d.text('Ramos Infotec V4.7 PRO - '+new Date().toLocaleString(),10,285);
- d.save('BOLETO_PRO_'+cliente+'_R$'+valor+'.pdf');
+function getDados(k){return JSON.parse(localStorage.getItem(k)||"[]")}
+function setDados(k,v){localStorage.setItem(k,JSON.stringify(v))}
+
+function fazerLogin(){
+ const u=loginUser.value.trim(), p=loginPass.value.trim();
+ if(u==="admin"&&p===SENHA_ADMIN){localStorage.setItem('logado','admin');localStorage.setItem('tipo','admin');abrirApp();return}
+ if(u==="cliente1"&&p==="123"){localStorage.setItem('logado','cliente1');localStorage.setItem('tipo','cliente');abrirApp();return}
+ const us=getDados('ramos_usuarios'); const ach=us.find(x=>x.nome===u && x.senha===p &&!x.bloqueado);
+ if(ach){localStorage.setItem('logado',u);localStorage.setItem('tipo',ach.tipo);abrirApp()}else{loginErro.classList.remove('hidden')}
 }
-function orc(cliente,serv,total){
- const {jsPDF}=window.jspdf; const d=new jsPDF();
- d.setFillColor(11,18,32); d.rect(0,0,210,36,'F'); d.setTextColor(6,182,212); d.setFontSize(18); d.text('⬡ RAMOS INFOTEC',12,22);
- d.setTextColor(0,0,0); d.setFontSize(14); d.text('ORCAMENTO: R$ '+total,10,50);
- d.setFontSize(11); d.text('Cliente: '+cliente,10,60); d.text('Servico: '+serv,10,68);
- d.text('Total: R$'+total+' - PIX: '+P,10,76);
- d.save('ORCAMENTO_'+cliente+'.pdf');
+function abrirApp(){
+ USUARIO_LOGADO=localStorage.getItem('logado'); TIPO_LOGADO=localStorage.getItem('tipo');
+ loginScreen.classList.add('hidden'); appScreen.classList.remove('hidden');
+ userInfo.textContent="👤 "+USUARIO_LOGADO+" ("+TIPO_LOGADO+")";
+ montarMenu(); renderTudo();
 }
-function gerarBoletoContrato(c,v,f){boleto(c,v,f)}function gerarOrcamentoPDF(c,s,vi,tr,to){orc(c,s,to)}
-function renderUsuarios(){}
+function logout(){localStorage.removeItem('logado');localStorage.removeItem('tipo');location.reload()}
+if(localStorage.getItem('logado')) abrirApp();
+
+function montarMenu(){
+ mainNav.innerHTML="";
+ const a=[{id:'clientes',l:'Clientes'},{id:'usuarios',l:'Usuários'},{id:'contratos',l:'Contratos + Boleto'},{id:'orcamentos',l:'Orçamentos'},{id:'chamados',l:'Chamados'},{id:'remoto',l:'Remoto'}];
+ const c=[{id:'chamados',l:'Meus Chamados 🎫'}];
+ const lista=TIPO_LOGADO==='admin'?a:c;
+ lista.forEach(t=>{
+  const b=document.createElement('button'); b.id='btn-'+t.id; b.textContent=t.l;
+  b.className="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs";
+  b.onclick=()=>showTab(t.id); mainNav.appendChild(b);
+ }); showTab(lista[0].id);
+}
+function showTab(t){
+ document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));
+ document.getElementById('tab-'+t).classList.remove('hidden');
+ document.querySelectorAll('#mainNav button').forEach(b=>b.className="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs");
+ const btn=document.getElementById('btn-'+t); if(btn) btn.className="bg-cyan-500 text-black px-4 py-1.5 rounded-full text-xs font-bold";
+}
+
+// CLIENTES
+function addCliente(){if(!cNome.value) return alert('Nome'); const l=getDados('ramos_clientes'); l.push({id:Date.now(),nome:cNome.value,cpf:cCpf.value,zap:cZap.value}); setDados('ramos_clientes',l); cNome.value=""; renderTudo()}
+function renderClientes(){
+ const l=getDados('ramos_clientes');
+ listaClientes.innerHTML=l.slice(-50).reverse().map(c=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${c.nome}</b><br><span class="text-[11px] text-slate-400">${c.cpf||''} ${c.zap||''}</span></div><button onclick="excluirItem('ramos_clientes',${c.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum</p>";
+ const opt=l.map(c=>`<option value="${c.nome}">${c.nome}</option>`).join(''); ctCliente.innerHTML=opt; oCliente.innerHTML=opt; rCliente.innerHTML=opt;
+}
+// USUARIOS
+function addUsuario(){if(!uNome.value) return; const l=getDados('ramos_usuarios'); l.push({id:Date.now(),nome:uNome.value,senha:uSenha.value,tipo:uTipo.value,bloqueado:false}); setDados('ramos_usuarios',l); renderUsuarios()}
+function renderUsuarios(){const l=getDados('ramos_usuarios'); listaUsuarios.innerHTML=l.map(u=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${u.nome}</b> <span class="text-[10px] bg-[#1a2b52] px-2 py-1 rounded">${u.tipo}</span></div><button onclick="excluirItem('ramos_usuarios',${u.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')}
+// CONTRATOS
+function addContrato(){if(!ctCliente.value) return; const l=getDados('ramos_contratos'); l.push({id:Date.now(),cliente:ctCliente.value,inicio:ctInicio.value,pagamento:ctPagamento.value,final:ctFinal.value,mensal:ctMensal.value,total:ctTotal.value}); setDados('ramos_contratos',l); renderContratos()}
+function renderContratos(){const l=getDados('ramos_contratos'); listaContratos.innerHTML=l.slice(-50).reverse().map(c=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${c.cliente}</b><br><span class="text-[11px] text-slate-400">R$${c.mensal} venc ${c.final}</span></div><div class="flex gap-1"><button onclick="gerarBoletoContrato('${c.cliente}','${c.mensal}','${c.final}','${c.inicio}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 Boleto PRO</button><button onclick="excluirItem('ramos_contratos',${c.id})" class="text-red-400 text-xs">🗑️</button></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum</p>"}
+// ORCAMENTOS - FIX LOGO
+function calcOrc(){const v=parseFloat(oVisita.value.replace(',','.'))||0; const t=parseFloat(oTrabalho.value.replace(',','.'))||0; oTotal.value=(v+t).toFixed(2)}
+function addOrcamento(){calcOrc(); if(!oCliente.value) return; const l=getDados('ramos_orcamentos'); l.push({id:Date.now(),cliente:oCliente.value,servico:oServico.value,visita:oVisita.value,trabalho:oTrabalho.value,total:oTotal.value}); setDados('ramos_orcamentos',l); renderOrcamentos()}
+function renderOrcamentos(){const l=getDados('ramos_orcamentos'); listaOrcamentos.innerHTML=l.slice(-50).reverse().map(o=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${o.cliente}</b> - ${o.servico}<br><span class="text-[11px] text-slate-400">Visita R$${o.visita} + Trabalho R$${o.trabalho} = Total R$${o.total}</span></div><button onclick="gerarOrcamentoPDF('${o.cliente}','${o.servico}','${o.visita}','${o.trabalho}','${o.total}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 PDF COM LOGO</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum</p>"}
+
+// CHAMADOS - FIX COMPLETO COM MODAL
+function addChamado(){
+ if(!chTitulo.value) return alert('Título');
+ const l=getDados('ramos_chamados');
+ l.push({id:Date.now(),cliente:USUARIO_LOGADO,titulo:chTitulo.value,prioridade:chPrior.value,categoria:chCat.value,desc:chDesc.value,status:'Aberto',data:new Date().toLocaleString('pt-BR'),andamentos:[{autor:USUARIO_LOGADO,texto:chDesc.value,data:new Date().toLocaleString('pt-BR')}],avaliacao:null});
+ setDados('ramos_chamados',l); chTitulo.value=""; chDesc.value=""; renderChamados();
+}
+function renderChamados(){
+ let l=getDados('ramos_chamados'); if(TIPO_LOGADO!=='admin') l=l.filter(x=>x.cliente===USUARIO_LOGADO);
+ listaChamados.innerHTML=l.slice(-50).reverse().map(ch=>`
+  <div class="card p-4 cursor-pointer hover:border-cyan-500" onclick="abrirModalChamado(${ch.id})">
+   <div class="flex justify-between"><b class="text-white">#${ch.id} - ${ch.titulo}</b><span class="text-[10px] ${ch.status==='Aberto'?'bg-blue-900':ch.status==='Fechado'?'bg-emerald-900':ch.status==='Finalizado'?'bg-green-900':'bg-yellow-900'} px-2 py-1 rounded-full">${ch.status}</span></div>
+   <div class="text-[11px] text-slate-400 mt-1">Cliente: ${ch.cliente} | ${ch.prioridade} | ${ch.categoria} | ${ch.data}</div>
+   <div class="text-[11px] text-cyan-400 mt-2">👁️ Clique para ALTERAR / FECHAR / FINALIZAR / AVALIAR</div>
+  </div>
+ `).join('')||"<p class='text-slate-500 text-xs'>Nenhum chamado</p>";
+}
+function abrirModalChamado(id){
+ const l=getDados('ramos_chamados'); const ch=l.find(x=>x.id===id); if(!ch) return;
+ CHAMADO_ATUAL=id;
+ const ands=(ch.andamentos||[]).map(a=>`<div class="text-[11px] border-l-2 border-cyan-700 pl-2 mt-2"><b>${a.autor}</b> <span class="text-slate-500">${a.data}</span><br>${a.texto}</div>`).join('');
+ const aval=ch.avaliacao?`<div class="mt-2 bg-[#0b1220] p-2 rounded text-[11px]">⭐ ${ch.avaliacao.nota}/5 - ${ch.avaliacao.comentario}</div>`:"";
+ modalTitulo.textContent="#"+ch.id+" - "+ch.titulo+" ("+ch.status+")";
+ modalConteudo.innerHTML=`<div class="text-[12px] text-slate-300"><b>Cliente:</b> ${ch.cliente}<br><b>Prioridade:</b> ${ch.prioridade}<br><b>Categoria:</b> ${ch.categoria}<br><b>Descrição:</b> ${ch.desc}<br>${ands}${aval}</div>`;
+ modalChamado.classList.remove('hidden');
+}
+function fecharModal(){modalChamado.classList.add('hidden'); CHAMADO_ATUAL=null}
+function editarChamado(){const novo=prompt("Novo título:"); if(!novo||!CHAMADO_ATUAL) return; let l=getDados('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].titulo=novo; setDados('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
+function addAndamentoModal(){const txt=prompt("Digite o andamento:"); if(!txt||!CHAMADO_ATUAL) return; let l=getDados('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].andamentos.push({autor:USUARIO_LOGADO,texto:txt,data:new Date().toLocaleString('pt-BR')}); setDados('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
+function mudarStatusModal(novo){if(!CHAMADO_ATUAL) return; let l=getDados('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].status=novo; setDados('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL); alert("Status alterado para: "+novo)}
+function avaliarModal(){if(!CHAMADO_ATUAL) return; const nota=prompt("Nota 1 a 5:"); if(!nota) return; const com=prompt("Comentário:")||""; let l=getDados('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].avaliacao={nota,comentario:com}; setDados('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
+function excluirChamadoModal(){if(!CHAMADO_ATUAL||!confirm("Excluir chamado?")) return; excluirItem('ramos_chamados',CHAMADO_ATUAL); fecharModal()}
+
+// REMOTO
+function addRemoto(){if(!rCliente.value||!rId.value) return; const l=getDados('ramos_remoto'); l.push({id:Date.now(),cliente:rCliente.value,remotoId:rId.value,senha:rSenha.value}); setDados('ramos_remoto',l); renderRemoto()}
+function renderRemoto(){const l=getDados('ramos_remoto'); listaRemoto.innerHTML=l.map(r=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${r.cliente}</b><br><span class="text-[11px] text-slate-400">ID: ${r.remotoId} Senha: ${r.senha||'-'}</span></div><button onclick="excluirItem('ramos_remoto',${r.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')}
+
+function excluirItem(k,id){if(!confirm('Excluir?')) return; let l=getDados(k); l=l.filter(x=>x.id!==id); setDados(k,l); renderTudo()}
+function renderTudo(){renderClientes(); renderUsuarios(); renderContratos(); renderOrcamentos(); renderChamados(); renderRemoto()}
+
+// PDFs COM LOGO - V4.8 FIX
+function gerarBoletoContrato(cliente,valor,venc,inicio){
+ const {jsPDF}=window.jspdf; const doc=new jsPDF();
+ try{doc.addImage(LOGO_BASE64,'PNG',12,6,18,18)}catch(e){}
+ doc.setFillColor(15,30,61); doc.rect(0,0,210,34,'F');
+ try{doc.addImage(LOGO_BASE64,'PNG',12,6,18,18)}catch(e){}
+ doc.setTextColor(6,182,212); doc.setFontSize(16); doc.setFont('helvetica','bold'); doc.text('RAMOS INFOTEC',36,18);
+ doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.text('CNPJ: '+CNPJ+' | PIX: '+PIX+' | (11) 99626-4221',36,25);
+ doc.setTextColor(0,0,0); doc.setFontSize(13); doc.setFont('helvetica','bold'); doc.text('BOLETO HIBRIDO COM PIX - R$ '+valor,10,45);
+ doc.setDrawColor(6,182,212); doc.line(10,47,200,47);
+ doc.setFontSize(11); doc.setFont('helvetica','normal'); doc.text('Cliente: '+cliente,10,55); doc.text('Vencimento: '+venc+' | Inicio: '+(inicio||''),10,62); doc.text('Valor: R$ '+valor+' | PIX: '+PIX,10,69);
+ doc.setFillColor(230,242,255); doc.rect(10,74,190,12,'F'); doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.text('Linha Digitavel: 34191.09008 00000.000000 00000.000000 1 000000000'+valor.replace('.',''),12,82);
+ doc.setFillColor(6,182,212); doc.rect(10,90,190,14,'F'); doc.setFontSize(11); doc.setTextColor(0,0,0); doc.text('CHAVE PIX CEL: '+PIX+' | CNPJ PIX: '+CNPJ,12,99);
+ doc.setFontSize(10); doc.setTextColor(40,40,40); doc.setFont('helvetica','normal'); doc.text('Pague via PIX e envie comprovante no WhatsApp '+PIX,10,115);
+ doc.setFontSize(8); doc.text('Documento V4.8 PRO - '+new Date().toLocaleString(),10,285);
+ doc.save('BOLETO_PRO_'+cliente+'_R$'+valor+'.pdf');
+}
+function gerarOrcamentoPDF(cliente,servico,visita,trabalho,total){
+ const {jsPDF}=window.jspdf; const doc=new jsPDF();
+ try{doc.addImage(LOGO_BASE64,'PNG',12,6,18,18)}catch(e){}
+ doc.setFillColor(15,30,61); doc.rect(0,0,210,34,'F');
+ try{doc.addImage(LOGO_BASE64,'PNG',12,6,18,18)}catch(e){}
+ doc.setTextColor(6,182,212); doc.setFontSize(16); doc.setFont('helvetica','bold'); doc.text('RAMOS INFOTEC',36,18);
+ doc.setTextColor(255,255,255); doc.setFontSize(9); doc.text('CNPJ: '+CNPJ+' | ORCAMENTO VALIDO 15 DIAS',36,25);
+ doc.setTextColor(0,0,0); doc.setFontSize(14); doc.setFont('helvetica','bold'); doc.text('ORCAMENTO TECNICO',10,48);
+ doc.setFontSize(11); doc.setFont('helvetica','normal');
+ doc.text('Cliente: '+cliente,10,58); doc.text('Servico: '+servico,10,66);
+ doc.setFillColor(245,247,250); doc.rect(10,72,190,28,'F');
+ doc.text('Valor da Visita Tecnica: R$ '+visita,14,80);
+ doc.text('Valor do Trabalho / Mao de Obra: R$ '+trabalho,14,88);
+ doc.setFontSize(13); doc.setFont('helvetica','bold'); doc.text('TOTAL: R$ '+total,14,98);
+ doc.setFontSize(10); doc.setFont('helvetica','normal');
+ doc.text('PIX para pagamento: '+PIX+' | CNPJ PIX: '+CNPJ,10,112);
+ doc.text('Validade 15 dias | Garantia 90 dias',10,120);
+ doc.setFontSize(8); doc.text('Obrigado pela preferencia! - Ramos Infotec V4.8',10,285);
+ doc.save('ORCAMENTO_'+cliente+'_R$'+total+'.pdf');
+}
 </script>
 </body>
 </html>
