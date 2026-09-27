@@ -2,152 +2,77 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramos Tecnologia V4.2 Perfeita</title>
+<title>Ramos Tecnologia V4.3 Perfeita - Área Cliente</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-[#020617] text-white min-h-screen">
 <div id="telaLogin" class="min-h-screen flex items-center justify-center p-4">
-<div class="w-full max-w-sm bg-[#0f172a] p-6 rounded-2xl border border-cyan-500/30 text-center shadow-2xl">
-<img src="./LogoTipo.jpg" onerror="this.style.display='none'" class="w-32 mx-auto mb-4 rounded-xl bg-black p-2">
-<h1 class="text-xl font-bold text-cyan-400">Ramos Tecnologia</h1>
-<p class="text-[11px] text-gray-400 mb-6">V4.2 PERFEITA - SEGURA</p>
+<div class="w-full max-w-sm bg-[#0f172a] p-6 rounded-2xl border border-cyan-500/30 text-center">
+<h1 class="text-xl font-bold text-cyan-400">Ramos Tecnologia V4.3</h1>
+<p class="text-[11px] text-gray-400 mb-4">PERFEITA - ÁREA CLIENTE - SEM PIX</p>
 <input id="loginUser" placeholder="Login" class="w-full p-3 rounded bg-black border border-gray-700 mb-3 text-sm">
 <input id="loginPass" type="password" placeholder="Senha" class="w-full p-3 rounded bg-black border border-gray-700 mb-4 text-sm">
 <button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-bold p-3 rounded">ENTRAR</button>
-<p id="msgErro" class="text-red-400 text-xs mt-3 hidden">Login inválido!</p>
+<p id="msgErro" class="text-red-400 text-xs mt-3 hidden"></p>
 </div>
 </div>
-<div id="telaSistema" class="hidden">
-<div class="bg-[#0f172a] p-3 flex justify-between items-center border-b border-cyan-500/20">
-<div class="flex gap-3 items-center">
-<img src="./LogoTipo.jpg" onerror="this.style.display='none'" class="w-8 h-8 rounded bg-black">
-<span class="font-bold text-cyan-400 text-sm">Ramos Tecnologia</span>
-<span class="text-[9px] bg-green-500/20 text-green-400 px-2 py-1 rounded-full">V4.2 PERFEITA SEM PIX</span>
-</div>
-<button onclick="sair()" class="text-xs bg-red-500/20 text-red-400 px-3 py-1 rounded">Sair</button>
-</div>
+<div id="telaAdmin" class="hidden">
+<div class="bg-[#0f172a] p-3 flex justify-between items-center border-b"><span class="font-bold text-cyan-400 text-sm">🔧 ADMIN V4.3 PERFEITA</span><button onclick="sair()" class="text-xs bg-red-500/20 text-red-400 px-3 py-1 rounded">Sair</button></div>
 <div class="flex flex-col md:flex-row">
-<div class="md:w-52 bg-[#0f172a] p-2 flex md:flex-col gap-1 overflow-x-auto">
-<button onclick="mostrarAba('dashboard')" id="btn-dashboard" class="abaBtn bg-cyan-500 text-black px-3 py-2.5 rounded text-xs font-bold text-left">📊 Dashboard</button>
-<button onclick="mostrarAba('clientes')" id="btn-clientes" class="abaBtn bg-[#1e293b] px-3 py-2.5 rounded text-xs text-left">👤 Clientes</button>
-<button onclick="mostrarAba('orcamentos')" id="btn-orcamentos" class="abaBtn bg-[#1e293b] px-3 py-2.5 rounded text-xs text-left">🧾 Orçamentos</button>
-<button onclick="mostrarAba('contratos')" id="btn-contratos" class="abaBtn bg-[#1e293b] px-3 py-2.5 rounded text-xs text-left">📄 Contratos</button>
-<button onclick="mostrarAba('usuarios')" id="btn-usuarios" class="abaBtn bg-[#1e293b] px-3 py-2.5 rounded text-xs text-left">👥 Usuários</button>
-<button onclick="mostrarAba('remoto')" id="btn-remoto" class="abaBtn bg-[#1e293b] px-3 py-2.5 rounded text-xs text-left">💻 Remoto</button>
+<div class="md:w-56 bg-[#0f172a] p-2 flex md:flex-col gap-1">
+<button onclick="mostrarAbaAdmin('dashboard')" id="btn-admin-dashboard" class="bg-cyan-500 text-black px-3 py-2.5 rounded text-xs font-bold">📊 Dashboard</button>
+<button onclick="mostrarAbaAdmin('clientes')" id="btn-admin-clientes" class="bg-[#1e293b] px-3 py-2.5 rounded text-xs">👤 Clientes</button>
+<button onclick="mostrarAbaAdmin('orcamentos')" id="btn-admin-orcamentos" class="bg-[#1e293b] px-3 py-2.5 rounded text-xs">🧾 Orçamentos (Visita+Trab)</button>
+<button onclick="mostrarAbaAdmin('contratos')" id="btn-admin-contratos" class="bg-[#1e293b] px-3 py-2.5 rounded text-xs">📄 Contratos 5 Colunas</button>
+<button onclick="mostrarAbaAdmin('chamados')" id="btn-admin-chamados" class="bg-[#1e293b] px-3 py-2.5 rounded text-xs">🎫 Chamados Clientes</button>
+<button onclick="mostrarAbaAdmin('usuarios')" id="btn-admin-usuarios" class="bg-[#1e293b] px-3 py-2.5 rounded text-xs">👥 Usuários Criar/Excluir/Alterar</button>
+<button onclick="mostrarAbaAdmin('remoto')" id="btn-admin-remoto" class="bg-[#1e293b] px-3 py-2.5 rounded text-xs">💻 Remoto</button>
 </div>
 <div class="flex-1 p-4 bg-[#020617]">
-<div id="aba-dashboard" class="aba">
-<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-<div class="bg-[#0f172a] p-4 rounded-xl border border-gray-800"><p class="text-xs text-gray-400">Clientes</p><p id="statClientes" class="text-2xl font-bold text-cyan-400">0</p></div>
-<div class="bg-[#0f172a] p-4 rounded-xl border border-gray-800"><p class="text-xs text-gray-400">Orçamentos</p><p id="statOrc" class="text-2xl font-bold">0</p></div>
-<div class="bg-[#0f172a] p-4 rounded-xl border border-gray-800"><p class="text-xs text-gray-400">Contratos Ativos</p><p id="statContratos" class="text-2xl font-bold text-green-400">0</p></div>
-<div class="bg-[#0f172a] p-4 rounded-xl border border-gray-800"><p class="text-xs text-gray-400">Faturamento Mensal</p><p id="statFat" class="text-2xl font-bold text-yellow-400">R$ 0</p></div>
-</div>
-<div class="bg-[#0f172a] p-5 rounded-xl border border-cyan-500/20">
-<h3 class="font-bold text-cyan-400 mb-2">✅ V4.2 Perfeita - Melhorias do seu DOCX!</h3>
-<ul class="text-xs text-gray-300 space-y-1 list-disc ml-4">
-<li>Orçamento com Visita + Trabalho + Datas + Total automático</li>
-<li>Contratos com etiquetas: Início, Pagamento, Finalização</li>
-<li>Usuários com alterar senha e Bloquear</li>
-<li>PIX só no PDF e na Baixa</li>
-</ul>
-</div>
-</div>
-<div id="aba-clientes" class="aba hidden">
-<div class="bg-[#0f172a] p-4 rounded-xl mb-4 border border-gray-800">
-<h3 class="font-bold mb-3 text-cyan-400">Cadastrar Cliente</h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-<div><label class="text-[10px] text-gray-400">Nome</label><input id="cNome" placeholder="Nome" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div><label class="text-[10px] text-gray-400">CPF/CNPJ</label><input id="cDoc" placeholder="CPF/CNPJ" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div class="md:col-span-2"><label class="text-[10px] text-gray-400">Endereço</label><input id="cEnd" placeholder="Endereço completo" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div><label class="text-[10px] text-gray-400">Cidade/UF</label><input id="cCid" placeholder="Cidade/UF" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div><label class="text-[10px] text-gray-400">Tipo</label><select id="cTipo" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"><option>Avulso</option><option>Contrato Mensal</option></select></div>
-</div>
-<button onclick="salvarCliente()" class="mt-4 bg-cyan-500 text-black font-bold px-6 py-2.5 rounded text-xs">SALVAR CLIENTE</button>
-</div>
-<div id="listaClientes" class="bg-[#0f172a] p-4 rounded-xl text-xs border border-gray-800"></div>
-</div>
-<div id="aba-orcamentos" class="aba hidden">
-<div class="bg-[#0f172a] p-5 rounded-xl border border-gray-800">
-<h3 class="font-bold mb-4 text-cyan-400">Gerar Orçamento - Visita + Trabalho</h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-<div><label class="text-[10px] text-gray-400">Cliente</label><select id="oCliente" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></select></div>
-<div><label class="text-[10px] text-gray-400">Serviço</label><input id="oServico" placeholder="Descrição" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div><label class="text-[10px] text-cyan-400 font-bold">💰 Valor da Visita</label><input id="oVisita" type="number" placeholder="R$ 0" oninput="calcTotal()" class="w-full p-2.5 rounded bg-black border border-cyan-500/30 text-xs"></div>
-<div><label class="text-[10px] text-cyan-400 font-bold">🔧 Valor do Trabalho</label><input id="oTrabalho" type="number" placeholder="R$ 0" oninput="calcTotal()" class="w-full p-2.5 rounded bg-black border border-cyan-500/30 text-xs"></div>
-<div><label class="text-[10px] text-gray-400">Data Início</label><input id="oDataIni" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div><label class="text-[10px] text-gray-400">Data Fim</label><input id="oDataFim" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div class="md:col-span-2"><label class="text-[10px] text-green-400 font-bold">💵 VALOR TOTAL (Automático)</label><input id="oValor" type="number" readonly class="w-full p-3 rounded bg-green-500/10 border border-green-500/50 text-sm font-bold text-green-400"></div>
-</div>
-<button onclick="gerarPDF()" class="mt-4 bg-green-500 text-black font-bold px-6 py-2.5 rounded text-xs">GERAR PDF COM PIX SECRETO</button>
-</div>
-<div id="listaOrc" class="mt-4 bg-[#0f172a] p-4 rounded-xl text-xs border border-gray-800"></div>
-</div>
-<div id="aba-contratos" class="aba hidden">
-<div class="bg-[#0f172a] p-5 rounded-xl mb-4 border border-gray-800">
-<h3 class="font-bold mb-4 text-cyan-400">Novo Contrato - 5 Colunas com Etiquetas</h3>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-<div class="bg-[#020617] p-2 rounded border border-gray-800"><label class="text-[10px] text-cyan-400 font-bold block mb-1">📅 DATA INÍCIO</label><input id="ctInicio" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div class="bg-[#020617] p-2 rounded border border-yellow-500/30"><label class="text-[10px] text-yellow-400 font-bold block mb-1">💳 DATA PAGAMENTO</label><input id="ctPagamento" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div class="bg-[#020617] p-2 rounded border border-red-500/30"><label class="text-[10px] text-red-400 font-bold block mb-1">🏁 DATA FINALIZAÇÃO</label><input id="ctFinal" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
-<div><label class="text-[10px] text-gray-400">Cliente</label><input id="ctCliente" placeholder="Cliente" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div><label class="text-[10px] text-gray-400">Valor Mensal</label><input id="ctMensal" type="number" placeholder="R$" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-<div><label class="text-[10px] text-gray-400">Valor Total</label><input id="ctTotal" type="number" placeholder="R$" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div>
-</div>
-<button onclick="salvarContrato()" class="mt-4 bg-cyan-500 text-black font-bold px-6 py-2.5 rounded text-xs">SALVAR CONTRATO</button>
-</div>
-<div class="bg-[#0f172a] p-2 rounded-xl overflow-auto border border-gray-800">
-<table class="w-full text-[11px]"><thead><tr class="text-gray-400 border-b bg-[#020617]"><th class="p-3 text-left">Cliente</th><th>Início</th><th>Pagamento</th><th>Finalização</th><th>Mensal</th><th>Total</th><th>Ação</th></tr></thead><tbody id="listaContratos"></tbody></table>
-</div>
-</div>
-<div id="aba-usuarios" class="aba hidden">
-<div class="bg-[#0f172a] p-5 rounded-xl border border-gray-800">
-<h3 class="font-bold mb-4 text-cyan-400">Gerenciar Usuários</h3>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-<input id="uLogin" placeholder="Login" class="p-2.5 rounded bg-black border border-gray-700 text-xs">
-<input id="uSenha" placeholder="Senha" class="p-2.5 rounded bg-black border border-gray-700 text-xs">
-<select id="uTipo" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><option value="cliente">Cliente</option><option value="admin">Admin</option></select>
-</div>
-<button onclick="criarUsuario()" class="mt-3 bg-cyan-500 text-black font-bold px-6 py-2.5 rounded text-xs">CRIAR USUÁRIO</button>
-<div class="mt-6"><h4 class="text-xs font-bold text-gray-400 mb-2">Usuários com ações:</h4><div id="listaUsuarios" class="space-y-2"></div></div>
-</div>
-</div>
-<div id="aba-remoto" class="aba hidden">
-<div class="bg-[#0f172a] p-5 rounded-xl border border-gray-800">
-<h3 class="font-bold mb-3 text-cyan-400">AnyDesk</h3>
-<input id="rId" placeholder="ID AnyDesk" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs mb-3">
-<button onclick="gerarAcesso()" class="bg-cyan-500 text-black font-bold px-6 py-2.5 rounded text-xs">GERAR SENHA</button>
-<div id="rResultado" class="mt-4 hidden bg-black p-4 rounded text-xs"></div>
+<div id="aba-admin-dashboard" class="abaAdmin"><div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4"><div class="bg-[#0f172a] p-4 rounded-xl border"><p class="text-xs text-gray-400">Clientes</p><p id="statClientes" class="text-2xl font-bold text-cyan-400">0</p></div><div class="bg-[#0f172a] p-4 rounded-xl border"><p class="text-xs text-gray-400">Orçamentos</p><p id="statOrc" class="text-2xl font-bold">0</p></div><div class="bg-[#0f172a] p-4 rounded-xl border"><p class="text-xs text-gray-400">Contratos</p><p id="statContratos" class="text-2xl font-bold text-green-400">0</p></div><div class="bg-[#0f172a] p-4 rounded-xl border"><p class="text-xs text-gray-400">Chamados</p><p id="statChamados" class="text-2xl font-bold text-yellow-400">0</p></div></div><div class="bg-[#0f172a] p-4 rounded-xl border border-green-500/20"><h3 class="font-bold text-green-400">✅ V4.3 PERFEITA ATIVA - COM ÁREA CLIENTE</h3><p class="text-xs text-gray-300 mt-2">PIX só no PDF e Baixa. Cliente com acesso limitado para abrir/acompanhar chamado.</p></div></div>
+<div id="aba-admin-clientes" class="abaAdmin hidden"><div class="bg-[#0f172a] p-4 rounded-xl mb-4 border"><h3 class="font-bold mb-3">Cadastrar Cliente</h3><div class="grid grid-cols-2 gap-2"><input id="cNome" placeholder="Nome" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><input id="cDoc" placeholder="CPF/CNPJ" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><input id="cEnd" placeholder="Endereço" class="p-2.5 rounded bg-black border border-gray-700 text-xs col-span-2"><input id="cCid" placeholder="Cidade/UF" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><select id="cTipo" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><option>Avulso</option><option>Contrato Mensal</option></select></div><button onclick="salvarCliente()" class="mt-3 bg-cyan-500 text-black font-bold px-6 py-2 rounded text-xs">SALVAR</button></div><div id="listaClientes" class="bg-[#0f172a] p-4 rounded-xl text-xs border"></div></div>
+<div id="aba-admin-orcamentos" class="abaAdmin hidden"><div class="bg-[#0f172a] p-5 rounded-xl border"><h3 class="font-bold mb-4">Orçamento - Visita + Trabalho + Datas + Total Auto</h3><div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] text-gray-400">Cliente</label><select id="oCliente" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></select></div><div><label class="text-[10px] text-gray-400">Serviço</label><input id="oServico" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div><div><label class="text-[10px] text-cyan-400 font-bold">💰 Valor Visita</label><input id="oVisita" type="number" oninput="calcTotal()" class="w-full p-2.5 rounded bg-black border border-cyan-500/30 text-xs"></div><div><label class="text-[10px] text-cyan-400 font-bold">🔧 Valor Trabalho</label><input id="oTrabalho" type="number" oninput="calcTotal()" class="w-full p-2.5 rounded bg-black border border-cyan-500/30 text-xs"></div><div><label class="text-[10px]">Data Início</label><input id="oDataIni" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div><div><label class="text-[10px]">Data Fim</label><input id="oDataFim" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div><div class="col-span-2"><label class="text-[10px] text-green-400 font-bold">💵 TOTAL</label><input id="oValor" readonly class="w-full p-3 rounded bg-green-500/10 border border-green-500/50 font-bold text-green-400"></div></div><button onclick="gerarPDF()" class="mt-4 bg-green-500 text-black font-bold px-6 py-2.5 rounded text-xs">GERAR PDF COM PIX SECRETO</button></div><div id="listaOrc" class="mt-4 bg-[#0f172a] p-4 rounded-xl text-xs border"></div></div>
+<div id="aba-admin-contratos" class="abaAdmin hidden"><div class="bg-[#0f172a] p-5 rounded-xl mb-4 border"><h3 class="font-bold mb-4">Contrato 5 Colunas com Etiquetas em Cima</h3><div class="grid grid-cols-3 gap-3"><div class="bg-[#020617] p-2 rounded border"><label class="text-[10px] text-cyan-400 font-bold block mb-1">📅 DATA INÍCIO</label><input id="ctInicio" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div><div class="bg-[#020617] p-2 rounded border border-yellow-500/30"><label class="text-[10px] text-yellow-400 font-bold block mb-1">💳 DATA PAGAMENTO</label><input id="ctPagamento" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div><div class="bg-[#020617] p-2 rounded border border-red-500/30"><label class="text-[10px] text-red-400 font-bold block mb-1">🏁 DATA FINALIZAÇÃO</label><input id="ctFinal" type="date" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs"></div></div><div class="grid grid-cols-3 gap-3 mt-3"><input id="ctCliente" placeholder="Cliente" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><input id="ctMensal" type="number" placeholder="Mensal" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><input id="ctTotal" type="number" placeholder="Total" class="p-2.5 rounded bg-black border border-gray-700 text-xs"></div><button onclick="salvarContrato()" class="mt-3 bg-cyan-500 text-black font-bold px-6 py-2 rounded text-xs">SALVAR CONTRATO</button></div><div class="bg-[#0f172a] p-2 rounded-xl overflow-auto border"><table class="w-full text-[11px]"><thead><tr class="border-b bg-[#020617] text-gray-400"><th class="p-3 text-left">Cliente</th><th>Início</th><th>Pagamento</th><th>Finalização</th><th>Mensal</th><th>Total</th><th>Ação</th></tr></thead><tbody id="listaContratos"></tbody></table></div></div>
+<div id="aba-admin-chamados" class="abaAdmin hidden"><div class="bg-[#0f172a] p-4 rounded-xl border"><h3 class="font-bold text-cyan-400 mb-3">🎫 Chamados de Clientes (Validar/Baixa/Pagamento)</h3><div id="listaChamadosAdmin" class="space-y-2 text-xs"></div></div></div>
+<div id="aba-admin-usuarios" class="abaAdmin hidden"><div class="bg-[#0f172a] p-5 rounded-xl border"><h3 class="font-bold mb-4">👥 Criar/Excluir/Alterar Senha/Bloquear</h3><div class="grid grid-cols-4 gap-2"><input id="uLogin" placeholder="Login" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><input id="uSenha" placeholder="Senha" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><select id="uTipo" class="p-2.5 rounded bg-black border border-gray-700 text-xs"><option value="cliente">Cliente Limitado</option><option value="admin">Admin Total</option></select><button onclick="criarUsuario()" class="bg-cyan-500 text-black font-bold px-4 py-2.5 rounded text-xs">CRIAR</button></div><div id="listaUsuarios" class="mt-6 space-y-2"></div></div></div>
+<div id="aba-admin-remoto" class="abaAdmin hidden"><div class="bg-[#0f172a] p-5 rounded-xl border"><h3 class="font-bold mb-3">AnyDesk</h3><input id="rId" placeholder="ID" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs mb-3"><button onclick="gerarAcesso()" class="bg-cyan-500 text-black font-bold px-6 py-2.5 rounded text-xs">GERAR SENHA</button><div id="rResultado" class="mt-4 hidden bg-black p-4 rounded text-xs"></div></div></div>
 </div>
 </div>
 </div>
-</div>
+<div id="telaCliente" class="hidden">
+<div class="bg-[#0f172a] p-3 flex justify-between items-center border-b"><span class="font-bold text-cyan-400 text-sm">👤 Área do Cliente</span><button onclick="sair()" class="text-xs bg-red-500/20 text-red-400 px-3 py-1 rounded">Sair</button></div>
+<div class="p-4 max-w-4xl mx-auto">
+<div class="bg-[#0f172a] p-5 rounded-xl border border-cyan-500/20 mb-4"><h3 class="font-bold text-cyan-400 mb-3">🎫 Abrir Chamado</h3><input id="chTitulo" placeholder="Título" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs mb-2"><textarea id="chDesc" placeholder="Descrição" class="w-full p-2.5 rounded bg-black border border-gray-700 text-xs mb-3 h-20"></textarea><button onclick="abrirChamado()" class="bg-cyan-500 text-black font-bold px-6 py-2.5 rounded text-xs">ABRIR CHAMADO</button></div>
+<div class="bg-[#0f172a] p-5 rounded-xl border"><h3 class="font-bold text-cyan-400 mb-3">📋 Meus Chamados - Acompanhar/Avaliar/Finalizar/Reabrir</h3><div id="listaChamadosCliente" class="space-y-3 text-xs"></div></div>
 </div>
 </div>
 <script>
 const USUARIOS_PADRAO={admin:"@Xumone@531973"};
-let clientes=JSON.parse(localStorage.getItem('rt_clientes')||'[]');
-let contratos=JSON.parse(localStorage.getItem('rt_contratos')||'[]');
-let orcamentos=JSON.parse(localStorage.getItem('rt_orc')||'[]');
-let bloqueados=JSON.parse(localStorage.getItem('rt_bloqueados')||'[]');
-function fazerLogin(){let u=document.getElementById('loginUser').value.trim();let p=document.getElementById('loginPass').value;if(bloqueados.includes(u)){alert('Usuário bloqueado!');return;}let usuarios=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');let todos={...USUARIOS_PADRAO,...usuarios};if(todos[u]&&todos[u]===p){document.getElementById('telaLogin').classList.add('hidden');document.getElementById('telaSistema').classList.remove('hidden');atualizarTudo();}else{document.getElementById('msgErro').classList.remove('hidden');}}
+let clientes=JSON.parse(localStorage.getItem('rt_clientes')||'[]');let contratos=JSON.parse(localStorage.getItem('rt_contratos')||'[]');let orcamentos=JSON.parse(localStorage.getItem('rt_orc')||'[]');let bloqueados=JSON.parse(localStorage.getItem('rt_bloqueados')||'[]');let chamados=JSON.parse(localStorage.getItem('rt_chamados')||'[]');let tiposUser=JSON.parse(localStorage.getItem('rt_tipos')||'{}');let usuarioLogado=null;let tipoLogado=null;
+function fazerLogin(){let u=document.getElementById('loginUser').value.trim();let p=document.getElementById('loginPass').value;let msg=document.getElementById('msgErro');if(bloqueados.includes(u)){msg.innerText='BLOQUEADO!';msg.classList.remove('hidden');return;}let usuarios=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');let todos={...USUARIOS_PADRAO,...usuarios};if(!todos[u]||todos[u]!==p){msg.innerText='Inválido';msg.classList.remove('hidden');return;}usuarioLogado=u;tipoLogado=tiposUser[u]||(u==='admin'?'admin':'cliente');if(u==='admin')tipoLogado='admin';document.getElementById('telaLogin').classList.add('hidden');if(tipoLogado==='admin'){document.getElementById('telaAdmin').classList.remove('hidden');atualizarTudo();}else{document.getElementById('telaCliente').classList.remove('hidden');atualizarChamadosCliente();}}
 function sair(){location.reload();}
-function mostrarAba(n){document.querySelectorAll('.aba').forEach(a=>a.classList.add('hidden'));document.getElementById('aba-'+n).classList.remove('hidden');document.querySelectorAll('.abaBtn').forEach(b=>{b.classList.remove('bg-cyan-500','text-black');b.classList.add('bg-[#1e293b]');});document.getElementById('btn-'+n).classList.add('bg-cyan-500','text-black');}
+function mostrarAbaAdmin(n){document.querySelectorAll('.abaAdmin').forEach(a=>a.classList.add('hidden'));document.getElementById('aba-admin-'+n).classList.remove('hidden');document.querySelectorAll('[id^=btn-admin]').forEach(b=>{b.classList.remove('bg-cyan-500','text-black');b.classList.add('bg-[#1e293b]');});document.getElementById('btn-admin-'+n).classList.add('bg-cyan-500','text-black');if(n==='chamados')atualizarChamadosAdmin();}
 function calcTotal(){let v=parseFloat(document.getElementById('oVisita').value)||0;let t=parseFloat(document.getElementById('oTrabalho').value)||0;document.getElementById('oValor').value=(v+t).toFixed(2);}
 function salvarCliente(){let c={nome:document.getElementById('cNome').value,doc:document.getElementById('cDoc').value,end:document.getElementById('cEnd').value,cid:document.getElementById('cCid').value,tipo:document.getElementById('cTipo').value};if(!c.nome)return alert('Nome');clientes.push(c);localStorage.setItem('rt_clientes',JSON.stringify(clientes));atualizarTudo();}
-function atualizarTudo(){document.getElementById('statClientes').innerText=clientes.length;document.getElementById('statContratos').innerText=contratos.length;document.getElementById('statOrc').innerText=orcamentos.length;let fat=contratos.reduce((s,c)=>s+(parseFloat(c.mensal)||0),0);document.getElementById('statFat').innerText='R$ '+fat.toFixed(2);document.getElementById('listaClientes').innerHTML=clientes.map(c=>`<div class="border-b border-gray-800 py-2">${c.nome} - ${c.cid}</div>`).join('')||'Nenhum';document.getElementById('oCliente').innerHTML=clientes.map(c=>`<option>${c.nome}</option>`).join('');document.getElementById('listaOrc').innerHTML=orcamentos.map(o=>`<div class="border-b py-2">${o.cliente} - Visita R$${o.visita} + Trabalho R$${o.trabalho} = R$${o.valor}</div>`).join('')||'Nenhum';document.getElementById('listaContratos').innerHTML=contratos.map((ct,i)=>`<tr class="border-b"><td class="p-3">${ct.cliente}</td><td class="text-center">${ct.inicio}</td><td class="text-center text-yellow-400">${ct.pag}</td><td class="text-center text-red-400">${ct.fim}</td><td class="text-center">R$ ${ct.mensal}</td><td class="text-center">R$ ${ct.total}</td><td class="text-center"><button onclick="darBaixa(${i})" class="bg-green-500 text-black px-2 py-1 rounded text-[10px]">Baixa + PIX</button></td></tr>`).join('')||'<tr><td colspan=7>Nenhum</td></tr>';let us=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');document.getElementById('listaUsuarios').innerHTML=Object.keys(us).map(k=>{let b=bloqueados.includes(k);return `<div class="flex justify-between bg-[#020617] p-3 rounded border ${b?'border-red-500/50':'border-gray-800'}"><span>${k} ${b?'(BLOQUEADO)':''}</span><div class="flex gap-1"><button onclick="alterarSenha('${k}')" class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-[10px]">🔑</button><button onclick="toggleBloqueio('${k}')" class="px-2 py-1 rounded text-[10px] ${b?'bg-green-500/20 text-green-400':'bg-red-500/20 text-red-400'}">${b?'Desbloq':'Bloq'}</button><button onclick="removerUsuario('${k}')" class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-[10px]">🗑️</button></div></div>`}).join('')||'Só admin';}
-function gerarPDF(){let cliente=document.getElementById('oCliente').value;let servico=document.getElementById('oServico').value;let visita=document.getElementById('oVisita').value||0;let trabalho=document.getElementById('oTrabalho').value||0;let valor=document.getElementById('oValor').value;let ini=document.getElementById('oDataIni').value;let fim=document.getElementById('oDataFim').value;orcamentos.push({cliente,servico,visita,trabalho,valor,ini,fim});localStorage.setItem('rt_orc',JSON.stringify(orcamentos));const {jsPDF}=window.jspdf;const doc=new jsPDF();doc.text('Ramos Tecnologia - Orcamento',10,15);doc.text('Cliente: '+cliente,10,25);doc.text('Servico: '+servico,10,32);doc.text('Visita: R$ '+visita+' + Trabalho: R$ '+trabalho,10,39);doc.text('TOTAL: R$ '+valor,10,46);doc.text('Inicio: '+ini+' Fim: '+fim,10,53);doc.text('PIX: 11 99626-4221',10,65);doc.save('orcamento.pdf');atualizarTudo();}
+function atualizarTudo(){document.getElementById('statClientes').innerText=clientes.length;document.getElementById('statContratos').innerText=contratos.length;document.getElementById('statOrc').innerText=orcamentos.length;document.getElementById('statChamados').innerText=chamados.filter(c=>c.status!=='finalizado').length;document.getElementById('listaClientes').innerHTML=clientes.map(c=>`<div class="border-b py-2">${c.nome} - ${c.cid}</div>`).join('')||'Nenhum';document.getElementById('oCliente').innerHTML=clientes.map(c=>`<option>${c.nome}</option>`).join('');document.getElementById('listaOrc').innerHTML=orcamentos.map(o=>`<div class="border-b py-2">${o.cliente} - R$${o.valor} (${o.ini} a ${o.fim})</div>`).join('')||'Nenhum';document.getElementById('listaContratos').innerHTML=contratos.map((ct,i)=>`<tr class="border-b"><td class="p-3">${ct.cliente}</td><td class="text-center">${ct.inicio}</td><td class="text-center text-yellow-400">${ct.pag}</td><td class="text-center text-red-400">${ct.fim}</td><td>R$ ${ct.mensal}</td><td>R$ ${ct.total}</td><td><button onclick="darBaixa(${i})" class="bg-green-500 text-black px-2 py-1 rounded text-[10px]">Baixa+PIX</button></td></tr>`).join('')||'<tr><td colspan=7>Nenhum</td></tr>';let us=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');document.getElementById('listaUsuarios').innerHTML=Object.keys(us).map(k=>{let b=bloqueados.includes(k);let t=tiposUser[k]||'cliente';return `<div class="flex justify-between bg-[#020617] p-3 rounded border ${b?'border-red-500/50':'border-gray-800'}"><span><b>${k}</b> (${t}) ${b?'(BLOQ)':''}</span><div class="flex gap-1"><button onclick="alterarSenha('${k}')" class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-[10px]">🔑 Alterar</button><button onclick="toggleBloqueio('${k}')" class="px-2 py-1 rounded text-[10px] ${b?'bg-green-500/20 text-green-400':'bg-red-500/20 text-red-400'}">${b?'Desbloq':'Bloq'}</button><button onclick="removerUsuario('${k}')" class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-[10px]">🗑️ Excluir</button></div></div>`}).join('')||'Só admin';}
+function gerarPDF(){let cliente=document.getElementById('oCliente').value;let visita=document.getElementById('oVisita').value;let trabalho=document.getElementById('oTrabalho').value;let valor=document.getElementById('oValor').value;let ini=document.getElementById('oDataIni').value;let fim=document.getElementById('oDataFim').value;orcamentos.push({cliente,visita,trabalho,valor,ini,fim});localStorage.setItem('rt_orc',JSON.stringify(orcamentos));const {jsPDF}=window.jspdf;const doc=new jsPDF();doc.text('Ramos - '+cliente+' - Total R$'+valor,10,15);doc.text('PIX: 11 99626-4221',10,25);doc.save('orcamento.pdf');atualizarTudo();}
 function salvarContrato(){let ct={cliente:document.getElementById('ctCliente').value,inicio:document.getElementById('ctInicio').value,pag:document.getElementById('ctPagamento').value,fim:document.getElementById('ctFinal').value,mensal:document.getElementById('ctMensal').value,total:document.getElementById('ctTotal').value};contratos.push(ct);localStorage.setItem('rt_contratos',JSON.stringify(contratos));atualizarTudo();}
-function darBaixa(i){let ct=contratos[i];let pix='11 99626-4221';let msg=`Ola ${ct.cliente}! PIX: ${pix} Valor R$ ${ct.total} - Ramos`;let link=`https://wa.me/?text=${encodeURIComponent(msg)}`;if(confirm('Dar baixa? PIX: '+pix)){window.open(link,'_blank');contratos.splice(i,1);localStorage.setItem('rt_contratos',JSON.stringify(contratos));atualizarTudo();}}
-function criarUsuario(){let l=document.getElementById('uLogin').value.trim();let s=document.getElementById('uSenha').value;let us=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');us[l]=s;localStorage.setItem('rt_usuarios',JSON.stringify(us));alert('Criado!');atualizarTudo();}
-function alterarSenha(k){let n=prompt('Nova senha para '+k+':');if(!n)return;let us=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');us[k]=n;localStorage.setItem('rt_usuarios',JSON.stringify(us));alert('Senha alterada!');atualizarTudo();}
+function darBaixa(i){let ct=contratos[i];let pix='11 99626-4221';let msg=`Ola ${ct.cliente}! PIX: ${pix} R$${ct.total} - Ramos`;if(confirm('Validar e dar baixa? PIX: '+pix)){window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');contratos.splice(i,1);localStorage.setItem('rt_contratos',JSON.stringify(contratos));atualizarTudo();}}
+function criarUsuario(){let l=document.getElementById('uLogin').value.trim();let s=document.getElementById('uSenha').value;let t=document.getElementById('uTipo').value;let us=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');us[l]=s;tiposUser[l]=t;localStorage.setItem('rt_usuarios',JSON.stringify(us));localStorage.setItem('rt_tipos',JSON.stringify(tiposUser));atualizarTudo();alert('Criado '+l+' como '+t);}
+function alterarSenha(k){let n=prompt('Nova senha '+k);if(!n)return;let us=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');us[k]=n;localStorage.setItem('rt_usuarios',JSON.stringify(us));atualizarTudo();}
 function toggleBloqueio(k){if(bloqueados.includes(k)){bloqueados=bloqueados.filter(b=>b!==k);}else{bloqueados.push(k);}localStorage.setItem('rt_bloqueados',JSON.stringify(bloqueados));atualizarTudo();}
-function removerUsuario(k){if(!confirm('Remover '+k+'?'))return;let us=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');delete us[k];localStorage.setItem('rt_usuarios',JSON.stringify(us));atualizarTudo();}
-function gerarAcesso(){let id=document.getElementById('rId').value;let senha=Math.random().toString(36).substring(2,8).toUpperCase();let r=document.getElementById('rResultado');r.classList.remove('hidden');r.innerHTML=`ID: ${id} Senha: ${senha}`;}
+function removerUsuario(k){if(!confirm('Excluir '+k+'?'))return;let us=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');delete us[k];delete tiposUser[k];localStorage.setItem('rt_usuarios',JSON.stringify(us));localStorage.setItem('rt_tipos',JSON.stringify(tiposUser));atualizarTudo();}
+function gerarAcesso(){let id=document.getElementById('rId').value;let senha=Math.random().toString(36).substring(2,8).toUpperCase();let r=document.getElementById('rResultado');r.classList.remove('hidden');r.innerHTML=`ID:${id} Senha:${senha}`;}
+function abrirChamado(){let titulo=document.getElementById('chTitulo').value;let desc=document.getElementById('chDesc').value;if(!titulo)return alert('Título');let novo={id:Date.now(),cliente:usuarioLogado,titulo,desc,status:'aberto',data:new Date().toLocaleDateString(),avaliacao:0};chamados.push(novo);localStorage.setItem('rt_chamados',JSON.stringify(chamados));atualizarChamadosCliente();}
+function atualizarChamadosCliente(){let meus=chamados.filter(c=>c.cliente===usuarioLogado);document.getElementById('listaChamadosCliente').innerHTML=meus.map(c=>`<div class="bg-[#020617] p-3 rounded border"><div class="flex justify-between"><b>${c.titulo}</b><span class="text-[9px] px-2 py-1 rounded bg-yellow-500/20">${c.status}</span></div><p class="text-gray-400">${c.desc}</p><p class="text-[10px]">Data:${c.data} Aval:${'⭐'.repeat(c.avaliacao)}</p><div class="flex gap-2 mt-2"><button onclick="avaliarChamado(${c.id})" class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-[10px]">⭐ Avaliar</button><button onclick="finalizarChamado(${c.id})" class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-[10px]">✅ Finalizar</button><button onclick="reabrirChamado(${c.id})" class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-[10px]">🔄 Reabrir</button></div></div>`).join('')||'Nenhum chamado';}
+function atualizarChamadosAdmin(){document.getElementById('listaChamadosAdmin').innerHTML=chamados.map(c=>`<div class="bg-[#020617] p-3 rounded border flex justify-between"><div><b>${c.cliente}</b> - ${c.titulo}<br><span class="text-gray-400">${c.desc}</span></div><div class="flex flex-col gap-1"><button onclick="validarChamado(${c.id})" class="bg-cyan-500 text-black px-2 py-1 rounded text-[10px]">Validar</button><button onclick="mudarStatusChamado(${c.id},'finalizado')" class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-[10px]">Baixa</button></div></div>`).join('')||'Nenhum';}
+function avaliarChamado(id){let n=prompt('Nota 1-5');let c=chamados.find(x=>x.id===id);if(c){c.avaliacao=parseInt(n);localStorage.setItem('rt_chamados',JSON.stringify(chamados));atualizarChamadosCliente();}}
+function finalizarChamado(id){let c=chamados.find(x=>x.id===id);if(c){c.status='finalizado';localStorage.setItem('rt_chamados',JSON.stringify(chamados));atualizarChamadosCliente();}}
+function reabrirChamado(id){let c=chamados.find(x=>x.id===id);if(c){c.status='aberto';localStorage.setItem('rt_chamados',JSON.stringify(chamados));atualizarChamadosCliente();}}
+function validarChamado(id){let c=chamados.find(x=>x.id===id);if(c){c.status='validado';localStorage.setItem('rt_chamados',JSON.stringify(chamados));atualizarChamadosAdmin();}}
+function mudarStatusChamado(id,s){let c=chamados.find(x=>x.id===id);if(c){c.status=s;localStorage.setItem('rt_chamados',JSON.stringify(chamados));atualizarChamadosAdmin();}}
 </script>
 </body>
 </html>
