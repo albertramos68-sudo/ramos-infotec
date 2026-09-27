@@ -2,52 +2,56 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramos Tecnologia V4.1 Seguro</title>
+<title>Ramos Tecnologia V4.1 Completo Seguro</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body class="bg-[#020617] text-white min-h-screen flex items-center justify-center p-4">
-
-<!-- LOGIN -->
-<div id="telaLogin" class="w-full max-w-sm bg-[#0f172a] p-6 rounded-2xl shadow-2xl border border-cyan-500/20 text-center">
-<img src="./LogoTipo.jpg" onerror="this.style.display='none'" class="w-32 mx-auto mb-4 rounded-xl bg-black p-2">
+<body class="bg-[#020617] text-white min-h-screen">
+<div id="telaLogin" class="min-h-screen flex items-center justify-center p-4">
+<div class="w-full max-w-sm bg-[#0f172a] p-6 rounded-2xl border border-cyan-500/20 text-center">
+<img src="./LogoTipo.jpg" class="w-32 mx-auto mb-4 rounded-xl bg-black p-2">
 <h1 class="text-xl font-bold text-cyan-400">Ramos Tecnologia</h1>
-<p class="text-[11px] text-gray-400 mb-6">V4.1 SEGURO</p>
+<p class="text-[11px] text-gray-400 mb-6">V4.1 COMPLETO - SEGURO</p>
 <input id="loginUser" placeholder="Login" class="w-full p-3 rounded bg-black border border-gray-700 mb-3 text-sm">
 <input id="loginPass" type="password" placeholder="Senha" class="w-full p-3 rounded bg-black border border-gray-700 mb-4 text-sm">
-<button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-bold p-3 rounded hover:bg-cyan-400">ENTRAR</button>
-<p id="msgErro" class="text-red-400 text-xs mt-3 hidden">Login ou senha inválidos!</p>
-</div>
-
-<!-- SISTEMA -->
-<div id="telaSistema" class="hidden w-full max-w-6xl">
-<div class="bg-[#0f172a] p-4 rounded-xl mb-4 flex justify-between items-center">
-<h2 class="font-bold text-cyan-400">Dashboard V4.1 - Ramos Tecnologia</h2>
-<button onclick="sair()" class="text-xs bg-red-500/20 text-red-400 px-3 py-1 rounded">Sair</button>
-</div>
-<div class="bg-[#0f172a] p-6 rounded-xl">
-<h3 class="font-bold mb-4">✅ Sistema Perfeito - PIX Protegido</h3>
-<p class="text-sm text-gray-300">Seu PIX agora só aparece no momento do pagamento e no PDF, não mais na tela principal.</p>
-<div class="bg-[#020617] p-3 rounded mt-4 text-xs">Sistema seguro em coluna - Sem PIX exposto</div>
-<!-- Aqui continua seus 5 campos de contrato: Inicio, Pagamento, Finalização, Valor Total, Mensal -->
+<button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-bold p-3 rounded">ENTRAR</button>
+<p id="msgErro" class="text-red-400 text-xs mt-3 hidden">Login inválido!</p>
 </div>
 </div>
-
+<div id="telaSistema" class="hidden">
+<div class="bg-[#0f172a] p-3 flex justify-between items-center"><span class="font-bold text-cyan-400 text-sm">Dashboard V4.1 - SEM PIX EXPOSTO ✅</span><button onclick="sair()" class="text-xs bg-red-500/20 text-red-400 px-3 py-1 rounded">Sair</button></div>
+<div class="flex flex-col md:flex-row">
+<div class="md:w-48 bg-[#0f172a] p-2 flex md:flex-col gap-1">
+<button onclick="mostrarAba('dashboard')" class="bg-cyan-500 text-black px-3 py-2 rounded text-xs font-bold">📊 Dashboard</button>
+<button onclick="mostrarAba('clientes')" class="bg-[#1e293b] px-3 py-2 rounded text-xs">👤 Clientes</button>
+<button onclick="mostrarAba('orcamentos')" class="bg-[#1e293b] px-3 py-2 rounded text-xs">🧾 Orçamentos</button>
+<button onclick="mostrarAba('contratos')" class="bg-[#1e293b] px-3 py-2 rounded text-xs">📄 Contratos</button>
+<button onclick="mostrarAba('usuarios')" class="bg-[#1e293b] px-3 py-2 rounded text-xs">👥 Usuários</button>
+<button onclick="mostrarAba('remoto')" class="bg-[#1e293b] px-3 py-2 rounded text-xs">💻 Remoto</button>
+</div>
+<div class="flex-1 p-4">
+<div id="aba-dashboard" class="aba"><div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4"><div class="bg-[#0f172a] p-4 rounded-xl"><p class="text-xs text-gray-400">Clientes</p><p id="statClientes" class="text-xl font-bold text-cyan-400">0</p></div><div class="bg-[#0f172a] p-4 rounded-xl"><p class="text-xs text-gray-400">Orçamentos</p><p id="statOrc" class="text-xl font-bold">0</p></div><div class="bg-[#0f172a] p-4 rounded-xl"><p class="text-xs text-gray-400">Contratos</p><p id="statContratos" class="text-xl font-bold text-green-400">0</p></div><div class="bg-[#0f172a] p-4 rounded-xl"><p class="text-xs text-gray-400">Faturamento</p><p id="statFat" class="text-xl font-bold">R$ 0</p></div></div><div class="bg-[#0f172a] p-4 rounded-xl"><h3 class="font-bold text-cyan-400">✅ Sistema Seguro - PIX só no PDF e na Baixa</h3><p class="text-xs text-gray-300 mt-2">Tela principal 100% limpa, sem PIX vulnerável.</p></div></div>
+<div id="aba-clientes" class="aba hidden"><div class="bg-[#0f172a] p-4 rounded-xl mb-4"><h3 class="font-bold mb-3">Cadastrar Cliente</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-2"><input id="cNome" placeholder="Nome" class="p-2 rounded bg-black border border-gray-700 text-xs"><input id="cDoc" placeholder="CPF/CNPJ" class="p-2 rounded bg-black border border-gray-700 text-xs"><input id="cEnd" placeholder="Endereço" class="p-2 rounded bg-black border border-gray-700 text-xs md:col-span-2"><input id="cCid" placeholder="Cidade/UF" class="p-2 rounded bg-black border border-gray-700 text-xs"><select id="cTipo" class="p-2 rounded bg-black border border-gray-700 text-xs"><option>Avulso</option><option>Contrato Mensal</option></select></div><button onclick="salvarCliente()" class="mt-3 bg-cyan-500 text-black font-bold px-4 py-2 rounded text-xs">SALVAR</button></div><div id="listaClientes" class="bg-[#0f172a] p-4 rounded-xl text-xs"></div></div>
+<div id="aba-orcamentos" class="aba hidden"><div class="bg-[#0f172a] p-4 rounded-xl"><h3 class="font-bold mb-3">Gerar Orçamento</h3><select id="oCliente" class="w-full p-2 rounded bg-black border border-gray-700 text-xs mb-2"></select><input id="oServico" placeholder="Serviço" class="w-full p-2 rounded bg-black border border-gray-700 text-xs mb-2"><input id="oValor" type="number" placeholder="Valor R$" class="w-full p-2 rounded bg-black border border-gray-700 text-xs mb-2"><button onclick="gerarPDF()" class="bg-green-500 text-black font-bold px-4 py-2 rounded text-xs">GERAR PDF (com PIX dentro)</button></div><div id="listaOrc" class="mt-4 bg-[#0f172a] p-4 rounded-xl text-xs"></div></div>
+<div id="aba-contratos" class="aba hidden"><div class="bg-[#0f172a] p-4 rounded-xl mb-4"><h3 class="font-bold mb-3">Contrato - 5 colunas: Início, Pagamento, Final, Mensal, Total</h3><div class="grid grid-cols-1 md:grid-cols-5 gap-2"><input id="ctCliente" placeholder="Cliente" class="p-2 rounded bg-black border border-gray-700 text-xs"><input id="ctInicio" type="date" class="p-2 rounded bg-black border border-gray-700 text-xs"><input id="ctPagamento" type="date" class="p-2 rounded bg-black border border-gray-700 text-xs"><input id="ctFinal" type="date" class="p-2 rounded bg-black border border-gray-700 text-xs"><input id="ctMensal" type="number" placeholder="Mensal" class="p-2 rounded bg-black border border-gray-700 text-xs"></div><div class="grid grid-cols-2 gap-2 mt-2"><input id="ctTotal" type="number" placeholder="Total" class="p-2 rounded bg-black border border-gray-700 text-xs"><input id="ctDesc" placeholder="Descrição" class="p-2 rounded bg-black border border-gray-700 text-xs"></div><button onclick="salvarContrato()" class="mt-3 bg-cyan-500 text-black font-bold px-4 py-2 rounded text-xs">SALVAR CONTRATO</button></div><div class="bg-[#0f172a] p-2 rounded-xl overflow-auto"><table class="w-full text-[11px]"><thead><tr class="text-gray-400 border-b"><th class="p-2 text-left">Cliente</th><th>Início</th><th>Pagto</th><th>Final</th><th>Mensal</th><th>Total</th><th>Ação</th></tr></thead><tbody id="listaContratos"></tbody></table></div></div>
+<div id="aba-usuarios" class="aba hidden"><div class="bg-[#0f172a] p-4 rounded-xl"><h3 class="font-bold mb-3">Criar Usuários</h3><input id="uLogin" placeholder="Login" class="w-full p-2 rounded bg-black border border-gray-700 text-xs mb-2"><input id="uSenha" placeholder="Senha" class="w-full p-2 rounded bg-black border border-gray-700 text-xs mb-2"><button onclick="criarUsuario()" class="bg-cyan-500 text-black font-bold px-4 py-2 rounded text-xs">CRIAR</button><div id="listaUsuarios" class="mt-4 text-xs"></div></div></div>
+<div id="aba-remoto" class="aba hidden"><div class="bg-[#0f172a] p-4 rounded-xl"><h3 class="font-bold mb-3">AnyDesk</h3><input id="rId" placeholder="ID AnyDesk" class="w-full p-2 rounded bg-black border border-gray-700 text-xs mb-2"><button onclick="gerarAcesso()" class="bg-cyan-500 text-black font-bold px-4 py-2 rounded text-xs">GERAR SENHA</button><div id="rResultado" class="mt-3 hidden bg-black p-3 rounded text-xs"></div></div></div>
+</div></div></div></div>
 <script>
-const USUARIOS_PADRAO = {admin:"@Xumone@531973"};
-function fazerLogin(){
-let u = document.getElementById('loginUser').value;
-let p = document.getElementById('loginPass').value;
-let usuarios = JSON.parse(localStorage.getItem('usuarios')||'{}');
-let todos = {...USUARIOS_PADRAO,...usuarios};
-if(todos[u] && todos[u]===p){
-document.getElementById('telaLogin').classList.add('hidden');
-document.getElementById('telaSistema').classList.remove('hidden');
-document.getElementById('msgErro').classList.add('hidden');
-}else{
-document.getElementById('msgErro').classList.remove('hidden');
-}
-}
+const USUARIOS_PADRAO={admin:"@Xumone@531973"};
+let clientes=JSON.parse(localStorage.getItem('rt_clientes')||'[]');
+let contratos=JSON.parse(localStorage.getItem('rt_contratos')||'[]');
+let orcamentos=JSON.parse(localStorage.getItem('rt_orc')||'[]');
+function fazerLogin(){let u=document.getElementById('loginUser').value.trim();let p=document.getElementById('loginPass').value;let usuarios=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');let todos={...USUARIOS_PADRAO,...usuarios};if(todos[u]&&todos[u]===p){document.getElementById('telaLogin').classList.add('hidden');document.getElementById('telaSistema').classList.remove('hidden');atualizarTudo();}else{document.getElementById('msgErro').classList.remove('hidden');}}
 function sair(){location.reload();}
+function mostrarAba(n){document.querySelectorAll('.aba').forEach(a=>a.classList.add('hidden'));document.getElementById('aba-'+n).classList.remove('hidden');}
+function salvarCliente(){let c={nome:document.getElementById('cNome').value,doc:document.getElementById('cDoc').value,end:document.getElementById('cEnd').value,cid:document.getElementById('cCid').value,tipo:document.getElementById('cTipo').value};if(!c.nome)return alert('Nome');clientes.push(c);localStorage.setItem('rt_clientes',JSON.stringify(clientes));atualizarTudo();}
+function atualizarTudo(){document.getElementById('statClientes').innerText=clientes.length;document.getElementById('statContratos').innerText=contratos.length;document.getElementById('statOrc').innerText=orcamentos.length;let fat=contratos.reduce((s,c)=>s+(parseFloat(c.mensal)||0),0);document.getElementById('statFat').innerText='R$ '+fat.toFixed(2);document.getElementById('listaClientes').innerHTML=clientes.map(c=>`<div class="border-b border-gray-800 py-2">${c.nome} - ${c.cid}</div>`).join('')||'Nenhum';document.getElementById('oCliente').innerHTML=clientes.map(c=>`<option>${c.nome}</option>`).join('');document.getElementById('listaOrc').innerHTML=orcamentos.map(o=>`<div>${o.cliente} - R$ ${o.valor}</div>`).join('')||'Nenhum';document.getElementById('listaContratos').innerHTML=contratos.map((ct,i)=>`<tr class="border-b border-gray-800"><td class="p-2">${ct.cliente}</td><td>${ct.inicio}</td><td>${ct.pag}</td><td>${ct.fim}</td><td>R$ ${ct.mensal}</td><td>R$ ${ct.total}</td><td><button onclick="darBaixa(${i})" class="bg-green-500 text-black px-2 py-1 rounded text-[10px]">Baixa + PIX</button></td></tr>`).join('')||'<tr><td colspan=7>Nenhum</td></tr>';}
+function gerarPDF(){let cliente=document.getElementById('oCliente').value;let servico=document.getElementById('oServico').value;let valor=document.getElementById('oValor').value;orcamentos.push({cliente,servico,valor});localStorage.setItem('rt_orc',JSON.stringify(orcamentos));const {jsPDF}=window.jspdf;const doc=new jsPDF();doc.text('Ramos Tecnologia - Orcamento',10,10);doc.text('Cliente: '+cliente,10,20);doc.text('Servico: '+servico,10,30);doc.text('Valor: R$ '+valor,10,40);doc.text('PIX PARA PAGAMENTO: 11 99626-4221',10,50);doc.text('Validade 7 dias',10,60);doc.save('orcamento.pdf');atualizarTudo();}
+function salvarContrato(){let ct={cliente:document.getElementById('ctCliente').value,inicio:document.getElementById('ctInicio').value,pag:document.getElementById('ctPagamento').value,fim:document.getElementById('ctFinal').value,mensal:document.getElementById('ctMensal').value,total:document.getElementById('ctTotal').value};contratos.push(ct);localStorage.setItem('rt_contratos',JSON.stringify(contratos));atualizarTudo();}
+function darBaixa(i){let ct=contratos[i];let pix='11 99626-4221';let msg=`Olá ${ct.cliente}! Contrato finalizado. PIX: ${pix}. Valor R$ ${ct.total} - Ramos`;let link=`https://wa.me/?text=${encodeURIComponent(msg)}`;if(confirm('Dar baixa? PIX: '+pix)){window.open(link,'_blank');contratos.splice(i,1);localStorage.setItem('rt_contratos',JSON.stringify(contratos));atualizarTudo();}}
+function criarUsuario(){let l=document.getElementById('uLogin').value.trim();let s=document.getElementById('uSenha').value;let us=JSON.parse(localStorage.getItem('rt_usuarios')||'{}');us[l]=s;localStorage.setItem('rt_usuarios',JSON.stringify(us));alert('Criado!');}
+function gerarAcesso(){let id=document.getElementById('rId').value;let senha=Math.random().toString(36).substring(2,8).toUpperCase();let r=document.getElementById('rResultado');r.classList.remove('hidden');r.innerHTML=`ID: ${id}<br>Senha: <b class="text-cyan-400">${senha}</b><br><br><a href="https://wa.me/?text=${encodeURIComponent('Acesso Ramos: '+id+' Senha: '+senha)}" target="_blank" class="bg-green-500 text-black px-2 py-1 rounded">WhatsApp</a>`;}
 </script>
 </body>
 </html>
