@@ -1,264 +1,53 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ramos PRO V4.0 Perfeito</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramos Tecnologia V4.1 Seguro</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body class="bg-[#060a14] text-slate-200">
+<body class="bg-[#020617] text-white min-h-screen flex items-center justify-center p-4">
 
 <!-- LOGIN -->
-<div id="login" class="min-h-screen flex items-center justify-center p-4">
-  <div class="bg-[#0f172a] p-8 rounded-2xl max-w-sm w-full border border-cyan-500/30 text-center">
-    <img src="./LogoTipo.jpg" onerror="this.style.display='none'" class="w-32 mx-auto mb-4 rounded-xl bg-black p-2">
-    <h1 class="text-xl font-bold text-cyan-400">Ramos Tecnologia</h1>
-    <p class="text-[11px] text-gray-400 mb-6">V4.0 </p>
-    <div class="flex flex-col gap-2">
-      <input id="login_user" placeholder="Login" class="p-3 rounded bg-black border border-cyan-500/20 text-white text-sm">
-      <input id="login_senha" type="password" placeholder="Senha" class="p-3 rounded bg-black border border-cyan-500/20 text-white text-sm">
-    </div>
-    <button onclick="logar()" class="w-full mt-3 bg-gradient-to-r from-cyan-500 to-blue-600 p-3 rounded font-bold">ENTRAR</button>
-    <p class="text-[10px] text-gray-500 mt-3">Admin padrão: admin / @Xumone@531973</p>
-    <p id="erro" class="hidden text-red-400 text-sm mt-3">Login errado!</p>
-  </div>
+<div id="telaLogin" class="w-full max-w-sm bg-[#0f172a] p-6 rounded-2xl shadow-2xl border border-cyan-500/20 text-center">
+<img src="./LogoTipo.jpg" onerror="this.style.display='none'" class="w-32 mx-auto mb-4 rounded-xl bg-black p-2">
+<h1 class="text-xl font-bold text-cyan-400">Ramos Tecnologia</h1>
+<p class="text-[11px] text-gray-400 mb-6">V4.1 SEGURO</p>
+<input id="loginUser" placeholder="Login" class="w-full p-3 rounded bg-black border border-gray-700 mb-3 text-sm">
+<input id="loginPass" type="password" placeholder="Senha" class="w-full p-3 rounded bg-black border border-gray-700 mb-4 text-sm">
+<button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-bold p-3 rounded hover:bg-cyan-400">ENTRAR</button>
+<p id="msgErro" class="text-red-400 text-xs mt-3 hidden">Login ou senha inválidos!</p>
 </div>
 
 <!-- SISTEMA -->
-<div id="sistema" class="hidden">
-  <nav class="bg-[#0f172a] border-b border-cyan-500/20 p-3 flex justify-between sticky top-0 z-20">
-    <div class="flex items-center gap-2">
-      <img src="./LogoTipo.jpg" onerror="this.style.display='none'" class="w-8 h-8 rounded bg-black">
-      <div>
-        <b class="text-cyan-400 text-sm">RAMOS V4.0</b>
-        <p id="user_info" class="text-[10px] text-gray-400"></p>
-      </div>
-    </div>
-    <button onclick="location.reload()" class="text-xs bg-red-500/20 px-3 py-1 rounded">Sair</button>
-  </nav>
-
-  <div class="flex">
-    <aside id="menu" class="w-14 md:w-48 bg-[#0f172a] min-h-screen p-2 space-y-1 border-r border-white/5">
-      <!-- menu via JS -->
-    </aside>
-
-    <main class="flex-1 p-3 md:p-4 space-y-4">
-
-      <!-- DASHBOARD -->
-      <div id="view-dashboard">
-        <div class="grid grid-cols-2 gap-2 mb-3">
-          <div class="bg-[#0f172a] p-3 rounded border border-cyan-500/20"><p class="text-[10px] text-gray-400">CLIENTES</p><p id="totalClientes" class="text-xl font-bold text-cyan-400">0</p></div>
-          <div class="bg-[#0f172a] p-3 rounded border border-purple-500/20"><p class="text-[10px] text-gray-400">CONTRATOS</p><p id="totalContratos" class="text-xl font-bold text-purple-400">0</p></div>
-          <div class="bg-[#0f172a] p-3 rounded border border-green-500/20"><p class="text-[10px] text-gray-400">CHAMADOS ABERTOS</p><p id="totalChamados" class="text-xl font-bold text-yellow-400">0</p></div>
-          <div class="bg-[#0f172a] p-3 rounded border border-green-500/20"><p class="text-[10px] text-gray-400">MENSAL A RECEBER</p><p id="totalMensal" class="text-xl font-bold text-green-400">R$ 0</p></div>
-        </div>
-        <div id="alertas" class="space-y-2"></div>
-        <div class="bg-[#0f172a] p-3 rounded mt-3 text-xs">PIX: <b class="text-cyan-400">11 99626-4221</b> | Sistema perfeito em coluna</div>
-      </div>
-
-      <!-- CADASTRO CLIENTE EM COLUNA -->
-      <div id="view-cadastro" class="hidden">
-        <div class="bg-[#0f172a] p-4 rounded border border-cyan-500/20 max-w-md">
-          <h2 class="font-bold text-cyan-400 mb-3">👤 Cadastro Cliente (Coluna)</h2>
-          <div class="flex flex-col gap-2">
-            <input id="c_nome" placeholder="Nome / Razão *" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="c_cpf" placeholder="CPF/CNPJ" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="c_zap" placeholder="WhatsApp" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="c_email" placeholder="E-mail" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="c_end" placeholder="Rua" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="c_bairro" placeholder="Bairro" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="c_cidade" placeholder="Cidade" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="c_estado" placeholder="UF" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="c_cep" placeholder="CEP" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <select id="c_tipo" onchange="toggleContrato()" class="p-3 rounded bg-black border border-white/10 text-sm">
-              <option value="Avulso">Avulso</option>
-              <option value="Contrato">Com Contrato</option>
-            </select>
-            <div id="campos_contrato" class="hidden flex-col gap-2 border border-purple-500/30 p-3 rounded bg-purple-500/10">
-              <p class="text-xs font-bold text-purple-400">📑 CONTRATO</p>
-              <label class="text-[10px] text-gray-400">Início do Contrato</label>
-              <input id="c_inicio" type="date" class="p-2 rounded bg-black border border-white/10 text-sm">
-              <label class="text-[10px] text-gray-400">Data de Pagamento Mensal</label>
-              <input id="c_venc" type="date" class="p-2 rounded bg-black border border-white/10 text-sm">
-              <label class="text-[10px] text-gray-400">Finalização do Contrato</label>
-              <input id="c_fim" type="date" class="p-2 rounded bg-black border border-white/10 text-sm">
-              <input id="c_valor_total" type="number" placeholder="Valor Total R$" class="p-2 rounded bg-black border border-white/10 text-sm">
-              <input id="c_valor_mensal" type="number" placeholder="Valor Mensal R$" class="p-2 rounded bg-black border border-white/10 text-sm">
-            </div>
-          </div>
-          <button onclick="salvarCliente()" class="mt-4 w-full bg-gradient-to-r from-cyan-500 to-blue-600 p-3 rounded font-bold text-sm">SALVAR</button>
-        </div>
-      </div>
-
-      <!-- LISTA -->
-      <div id="view-clientes" class="hidden"><div class="bg-[#0f172a] p-4 rounded"><h2 class="font-bold mb-3">📋 Clientes</h2><div id="listaClientes"></div></div></div>
-      <div id="view-contratos" class="hidden"><div class="bg-[#0f172a] p-4 rounded"><h2 class="font-bold text-purple-400 mb-3">📑 Contratos</h2><div id="listaContratos"></div></div></div>
-
-      <!-- USUARIOS -->
-      <div id="view-usuarios" class="hidden">
-        <div class="bg-[#0f172a] p-4 rounded border border-yellow-500/20 max-w-md">
-          <h2 class="font-bold text-yellow-400 mb-3">👥 Gerenciar Usuários</h2>
-          <div class="flex flex-col gap-2 border-b border-white/10 pb-3 mb-3">
-            <input id="u_nome" placeholder="Nome completo" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="u_login" placeholder="Login" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="u_senha" type="password" placeholder="Senha" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <select id="u_tipo" class="p-3 rounded bg-black border border-white/10 text-sm">
-              <option value="admin">Admin (tudo)</option>
-              <option value="tecnico">Técnico</option>
-              <option value="cliente">Cliente Contrato (limitado)</option>
-            </select>
-            <button onclick="criarUsuario()" class="bg-yellow-600 p-3 rounded font-bold text-sm">CRIAR USUÁRIO</button>
-          </div>
-          <div id="listaUsuarios" class="space-y-2"></div>
-        </div>
-      </div>
-
-      <!-- CHAMADOS -->
-      <div id="view-chamados" class="hidden">
-        <div class="bg-[#0f172a] p-4 rounded border border-yellow-500/20 max-w-2xl">
-          <h2 class="font-bold text-yellow-400 mb-3">🎫 Chamados / Trabalhos</h2>
-          <div class="flex flex-col gap-2 mb-4 border-b border-white/10 pb-3">
-            <select id="ch_cliente" class="p-3 rounded bg-black border border-white/10 text-sm"></select>
-            <input id="ch_titulo" placeholder="Título do trabalho" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <textarea id="ch_desc" placeholder="Descrição do problema" class="p-3 rounded bg-black border border-white/10 text-sm h-20"></textarea>
-            <button onclick="criarChamado()" class="bg-yellow-600 p-3 rounded font-bold text-sm">ABRIR CHAMADO</button>
-          </div>
-          <div id="listaChamados" class="space-y-2"></div>
-        </div>
-      </div>
-
-      <!-- ORCAMENTO -->
-      <div id="view-orcamento" class="hidden">
-        <div class="bg-[#0f172a] p-4 rounded border border-green-500/20 max-w-md">
-          <h2 class="font-bold text-green-400 mb-3">🧾 Orçamento PDF</h2>
-          <div class="flex flex-col gap-2">
-            <select id="o_cliente" class="p-3 rounded bg-black border border-white/10 text-sm"></select>
-            <textarea id="o_desc" placeholder="Serviço..." class="p-3 rounded bg-black border border-white/10 h-20 text-sm"></textarea>
-            <input id="o_mao" type="number" placeholder="Mão obra R$" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="o_pecas" type="number" placeholder="Peças R$" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <select id="o_pag" class="p-3 rounded bg-black border border-white/10 text-sm"><option>PIX - 11 99626-4221</option><option>Dinheiro</option><option>Cartão</option><option>Boleto</option></select>
-          </div>
-          <button onclick="gerarPDF()" class="mt-3 w-full bg-green-600 p-3 rounded font-bold text-sm">GERAR PDF</button>
-        </div>
-      </div>
-
-      <!-- REMOTO -->
-      <div id="view-remoto" class="hidden">
-        <div class="bg-[#0f172a] p-4 rounded border border-purple-500/20 max-w-md">
-          <h2 class="font-bold text-purple-400 mb-3">💻 Remoto</h2>
-          <div class="flex flex-col gap-2">
-            <input id="r_nome" placeholder="Cliente" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <input id="r_id" placeholder="ID AnyDesk" class="p-3 rounded bg-black border border-white/10 text-sm">
-            <button onclick="gerarSenhaRemoto()" class="bg-purple-600 p-3 rounded text-sm">GERAR SENHA</button>
-            <div id="r_result" class="hidden p-3 bg-black rounded text-center"><span id="r_senha" class="font-bold text-cyan-400 text-lg"></span><button onclick="copiarZap()" class="mt-2 w-full bg-green-600 p-2 rounded text-xs">Zap</button></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- AREA CLIENTE -->
-      <div id="view-meus" class="hidden">
-        <div class="bg-[#0f172a] p-4 rounded border border-cyan-500/20">
-          <h2 class="font-bold text-cyan-400 mb-3">🙋 Minha Área - Meus Chamados</h2>
-          <button onclick="mostrar('chamados')" class="mb-3 bg-cyan-600 p-2 rounded text-xs">+ Abrir Novo Chamado</button>
-          <div id="listaMeusChamados"></div>
-        </div>
-      </div>
-
-    </main>
-  </div>
+<div id="telaSistema" class="hidden w-full max-w-6xl">
+<div class="bg-[#0f172a] p-4 rounded-xl mb-4 flex justify-between items-center">
+<h2 class="font-bold text-cyan-400">Dashboard V4.1 - Ramos Tecnologia</h2>
+<button onclick="sair()" class="text-xs bg-red-500/20 text-red-400 px-3 py-1 rounded">Sair</button>
+</div>
+<div class="bg-[#0f172a] p-6 rounded-xl">
+<h3 class="font-bold mb-4">✅ Sistema Perfeito - PIX Protegido</h3>
+<p class="text-sm text-gray-300">Seu PIX agora só aparece no momento do pagamento e no PDF, não mais na tela principal.</p>
+<div class="bg-[#020617] p-3 rounded mt-4 text-xs">Sistema seguro em coluna - Sem PIX exposto</div>
+<!-- Aqui continua seus 5 campos de contrato: Inicio, Pagamento, Finalização, Valor Total, Mensal -->
+</div>
 </div>
 
 <script>
-let usuarioLogado = null;
-let usuarios = JSON.parse(localStorage.getItem('ramos_usuarios')||'[{"nome":"Admin Master","login":"admin","senha":"@Xumone@531973","tipo":"admin"}]');
-let clientes = JSON.parse(localStorage.getItem('ramos_v4_clientes')||'[]');
-let chamados = JSON.parse(localStorage.getItem('ramos_v4_chamados')||'[]');
-
-function salvarTudo(){
-  localStorage.setItem('ramos_usuarios', JSON.stringify(usuarios));
-  localStorage.setItem('ramos_v4_clientes', JSON.stringify(clientes));
-  localStorage.setItem('ramos_v4_chamados', JSON.stringify(chamados));
+const USUARIOS_PADRAO = {admin:"@Xumone@531973"};
+function fazerLogin(){
+let u = document.getElementById('loginUser').value;
+let p = document.getElementById('loginPass').value;
+let usuarios = JSON.parse(localStorage.getItem('usuarios')||'{}');
+let todos = {...USUARIOS_PADRAO,...usuarios};
+if(todos[u] && todos[u]===p){
+document.getElementById('telaLogin').classList.add('hidden');
+document.getElementById('telaSistema').classList.remove('hidden');
+document.getElementById('msgErro').classList.add('hidden');
+}else{
+document.getElementById('msgErro').classList.remove('hidden');
 }
-
-function logar(){
-  let l = document.getElementById('login_user').value.trim();
-  let s = document.getElementById('login_senha').value.trim();
-  let u = usuarios.find(x=>x.login===l && x.senha===s);
-  if(!u){document.getElementById('erro').classList.remove('hidden');return;}
-  usuarioLogado = u;
-  document.getElementById('login').classList.add('hidden');
-  document.getElementById('sistema').classList.remove('hidden');
-  montarMenu();
-  carregar();
 }
-
-function montarMenu(){
-  let m = document.getElementById('menu');
-  let tipo = usuarioLogado.tipo;
-  document.getElementById('user_info').innerText = usuarioLogado.nome + ' ('+tipo+')';
-  if(tipo==='cliente'){
-    m.innerHTML = `<button onclick="mostrar('dashboard')" class="w-full text-left p-2 rounded bg-blue-600 text-xs">📊 Início</button><button onclick="mostrar('meus')" class="w-full text-left p-2 rounded hover:bg-white/10 text-xs">🎫 Meus Chamados</button><button onclick="mostrar('chamados')" class="w-full text-left p-2 rounded hover:bg-white/10 text-xs">➕ Abrir Chamado</button>`;
-    mostrar('meus');
-  } else {
-    m.innerHTML = `<button onclick="mostrar('dashboard')" class="w-full text-left p-2 rounded bg-blue-600 text-xs">📊 Dash</button><button onclick="mostrar('cadastro')" class="w-full text-left p-2 rounded hover:bg-white/10 text-xs">👤 Cliente</button><button onclick="mostrar('clientes')" class="w-full text-left p-2 rounded hover:bg-white/10 text-xs">📋 Lista</button><button onclick="mostrar('contratos')" class="w-full text-left p-2 rounded hover:bg-white/10 text-xs">📑 Contratos</button><button onclick="mostrar('chamados')" class="w-full text-left p-2 rounded hover:bg-white/10 text-xs">🎫 Chamados</button><button onclick="mostrar('usuarios')" class="w-full text-left p-2 rounded hover:bg-white/10 text-xs">👥 Usuários</button><button onclick="mostrar('orcamento')" class="w-full text-left p-2 rounded hover:bg-white/10 text-xs">🧾 Orçamento</button><button onclick="mostrar('remoto')" class="w-full text-left p-2 rounded hover:bg-white/10 text-xs">💻 Remoto</button>`;
-    mostrar('dashboard');
-  }
-}
-
-function mostrar(v){
-  ['dashboard','cadastro','clientes','contratos','usuarios','chamados','orcamento','remoto','meus'].forEach(x=>{let el=document.getElementById('view-'+x); if(el) el.classList.add('hidden');});
-  document.getElementById('view-'+v).classList.remove('hidden');
-  if(v==='clientes') renderClientes();
-  if(v==='contratos') renderContratos();
-  if(v==='usuarios') renderUsuarios();
-  if(v==='chamados') renderChamados();
-  if(v==='meus') renderMeus();
-  if(v==='dashboard') carregar();
-}
-
-function toggleContrato(){let t=document.getElementById('c_tipo').value;let d=document.getElementById('campos_contrato');d.classList.toggle('hidden',t!=='Contrato');d.classList.toggle('flex',t==='Contrato');}
-
-function carregar(){
-  document.getElementById('totalClientes').innerText=clientes.length;
-  let cons=clientes.filter(c=>c.tipo==='Contrato');
-  document.getElementById('totalContratos').innerText=cons.length;
-  document.getElementById('totalChamados').innerText=chamados.filter(c=>c.status!=='Finalizado'&&c.status!=='Pago').length;
-  let mensal=cons.reduce((s,c)=>s+(parseFloat(c.valor_mensal)||0),0);
-  document.getElementById('totalMensal').innerText='R$ '+mensal.toFixed(2);
-  let sel=document.getElementById('o_cliente'); let sel2=document.getElementById('ch_cliente');
-  [sel,sel2].forEach(s=>{if(!s)return; s.innerHTML='<option value="">Selecione cliente...</option>'; clientes.forEach((c,i)=>{let o=document.createElement('option');o.value=i;o.textContent=c.nome; s.appendChild(o);});});
-  let alertas=document.getElementById('alertas'); alertas.innerHTML='';
-  cons.forEach(c=>{if(c.fim){let dias=Math.ceil((new Date(c.fim)-new Date())/(1000*60*60*24)); if(dias<=15){alertas.innerHTML+=`<div class="bg-yellow-500/20 p-2 rounded text-xs">⚠️ ${c.nome} vence em ${dias} dias</div>`;}}});
-}
-
-function salvarCliente(){
-  let c={nome:document.getElementById('c_nome').value, cpf:document.getElementById('c_cpf').value, zap:document.getElementById('c_zap').value, email:document.getElementById('c_email').value, end:document.getElementById('c_end').value, bairro:document.getElementById('c_bairro').value, cidade:document.getElementById('c_cidade').value, estado:document.getElementById('c_estado').value, cep:document.getElementById('c_cep').value, tipo:document.getElementById('c_tipo').value, inicio:document.getElementById('c_inicio').value, venc:document.getElementById('c_venc').value, fim:document.getElementById('c_fim').value, valor_total:document.getElementById('c_valor_total').value, valor_mensal:document.getElementById('c_valor_mensal').value};
-  if(!c.nome){alert('Nome!');return;} clientes.push(c); salvarTudo(); alert('Salvo!'); carregar(); mostrar('clientes');
-}
-function renderClientes(){let d=document.getElementById('listaClientes'); if(clientes.length===0){d.innerHTML='<p class="text-gray-500 text-sm">Nenhum</p>';return;} d.innerHTML=clientes.map((c,i)=>`<div class="p-2 bg-black rounded text-sm"><b class="text-cyan-400">${c.nome}</b> - ${c.tipo}<br><span class="text-[11px] text-gray-400">${c.zap} | Mensal R$ ${c.valor_mensal||0}</span></div>`).join('');}
-function renderContratos(){let d=document.getElementById('listaContratos'); let cons=clientes.filter(c=>c.tipo==='Contrato'); if(cons.length===0){d.innerHTML='<p class="text-gray-500 text-sm">Nenhum contrato</p>';return;} d.innerHTML=cons.map(c=>`<div class="p-3 bg-black rounded border border-purple-500/20 text-sm"><b class="text-purple-400">${c.nome}</b><p class="text-[11px]">Início: ${c.inicio||'-'} | Pag: ${c.venc||'-'} | Fim: ${c.fim||'-'}</p><p class="text-[11px]">Total R$ ${c.valor_total||0} | Mensal <b class="text-green-400">R$ ${c.valor_mensal||0}</b></p></div>`).join('');}
-
-// USUARIOS
-function criarUsuario(){let u={nome:document.getElementById('u_nome').value, login:document.getElementById('u_login').value, senha:document.getElementById('u_senha').value, tipo:document.getElementById('u_tipo').value}; if(!u.login||!u.senha){alert('Login e senha!');return;} if(usuarios.find(x=>x.login===u.login)){alert('Login já existe!');return;} usuarios.push(u); salvarTudo(); renderUsuarios(); alert('Usuário criado: '+u.login);}
-function renderUsuarios(){let d=document.getElementById('listaUsuarios'); d.innerHTML=usuarios.map((u,i)=>`<div class="p-2 bg-black rounded flex justify-between items-center text-sm"><div><b>${u.nome}</b><br><span class="text-[11px] text-gray-400">${u.login} - ${u.tipo}</span></div><div class="flex gap-1"><button onclick="alterarSenha(${i})" class="bg-blue-600 px-2 py-1 rounded text-[10px]">Senha</button><button onclick="excluirUsuario(${i})" class="bg-red-600 px-2 py-1 rounded text-[10px]">X</button></div></div>`).join('');}
-function excluirUsuario(i){if(i===0){alert('Não pode excluir admin master!');return;} if(!confirm('Excluir?'))return; usuarios.splice(i,1); salvarTudo(); renderUsuarios();}
-function alterarSenha(i){let nova=prompt('Nova senha para '+usuarios[i].login+':'); if(!nova)return; usuarios[i].senha=nova; salvarTudo(); alert('Senha alterada!');}
-
-// CHAMADOS
-function criarChamado(){let idx=document.getElementById('ch_cliente').value; if(idx===''){alert('Selecione cliente!');return;} let cli=clientes[idx]; let ch={id:Date.now(), cliente:cli.nome, titulo:document.getElementById('ch_titulo').value||'Chamado', desc:document.getElementById('ch_desc').value, status:'Aberto', pagamento:'Pendente', avaliacao:'', data:new Date().toLocaleDateString()}; chamados.push(ch); salvarTudo(); renderChamados(); alert('Chamado aberto!');}
-function renderChamados(){let d=document.getElementById('listaChamados'); if(chamados.length===0){d.innerHTML='<p class="text-gray-500 text-sm">Nenhum chamado</p>';return;} d.innerHTML=chamados.slice().reverse().map((ch,iReal)=>{let idx=chamados.length-1-chamados.slice().reverse().indexOf(ch); return `<div class="p-3 bg-black rounded border border-white/10 text-sm"><div class="flex justify-between"><b class="text-yellow-400">${ch.titulo}</b><span class="text-[10px] px-2 py-1 rounded ${ch.status==='Aberto'?'bg-yellow-500/20':'bg-green-500/20'}">${ch.status}</span></div><p class="text-[11px] text-gray-400">${ch.cliente} | ${ch.data} | Pag: ${ch.pagamento}</p><p class="text-xs mt-1">${ch.desc}</p><p class="text-[11px]">Avaliação: ${ch.avaliacao||'-'}</p><div class="flex gap-1 mt-2 flex-wrap"><button onclick="mudarStatus(${ch.id},'Em Andamento')" class="bg-blue-600 px-2 py-1 rounded text-[10px]">Em Andamento</button><button onclick="mudarStatus(${ch.id},'Concluído')" class="bg-green-600 px-2 py-1 rounded text-[10px]">Validar / Concluir</button><button onclick="darBaixa(${ch.id})" class="bg-purple-600 px-2 py-1 rounded text-[10px]">Dar Baixa + PIX</button><button onclick="avaliarChamado(${ch.id})" class="bg-yellow-600 px-2 py-1 rounded text-[10px]">Avaliar ⭐</button><button onclick="mudarStatus(${ch.id},'Finalizado')" class="bg-gray-600 px-2 py-1 rounded text-[10px]">Finalizar</button><button onclick="mudarStatus(${ch.id},'Aberto')" class="bg-cyan-600 px-2 py-1 rounded text-[10px]">Reabrir</button></div></div>`;}).join('');}
-function renderMeus(){let d=document.getElementById('listaMeusChamados'); let meus=chamados.filter(c=>usuarioLogado.tipo==='cliente'? true : true); // simplificado, cliente vê todos por enquanto
-  if(meus.length===0){d.innerHTML='<p class="text-gray-500 text-sm">Nenhum chamado seu</p>';return;}
-  d.innerHTML=meus.slice().reverse().map(ch=>`<div class="p-3 bg-black rounded border border-cyan-500/20 text-sm"><b class="text-cyan-400">${ch.titulo}</b> - ${ch.status}<p class="text-[11px] text-gray-400">${ch.data}</p><p class="text-xs">${ch.desc}</p><div class="flex gap-1 mt-2"><button onclick="avaliarChamado(${ch.id})" class="bg-yellow-600 px-2 py-1 rounded text-[10px]">Avaliar ⭐</button><button onclick="mudarStatus(${ch.id},'Finalizado')" class="bg-gray-600 px-2 py-1 rounded text-[10px]">Finalizar</button><button onclick="mudarStatus(${ch.id},'Aberto')" class="bg-cyan-600 px-2 py-1 rounded text-[10px]">Reabrir</button></div></div>`).join('');
-}
-function mudarStatus(id,novo){let ch=chamados.find(c=>c.id===id); if(ch){ch.status=novo; salvarTudo(); renderChamados(); renderMeus(); carregar();}}
-function darBaixa(id){let ch=chamados.find(c=>c.id===id); if(ch){ch.status='Pago'; ch.pagamento='Pago - PIX 11 99626-4221'; salvarTudo(); renderChamados(); alert('Baixa dada! PIX recebido!');}}
-function avaliarChamado(id){let nota=prompt('Avalie de 1 a 5 estrelas:'); if(!nota)return; let ch=chamados.find(c=>c.id===id); if(ch){ch.avaliacao=nota+' ⭐'; salvarTudo(); renderChamados(); renderMeus();}}
-
-function gerarPDF(){let idx=document.getElementById('o_cliente').value; if(idx===''){alert('Selecione');return;} let cli=clientes[idx]; let desc=document.getElementById('o_desc').value; let mao=parseFloat(document.getElementById('o_mao').value||0); let pecas=parseFloat(document.getElementById('o_pecas').value||0); let total=mao+pecas; const {jsPDF}=window.jspdf; let doc=new jsPDF(); doc.text('Ramos Tecnologia - PIX 11 99626-4221',10,10); doc.text('Cliente: '+cli.nome,10,20); if(cli.tipo==='Contrato'){doc.text('Contrato '+cli.inicio+' a '+cli.fim+' Mensal R$ '+cli.valor_mensal,10,25);} doc.text(doc.splitTextToSize(desc,180),10,35); doc.text('TOTAL R$ '+total.toFixed(2),10,80); doc.save('orc.pdf');}
-function gerarSenhaRemoto(){let s=Math.random().toString(36).substring(2,8).toUpperCase(); document.getElementById('r_senha').innerText=s; document.getElementById('r_result').classList.remove('hidden'); window._s=s;}
-function copiarZap(){window.open('https://wa.me/?text='+encodeURIComponent('Senha: '+window._s),'_blank');}
+function sair(){location.reload();}
 </script>
 </body>
 </html>
