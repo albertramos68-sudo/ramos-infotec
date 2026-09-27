@@ -1,145 +1,292 @@
-<script>
-const SENHA_ADMIN="@Xumone@197353";
-const CNPJ="45.114.523/0001-05";
-const PIX="11 99626-4221";
-const LOGO_BASE64="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAAAAXNSR0IB2cksfwAAAD9JREFUeJzt0zEKADAIwMBBsiMfD4Fz9hOe4iBv9vJ4Xl7P7gMAAAAAAAAAAAAAAAAAODh4CwABYYi3KQAAAABJRU5ErkJggg==";
-let USUARIO_LOGADO=null, TIPO_LOGADO=null, CHAMADO_ATUAL=null;
-let CLIENTE_EDIT=null, CONTRATO_EDIT=null, USUARIO_EDIT=null, ORC_EDIT=null;
-function getD(k){return JSON.parse(localStorage.getItem(k)||"[]")}function setD(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function fazerLogin(){const u=loginUser.value.trim(), p=loginPass.value.trim(); if(u==="admin"&&p===SENHA_ADMIN){localStorage.setItem('logado','admin');localStorage.setItem('tipo','admin');abrirApp();return} if(u==="cliente1"&&p==="123"){localStorage.setItem('logado','cliente1');localStorage.setItem('tipo','cliente');abrirApp();return} const us=getD('ramos_usuarios'); const ach=us.find(x=>x.nome===u && x.senha===p &&!x.bloqueado); if(ach){localStorage.setItem('logado',u);localStorage.setItem('tipo',ach.tipo);abrirApp()}else{loginErro.classList.remove('hidden')}}
-function abrirApp(){USUARIO_LOGADO=localStorage.getItem('logado'); TIPO_LOGADO=localStorage.getItem('tipo'); loginScreen.classList.add('hidden'); appScreen.classList.remove('hidden'); userInfo.textContent="👤 "+USUARIO_LOGADO+" ("+TIPO_LOGADO+")"; montarMenu(); renderTudo()}
-function logout(){localStorage.removeItem('logado');localStorage.removeItem('tipo');location.reload()} if(localStorage.getItem('logado')) abrirApp();
-function montarMenu(){mainNav.innerHTML=""; const a=[{id:'clientes',l:'Clientes'},{id:'usuarios',l:'Usuários'},{id:'contratos',l:'Contratos + Boleto'},{id:'orcamentos',l:'Orçamentos'},{id:'chamados',l:'Chamados'},{id:'remoto',l:'Remoto'}]; const c=[{id:'chamados',l:'Meus Chamados'}]; const colab=[{id:'clientes',l:'Clientes'},{id:'contratos',l:'Contratos'},{id:'orcamentos',l:'Orçamentos'},{id:'chamados',l:'Chamados'}]; let lista=TIPO_LOGADO==='admin'?a:TIPO_LOGADO==='colaborador'?colab:c; lista.forEach(t=>{const b=document.createElement('button'); b.id='btn-'+t.id; b.textContent=t.l; b.className="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs"; b.onclick=()=>showTab(t.id); mainNav.appendChild(b)}); showTab(lista[0].id)}
-function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden')); document.getElementById('tab-'+t).classList.remove('hidden')}
-
-// CLIENTES
-function addCliente(){if(!cNome.value) return alert('Nome'); let l=getD('ramos_clientes'); if(CLIENTE_EDIT){const i=l.findIndex(x=>x.id===CLIENTE_EDIT); l[i]={id:CLIENTE_EDIT,nome:cNome.value,cpf:cCpf.value,zap:cZap.value,tel:cTel.value,cidade:cCidade.value,estado:cEstado.value,cep:cCep.value,comp:cComp.value,end:cEnd.value}; CLIENTE_EDIT=null} else {l.push({id:Date.now(),nome:cNome.value,cpf:cCpf.value,zap:cZap.value,tel:cTel.value,cidade:cCidade.value,estado:cEstado.value,cep:cCep.value,comp:cComp.value,end:cEnd.value})} setD('ramos_clientes',l); limparCliente(); renderTudo()}
-function limparCliente(){cNome.value="";cCpf.value="";cZap.value="";cTel.value="";cCidade.value="";cEstado.value="";cCep.value="";cComp.value="";cEnd.value="";CLIENTE_EDIT=null}
-function editarCliente(id){const l=getD('ramos_clientes'); const c=l.find(x=>x.id===id); cNome.value=c.nome; cCpf.value=c.cpf||""; cZap.value=c.zap||""; cTel.value=c.tel||""; cCidade.value=c.cidade||""; cEstado.value=c.estado||""; cCep.value=c.cep||""; cComp.value=c.comp||""; cEnd.value=c.end||""; CLIENTE_EDIT=id; showTab('clientes'); window.scrollTo(0,0)}
-function renderClientes(){const l=getD('ramos_clientes'); listaClientes.innerHTML=l.slice(-50).reverse().map(c=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${c.nome}</b> ${c.cidade||''}/${c.estado||''}<br><span class="text-[11px] text-slate-400">${c.cpf||''} | ${c.zap||''} | ${c.tel||''}</span><br><span class="text-[10px] text-slate-500">${c.end||''} ${c.cep||''}</span></div><div class="flex gap-1"><button onclick="editarCliente(${c.id})" class="bg-blue-600 px-2 py-1 rounded text-[11px]">✏️ Alterar</button><button onclick="excluirItem('ramos_clientes',${c.id})" class="bg-red-600 px-2 py-1 rounded text-[11px]">🗑️ Excluir</button></div></div>`).join(''); const opt=l.map(c=>`<option value="${c.nome}">${c.nome}</option>`).join(''); ctCliente.innerHTML=opt; oCliente.innerHTML=opt; rCliente.innerHTML=opt}
-
-// USUARIOS - FIX BOTÕES ALTERAR / TROCAR SENHA
-function addUsuario(){
- if(!uNome.value||!uSenha.value) return alert('Login e senha');
- let l=getD('ramos_usuarios');
- if(USUARIO_EDIT){
-  const i=l.findIndex(x=>x.id===USUARIO_EDIT);
-  l[i].nome=uNome.value; l[i].senha=uSenha.value; l[i].tipo=uTipo.value;
-  USUARIO_EDIT=null;
- }else{
-  l.push({id:Date.now(),nome:uNome.value,senha:uSenha.value,tipo:uTipo.value,bloqueado:false});
- }
- setD('ramos_usuarios',l); uNome.value=""; uSenha.value=""; USUARIO_EDIT=null; renderUsuarios();
-}
-function editarUsuario(id){const l=getD('ramos_usuarios'); const u=l.find(x=>x.id===id); uNome.value=u.nome; uSenha.value=u.senha; uTipo.value=u.tipo; USUARIO_EDIT=id; showTab('usuarios'); window.scrollTo(0,0); alert('Editando: '+u.nome+' - Altere e clique CRIAR USUÁRIO para salvar')}
-function trocarSenha(id){const nova=prompt('Digite nova senha:'); if(!nova) return; let l=getD('ramos_usuarios'); const i=l.findIndex(x=>x.id===id); l[i].senha=nova; setD('ramos_usuarios',l); renderUsuarios(); alert('Senha trocada com sucesso!')}
-function renderUsuarios(){
- const l=getD('ramos_usuarios');
- listaUsuarios.innerHTML=l.map(u=>`
-  <div class="card p-3">
-   <div class="flex justify-between items-center">
-    <div><b class="text-white text-sm">${u.nome}</b> <span class="text-[10px] ${u.tipo==='admin'?'bg-red-900 text-red-200':u.tipo==='colaborador'?'bg-yellow-900 text-yellow-200':'bg-blue-900 text-blue-200'} px-2 py-1 rounded-full ml-2">${u.tipo.toUpperCase()}</span><br><span class="text-[10px] text-slate-500">ID: ${u.id}</span></div>
-    <div class="flex flex-wrap gap-1">
-     <button onclick="editarUsuario(${u.id})" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded text-[11px] font-bold">✏️ ALTERAR</button>
-     <button onclick="trocarSenha(${u.id})" class="bg-yellow-600 hover:bg-yellow-500 text-white px-3 py-1.5 rounded text-[11px] font-bold">🔑 TROCAR SENHA</button>
-     <button onclick="excluirItem('ramos_usuarios',${u.id})" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded text-[11px] font-bold">🗑️ EXCLUIR</button>
-    </div>
-   </div>
-  </div>
- `).join('')||"<p class='text-slate-400 text-xs p-4'>Nenhum usuário criado ainda. Crie Admin / Colaborador / Cliente acima.</p>";
-}
-
-// CONTRATOS - FIX BOTÃO INSERIR / ALTERAR / FINALIZAR
-function addContrato(){
- if(!ctCliente.value) return alert('Selecione cliente');
- let l=getD('ramos_contratos');
- if(CONTRATO_EDIT){
-  const i=l.findIndex(x=>x.id===CONTRATO_EDIT);
-  l[i]={...l[i],cliente:ctCliente.value,inicio:ctInicio.value,pagamento:ctPagamento.value,final:ctFinal.value,mensal:ctMensal.value,total:ctTotal.value};
-  CONTRATO_EDIT=null;
- }else{
-  l.push({id:Date.now(),cliente:ctCliente.value,inicio:ctInicio.value,pagamento:ctPagamento.value,final:ctFinal.value,mensal:ctMensal.value,total:ctTotal.value,status:'Ativo'});
- }
- setD('ramos_contratos',l); limparContrato(); renderContratos();
-}
-function limparContrato(){ctInicio.value="";ctPagamento.value="";ctFinal.value="";ctMensal.value="";ctTotal.value="";CONTRATO_EDIT=null}
-function editarContrato(id){const l=getD('ramos_contratos'); const c=l.find(x=>x.id===id); ctCliente.value=c.cliente; ctInicio.value=c.inicio; ctPagamento.value=c.pagamento; ctFinal.value=c.final; ctMensal.value=c.mensal; ctTotal.value=c.total; CONTRATO_EDIT=id; showTab('contratos'); alert('Editando contrato de: '+c.cliente)}
-function finalizarContrato(id){if(!confirm('Finalizar contrato?')) return; let l=getD('ramos_contratos'); const i=l.findIndex(x=>x.id===id); l[i].status='Finalizado'; setD('ramos_contratos',l); renderContratos()}
-function renderContratos(){
- const l=getD('ramos_contratos');
- listaContratos.innerHTML=l.slice(-50).reverse().map(c=>`
-  <div class="card p-3">
-   <div class="flex justify-between items-start">
-    <div><b class="text-white">${c.cliente}</b> <span class="text-[10px] ${c.status==='Finalizado'?'bg-green-900':'bg-emerald-900'} px-2 py-0.5 rounded-full">${c.status||'Ativo'}</span><br><span class="text-[11px] text-slate-400">Inicio ${c.inicio||'-'} | Final ${c.final||'-'} | Pag ${c.pagamento||''}<br>R$ Mensal ${c.mensal||'-'} | Total R$${c.total||'-'}</span></div>
-    <div class="flex flex-wrap gap-1 max-w-[260px] justify-end">
-     <button onclick="editarContrato(${c.id})" class="bg-blue-600 px-2 py-1 rounded text-[11px] font-bold">✏️ ALTERAR</button>
-     <button onclick="finalizarContrato(${c.id})" class="bg-green-700 px-2 py-1 rounded text-[11px] font-bold">🏁 FINALIZAR</button>
-     <button onclick="gerarBoletoContrato('${c.cliente}','${c.mensal}','${c.final}','${c.inicio}')" class="bg-cyan-600 px-2 py-1 rounded text-[11px] font-bold">📄 BOLETO</button>
-     <button onclick="excluirItem('ramos_contratos',${c.id})" class="bg-red-600 px-2 py-1 rounded text-[11px]">🗑️</button>
-    </div>
-   </div>
-  </div>
- `).join('')||"<p class='text-slate-500 text-xs p-4'>Nenhum contrato. Clique em SALVAR CONTRATO acima para inserir.</p>";
-}
-
-// ORCAMENTOS - FIX BOTÕES FINALIZAR / EXCLUIR
-function calcOrc(){const v=parseFloat(oVisita.value.replace(',','.'))||0; const t=parseFloat(oTrabalho.value.replace(',','.'))||0; oTotal.value=(v+t).toFixed(2)}
-function addOrcamento(){calcOrc(); if(!oCliente.value) return alert('Cliente'); let l=getD('ramos_orcamentos'); if(ORC_EDIT){const i=l.findIndex(x=>x.id===ORC_EDIT); l[i].cliente=oCliente.value; l[i].servico=oServico.value; l[i].visita=oVisita.value; l[i].trabalho=oTrabalho.value; l[i].total=oTotal.value; ORC_EDIT=null} else {l.push({id:Date.now(),cliente:oCliente.value,servico:oServico.value,visita:oVisita.value,trabalho:oTrabalho.value,total:oTotal.value,status:'Aberto'})} setD('ramos_orcamentos',l); renderOrcamentos()}
-function editarOrc(id){const l=getD('ramos_orcamentos'); const o=l.find(x=>x.id===id); oCliente.value=o.cliente; oServico.value=o.servico; oVisita.value=o.visita; oTrabalho.value=o.trabalho; calcOrc(); ORC_EDIT=id; showTab('orcamentos')}
-function finalizarOrc(id){let l=getD('ramos_orcamentos'); const i=l.findIndex(x=>x.id===id); l[i].status='Finalizado'; setD('ramos_orcamentos',l); renderOrcamentos()}
-function renderOrcamentos(){
- const l=getD('ramos_orcamentos');
- listaOrcamentos.innerHTML=l.slice(-50).reverse().map(o=>`
-  <div class="card p-3">
-   <div class="flex justify-between items-center">
-    <div><b class="text-white">${o.cliente}</b> - ${o.servico} <span class="text-[10px] ${o.status==='Finalizado'?'bg-green-900':'bg-blue-900'} px-2 py-0.5 rounded-full ml-1">${o.status||'Aberto'}</span><br><span class="text-[11px] text-slate-400">Visita R$${o.visita} + Trabalho R$${o.trabalho} = <b>Total R$${o.total}</b></span></div>
-    <div class="flex gap-1 flex-wrap justify-end max-w-[300px]">
-     <button onclick="editarOrc(${o.id})" class="bg-blue-600 px-2 py-1 rounded text-[11px]">✏️ ALTERAR</button>
-     <button onclick="finalizarOrc(${o.id})" class="bg-green-700 px-2 py-1 rounded text-[11px]">🏁 FINALIZAR</button>
-     <button onclick="gerarOrcamentoPDF('${o.cliente}','${o.servico}','${o.visita}','${o.trabalho}','${o.total}')" class="bg-emerald-600 px-2 py-1 rounded text-[11px]">📄 PDF</button>
-     <button onclick="excluirItem('ramos_orcamentos',${o.id})" class="bg-red-600 px-2 py-1 rounded text-[11px]">🗑️ EXCLUIR</button>
-    </div>
-   </div>
-  </div>
- `).join('')||"<p class='text-slate-500 text-xs'>Nenhum orçamento</p>";
-}
-
-// CHAMADOS
-function addChamado(){if(!chTitulo.value) return alert('Título'); const l=getD('ramos_chamados'); l.push({id:Date.now(),cliente:USUARIO_LOGADO,titulo:chTitulo.value,prioridade:chPrior.value,categoria:chCat.value,desc:chDesc.value,status:'Aberto',data:new Date().toLocaleString('pt-BR'),andamentos:[{autor:USUARIO_LOGADO,texto:chDesc.value,data:new Date().toLocaleString('pt-BR')}] }); setD('ramos_chamados',l); chTitulo.value=""; chDesc.value=""; renderChamados()}
-function renderChamados(){let l=getD('ramos_chamados'); if(TIPO_LOGADO==='cliente') l=l.filter(x=>x.cliente===USUARIO_LOGADO); listaChamados.innerHTML=l.slice(-50).reverse().map(ch=>`<div class="card p-3 cursor-pointer hover:border-cyan-500" onclick="abrirModalChamado(${ch.id})"><div class="flex justify-between"><b class="text-white">#${ch.id} ${ch.titulo}</b><span class="text-[10px] bg-slate-800 px-2 py-1 rounded-full">${ch.status}</span></div><div class="text-[11px] text-slate-400">${ch.cliente} | ${ch.data}</div><div class="text-[10px] text-cyan-400 mt-1">👁️ Clique para registrar trabalho / alterar / fechar</div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum</p>"}
-function abrirModalChamado(id){const l=getD('ramos_chamados'); const ch=l.find(x=>x.id===id); CHAMADO_ATUAL=id; const ands=(ch.andamentos||[]).map(a=>`<div class="text-[11px] border-l-2 border-cyan-700 pl-2 mt-2"><b>${a.autor}</b> <span class="text-slate-500">${a.data}</span><br>${a.texto}</div>`).join(''); modalTitulo.textContent="#"+ch.id+" - "+ch.titulo; modalConteudo.innerHTML=`<div class="text-[12px]">${ch.desc}<br>${ands}</div>`; let btn=`<button onclick="editarChamadoTitulo()" class="bg-blue-600 px-3 py-2 rounded text-xs">✏️ ALTERAR</button><button onclick="registrarTrabalho()" class="bg-emerald-600 px-3 py-2 rounded text-xs font-bold">🔧 REGISTREI TRABALHO</button><button onclick="addAndamentoTexto()" class="bg-cyan-600 px-3 py-2 rounded text-xs">💬 TEXTO</button>`; if(TIPO_LOGADO!=='cliente'){btn+=`<button onclick="mudarStatusModal('Fechado')" class="bg-green-700 px-3 py-2 rounded text-xs">✅ FECHAR</button><button onclick="mudarStatusModal('Finalizado')" class="bg-green-900 px-3 py-2 rounded text-xs">🏁 FINALIZAR</button>`} if(TIPO_LOGADO==='admin') btn+=`<button onclick="excluirChamadoModal()" class="bg-red-700 px-3 py-2 rounded text-xs">🗑️ EXCLUIR (ADM)</button>`; modalAcoes.innerHTML=btn; modalChamado.classList.remove('hidden')}
-function fecharModal(){modalChamado.classList.add('hidden'); CHAMADO_ATUAL=null}
-function editarChamadoTitulo(){const n=prompt("Novo título:"); if(!n) return; let l=getD('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].titulo=n; setD('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
-function registrarTrabalho(){const t=prompt("O que fez?"); if(!t) return; let l=getD('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].andamentos.push({autor:USUARIO_LOGADO,texto:"TRABALHOU: "+t,data:new Date().toLocaleString()}); setD('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
-function addAndamentoTexto(){const t=prompt("Texto:"); if(!t) return; let l=getD('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].andamentos.push({autor:USUARIO_LOGADO,texto:t,data:new Date().toLocaleString()}); setD('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
-function mudarStatusModal(s){let l=getD('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].status=s; setD('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
-function excluirChamadoModal(){if(TIPO_LOGADO!=='admin') return alert('Só ADM'); excluirItem('ramos_chamados',CHAMADO_ATUAL); fecharModal()}
-
-function addRemoto(){if(!rCliente.value||!rId.value) return; const l=getD('ramos_remoto'); l.push({id:Date.now(),cliente:rCliente.value,remotoId:rId.value,senha:rSenha.value}); setD('ramos_remoto',l); renderRemoto()}
-function renderRemoto(){const l=getD('ramos_remoto'); listaRemoto.innerHTML=l.map(r=>`<div class="card p-3 flex justify-between"><div><b>${r.cliente}</b><br>ID: ${r.remotoId}</div><button onclick="excluirItem('ramos_remoto',${r.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')}
-function excluirItem(k,id){if(!confirm('Excluir?')) return; let l=getD(k); l=l.filter(x=>x.id!==id); setD(k,l); renderTudo()}
-function renderTudo(){renderClientes(); renderUsuarios(); renderContratos(); renderOrcamentos(); renderChamados(); renderRemoto()}
-function gerarBoletoContrato(c,v,f,i){const {jsPDF}=window.jspdf; const d=new jsPDF(); d.setFillColor(15,30,61); d.rect(0,0,210,30,'F'); d.setTextColor(6,182,212); d.setFontSize(16); d.text('RAMOS INFOTEC',12,18); d.setTextColor(0,0,0); d.setFontSize(12); d.text('BOLETO - '+c+' R$'+v+' Venc '+f,10,45); d.save('boleto_'+c+'.pdf')}
-function gerarOrcamentoPDF(c,s,vi,tr,to){const {jsPDF}=window.jspdf; const d=new jsPDF(); d.setFillColor(15,30,61); d.rect(0,0,210,30,'F'); d.setTextColor(6,182,212); d.setFontSize(16); d.text('RAMOS INFOTEC',12,18); d.setTextColor(0,0,0); d.setFontSize(12); d.text('ORCAMENTO - '+c+' - '+s,10,45); d.text('Visita R$'+vi+' + Trabalho R$'+tr+' = Total R$'+to,10,55); d.text('PIX: '+PIX,10,65); d.save('orc_'+c+'.pdf')}
-</script>
-</body>
-</html>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>RAMOS V4.9.1 FINAL</title>
+<title>RAMOS V4.9.2 FINAL - SAIR FIX</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>body{background:#0b1220;color:#e2e8f0}.card{background:#141f38;border:1px solid #1e2f5a;border-radius:12px}.input-dark{background:#0b1220;border:1px solid #1e2f5a;color:#e2e8f0;padding:10px 12px;border-radius:8px;width:100%}.label-top{font-size:10px;color:#94a3b8;text-transform:uppercase;margin-bottom:4px;display:block}.btn-cyan{background:#06b6d4;color:#001018;font-weight:800;padding:8px 16px;border-radius:8px}.modal-bg{background:rgba(0,0,0,0.85);position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:100;overflow-y:auto}</style>
+<style>body{background:#0b1220;color:#e2e8f0}.card{background:#141f38;border:1px solid #1e2f5a;border-radius:12px}.input-dark{background:#0b1220;border:1px solid #1e2f5a;color:#e2e8f0;padding:10px 12px;border-radius:8px;width:100%}.label-top{font-size:10px;color:#94a3b8;text-transform:uppercase;margin-bottom:4px;display:block}.btn-cyan{background:#06b6d4;color:#001018;font-weight:800;padding:8px 16px;border-radius:8px}.modal-bg{background:rgba(0,0,0,0.85);position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:100}</style>
 </head>
 <body>
-<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4"><div class="card p-8 w-full max-w-[400px]"><h1 class="text-2xl font-black text-center text-white">RAMOS INFOTEC</h1><p class="text-center text-[11px] text-slate-400">CNPJ 45.114.523/0001-05</p><p class="text-center text-cyan-400 text-xs font-bold mt-2 mb-6">V4.9.1 FINAL - TUDO FIX</p><input id="loginUser" placeholder="Usuário" class="input-dark mb-3"><input id="loginPass" type="password" placeholder="Senha" class="input-dark mb-4"><button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-black py-3 rounded-lg">ENTRAR</button><p id="loginErro" class="hidden text-red-400 text-xs mt-3 text-center">Inválido</p></div></div>
-<div id="appScreen" class="hidden"><header class="bg-[#0f1e3d] border-b border-[#1e2f5a] p-3 flex justify-between"><div class="font-black text-white text-sm">RAMOS INFOTEC <span id="userInfo" class="text-[11px] text-cyan-300 font-normal ml-2"></span></div><button onclick="logout()" class="bg-red-600 px-3 py-1 rounded text-[11px]">SAIR</button></header><nav id="mainNav" class="flex flex-wrap gap-2 p-3 bg-[#0f1e3d]"></nav><main class="p-4 max-w-6xl mx-auto">
+<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4"><div class="card p-8 w-full max-w-[400px]"><h1 class="text-2xl font-black text-center text-white">RAMOS INFOTEC</h1><p class="text-center text-[11px] text-slate-400">CNPJ 45.114.523/0001-05</p><p class="text-center text-cyan-400 text-xs font-bold mt-2 mb-6">V4.9.2 - SAIR CORRIGIDO</p><input id="loginUser" placeholder="Usuário" class="input-dark mb-3"><input id="loginPass" type="password" placeholder="Senha" class="input-dark mb-4"><button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-black py-3 rounded-lg">ENTRAR</button><p id="loginErro" class="hidden text-red-400 text-xs mt-3 text-center">Inválido</p></div></div>
+<div id="appScreen" class="hidden"><header class="bg-[#0f1e3d] border-b border-[#1e2f5a] p-3 flex justify-between"><div class="font-black text-white text-sm">RAMOS INFOTEC <span id="userInfo" class="text-[11px] text-cyan-300 font-normal ml-2"></span></div><button onclick="logout()" class="bg-red-600 px-3 py-1 rounded text-[11px] font-bold">SAIR</button></header><nav id="mainNav" class="flex flex-wrap gap-2 p-3 bg-[#0f1e3d]"></nav><main class="p-4 max-w-6xl mx-auto">
 <div id="tab-clientes" class="tab"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300 mb-3">Novo Cliente - Completo com Cidade/Estado/CEP</h2><div class="grid md:grid-cols-2 gap-3"><div><span class="label-top">Nome completo *</span><input id="cNome" placeholder="Nome completo" class="input-dark"></div><div><span class="label-top">CPF/CNPJ</span><input id="cCpf" placeholder="CPF/CNPJ" class="input-dark"></div><div><span class="label-top">WhatsApp</span><input id="cZap" placeholder="11 91111 1111" class="input-dark"></div><div><span class="label-top">Telefone para contato</span><input id="cTel" placeholder="11 3333 4444" class="input-dark"></div><div><span class="label-top">Cidade</span><input id="cCidade" placeholder="São Paulo" class="input-dark"></div><div><span class="label-top">Estado</span><input id="cEstado" placeholder="SP" class="input-dark"></div><div><span class="label-top">CEP</span><input id="cCep" placeholder="00000-000" class="input-dark"></div><div><span class="label-top">Complemento</span><input id="cComp" placeholder="Apto, Bloco" class="input-dark"></div><div class="md:col-span-2"><span class="label-top">Endereço completo</span><input id="cEnd" placeholder="Rua, número, bairro" class="input-dark"></div></div><button onclick="addCliente()" class="btn-cyan mt-3">💾 Salvar Cliente</button><button onclick="limparCliente()" class="bg-[#1a2b52] px-4 py-2 rounded text-xs ml-2">Limpar</button></div><div id="listaClientes" class="grid gap-2"></div></div>
-<div id="tab-usuarios" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">Criar Usuários - Admin / Colaborador / Cliente + Alterar + Trocar Senha</h2><div class="grid md:grid-cols-3 gap-3 mt-3"><div><span class="label-top">Login</span><input id="uNome" placeholder="Login" class="input-dark"></div><div><span class="label-top">Senha</span><input id="uSenha" type="password" placeholder="Senha" class="input-dark"></div><div><span class="label-top">Tipo</span><select id="uTipo" class="input-dark"><option value="admin">Admin</option><option value="colaborador" selected>Colaborador</option><option value="cliente">Cliente</option></select></div></div><button onclick="addUsuario()" class="btn-cyan mt-3">CRIAR / SALVAR USUÁRIO</button></div><div id="listaUsuarios" class="grid gap-2"></div></div>
+<div id="tab-usuarios" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">Usuários - Admin / Colaborador / Cliente + Alterar + Trocar Senha</h2><div class="grid md:grid-cols-3 gap-3 mt-3"><div><span class="label-top">Login</span><input id="uNome" placeholder="Login" class="input-dark"></div><div><span class="label-top">Senha</span><input id="uSenha" type="password" placeholder="Senha" class="input-dark"></div><div><span class="label-top">Tipo</span><select id="uTipo" class="input-dark"><option value="admin">Admin</option><option value="colaborador" selected>Colaborador</option><option value="cliente">Cliente</option></select></div></div><button onclick="addUsuario()" class="btn-cyan mt-3">CRIAR / SALVAR USUÁRIO</button></div><div id="listaUsuarios" class="grid gap-2"></div></div>
 <div id="tab-contratos" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">Contratos + Boleto - Inserir / Alterar / Finalizar</h2><div class="grid md:grid-cols-3 gap-3 mt-3"><div><span class="label-top">Cliente</span><select id="ctCliente" class="input-dark"></select></div><div><span class="label-top">Início</span><input id="ctInicio" type="date" class="input-dark"></div><div><span class="label-top">Pagamento</span><input id="ctPagamento" placeholder="Dia 10" class="input-dark"></div><div><span class="label-top">Final</span><input id="ctFinal" type="date" class="input-dark"></div><div><span class="label-top">Mensal</span><input id="ctMensal" placeholder="R$" class="input-dark"></div><div><span class="label-top">Total</span><input id="ctTotal" placeholder="R$" class="input-dark"></div></div><button onclick="addContrato()" class="btn-cyan mt-3">➕ INSERIR CONTRATO</button><button onclick="limparContrato()" class="bg-[#1a2b52] px-4 py-2 rounded text-xs ml-2">Novo</button></div><div id="listaContratos"></div></div>
 <div id="tab-orcamentos" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">Orçamentos - Finalizar / Excluir + PDF com Logo</h2><div class="grid md:grid-cols-2 gap-3"><div class="md:col-span-2"><span class="label-top">Cliente</span><select id="oCliente" class="input-dark"></select></div><div><span class="label-top">Serviço</span><input id="oServico" placeholder="Manutenção" class="input-dark"></div><div><span class="label-top">Valor da Visita</span><input id="oVisita" placeholder="80,00" class="input-dark" oninput="calcOrc()"></div><div><span class="label-top">Valor do Trabalho</span><input id="oTrabalho" placeholder="160,00" class="input-dark" oninput="calcOrc()"></div><div><span class="label-top">Valor Total</span><input id="oTotal" readonly class="input-dark font-bold bg-[#0f1e3d]"></div></div><button onclick="addOrcamento()" class="btn-cyan mt-3">💾 GERAR ORÇAMENTO</button></div><div id="listaOrcamentos"></div></div>
 <div id="tab-chamados" class="tab hidden"><div class="card p-4 mb-4"><h2 class="font-bold text-cyan-300">🎫 Chamados - Registrar trabalho</h2><div class="grid md:grid-cols-2 gap-3"><div class="md:col-span-2"><span class="label-top">Título</span><input id="chTitulo" placeholder="Ex: PC não liga" class="input-dark"></div><div><span class="label-top">Prioridade</span><select id="chPrior" class="input-dark"><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select></div><div><span class="label-top">Categoria</span><select id="chCat" class="input-dark"><option>Suporte Técnico</option><option>Rede</option><option>Impressora</option><option>Software</option><option>Hardware</option></select></div><div class="md:col-span-2"><span class="label-top">Descrição</span><textarea id="chDesc" class="input-dark h-[80px]"></textarea></div></div><button onclick="addChamado()" class="btn-cyan mt-3">ABRIR CHAMADO</button></div><div id="listaChamados" class="grid gap-3"></div></div>
 <div id="tab-remoto" class="tab hidden"><div class="card p-4"><h2 class="font-bold text-cyan-300">Remoto</h2><div class="grid md:grid-cols-3 gap-3 mt-2"><div><span class="label-top">Cliente</span><select id="rCliente" class="input-dark"></select></div><div><span class="label-top">ID</span><input id="rId" class="input-dark"></div><div><span class="label-top">Senha</span><input id="rSenha" class="input-dark"></div></div><button onclick="addRemoto()" class="btn-cyan mt-3">SALVAR</button></div><div id="listaRemoto" class="mt-3"></div></div>
 </main></div>
-<div id="modalChamado" class="hidden modal-bg" onclick="fecharModal()"><div class="card p-6 w-full max-w-[550px] m-4 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()"><h2 class="font-bold text-cyan-300 mb-3" id="modalTitulo">Detalhes</h2><div id="modalConteudo" class="text-sm"></div><div id="modalAcoes" class="flex flex-wrap gap-2 mt-4"></div><button onclick="fecharModal()" class="bg-slate-700 w-full mt-4 py-2 rounded text-xs">❌ FECHAR JANELA</button></div></div>
+<div id="modalChamado" class="hidden modal-bg"><div class="card p-6 w-full max-w-[550px] m-4 max-h-[90vh] overflow-y-auto"><h2 class="font-bold text-cyan-300 mb-3" id="modalTitulo">Detalhes</h2><div id="modalConteudo" class="text-sm"></div><div id="modalAcoes" class="flex flex-wrap gap-2 mt-4"></div><button onclick="fecharModal()" class="bg-slate-700 w-full mt-4 py-2 rounded text-xs">❌ FECHAR JANELA</button></div></div>
+<script>
+const SENHA_ADMIN="@Xumone@197353";
+function getD(k){return JSON.parse(localStorage.getItem(k)||"[]")}
+function setD(k,v){localStorage.setItem(k,JSON.stringify(v))}
+let USUARIO_LOGADO=null,TIPO_LOGADO=null,CHAMADO_ATUAL=null,CLIENTE_EDIT=null,CONTRATO_EDIT=null,USUARIO_EDIT=null,ORC_EDIT=null;
+
+// ✅ FIX DO ERRO DO SAIR - FECHA MODAL ANTES DE SAIR
+function logout(){
+  const modal=document.getElementById('modalChamado');
+  if(modal) modal.classList.add('hidden');
+  CHAMADO_ATUAL=null;
+  localStorage.removeItem('logado');
+  localStorage.removeItem('tipo');
+  document.getElementById('appScreen').classList.add('hidden');
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('loginUser').value="";
+  document.getElementById('loginPass').value="";
+  setTimeout(()=>location.reload(),150);
+}
+function fecharModal(){
+  document.getElementById('modalChamado').classList.add('hidden');
+  CHAMADO_ATUAL=null;
+}
+
+function fazerLogin(){
+  const u=loginUser.value.trim(),p=loginPass.value.trim();
+  if(u==="admin"&&p===SENHA_ADMIN){localStorage.setItem('logado','admin');localStorage.setItem('tipo','admin');abrirApp();return}
+  if(u==="cliente1"&&p==="123"){localStorage.setItem('logado','cliente1');localStorage.setItem('tipo','cliente');abrirApp();return}
+  const us=getD('ramos_usuarios');
+  const ach=us.find(x=>x.nome===u&&x.senha===p);
+  if(ach){localStorage.setItem('logado',u);localStorage.setItem('tipo',ach.tipo);abrirApp()}
+  else{loginErro.classList.remove('hidden')}
+}
+function abrirApp(){
+  USUARIO_LOGADO=localStorage.getItem('logado');
+  TIPO_LOGADO=localStorage.getItem('tipo');
+  document.getElementById('modalChamado').classList.add('hidden');
+  loginScreen.classList.add('hidden');
+  appScreen.classList.remove('hidden');
+  userInfo.textContent="👤 "+USUARIO_LOGADO+" ("+TIPO_LOGADO+")";
+  montarMenu(); renderTudo();
+}
+if(localStorage.getItem('logado')) abrirApp();
+
+function montarMenu(){
+  mainNav.innerHTML="";
+  const a=[{id:'clientes',l:'Clientes'},{id:'usuarios',l:'Usuários'},{id:'contratos',l:'Contratos + Boleto'},{id:'orcamentos',l:'Orçamentos'},{id:'chamados',l:'Chamados'},{id:'remoto',l:'Remoto'}];
+  const c=[{id:'chamados',l:'Meus Chamados'}];
+  const colab=[{id:'clientes',l:'Clientes'},{id:'contratos',l:'Contratos'},{id:'orcamentos',l:'Orçamentos'},{id:'chamados',l:'Chamados'}];
+  let lista=TIPO_LOGADO==='admin'?a:TIPO_LOGADO==='colaborador'?colab:c;
+  lista.forEach(t=>{
+    const b=document.createElement('button');
+    b.id='btn-'+t.id; b.textContent=t.l;
+    b.className="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs";
+    b.onclick=()=>showTab(t.id); mainNav.appendChild(b);
+  });
+  showTab(lista[0].id);
+}
+function showTab(t){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));
+  const el=document.getElementById('tab-'+t);
+  if(el) el.classList.remove('hidden');
+}
+
+// CLIENTES - COM CIDADE/ESTADO/CEP
+function addCliente(){
+  if(!cNome.value) return alert('Nome completo obrigatório');
+  let l=getD('ramos_clientes');
+  if(CLIENTE_EDIT){
+    const i=l.findIndex(x=>x.id===CLIENTE_EDIT);
+    l[i]={id:CLIENTE_EDIT,nome:cNome.value,cpf:cCpf.value,zap:cZap.value,tel:cTel.value,cidade:cCidade.value,estado:cEstado.value,cep:cCep.value,comp:cComp.value,end:cEnd.value};
+    CLIENTE_EDIT=null;
+  }else{
+    l.push({id:Date.now(),nome:cNome.value,cpf:cCpf.value,zap:cZap.value,tel:cTel.value,cidade:cCidade.value,estado:cEstado.value,cep:cCep.value,comp:cComp.value,end:cEnd.value});
+  }
+  setD('ramos_clientes',l);
+  cNome.value="";cCpf.value="";cZap.value="";cTel.value="";cCidade.value="";cEstado.value="";cCep.value="";cComp.value="";cEnd.value="";
+  renderTudo();
+}
+function editarCliente(id){
+  const l=getD('ramos_clientes'); const c=l.find(x=>x.id===id);
+  cNome.value=c.nome; cCpf.value=c.cpf||""; cZap.value=c.zap||""; cTel.value=c.tel||"";
+  cCidade.value=c.cidade||""; cEstado.value=c.estado||""; cCep.value=c.cep||"";
+  cComp.value=c.comp||""; cEnd.value=c.end||"";
+  CLIENTE_EDIT=id; showTab('clientes'); window.scrollTo(0,0);
+}
+function renderClientes(){
+  const l=getD('ramos_clientes');
+  listaClientes.innerHTML=l.slice(-50).reverse().map(c=>`
+    <div class="card p-3 flex justify-between items-start">
+      <div><b class="text-white">${c.nome}</b> <span class="text-[10px] text-cyan-300">${c.cidade||''}/${c.estado||''}</span><br>
+      <span class="text-[11px] text-slate-400">${c.cpf||''} | ${c.zap||''} | ${c.tel||''}</span><br>
+      <span class="text-[10px] text-slate-500">${c.end||''} ${c.cep||''} ${c.comp||''}</span></div>
+      <div class="flex gap-1">
+        <button onclick="editarCliente(${c.id})" class="bg-blue-600 px-2 py-1 rounded text-[11px] font-bold">✏️ Alterar</button>
+        <button onclick="excluirItem('ramos_clientes',${c.id})" class="bg-red-600 px-2 py-1 rounded text-[11px]">🗑️ Excluir</button>
+      </div>
+    </div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum cliente</p>";
+  const opt=l.map(c=>`<option value="${c.nome}">${c.nome}</option>`).join('');
+  ctCliente.innerHTML=opt; oCliente.innerHTML=opt; rCliente.innerHTML=opt;
+}
+
+// USUÁRIOS - ALTERAR / TROCAR SENHA / EXCLUIR
+function addUsuario(){
+  if(!uNome.value||!uSenha.value) return alert('Login e senha obrigatórios');
+  let l=getD('ramos_usuarios');
+  if(USUARIO_EDIT){
+    const i=l.findIndex(x=>x.id===USUARIO_EDIT);
+    l[i].nome=uNome.value; l[i].senha=uSenha.value; l[i].tipo=uTipo.value;
+    USUARIO_EDIT=null;
+  }else{
+    l.push({id:Date.now(),nome:uNome.value,senha:uSenha.value,tipo:uTipo.value});
+  }
+  setD('ramos_usuarios',l); uNome.value=""; uSenha.value=""; USUARIO_EDIT=null; renderUsuarios();
+}
+function editarUsuario(id){
+  const l=getD('ramos_usuarios'); const u=l.find(x=>x.id===id);
+  uNome.value=u.nome; uSenha.value=u.senha; uTipo.value=u.tipo;
+  USUARIO_EDIT=id; showTab('usuarios'); window.scrollTo(0,0);
+}
+function trocarSenha(id){
+  const nova=prompt('Digite a nova senha:');
+  if(!nova) return;
+  let l=getD('ramos_usuarios'); const i=l.findIndex(x=>x.id===id);
+  l[i].senha=nova; setD('ramos_usuarios',l); renderUsuarios(); alert('✅ Senha trocada com sucesso!');
+}
+function renderUsuarios(){
+  const l=getD('ramos_usuarios');
+  listaUsuarios.innerHTML=l.map(u=>`
+    <div class="card p-3">
+      <div class="flex justify-between items-center">
+        <div><b class="text-white text-sm">${u.nome}</b>
+        <span class="text-[10px] ${u.tipo==='admin'?'bg-red-900 text-red-200':u.tipo==='colaborador'?'bg-yellow-900 text-yellow-200':'bg-blue-900 text-blue-200'} px-2 py-1 rounded-full ml-2">${u.tipo.toUpperCase()}</span></div>
+        <div class="flex flex-wrap gap-1">
+          <button onclick="editarUsuario(${u.id})" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded text-[11px] font-bold">✏️ ALTERAR</button>
+          <button onclick="trocarSenha(${u.id})" class="bg-yellow-600 hover:bg-yellow-500 text-white px-3 py-1.5 rounded text-[11px] font-bold">🔑 TROCAR SENHA</button>
+          <button onclick="excluirItem('ramos_usuarios',${u.id})" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded text-[11px] font-bold">🗑️ EXCLUIR</button>
+        </div>
+      </div>
+    </div>`).join('')||"<p class='text-slate-400 text-xs p-4'>Nenhum usuário criado</p>";
+}
+
+// CONTRATOS - INSERIR / ALTERAR / FINALIZAR
+function addContrato(){
+  if(!ctCliente.value) return alert('Selecione cliente');
+  let l=getD('ramos_contratos');
+  if(CONTRATO_EDIT){
+    const i=l.findIndex(x=>x.id===CONTRATO_EDIT);
+    l[i]={...l[i],cliente:ctCliente.value,inicio:ctInicio.value,pagamento:ctPagamento.value,final:ctFinal.value,mensal:ctMensal.value,total:ctTotal.value};
+    CONTRATO_EDIT=null;
+  }else{
+    l.push({id:Date.now(),cliente:ctCliente.value,inicio:ctInicio.value,pagamento:ctPagamento.value,final:ctFinal.value,mensal:ctMensal.value,total:ctTotal.value,status:'Ativo'});
+  }
+  setD('ramos_contratos',l); ctInicio.value=""; ctPagamento.value=""; ctFinal.value=""; ctMensal.value=""; ctTotal.value=""; CONTRATO_EDIT=null; renderContratos();
+}
+function editarContrato(id){
+  const l=getD('ramos_contratos'); const c=l.find(x=>x.id===id);
+  ctCliente.value=c.cliente; ctInicio.value=c.inicio; ctPagamento.value=c.pagamento; ctFinal.value=c.final; ctMensal.value=c.mensal; ctTotal.value=c.total;
+  CONTRATO_EDIT=id; showTab('contratos');
+}
+function finalizarContrato(id){
+  if(!confirm('Finalizar contrato?')) return;
+  let l=getD('ramos_contratos'); const i=l.findIndex(x=>x.id===id);
+  l[i].status='Finalizado'; setD('ramos_contratos',l); renderContratos();
+}
+function renderContratos(){
+  const l=getD('ramos_contratos');
+  listaContratos.innerHTML=l.slice(-50).reverse().map(c=>`
+    <div class="card p-3">
+      <div class="flex justify-between items-start">
+        <div><b class="text-white">${c.cliente}</b>
+        <span class="text-[10px] ${c.status==='Finalizado'?'bg-green-900 text-green-200':'bg-emerald-900 text-emerald-200'} px-2 py-0.5 rounded-full">${c.status||'Ativo'}</span><br>
+        <span class="text-[11px] text-slate-400">Início ${c.inicio||'-'} | Final ${c.final||'-'} | R$${c.mensal||'-'}</span></div>
+        <div class="flex gap-1 flex-wrap justify-end max-w-[280px]">
+          <button onclick="editarContrato(${c.id})" class="bg-blue-600 px-2 py-1 rounded text-[11px] font-bold">✏️ ALTERAR</button>
+          <button onclick="finalizarContrato(${c.id})" class="bg-green-700 px-2 py-1 rounded text-[11px] font-bold">🏁 FINALIZAR</button>
+          <button onclick="excluirItem('ramos_contratos',${c.id})" class="bg-red-600 px-2 py-1 rounded text-[11px]">🗑️ EXCLUIR</button>
+        </div>
+      </div>
+    </div>`).join('')||"<p class='text-slate-500 text-xs p-4'>Nenhum contrato - clique em INSERIR CONTRATO</p>";
+}
+
+// ORÇAMENTOS - ALTERAR / FINALIZAR / EXCLUIR
+function calcOrc(){const v=parseFloat(oVisita.value.replace(',','.'))||0; const t=parseFloat(oTrabalho.value.replace(',','.'))||0; oTotal.value=(v+t).toFixed(2)}
+function addOrcamento(){
+  calcOrc(); if(!oCliente.value) return alert('Cliente obrigatório');
+  let l=getD('ramos_orcamentos');
+  if(ORC_EDIT){
+    const i=l.findIndex(x=>x.id===ORC_EDIT);
+    l[i].cliente=oCliente.value; l[i].servico=oServico.value; l[i].visita=oVisita.value; l[i].trabalho=oTrabalho.value; l[i].total=oTotal.value;
+    ORC_EDIT=null;
+  }else{
+    l.push({id:Date.now(),cliente:oCliente.value,servico:oServico.value,visita:oVisita.value,trabalho:oTrabalho.value,total:oTotal.value,status:'Aberto'});
+  }
+  setD('ramos_orcamentos',l); renderOrcamentos();
+}
+function editarOrc(id){
+  const l=getD('ramos_orcamentos'); const o=l.find(x=>x.id===id);
+  oCliente.value=o.cliente; oServico.value=o.servico; oVisita.value=o.visita; oTrabalho.value=o.trabalho; calcOrc(); ORC_EDIT=id; showTab('orcamentos');
+}
+function finalizarOrc(id){
+  let l=getD('ramos_orcamentos'); const i=l.findIndex(x=>x.id===id);
+  l[i].status='Finalizado'; setD('ramos_orcamentos',l); renderOrcamentos();
+}
+function renderOrcamentos(){
+  const l=getD('ramos_orcamentos');
+  listaOrcamentos.innerHTML=l.slice(-50).reverse().map(o=>`
+    <div class="card p-3">
+      <div class="flex justify-between items-center">
+        <div><b class="text-white">${o.cliente}</b> - ${o.servico}
+        <span class="text-[10px] ${o.status==='Finalizado'?'bg-green-900':'bg-blue-900'} px-2 py-0.5 rounded-full">${o.status||'Aberto'}</span><br>
+        <span class="text-[11px] text-slate-400">Visita R$${o.visita} + Trabalho R$${o.trabalho} = Total R$${o.total}</span></div>
+        <div class="flex gap-1 flex-wrap justify-end max-w-[300px]">
+          <button onclick="editarOrc(${o.id})" class="bg-blue-600 px-2 py-1 rounded text-[11px] font-bold">✏️ ALTERAR</button>
+          <button onclick="finalizarOrc(${o.id})" class="bg-green-700 px-2 py-1 rounded text-[11px] font-bold">🏁 FINALIZAR</button>
+          <button onclick="excluirItem('ramos_orcamentos',${o.id})" class="bg-red-600 px-2 py-1 rounded text-[11px] font-bold">🗑️ EXCLUIR</button>
+        </div>
+      </div>
+    </div>`).join('')||"<p class='text-slate-500 text-xs p-4'>Nenhum orçamento</p>";
+}
+
+// CHAMADOS - REGISTRAR TRABALHO + TEXTO + FECHAR (SÓ ADM EXCLUI)
+function addChamado(){
+  if(!chTitulo.value) return alert('Título obrigatório');
+  const l=getD('ramos_chamados');
+  l.push({id:Date.now(),cliente:USUARIO_LOGADO,titulo:chTitulo.value,prioridade:chPrior.value,categoria:chCat.value,desc:chDesc.value,status:'Aberto',data:new Date().toLocaleString('pt-BR'),andamentos:[{autor:USUARIO_LOGADO,texto:chDesc.value,data:new Date().toLocaleString('pt-BR')}]});
+  setD('ramos_chamados',l); chTitulo.value=""; chDesc.value=""; renderChamados();
+}
+function renderChamados(){
+  let l=getD('ramos_chamados');
+  if(TIPO_LOGADO==='cliente') l=l.filter(x=>x.cliente===USUARIO_LOGADO);
+  listaChamados.innerHTML=l.slice(-50).reverse().map(ch=>`
+    <div class="card p-3 cursor-pointer hover:border-cyan-500 border border-transparent" onclick="abrirModalChamado(${ch.id})">
+      <div class="flex justify-between"><b class="text-white">#${ch.id} - ${ch.titulo}</b>
+      <span class="text-[10px] ${ch.status==='Aberto'?'bg-blue-900':ch.status==='Fechado'?'bg-emerald-900':'bg-yellow-900'} px-2 py-1 rounded-full">${ch.status}</span></div>
+      <div class="text-[11px] text-slate-400 mt-1">${ch.cliente} | ${ch.prioridade} | ${ch.data}</div>
+      <div class="text-[10px] text-cyan-400 mt-1">👁️ Clique para: Registrar trabalho / Alterar / Fechar</div>
+    </div>`).join('')||"<p class='text-slate-500 text-xs p-4'>Nenhum chamado</p>";
+}
+function abrirModalChamado(id){
+  const l=getD('ramos_chamados'); const ch=l.find(x=>x.id===id); if(!ch) return;
+  CHAMADO_ATUAL=id;
+  const ands=(ch.andamentos||[]).map(a=>`<div class="text-[11px] border-l-2 border-cyan-700 pl-2 mt-2"><b>${a.autor}</b> <span class="text-slate-500">${a.data}</span><br>${a.texto}</div>`).join('');
+  modalTitulo.textContent="#"+ch.id+" - "+ch.titulo+" ("+ch.status+")";
+  modalConteudo.innerHTML=`<div class="text-[12px] text-slate-300"><b>Cliente:</b> ${ch.cliente}<br><b>Desc:</b> ${ch.desc}<br><div class="mt-3"><b>Histórico / Quem trabalhou:</b>${ands}</div></div>`;
+  let botoes="";
+  botoes+=`<button onclick="editarChamadoTitulo()" class="bg-blue-600 px-3 py-2 rounded text-xs font-bold">✏️ ALTERAR</button>`;
+  botoes+=`<button onclick="registrarTrabalho()" class="bg-emerald-600 px-3 py-2 rounded text-xs font-bold">🔧 REGISTREI TRABALHO</button>`;
+  botoes+=`<button onclick="addAndamentoTexto()" class="bg-cyan-600 px-3 py-2 rounded text-xs">💬 INSERIR TEXTO</button>`;
+  if(TIPO_LOGADO!=='cliente'){
+    botoes+=`<button onclick="mudarStatusModal('Fechado')" class="bg-green-700 px-3 py-2 rounded text-xs">✅ FECHAR</button>`;
+    botoes+=`<button onclick="mudarStatusModal('Finalizado')" class="bg-green-900 px-3 py-2 rounded text-xs">🏁 FINALIZAR</button>`;
+  }
+  if(TIPO_LOGADO==='admin'){
+    botoes+=`<button onclick="excluirChamadoModal()" class="bg-red-700 px-3 py-2 rounded text-xs">🗑️ EXCLUIR (SÓ ADM)</button>`;
+  }
+  modalAcoes.innerHTML=botoes;
+  document.getElementById('modalChamado').classList.remove('hidden');
+}
+function editarChamadoTitulo(){const novo=prompt("Novo título:"); if(!novo||!CHAMADO_ATUAL) return; let l=getD('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].titulo=novo; setD('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
+function registrarTrabalho(){const txt=prompt("Descreva o que você fez neste chamado:"); if(!txt||!CHAMADO_ATUAL) return; let l=getD('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].andamentos.push({autor:USUARIO_LOGADO,texto:"🔧 TRABALHOU: "+txt,data:new Date().toLocaleString('pt-BR')}); setD('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
+function addAndamentoTexto(){const txt=prompt("Texto / andamento:"); if(!txt||!CHAMADO_ATUAL) return; let l=getD('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].andamentos.push({autor:USUARIO_LOGADO,texto:txt,data:new Date().toLocaleString('pt-BR')}); setD('ramos_chamados',l); renderChamados(); abrirModalChamado(CHAMADO_ATUAL)}
+function mudarStatusModal(novo){if(!CHAMADO_ATUAL) return; let l=getD('ramos_chamados'); const i=l.findIndex(x=>x.id===CHAMADO_ATUAL); l[i].status=novo; setD('ramos_chamados',l); renderChamados(); if(novo==='Fechado'||novo==='Finalizado'){fecharModal()}else{abrirModalChamado(CHAMADO_ATUAL)}}
+function excluirChamadoModal(){if(TIPO_LOGADO!=='admin'){alert("Só ADM pode excluir!"); return} if(!CHAMADO_ATUAL||!confirm("Excluir chamado?")) return; excluirItem('ramos_chamados',CHAMADO_ATUAL); fecharModal()}
+
+function addRemoto(){if(!rCliente.value||!rId.value) return alert('Cliente e ID'); const l=getD('ramos_remoto'); l.push({id:Date.now(),cliente:rCliente.value,remotoId:rId.value,senha:rSenha.value}); setD('ramos_remoto',l); renderRemoto()}
+function renderRemoto(){const l=getD('ramos_remoto'); listaRemoto.innerHTML=l.map(r=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${r.cliente}</b><br><span class="text-[11px] text-slate-400">ID: ${r.remotoId}</span></div><button onclick="excluirItem('ramos_remoto',${r.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum remoto</p>";}
+
+function excluirItem(k,id){if(!confirm('Excluir?')) return; let l=getD(k); l=l.filter(x=>x.id!==id); setD(k,l); renderTudo()}
+function renderTudo(){renderClientes(); renderUsuarios(); renderContratos(); renderOrcamentos(); renderChamados(); renderRemoto()}
+</script>
+</body>
+</html>
