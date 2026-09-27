@@ -2,47 +2,47 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>RAMOS INFOTEC V4.5 - PERFEITA DARK</title>
+<title>RAMOS INFOTEC V4.6 - CHAMADOS</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-body{background:#0b1220; color:#e2e8f0}
-.card{background:#141f38; border:1px solid #1e2f5a; border-radius:12px}
-.input-dark{background:#0b1220; border:1px solid #1e2f5a; color:#e2e8f0; padding:10px 12px; border-radius:8px; width:100%; outline:none}
-.label-top{font-size:10px; color:#94a3b8; text-transform:uppercase; margin-bottom:4px; display:block}
-.btn-cyan{background:#06b6d4; color:#001018; font-weight:800; padding:8px 16px; border-radius:8px}
+body{background:#0b1220;color:#e2e8f0}
+.card{background:#141f38;border:1px solid #1e2f5a;border-radius:12px}
+.input-dark{background:#0b1220;border:1px solid #1e2f5a;color:#e2e8f0;padding:10px 12px;border-radius:8px;width:100%;outline:none}
+.label-top{font-size:10px;color:#94a3b8;text-transform:uppercase;margin-bottom:4px;display:block}
+.btn-cyan{background:#06b6d4;color:#001018;font-weight:800;padding:8px 16px;border-radius:8px}
+.status-aberto{background:#f59e0b;color:#000}
+.status-andamento{background:#3b82f6;color:#fff}
+.status-aguard{background:#8b5cf6;color:#fff}
+.status-fechado{background:#10b981;color:#000}
 </style>
 </head>
 <body>
-<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4" style="background:#0b1220">
+<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4">
   <div class="card p-8 w-full max-w-[400px]">
     <h1 class="text-2xl font-black text-center text-white">RAMOS INFOTEC</h1>
-    <p class="text-center text-[11px] text-slate-400 mt-1">CNPJ 45.114.523/0001-05</p>
-    <p class="text-center text-cyan-400 text-xs font-bold mt-2 mb-6">V4.5 PERFEITA DARK</p>
+    <p class="text-center text-[11px] text-slate-400">CNPJ 45.114.523/0001-05</p>
+    <p class="text-center text-cyan-400 text-xs font-bold mt-2 mb-6">V4.6 CHAMADOS</p>
     <input id="loginUser" placeholder="Usuário" class="input-dark mb-3">
     <input id="loginPass" type="password" placeholder="Senha" class="input-dark mb-4">
     <button onclick="fazerLogin()" class="w-full bg-cyan-500 text-black font-black py-3 rounded-lg">ENTRAR</button>
     <p id="loginErro" class="hidden text-red-400 text-xs mt-3 text-center">Usuário ou senha inválidos</p>
+    <p class="text-[10px] text-center mt-4 text-slate-500">Admin: admin / Cliente: cliente1</p>
   </div>
 </div>
+
 <div id="appScreen" class="hidden">
-<header class="bg-[#0f1e3d] p-3 flex justify-between">
-  <div class="font-black text-white text-sm">RAMOS INFOTEC</div>
+<header class="bg-[#0f1e3d] border-b border-[#1e2f5a] p-3 flex justify-between">
+  <div class="font-black text-white text-sm">RAMOS INFOTEC <span id="userInfo" class="text-[11px] text-cyan-300 font-normal ml-2"></span></div>
   <div class="flex gap-2">
     <button onclick="exportarDados()" class="bg-emerald-600 px-3 py-1 rounded text-[11px]">EXPORTAR</button>
-    <button onclick="document.getElementById('importFile').click()" class="bg-yellow-500 text-black px-3 py-1 rounded text-[11px]">IMPORTAR</button>
-    <input type="file" id="importFile" class="hidden" onchange="importarDados(event)">
     <button onclick="logout()" class="bg-red-600 px-3 py-1 rounded text-[11px]">SAIR</button>
   </div>
 </header>
-<nav class="flex gap-2 p-3 bg-[#0f1e3d]">
-  <button onclick="showTab('clientes')" id="btn-clientes" class="bg-cyan-500 text-black px-4 py-1.5 rounded-full text-xs font-bold">Clientes</button>
-  <button onclick="showTab('usuarios')" id="btn-usuarios" class="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs">Usuários</button>
-  <button onclick="showTab('contratos')" id="btn-contratos" class="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs">Contratos</button>
-  <button onclick="showTab('orcamentos')" id="btn-orcamentos" class="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs">Orçamentos</button>
-</nav>
+<nav id="mainNav" class="flex flex-wrap gap-2 p-3 bg-[#0f1e3d]"></nav>
 <main class="p-4 max-w-6xl mx-auto">
-<div id="tab-clientes">
+
+<div id="tab-clientes" class="tab">
   <div class="card p-4 mb-4">
     <h2 class="font-bold text-cyan-300 mb-3">Novo Cliente</h2>
     <input id="cNome" placeholder="Nome completo" class="input-dark mb-2">
@@ -52,10 +52,11 @@ body{background:#0b1220; color:#e2e8f0}
   </div>
   <div id="listaClientes" class="grid gap-2"></div>
 </div>
-<div id="tab-usuarios" class="hidden">
+
+<div id="tab-usuarios" class="tab hidden">
   <div class="card p-4 mb-4">
     <h2 class="font-bold text-cyan-300">Criar Usuários</h2>
-    <p class="text-[10px] text-slate-400 mb-3">Senha forte: 6 letras + 2 especiais + 6 números</p>
+    <p class="text-[10px] text-slate-400 mb-3">Senha: 6 letras + 2 especiais + 6 números - sem exibir!</p>
     <input id="uNome" placeholder="Login" class="input-dark mb-2">
     <input id="uSenha" type="password" placeholder="Senha forte" class="input-dark mb-2">
     <select id="uTipo" class="input-dark mb-3"><option value="cliente">Cliente</option><option value="admin">Admin</option></select>
@@ -64,31 +65,33 @@ body{background:#0b1220; color:#e2e8f0}
   </div>
   <div id="listaUsuarios"></div>
 </div>
-<div id="tab-contratos" class="hidden">
+
+<div id="tab-contratos" class="tab hidden">
   <div class="card p-4 mb-4">
-    <h2 class="font-bold text-cyan-300 mb-1">Contrato - 5 colunas: Início, Pagamento, Final, Mensal, Total</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+    <h2 class="font-bold text-cyan-300">Contrato - 5 colunas: Início, Pagamento, Final, Mensal, Total</h2>
+    <div class="grid md:grid-cols-3 gap-3 mt-3">
       <div><span class="label-top">Cliente</span><select id="ctCliente" class="input-dark"></select></div>
       <div><span class="label-top">Início</span><input id="ctInicio" type="date" class="input-dark"></div>
-      <div><span class="label-top">Pagamento (dia)</span><input id="ctPagamento" placeholder="Ex: 10" class="input-dark"></div>
+      <div><span class="label-top">Pagamento</span><input id="ctPagamento" placeholder="Dia 10" class="input-dark"></div>
       <div><span class="label-top">Final</span><input id="ctFinal" type="date" class="input-dark"></div>
-      <div><span class="label-top">Mensal</span><input id="ctMensal" placeholder="R$ Mensal" class="input-dark"></div>
-      <div><span class="label-top">Total</span><input id="ctTotal" placeholder="R$ Total" class="input-dark"></div>
+      <div><span class="label-top">Mensal</span><input id="ctMensal" placeholder="R$" class="input-dark"></div>
+      <div><span class="label-top">Total</span><input id="ctTotal" placeholder="R$" class="input-dark"></div>
       <div class="md:col-span-3"><span class="label-top">Descrição</span><input id="ctDesc" placeholder="Descrição" class="input-dark"></div>
     </div>
     <button onclick="addContrato()" class="btn-cyan mt-3">SALVAR CONTRATO</button>
   </div>
   <div id="listaContratos"></div>
 </div>
-<div id="tab-orcamentos" class="hidden">
+
+<div id="tab-orcamentos" class="tab hidden">
   <div class="card p-4 mb-4">
-    <h2 class="font-bold text-cyan-300 mb-3">Gerar Orçamento</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <h2 class="font-bold text-cyan-300 mb-3">Gerar Orçamento - Visita + Trabalho + Total</h2>
+    <div class="grid md:grid-cols-2 gap-3">
       <div class="md:col-span-2"><span class="label-top">Cliente</span><select id="oCliente" class="input-dark"></select></div>
       <div><span class="label-top">Serviço</span><input id="oServico" placeholder="Serviço" class="input-dark"></div>
       <div><span class="label-top">Valor da Visita</span><input id="oVisita" placeholder="R$ 0,00" class="input-dark" oninput="calcOrc()"></div>
       <div><span class="label-top">Valor do Trabalho</span><input id="oTrabalho" placeholder="R$ 0,00" class="input-dark" oninput="calcOrc()"></div>
-      <div><span class="label-top">Valor Total</span><input id="oTotal" placeholder="R$ 0,00" class="input-dark font-bold" readonly></div>
+      <div><span class="label-top">Valor Total</span><input id="oTotal" readonly class="input-dark font-bold"></div>
       <div><span class="label-top">Data Início</span><input id="oInicio" type="date" class="input-dark"></div>
       <div><span class="label-top">Data Fim</span><input id="oFim" type="date" class="input-dark"></div>
     </div>
@@ -96,124 +99,253 @@ body{background:#0b1220; color:#e2e8f0}
   </div>
   <div id="listaOrcamentos"></div>
 </div>
+
+<div id="tab-chamados" class="tab hidden">
+  <div class="card p-4 mb-4">
+    <h2 class="font-bold text-cyan-300 mb-3">🎫 Abrir Novo Chamado</h2>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="md:col-span-2"><span class="label-top">Título do problema</span><input id="chTitulo" placeholder="Ex: Computador não liga" class="input-dark"></div>
+      <div><span class="label-top">Prioridade</span><select id="chPrior" class="input-dark"><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select></div>
+      <div><span class="label-top">Categoria</span><select id="chCat" class="input-dark"><option>Suporte Técnico</option><option>Rede</option><option>Impressora</option><option>Software</option><option>Hardware</option></select></div>
+      <div class="md:col-span-2"><span class="label-top">Descrição detalhada</span><textarea id="chDesc" placeholder="Descreva o problema..." class="input-dark h-[80px]"></textarea></div>
+    </div>
+    <button onclick="addChamado()" class="btn-cyan mt-3">ABRIR CHAMADO</button>
+  </div>
+  <div id="listaChamados" class="grid gap-3"></div>
+</div>
+
+<div id="tab-remoto" class="tab hidden">
+  <div class="card p-4 mb-4">
+    <h2 class="font-bold text-cyan-300 mb-3">🖥️ Acesso Remoto</h2>
+    <div class="grid md:grid-cols-3 gap-3">
+      <div><span class="label-top">Cliente</span><select id="rCliente" class="input-dark"></select></div>
+      <div><span class="label-top">ID AnyDesk / TeamViewer</span><input id="rId" placeholder="Ex: 123 456 789" class="input-dark"></div>
+      <div><span class="label-top">Senha (se houver)</span><input id="rSenha" placeholder="Senha remoto" class="input-dark"></div>
+    </div>
+    <button onclick="addRemoto()" class="btn-cyan mt-3">SALVAR ACESSO</button>
+  </div>
+  <div id="listaRemoto"></div>
+</div>
+
 </main>
-<script>
+  <script>
 const SENHA_ADMIN="@Xumone@197353";
 const CNPJ="45.114.523/0001-05"; const PIX="11 99626-4221";
+let USUARIO_LOGADO=null; let TIPO_LOGADO=null;
+
 function criptografar(t){return btoa(encodeURIComponent(t));}
 function descriptografar(t){try{return decodeURIComponent(atob(t))}catch{return ""}}
 function validarSenhaForte(s){const l=(s.match(/[A-Za-z]/g)||[]).length; const n=(s.match(/[0-9]/g)||[]).length; const e=(s.match(/[@#\$%&\*!]/g)||[]).length; return s.length>=14 && l>=6 && e>=2 && n>=6;}
 function getDados(ch){return JSON.parse(localStorage.getItem(ch)||"[]");}
 function setDados(ch,v){localStorage.setItem(ch,JSON.stringify(v));}
+
 function fazerLogin(){
   const u=document.getElementById('loginUser').value.trim();
   const p=document.getElementById('loginPass').value.trim();
   const erro=document.getElementById('loginErro'); erro.classList.add('hidden');
-  if(u==="admin" && p===SENHA_ADMIN){localStorage.setItem('logado','admin'); abrirApp(); return;}
-  if(u==="cliente1" && p==="123"){localStorage.setItem('logado','cliente1'); abrirApp(); return;}
+  if(u==="admin" && p===SENHA_ADMIN){localStorage.setItem('logado','admin'); localStorage.setItem('tipo','admin'); abrirApp(); return;}
+  if(u==="cliente1" && p==="123"){localStorage.setItem('logado','cliente1'); localStorage.setItem('tipo','cliente'); abrirApp(); return;}
   const usuarios=getDados('ramos_usuarios');
   const achou=usuarios.find(x=> x.nome===u && descriptografar(x.senhaCripto)===p &&!x.bloqueado);
-  if(achou){localStorage.setItem('logado',u); abrirApp();} else {erro.classList.remove('hidden');}
+  if(achou){localStorage.setItem('logado',u); localStorage.setItem('tipo',achou.tipo); abrirApp();} else {erro.classList.remove('hidden');}
 }
-function abrirApp(){document.getElementById('loginScreen').classList.add('hidden'); document.getElementById('appScreen').classList.remove('hidden'); renderTudo();}
-function logout(){localStorage.removeItem('logado'); location.reload();}
+function abrirApp(){
+  USUARIO_LOGADO=localStorage.getItem('logado'); TIPO_LOGADO=localStorage.getItem('tipo');
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('appScreen').classList.remove('hidden');
+  document.getElementById('userInfo').textContent="👤 "+USUARIO_LOGADO+" ("+TIPO_LOGADO+")";
+  montarMenu();
+  renderTudo();
+}
+function logout(){localStorage.removeItem('logado'); localStorage.removeItem('tipo'); location.reload();}
 if(localStorage.getItem('logado')) abrirApp();
-function showTab(t){
-  ['clientes','usuarios','contratos','orcamentos'].forEach(x=>{
-    document.getElementById('tab-'+x).classList.add('hidden');
-    document.getElementById('btn-'+x).className="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs";
+
+function montarMenu(){
+  const nav=document.getElementById('mainNav'); nav.innerHTML="";
+  const tabsAdmin=[
+    {id:'clientes', label:'Clientes'},
+    {id:'usuarios', label:'Usuários'},
+    {id:'contratos', label:'Contratos + Boleto'},
+    {id:'orcamentos', label:'Orçamentos'},
+    {id:'chamados', label:'Chamados'},
+    {id:'remoto', label:'Acesso Remoto'}
+  ];
+  const tabsCliente=[
+    {id:'chamados', label:'Meus Chamados 🎫'}
+  ];
+  const lista = (TIPO_LOGADO==='admin')? tabsAdmin : tabsCliente;
+  lista.forEach(t=>{
+    const b=document.createElement('button');
+    b.id='btn-'+t.id; b.textContent=t.label;
+    b.className=(t.id==='chamados' && TIPO_LOGADO!=='admin')? "bg-cyan-500 text-black px-4 py-1.5 rounded-full text-xs font-bold" : "bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs";
+    b.onclick=()=>showTab(t.id);
+    nav.appendChild(b);
   });
-  document.getElementById('tab-'+t).classList.remove('hidden');
-  document.getElementById('btn-'+t).className="bg-cyan-500 text-black px-4 py-1.5 rounded-full text-xs font-bold";
+  // mostra primeiro
+  showTab(lista[0].id);
 }
+
+function showTab(t){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));
+  document.getElementById('tab-'+t).classList.remove('hidden');
+  document.querySelectorAll('#mainNav button').forEach(b=>b.className="bg-[#1a2b52] text-slate-300 px-4 py-1.5 rounded-full text-xs");
+  const btn=document.getElementById('btn-'+t); if(btn) btn.className="bg-cyan-500 text-black px-4 py-1.5 rounded-full text-xs font-bold";
+}
+
+/* CLIENTES */
 function addCliente(){
   const nome=document.getElementById('cNome').value; if(!nome) return alert('Nome');
-  const lista=getDados('ramos_clientes');
-  lista.push({id:Date.now(),nome,cpf:document.getElementById('cCpf').value,zap:document.getElementById('cZap').value});
-  setDados('ramos_clientes',lista); document.getElementById('cNome').value=""; document.getElementById('cCpf').value=""; document.getElementById('cZap').value="";
-  renderClientes();
+  const lista=getDados('ramos_clientes'); lista.push({id:Date.now(),nome,cpf:document.getElementById('cCpf').value,zap:document.getElementById('cZap').value});
+  setDados('ramos_clientes',lista); renderClientes();
 }
 function renderClientes(){
   const lista=getDados('ramos_clientes');
-  document.getElementById('listaClientes').innerHTML=lista.slice(-50).reverse().map(c=>`
-    <div class="card p-3 flex justify-between"><div><b class="text-white">${c.nome}</b><br><span class="text-[11px] text-slate-400">${c.cpf} - ${c.zap}</span></div><button onclick="excluirItem('ramos_clientes',${c.id})" class="text-red-400 text-xs">🗑️ Excluir</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum cliente</p>";
+  document.getElementById('listaClientes').innerHTML=lista.slice(-50).reverse().map(c=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${c.nome}</b><br><span class="text-[11px] text-slate-400">${c.cpf} - ${c.zap}</span></div><button onclick="excluirItem('ramos_clientes',${c.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum cliente</p>";
   const opt=lista.map(c=>`<option value="${c.nome}">${c.nome}</option>`).join('');
-  document.getElementById('ctCliente').innerHTML=opt; document.getElementById('oCliente').innerHTML=opt;
+  const ct=document.getElementById('ctCliente'); if(ct) ct.innerHTML=opt;
+  const oc=document.getElementById('oCliente'); if(oc) oc.innerHTML=opt;
+  const rc=document.getElementById('rCliente'); if(rc) rc.innerHTML=opt;
 }
+
+/* USUARIOS */
 function addUsuario(){
   const nome=document.getElementById('uNome').value.trim(); const senha=document.getElementById('uSenha').value.trim(); const tipo=document.getElementById('uTipo').value; const info=document.getElementById('senhaInfo');
-  if(!nome) return alert('Login obrigatorio');
-  if(!validarSenhaForte(senha)){info.textContent="❌ Fraca! 6 letras + 2 especiais + 6 numeros"; info.className="text-[11px] text-red-400"; return;}
-  info.textContent="✅ Forte e criptografada!"; info.className="text-[11px] text-emerald-400";
+  if(!nome) return alert('Login'); if(!validarSenhaForte(senha)){info.textContent="❌ Fraca! 6 letras + 2 especiais + 6 números"; info.className="text-[11px] text-red-400"; return;}
+  info.textContent="✅ Forte!"; info.className="text-[11px] text-emerald-400";
   const lista=getDados('ramos_usuarios'); lista.push({id:Date.now(),nome,senhaCripto:criptografar(senha),tipo,bloqueado:false});
   setDados('ramos_usuarios',lista); document.getElementById('uNome').value=""; document.getElementById('uSenha').value=""; renderUsuarios();
 }
 function renderUsuarios(){
   const lista=getDados('ramos_usuarios');
-  document.getElementById('listaUsuarios').innerHTML=lista.map(u=>`
-    <div class="card p-3 flex justify-between items-center">
-      <div><b class="text-white">${u.nome}</b> <span class="text-[10px] bg-[#1a2b52] px-2 py-1 rounded">${u.tipo}</span> ${u.bloqueado?'<span class="text-[10px] bg-red-900 px-2 py-1 rounded ml-1">BLOQUEADO</span>':''}<br><span class="text-[11px] text-slate-500">Senha protegida • criptografada</span></div>
-      <div class="flex gap-2"><button onclick="alterarSenha(${u.id})" title="Alterar senha" class="bg-[#1a2b52] px-2 py-1 rounded text-xs">🔑</button><button onclick="toggleBloqueio(${u.id})" class="bg-[#1a2b52] px-2 py-1 rounded text-xs">${u.bloqueado?'🔓':'🔒'}</button><button onclick="excluirItem('ramos_usuarios',${u.id})" class="text-red-400 text-xs">🗑️</button></div>
-    </div>`).join('')||"<p class='text-slate-500 text-xs'>Admin mestre oculto e seguro</p>";
+  document.getElementById('listaUsuarios').innerHTML=lista.map(u=>`<div class="card p-3 flex justify-between items-center"><div><b class="text-white">${u.nome}</b> <span class="text-[10px] bg-[#1a2b52] px-2 py-1 rounded">${u.tipo}</span> ${u.bloqueado?'<span class="text-[10px] bg-red-900 px-2 py-1 rounded ml-1">BLOQUEADO</span>':''}<br><span class="text-[11px] text-slate-500">Senha protegida</span></div><div class="flex gap-2"><button onclick="alterarSenha(${u.id})" class="bg-[#1a2b52] px-2 py-1 rounded text-xs">🔑</button><button onclick="toggleBloqueio(${u.id})" class="bg-[#1a2b52] px-2 py-1 rounded text-xs">${u.bloqueado?'🔓':'🔒'}</button><button onclick="excluirItem('ramos_usuarios',${u.id})" class="text-red-400 text-xs">🗑️</button></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Admin oculto</p>";
 }
-function alterarSenha(id){
-  const nova=prompt("Digite nova senha forte (6 letras + 2 especiais + 6 numeros):"); if(!nova) return;
-  if(!validarSenhaForte(nova)) return alert("Senha fraca! Precisa 6 letras + 2 especiais + 6 numeros");
-  let lista=getDados('ramos_usuarios'); const idx=lista.findIndex(x=>x.id===id);
-  if(idx>-1){lista[idx].senhaCripto=criptografar(nova); setDados('ramos_usuarios',lista); alert("Senha alterada com sucesso!"); renderUsuarios();}
-}
-function toggleBloqueio(id){
-  let lista=getDados('ramos_usuarios'); const idx=lista.findIndex(x=>x.id===id);
-  if(idx>-1){lista[idx].bloqueado=!lista[idx].bloqueado; setDados('ramos_usuarios',lista); renderUsuarios();}
-}
+function alterarSenha(id){const nova=prompt("Nova senha forte:"); if(!nova) return; if(!validarSenhaForte(nova)) return alert("Fraca!"); let lista=getDados('ramos_usuarios'); const idx=lista.findIndex(x=>x.id===id); if(idx>-1){lista[idx].senhaCripto=criptografar(nova); setDados('ramos_usuarios',lista); alert("Alterada!"); renderUsuarios();}}
+function toggleBloqueio(id){let lista=getDados('ramos_usuarios'); const idx=lista.findIndex(x=>x.id===id); if(idx>-1){lista[idx].bloqueado=!lista[idx].bloqueado; setDados('ramos_usuarios',lista); renderUsuarios();}}
+
+/* CONTRATOS */
 function addContrato(){
-  const cliente=document.getElementById('ctCliente').value; const mensal=document.getElementById('ctMensal').value; if(!cliente) return alert('Cliente obrigatorio');
-  const lista=getDados('ramos_contratos');
-  lista.push({id:Date.now(),cliente,inicio:document.getElementById('ctInicio').value,pagamento:document.getElementById('ctPagamento').value,final:document.getElementById('ctFinal').value,mensal,total:document.getElementById('ctTotal').value,desc:document.getElementById('ctDesc').value});
+  const cliente=document.getElementById('ctCliente').value; if(!cliente) return alert('Cliente');
+  const lista=getDados('ramos_contratos'); lista.push({id:Date.now(),cliente,inicio:document.getElementById('ctInicio').value,pagamento:document.getElementById('ctPagamento').value,final:document.getElementById('ctFinal').value,mensal:document.getElementById('ctMensal').value,total:document.getElementById('ctTotal').value,desc:document.getElementById('ctDesc').value});
   setDados('ramos_contratos',lista); renderContratos();
 }
 function renderContratos(){
   const lista=getDados('ramos_contratos');
-  document.getElementById('listaContratos').innerHTML=lista.slice(-50).reverse().map(c=>`
-    <div class="card p-3"><div class="flex justify-between"><div><b class="text-white">${c.cliente}</b><br><span class="text-[11px] text-slate-400">Inicio:${c.inicio} | Pag:${c.pagamento} | Final:${c.final} | Mensal:R$${c.mensal} | Total:R$${c.total}</span><br><span class="text-[11px] text-slate-300">${c.desc}</span></div><div class="flex gap-1"><button onclick="gerarBoletoContrato('${c.cliente}','${c.mensal}','${c.final}','${c.desc}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 Boleto</button><button onclick="excluirItem('ramos_contratos',${c.id})" class="text-red-400 text-xs">🗑️</button></div></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum contrato</p>";
+  document.getElementById('listaContratos').innerHTML=lista.slice(-50).reverse().map(c=>`<div class="card p-3"><div class="flex justify-between"><div><b class="text-white">${c.cliente}</b><br><span class="text-[11px] text-slate-400">Inicio:${c.inicio} Pag:${c.pagamento} Final:${c.final} Mensal:R$${c.mensal} Total:R$${c.total}</span><br><span class="text-[11px] text-slate-300">${c.desc}</span></div><div class="flex gap-1"><button onclick="gerarBoletoContrato('${c.cliente}','${c.mensal}','${c.final}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 Boleto</button><button onclick="excluirItem('ramos_contratos',${c.id})" class="text-red-400 text-xs">🗑️</button></div></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum contrato</p>";
 }
-function calcOrc(){
-  const v=parseFloat(document.getElementById('oVisita').value.replace(',','.'))||0;
-  const t=parseFloat(document.getElementById('oTrabalho').value.replace(',','.'))||0;
-  document.getElementById('oTotal').value=(v+t).toFixed(2);
-}
+
+/* ORCAMENTOS */
+function calcOrc(){const v=parseFloat(document.getElementById('oVisita').value.replace(',','.'))||0; const t=parseFloat(document.getElementById('oTrabalho').value.replace(',','.'))||0; document.getElementById('oTotal').value=(v+t).toFixed(2);}
 function addOrcamento(){
-  const cliente=document.getElementById('oCliente').value; if(!cliente) return alert('Cliente obrigatorio');
-  const lista=getDados('ramos_orcamentos');
-  lista.push({id:Date.now(),cliente,servico:document.getElementById('oServico').value,visita:document.getElementById('oVisita').value,trabalho:document.getElementById('oTrabalho').value,total:document.getElementById('oTotal').value,inicio:document.getElementById('oInicio').value,fim:document.getElementById('oFim').value});
+  const cliente=document.getElementById('oCliente').value; if(!cliente) return alert('Cliente');
+  const lista=getDados('ramos_orcamentos'); lista.push({id:Date.now(),cliente,servico:document.getElementById('oServico').value,visita:document.getElementById('oVisita').value,trabalho:document.getElementById('oTrabalho').value,total:document.getElementById('oTotal').value,inicio:document.getElementById('oInicio').value,fim:document.getElementById('oFim').value});
   setDados('ramos_orcamentos',lista); renderOrcamentos();
 }
 function renderOrcamentos(){
   const lista=getDados('ramos_orcamentos');
-  document.getElementById('listaOrcamentos').innerHTML=lista.slice(-50).reverse().map(o=>`
-    <div class="card p-3 flex justify-between"><div><b class="text-white">${o.cliente}</b> - ${o.servico}<br><span class="text-[11px] text-slate-400">Visita:R$${o.visita} + Trabalho:R$${o.trabalho} = Total:R$${o.total}</span><br><span class="text-[11px] text-slate-500">${o.inicio} até ${o.fim}</span></div><div class="flex gap-1"><button onclick="gerarOrcamentoPDF('${o.cliente}','${o.servico}','${o.visita}','${o.trabalho}','${o.total}','${o.inicio}','${o.fim}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 PDF</button><button onclick="excluirItem('ramos_orcamentos',${o.id})" class="text-red-400 text-xs">🗑️</button></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum orçamento</p>";
+  document.getElementById('listaOrcamentos').innerHTML=lista.slice(-50).reverse().map(o=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${o.cliente}</b> - ${o.servico}<br><span class="text-[11px] text-slate-400">Visita:R$${o.visita}+Trabalho:R$${o.trabalho}=Total:R$${o.total}</span><br><span class="text-[11px] text-slate-500">${o.inicio} até ${o.fim}</span></div><div class="flex gap-1"><button onclick="gerarOrcamentoPDF('${o.cliente}','${o.servico}','${o.visita}','${o.trabalho}','${o.total}')" class="bg-emerald-600 px-3 py-1 rounded text-xs">📄 PDF</button><button onclick="excluirItem('ramos_orcamentos',${o.id})" class="text-red-400 text-xs">🗑️</button></div></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum orçamento</p>";
 }
-function excluirItem(chave,id){if(!confirm('Excluir? Nao volta!')) return; let lista=getDados(chave); lista=lista.filter(x=>x.id!==id); setDados(chave,lista); renderTudo();}
-function renderTudo(){renderClientes(); renderUsuarios(); renderContratos(); renderOrcamentos();}
-function gerarBoletoContrato(cliente, valor, venc, desc){
+
+/* CHAMADOS - NOVO SISTEMA */
+function addChamado(){
+  const titulo=document.getElementById('chTitulo').value; if(!titulo) return alert('Título');
+  const lista=getDados('ramos_chamados');
+  const novo={
+    id:Date.now(),
+    cliente: USUARIO_LOGADO,
+    titulo: titulo,
+    prioridade: document.getElementById('chPrior').value,
+    categoria: document.getElementById('chCat').value,
+    desc: document.getElementById('chDesc').value,
+    status: 'Aberto',
+    data: new Date().toLocaleString('pt-BR'),
+    comentarios: [{autor: USUARIO_LOGADO, texto: document.getElementById('chDesc').value, data: new Date().toLocaleString('pt-BR')}],
+    avaliacao: null
+  };
+  lista.push(novo); setDados('ramos_chamados',lista);
+  document.getElementById('chTitulo').value=""; document.getElementById('chDesc').value="";
+  alert("Chamado aberto! ID: "+novo.id); renderChamados();
+}
+function renderChamados(){
+  let lista=getDados('ramos_chamados');
+  // CLIENTE vê só os dele
+  if(TIPO_LOGADO!=='admin'){ lista=lista.filter(c=>c.cliente===USUARIO_LOGADO); }
+  document.getElementById('listaChamados').innerHTML=lista.slice(-50).reverse().map(ch=>{
+    const statusClass = ch.status==='Aberto'?'status-aberto':ch.status==='Em Andamento'?'status-andamento':ch.status==='Fechado'?'status-fechado':'status-aguard';
+    const coments = (ch.comentarios||[]).map(cm=>`<div class="text-[11px] border-l-2 border-cyan-700 pl-2 mt-2"><b>${cm.autor}</b> <span class="text-slate-500">${cm.data}</span><br>${cm.texto}</div>`).join('');
+    const avaliacao = ch.avaliacao? `<div class="mt-2 text-[11px] bg-[#0b1220] p-2 rounded">⭐ Avaliação: ${ch.avaliacao.nota}/5 - ${ch.avaliacao.comentario}</div>` : '';
+    const botoesAdmin = (TIPO_LOGADO==='admin')? `
+      <div class="flex gap-1 mt-2 flex-wrap">
+        <button onclick="addAndamento(${ch.id})" class="bg-blue-600 px-3 py-1 rounded text-xs">➕ Andamento</button>
+        <button onclick="mudarStatus(${ch.id},'Em Andamento')" class="bg-yellow-600 px-3 py-1 rounded text-xs">🔧 Em Andamento</button>
+        <button onclick="mudarStatus(${ch.id},'Aguardando Cliente')" class="bg-purple-600 px-3 py-1 rounded text-xs">⏳ Aguardar</button>
+        <button onclick="fecharChamado(${ch.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs">✅ Fechar</button>
+      </div>` : '';
+    const botoesCliente = (TIPO_LOGADO!=='admin' && ch.status!=='Fechado')? `
+      <div class="flex gap-1 mt-2">
+        <button onclick="addAndamento(${ch.id})" class="bg-blue-600 px-3 py-1 rounded text-xs">💬 Responder / Info</button>
+      </div>` : '';
+    const botaoAvaliar = (TIPO_LOGADO!=='admin' && ch.status==='Fechado' &&!ch.avaliacao)? `<button onclick="avaliarChamado(${ch.id})" class="bg-yellow-500 text-black px-3 py-1 rounded text-xs mt-2 font-bold">⭐ Avaliar Chamado</button>` : '';
+    return `<div class="card p-4">
+      <div class="flex justify-between items-start">
+        <div><b class="text-white">#${ch.id} - ${ch.titulo}</b> <span class="text-[10px] ${statusClass} px-2 py-1 rounded-full ml-2">${ch.status}</span><br>
+        <span class="text-[11px] text-slate-400">Cliente: ${ch.cliente} | ${ch.categoria} | ${ch.prioridade} | ${ch.data}</span></div>
+        <button onclick="excluirItem('ramos_chamados',${ch.id})" class="text-red-400 text-xs">🗑️</button>
+      </div>
+      ${coments}
+      ${avaliacao}
+      ${botoesAdmin}
+      ${botoesCliente}
+      ${botaoAvaliar}
+    </div>`;
+  }).join('')||"<p class='text-slate-500 text-xs'>Nenhum chamado aberto</p>";
+}
+function addAndamento(id){
+  const texto=prompt("Digite o andamento / informação:");
+  if(!texto) return;
+  let lista=getDados('ramos_chamados'); const idx=lista.findIndex(x=>x.id===id);
+  if(idx>-1){lista[idx].comentarios.push({autor: USUARIO_LOGADO, texto, data: new Date().toLocaleString('pt-BR')}); setDados('ramos_chamados',lista); renderChamados();}
+}
+function mudarStatus(id,novo){let lista=getDados('ramos_chamados'); const idx=lista.findIndex(x=>x.id===id); if(idx>-1){lista[idx].status=novo; setDados('ramos_chamados',lista); renderChamados();}}
+function fecharChamado(id){
+  if(!confirm("Fechar chamado? Cliente poderá avaliar.")) return;
+  mudarStatus(id,'Fechado');
+}
+function avaliarChamado(id){
+  const nota=prompt("Nota de 1 a 5 estrelas:"); if(!nota) return;
+  const coment=prompt("Comentário da avaliação:")||"";
+  let lista=getDados('ramos_chamados'); const idx=lista.findIndex(x=>x.id===id);
+  if(idx>-1){lista[idx].avaliacao={nota, comentario: coment, data: new Date().toLocaleString('pt-BR')}; setDados('ramos_chamados',lista); alert("Obrigado pela avaliação! ⭐"); renderChamados();}
+}
+
+/* ACESSO REMOTO */
+function addRemoto(){
+  const cliente=document.getElementById('rCliente').value; const idRem=document.getElementById('rId').value; if(!cliente||!idRem) return alert('Preencha');
+  const lista=getDados('ramos_remoto'); lista.push({id:Date.now(),cliente,remotoId:idRem,senha:document.getElementById('rSenha').value});
+  setDados('ramos_remoto',lista); renderRemoto();
+}
+function renderRemoto(){
+  const lista=getDados('ramos_remoto');
+  document.getElementById('listaRemoto').innerHTML=lista.slice(-50).reverse().map(r=>`<div class="card p-3 flex justify-between"><div><b class="text-white">${r.cliente}</b><br><span class="text-[11px] text-slate-400">ID: ${r.remotoId} | Senha: ${r.senha||' - '}</span></div><button onclick="excluirItem('ramos_remoto',${r.id})" class="text-red-400 text-xs">🗑️</button></div>`).join('')||"<p class='text-slate-500 text-xs'>Nenhum acesso remoto salvo</p>";
+}
+
+function excluirItem(chave,id){if(!confirm('Excluir?')) return; let lista=getDados(chave); lista=lista.filter(x=>x.id!==id); setDados(chave,lista); renderTudo();}
+function renderTudo(){renderClientes(); renderUsuarios(); renderContratos(); renderOrcamentos(); renderChamados(); renderRemoto();}
+
+function gerarBoletoContrato(cliente, valor, venc){
   const { jsPDF }=window.jspdf; const doc=new jsPDF();
   doc.text("RAMOS INFOTEC - "+CNPJ+" - PIX: "+PIX,10,15);
-  doc.text("BOLETO HIBRIDO - Cliente: "+cliente+" Mensal: R$ "+valor,10,25);
-  doc.text("Venc: "+venc+" - "+desc,10,35);
+  doc.text("BOLETO - Cliente: "+cliente+" Valor: "+valor+" Venc: "+venc,10,25);
   doc.save("Boleto_"+cliente+".pdf");
 }
-function gerarOrcamentoPDF(cliente, servico, visita, trabalho, total, inicio, fim){
+function gerarOrcamentoPDF(cliente, servico, visita, trabalho, total){
   const { jsPDF }=window.jspdf; const doc=new jsPDF();
-  doc.setFontSize(14); doc.text("RAMOS INFOTEC - ORCAMENTO",10,15);
-  doc.setFontSize(10); doc.text("CNPJ "+CNPJ+" - PIX: "+PIX,10,22);
-  doc.text("Cliente: "+cliente,10,32); doc.text("Servico: "+servico,10,39);
-  doc.text("Valor Visita: R$ "+visita,10,46); doc.text("Valor Trabalho: R$ "+trabalho,10,53);
-  doc.setFont("helvetica","bold"); doc.text("Valor Total: R$ "+total,10,60); doc.setFont("helvetica","normal");
-  doc.text("Inicio: "+inicio+" - Fim: "+fim,10,67); doc.text("Validade: 15 dias",10,80);
+  doc.text("RAMOS INFOTEC - ORCAMENTO",10,15);
+  doc.text("CNPJ "+CNPJ+" PIX: "+PIX,10,22);
+  doc.text("Cliente: "+cliente+" Servico: "+servico,10,32);
+  doc.text("Visita: R$"+visita+" Trabalho: R$"+trabalho+" Total: R$"+total,10,42);
   doc.save("Orcamento_"+cliente+".pdf");
 }
-function exportarDados(){const dados={clientes:getDados('ramos_clientes'),usuarios:getDados('ramos_usuarios'),contratos:getDados('ramos_contratos'),orcamentos:getDados('ramos_orcamentos')}; const blob=new Blob([JSON.stringify(dados)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="backup_ramos_"+Date.now()+".json"; a.click();}
-function importarDados(e){const file=e.target.files[0]; if(!file) return; const r=new FileReader(); r.onload=function(ev){try{const d=JSON.parse(ev.target.result); if(d.clientes) setDados('ramos_clientes',d.clientes); if(d.usuarios) setDados('ramos_usuarios',d.usuarios); if(d.contratos) setDados('ramos_contratos',d.contratos); if(d.orcamentos) setDados('ramos_orcamentos',d.orcamentos); alert('Importado com sucesso!'); renderTudo();}catch{alert('Arquivo invalido');}}; r.readAsText(file);}
+function exportarDados(){const dados={clientes:getDados('ramos_clientes'),usuarios:getDados('ramos_usuarios'),contratos:getDados('ramos_contratos'),orcamentos:getDados('ramos_orcamentos'),chamados:getDados('ramos_chamados'),remoto:getDados('ramos_remoto')}; const blob=new Blob([JSON.stringify(dados)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="backup_ramos_"+Date.now()+".json"; a.click();}
 </script>
 </body>
 </html>
