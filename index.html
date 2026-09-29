@@ -1,13 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ramos InfoTec</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>.input-dark{width:100%;padding:14px;border-radius:12px;background:#0a0e1e;border:1px solid #1e2a4a;color:white}</style>
+</head>
+<body class="bg-[#070b18] text-white min-h-screen flex items-center justify-center p-4">
+<div id="telaLogin" class="w-full max-w-md bg-[#11172e] p-8 rounded-[20px] border border-[#1e2a4a]">
+<h1 class="text-2xl font-black text-center">RAMOS INFOTEC</h1>
+<p class="text-center text-xs opacity-60 mb-8">Sistema de Chamados</p>
+<label class="text-[10px] opacity-60">Empresa / Dominio</label>
+<input id="loginEmpresa" class="input-dark mb-4" placeholder="ramosinfotec">
+<label class="text-[10px] opacity-60">Usuario</label>
+<input id="loginUser" class="input-dark mb-4" placeholder="admin">
+<label class="text-[10px] opacity-60">Senha</label>
+<input id="loginPass" type="password" class="input-dark" placeholder="••••••••">
+<div id="loginErro" style="display:none" class="mt-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-sm text-red-300"></div>
+<button onclick="fazerLogin()" class="w-full mt-6 bg-blue-600 py-3 rounded-xl font-bold">ENTRAR</button>
+</div>
+<div id="telaSistema" style="display:none" class="w-full max-w-4xl text-center">
+<h2 class="text-2xl font-bold mb-4">Sistema Voltou! Bem-vindo <span id="infoUser"></span></h2>
+<p class="opacity-60 mb-6">Empresa: <span id="infoEmpresa"></span></p>
+<button onclick="localStorage.clear();location.reload()" class="bg-red-600 px-6 py-2 rounded-lg">Sair</button>
+<div class="mt-8 p-6 bg-[#11172e] rounded-xl">Aqui vai seu sistema de chamados - me fala que eu reintegro o resto!</div>
+</div>
+<script>
 function fazerLogin(){
 const u=document.getElementById('loginUser').value.trim();
 const p=document.getElementById('loginPass').value;
 const e=document.getElementById('loginEmpresa')?document.getElementById('loginEmpresa').value.trim():'';
 const err=document.getElementById('loginErro');
 if(!u||!p){err.textContent='Preencha usuario e senha';err.style.display='block';return;}
-if(u.toLowerCase()=='admin'&&(p=='@Xumone@197353'||p=='@Xu@408671')){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','admin');localStorage.setItem('empresa_logada',e||'RAMOS INFOTEC');location.reload();return;}
-if((u.toLowerCase()=='dono'||u.toLowerCase()=='esposa')&&p=='@Xu@408671'){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','dono');localStorage.setItem('empresa_logada',e||'RAMOS INFOTEC');location.reload();return;}
+if(u.toLowerCase()=='admin'&&(p=='@Xumone@197353'||p=='@Xu@408671')){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','admin');localStorage.setItem('empresa_logada',e||'RAMOS INFOTEC');localStorage.setItem('usuario_logado','admin');location.reload();return;}
+if((u.toLowerCase()=='dono'||u.toLowerCase()=='esposa')&&p=='@Xu@408671'){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','dono');localStorage.setItem('empresa_logada',e||'RAMOS INFOTEC');localStorage.setItem('usuario_logado',u);location.reload();return;}
 let lista=JSON.parse(localStorage.getItem('ramos_usuarios')||'[{"empresa":"Empresa XYZ Ltda","login":"xyz","senha":"123"},{"empresa":"Empresa ABC Ltda","login":"abc","senha":"123"}]');
 let achou=lista.find(x=>x.login==u&&x.senha==p);
-if(achou){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','cliente');localStorage.setItem('empresa_logada',achou.empresa);location.reload();return;}
+if(achou){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','cliente');localStorage.setItem('empresa_logada',achou.empresa);localStorage.setItem('usuario_logado',u);location.reload();return;}
 err.textContent='Usuario ou senha invalidos';err.style.display='block';
 }
+if(localStorage.getItem('logado')=='1'){
+document.getElementById('telaLogin').style.display='none';
+document.getElementById('telaSistema').style.display='block';
+document.getElementById('infoEmpresa').textContent=localStorage.getItem('empresa_logada');
+document.getElementById('infoUser').textContent=localStorage.getItem('usuario_logado');
+}
+</script>
+</body>
+</html>
