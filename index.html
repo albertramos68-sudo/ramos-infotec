@@ -2,159 +2,110 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RAMOS INFOTEC V7.2 - FINAL</title>
+<title>RAMOS INFOTEC V7.3 MASTER - 12 ABAS</title>
 <style>
-body{background:#000;color:#fff;font-family:Arial;margin:0;padding:10px}
-input,select,button,textarea{padding:10px;margin:4px 0;border:1px solid #facc15;background:#111;color:#fff;width:100%;box-sizing:border-box}
-button{background:#facc15;color:#000;font-weight:bold;cursor:pointer}
-.tab{border:1px solid #333;padding:10px;margin-top:10px}
-.topo{display:flex;justify-content:space-between;align-items:center;background:#111;padding:8px;border:1px solid #facc15}
-.card{border:1px solid #333;padding:8px;margin:5px 0;background:#0a0a0a}
+*{box-sizing:border-box}body{background:#000;color:#fff;font-family:Arial;margin:0;padding:8px}
+input,select,button,textarea{padding:10px;margin:4px 0;border:1px solid #facc15;background:#111;color:#fff;width:100%;border-radius:4px}
+button{background:#facc15;color:#000;font-weight:bold;cursor:pointer;border:none}
+.tab{border:1px solid #333;padding:12px;margin-top:10px;background:#0a0a0a;border-radius:6px;display:none}
+.tab.active{display:block}
+.topo{display:flex;justify-content:space-between;align-items:center;background:#111;padding:10px;border:1px solid #facc15;border-radius:6px;flex-wrap:wrap;gap:8px}
+.menu{display:flex;gap:4px;flex-wrap:wrap;margin:10px 0}
+.menu button{width:auto;font-size:12px;padding:8px 10px}
+.card{border:1px solid #2a2a2a;padding:10px;margin:6px 0;background:#151515;border-radius:4px;font-size:13px}
+.badge{display:inline-block;padding:2px 6px;border-radius:10px;font-size:10px;font-weight:bold}
+.b-dono{background:#facc15;color:#000}.b-suporte{background:#3b82f6;color:#fff}.b-cliente{background:#22c55e;color:#fff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 </style>
 </head>
 <body>
 <div id="login">
-<h2 style="color:#facc15">💎 RAMOS INFOTEC V7.2 FINAL</h2>
+<h2 style="color:#facc15;text-align:center">💎 RAMOS INFOTEC V7.3<br><small style="color:#fff;font-size:13px">MASTER 12 ABAS + EMPRESA + TIPO</small></h2>
+<div style="max-width:400px;margin:auto;background:#111;padding:15px;border:1px solid #facc15;border-radius:8px">
 <input id="emp" placeholder="🏢 EMPRESA" value="ramosinfotec">
 <input id="log" placeholder="👤 USUARIO" value="admin">
 <input id="pas" type="password" placeholder="🔒 SENHA" value="admin">
-<button onclick="doLogin()">ENTRAR</button>
-<p style="font-size:11px;color:#aaa">Fácil: ramosinfotec / admin / admin<br>Sua oficial: ramosinfotec / dono / @Xumone@197353</p>
+<button onclick="doLogin()">ENTRAR NO SISTEMA</button>
+<p style="font-size:11px;color:#aaa">FÁCIL: ramosinfotec / admin / admin<br>OFICIAL: ramosinfotec / dono / @Xumone@197353</p>
+</div>
 </div>
 <div id="app" style="display:none">
-<div class="topo"><span id="infoUser"></span><button onclick="doLogout()" style="width:auto">SAIR</button></div>
-<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:8px">
-<button onclick="showTab('dash')" style="width:auto">💎 Dashboard</button>
-<button onclick="showTab('cham')" style="width:auto">🎫 Chamados</button>
-<button onclick="showTab('users')" style="width:auto">🔐 Usuarios</button>
-<button onclick="showTab('pessoal')" style="width:auto">👥 Pessoal</button>
+<div class="topo"><span id="infoUser"></span><span id="infoEmpresa" style="color:#facc15"></span><button onclick="doLogout()" style="width:auto;padding:6px 12px">SAIR</button></div>
+<div class="menu">
+<button onclick="showTab('dash')">💎 Dashboard</button>
+<button onclick="showTab('cham')">🎫 Chamados</button>
+<button onclick="showTab('clientes')">👥 Clientes</button>
+<button onclick="showTab('os')">🧾 OS</button>
+<button onclick="showTab('users')">🔐 Usuários</button>
+<button onclick="showTab('pessoal')">👔 Pessoal</button>
+<button onclick="showTab('fin')">💰 Financeiro</button>
+<button onclick="showTab('estoque')">📦 Estoque</button>
+<button onclick="showTab('agenda')">📅 Agenda</button>
+<button onclick="showTab('robo')">🤖 Robô</button>
+<button onclick="showTab('rel')">📊 Relatórios</button>
+<button onclick="showTab('config')">⚙️ Config</button>
 </div>
-<div id="dash" class="tab"><h3>Dashboard</h3><div id="dashInfo"></div></div>
-<div id="cham" class="tab" style="display:none">
-<h3>Chamados</h3>
-<input id="c_titulo" placeholder="Titulo do chamado">
-<input id="c_cliente" placeholder="Cliente">
-<textarea id="c_desc" placeholder="Descrição" style="background:#111;color:#fff;border:1px solid #facc15;padding:8px"></textarea>
-<button onclick="criarChamado()">CRIAR CHAMADO</button>
-<div id="listaCham"></div>
-</div>
-<div id="users" class="tab" style="display:none">
-<h3>🔐 Usuarios [EMPRESA] - AGORA COM TIPO!</h3>
-<div style="background:#0a0a0a;padding:12px;border:1px solid #facc15;display:grid;grid-template-columns:1fr 1fr;gap:8px">
-  <input id="u_empresa" placeholder="🏢 EMPRESA (ex: consultorio teste)" style="grid-column:span 2">
-  <select id="u_tipo" style="background:#000;color:#facc15;border:1px solid #facc15;padding:10px;grid-column:span 2">
-    <option value="cliente">👤 CLIENTE (só vê chamados dele)</option>
-    <option value="suporte">🔧 SUPORTE (vê todos da empresa dele)</option>
-    <option value="dono">💎 ADMIN / DONO (vê tudo + financeiro oculto)</option>
-  </select>
-  <input id="u_login" placeholder="LOGIN">
-  <input id="u_senha" placeholder="SENHA">
-  <input id="u_nome" placeholder="NOME COMPLETO" style="grid-column:span 2">
-  <input id="u_cargo" placeholder="CARGO" style="grid-column:span 2">
-  <button onclick="criarUsuario()" style="grid-column:span 2">✅ CRIAR USUARIO COM EMPRESA + TIPO</button>
-</div>
-<div id="listaUsers" style="margin-top:10px"></div>
-</div>
-<div id="pessoal" class="tab" style="display:none">
-<h3>👥 Pessoal</h3>
-<div id="listaPessoal">Controle interno OK</div>
-<div id="fin_oculto" style="display:none;margin-top:15px;border:2px solid #facc15;padding:12px;background:#1a1a00">
-  <h3 style="color:#facc15">💰 FINANCEIRO OCULTO - SÓ DONOS</h3>
-  <p style="font-size:11px;color:#aaa">Só aparece pra você e sua esposa (dono/admin da ramosinfotec). Cliente e suporte NUNCA veem!</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-    <input id="fin_receita" type="number" placeholder="Receita Oculta R$">
-    <input id="fin_despesa" type="number" placeholder="Despesa Oculta R$">
-    <input id="fin_obs" placeholder="Obs financeira" style="grid-column:span 2">
-    <button onclick="salvarFinOculto()" style="grid-column:span 2">💾 SALVAR FINANCEIRO OCULTO</button>
-  </div>
-  <div id="fin_resumo" style="margin-top:10px;color:#fff;font-size:12px"></div>
-</div>
-</div>
+<div id="dash" class="tab active"><h3>💎 Dashboard</h3><div id="dashInfo"></div></div>
+<div id="cham" class="tab"><h3>🎫 Chamados - <span id="chamEmpresaLabel"></span></h3><div class="grid2"><input id="c_titulo" placeholder="Título"><input id="c_cliente" placeholder="Cliente"></div><textarea id="c_desc" placeholder="Descrição" rows="3"></textarea><button onclick="criarChamado()">CRIAR CHAMADO</button><div id="listaCham"></div></div>
+<div id="clientes" class="tab"><h3>👥 Clientes</h3><div class="grid2"><input id="cli_nome" placeholder="Nome"><input id="cli_fone" placeholder="Telefone"></div><input id="cli_empresa" placeholder="Empresa"><button onclick="criarCliente()">SALVAR CLIENTE</button><div id="listaCli"></div></div>
+<div id="os" class="tab"><h3>🧾 OS</h3><div class="grid2"><input id="os_cli" placeholder="Cliente"><input id="os_valor" type="number" placeholder="Valor R$"></div><input id="os_serv" placeholder="Serviço"><button onclick="criarOS()">CRIAR OS</button><div id="listaOS"></div></div>
+<div id="users" class="tab"><h3>🔐 Usuários COM TIPO CORRIGIDO!</h3><div style="background:#111;padding:12px;border:1px solid #facc15;border-radius:6px" class="grid2">
+<input id="u_empresa" placeholder="🏢 EMPRESA (ex: consultorio teste)" style="grid-column:span 2">
+<select id="u_tipo" style="grid-column:span 2;background:#000;color:#facc15;border:1px solid #facc15;padding:10px">
+<option value="cliente">👤 CLIENTE - só vê chamados dele</option>
+<option value="suporte">🔧 SUPORTE - vê todos da empresa</option>
+<option value="dono" selected>💎 DONO/ADMIN - vê tudo + financeiro oculto</option>
+</select>
+<input id="u_login" placeholder="LOGIN (ex: teste)"><input id="u_senha" placeholder="SENHA (ex: 123)">
+<input id="u_nome" placeholder="NOME COMPLETO" style="grid-column:span 2"><input id="u_cargo" placeholder="CARGO" style="grid-column:span 2">
+<button onclick="criarUsuario()" style="grid-column:span 2">✅ CRIAR USUÁRIO COM EMPRESA + TIPO</button></div><div id="listaUsers" style="margin-top:10px"></div></div>
+<div id="pessoal" class="tab"><h3>👔 Pessoal</h3><div id="listaPessoal" class="card">Controle interno OK</div>
+<div id="fin_oculto" style="display:none;margin-top:15px;border:2px solid #facc15;padding:12px;background:#1a1a00;border-radius:6px">
+<h3 style="color:#facc15">💰 FINANCEIRO OCULTO - SÓ DONOS RAMOS</h3><p style="font-size:11px;color:#aaa">Só você e esposa veem!</p>
+<div class="grid2"><input id="fin_receita" type="number" placeholder="Receita Oculta R$"><input id="fin_despesa" type="number" placeholder="Despesa Oculta R$"><input id="fin_obs" placeholder="Obs" style="grid-column:span 2"><button onclick="salvarFinOculto()" style="grid-column:span 2">💾 SALVAR FINANCEIRO OCULTO</button></div><div id="fin_resumo" style="margin-top:10px"></div></div></div>
+<div id="fin" class="tab"><h3>💰 Financeiro</h3><div class="grid2"><input id="fin_n_desc" placeholder="Descrição"><input id="fin_n_valor" type="number" placeholder="Valor"></div><select id="fin_n_tipo"><option value="receita">Receita</option><option value="despesa">Despesa</option></select><button onclick="criarFin()">LANÇAR</button><div id="listaFin"></div></div>
+<div id="estoque" class="tab"><h3>📦 Estoque</h3><div class="grid2"><input id="est_nome" placeholder="Produto"><input id="est_qtd" type="number" placeholder="Qtd"></div><button onclick="criarEst()">ADICIONAR</button><div id="listaEst"></div></div>
+<div id="agenda" class="tab"><h3>📅 Agenda</h3><input id="ag_titulo" type="datetime-local"><input id="ag_desc" placeholder="Compromisso"><button onclick="criarAgenda()">AGENDAR</button><div id="listaAg"></div></div>
+<div id="robo" class="tab"><h3>🤖 Robô WhatsApp</h3><div class="card"><p>Robô ativo para: <b id="roboEmp"></b></p><textarea id="robo_msg" rows="3">Olá! Ramos Infotec agradece seu contato. Já abrimos seu chamado!</textarea><button onclick="salvarRobo()">SALVAR MENSAGEM ROBÔ</button></div></div>
+<div id="rel" class="tab"><h3>📊 Relatórios</h3><div id="relInfo" class="card"></div><button onclick="gerarRel()">GERAR RELATÓRIO</button></div>
+<div id="config" class="tab"><h3>⚙️ Config</h3><div class="card"><p>Empresa: <b id="cfgEmp"></b> | User: <b id="cfgUser"></b> | Tipo: <b id="cfgTipo"></b></p><button onclick="exportarBackup()" style="background:#22c55e">📤 EXPORTAR BACKUP</button><button onclick="if(confirm('Apagar tudo?')){localStorage.clear();sessionStorage.clear();location.reload();}" style="background:#ef4444;color:#fff">🗑️ ZERAR</button></div></div>
 </div>
 <script>
-let sess=JSON.parse(sessionStorage.getItem('sess_v71')||'null');
-let usuarios=JSON.parse(localStorage.getItem('usuarios_v71')||'[]');
-let chamados=JSON.parse(localStorage.getItem('chamados_v71')||'[]');
+let sess=JSON.parse(sessionStorage.getItem('sess_v73')||'null');
+let usuarios=JSON.parse(localStorage.getItem('usuarios_v73')||'[]');
+let chamados=JSON.parse(localStorage.getItem('chamados_v73')||'[]');
+let clientes=JSON.parse(localStorage.getItem('clientes_v73')||'[]');
+let oss=JSON.parse(localStorage.getItem('oss_v73')||'[]');
+let fins=JSON.parse(localStorage.getItem('fins_v73')||'[]');
+let estoque=JSON.parse(localStorage.getItem('estoque_v73')||'[]');
+let agenda=JSON.parse(localStorage.getItem('agenda_v73')||'[]');
 const SENHAS_VALIDAS=["@Xumone@197353","@Xu@408671","Ramos@2026","admin","admin123","ramos123","123","1234","dono"];
 function normalizaEmpresa(s){return (s||'').toLowerCase().trim().replace(/[^a-z0-9]/g,'');}
-function salvarTudo(){localStorage.setItem('usuarios_v71',JSON.stringify(usuarios));localStorage.setItem('chamados_v71',JSON.stringify(chamados));}
-function doLogin(){
- let emp=document.getElementById('emp').value.trim();
- let l=document.getElementById('log').value.trim().toLowerCase();
- let p=document.getElementById('pas').value.trim();
- if(!emp) return alert('Digite EMPRESA');
- let empNorm=normalizaEmpresa(emp);
- let ehRamos=empNorm.includes('ramos');
- let senhaOk=SENHAS_VALIDAS.includes(p);
- if(ehRamos && senhaOk && ['admin','dono','albert.ramos','albert','ramos'].includes(l)){
-   sess={user:l,tipo:'dono',empresa:'ramosinfotec',nome:l.toUpperCase(),cargo:'ADMIN'};sessionStorage.setItem('sess_v71',JSON.stringify(sess));render();return;
- }
- let u=usuarios.find(x=>x.login.toLowerCase()===l && x.senha===p && normalizaEmpresa(x.empresa)===empNorm);
- if(u){sess={user:u.login,tipo:u.tipo,empresa:u.empresa,nome:u.nome,cargo:u.cargo};sessionStorage.setItem('sess_v71',JSON.stringify(sess));render();}
- else alert('Login invalido! Use ramosinfotec / admin / admin');
-}
-function doLogout(){sessionStorage.removeItem('sess_v71');location.reload();}
-function render(){
- if(!sess){document.getElementById('login').style.display='block';document.getElementById('app').style.display='none';return;}
- document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';
- document.getElementById('infoUser').innerHTML=`👤 ${sess.user} (${sess.tipo}) 🟡 ${sess.empresa}`;
- renderUsuarios();renderChamados();
- if(sess.tipo==='dono' && sess.empresa==='ramosinfotec'){document.getElementById('fin_oculto').style.display='block';mostrarFinOculto();}
-}
-function showTab(t){['dash','cham','users','pessoal'].forEach(x=>document.getElementById(x).style.display='none');document.getElementById(t).style.display='block';}
-function criarUsuario(){
- let emp=document.getElementById('u_empresa').value.trim().toLowerCase();
- let tipo=document.getElementById('u_tipo').value;
- let login=document.getElementById('u_login').value.trim().toLowerCase();
- let senha=document.getElementById('u_senha').value.trim();
- let nome=document.getElementById('u_nome').value.trim();
- let cargo=document.getElementById('u_cargo').value.trim()||tipo;
- if(!emp||!login||!senha||!nome) return alert('Preencha empresa, login, senha e nome');
- usuarios.push({empresa:emp,login:login,senha:senha,nome:nome,cargo:cargo,tipo:tipo});
- salvarTudo();renderUsuarios();alert('Criado '+login+' como '+tipo+' em '+emp);
-}
-function renderUsuarios(){
- let html='';usuarios.forEach((u,i)=>{
-   if(sess.tipo!=='dono' && normalizaEmpresa(u.empresa)!==normalizaEmpresa(sess.empresa)) return;
-   html+=`<div class="card">🏢 ${u.empresa} | 👤 ${u.login} (${u.tipo}) - ${u.nome} <button onclick="delUser(${i})" style="width:auto;background:red;color:#fff">X</button></div>`;
- });
- document.getElementById('listaUsers').innerHTML=html||'Nenhum usuario';
-}
+function salvarTudo(){localStorage.setItem('usuarios_v73',JSON.stringify(usuarios));localStorage.setItem('chamados_v73',JSON.stringify(chamados));localStorage.setItem('clientes_v73',JSON.stringify(clientes));localStorage.setItem('oss_v73',JSON.stringify(oss));localStorage.setItem('fins_v73',JSON.stringify(fins));localStorage.setItem('estoque_v73',JSON.stringify(estoque));localStorage.setItem('agenda_v73',JSON.stringify(agenda));}
+function doLogin(){let emp=document.getElementById('emp').value.trim();let l=document.getElementById('log').value.trim().toLowerCase();let p=document.getElementById('pas').value.trim();if(!emp) return alert('Digite EMPRESA');let empNorm=normalizaEmpresa(emp);let ehRamos=empNorm.includes('ramos');let senhaOk=SENHAS_VALIDAS.includes(p);if(ehRamos && senhaOk && ['admin','dono','albert.ramos','albert','ramos'].includes(l)){sess={user:l,tipo:'dono',empresa:'ramosinfotec',nome:l.toUpperCase(),cargo:'ADMIN'};sessionStorage.setItem('sess_v73',JSON.stringify(sess));render();return;}let u=usuarios.find(x=>x.login.toLowerCase()===l && x.senha===p && normalizaEmpresa(x.empresa)===empNorm);if(u){sess={user:u.login,tipo:u.tipo,empresa:u.empresa,nome:u.nome,cargo:u.cargo};sessionStorage.setItem('sess_v73',JSON.stringify(sess));render();}else alert('Login inválido! Tente ramosinfotec / admin / admin');}
+function doLogout(){sessionStorage.removeItem('sess_v73');location.reload();}
+function render(){if(!sess){document.getElementById('login').style.display='block';document.getElementById('app').style.display='none';return;}document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';document.getElementById('infoUser').innerHTML=`👤 ${sess.user} <span class="badge b-${sess.tipo}">${sess.tipo}</span>`;document.getElementById('infoEmpresa').innerHTML=`🏢 ${sess.empresa}`;document.getElementById('chamEmpresaLabel').innerText=sess.empresa;document.getElementById('roboEmp').innerText=sess.empresa;document.getElementById('cfgEmp').innerText=sess.empresa;document.getElementById('cfgUser').innerText=sess.user;document.getElementById('cfgTipo').innerText=sess.tipo;renderUsuarios();renderChamados();renderClientes();renderOS();renderFin();renderEst();renderAgenda();mostrarFinOculto();if(sess.tipo==='dono' && normalizaEmpresa(sess.empresa)==='ramosinfotec'){document.getElementById('fin_oculto').style.display='block';}else{document.getElementById('fin_oculto').style.display='none';}}
+function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById(t).classList.add('active');}
+function criarUsuario(){let emp=document.getElementById('u_empresa').value.trim().toLowerCase();let tipo=document.getElementById('u_tipo').value;let login=document.getElementById('u_login').value.trim().toLowerCase();let senha=document.getElementById('u_senha').value.trim();let nome=document.getElementById('u_nome').value.trim();let cargo=document.getElementById('u_cargo').value.trim()||tipo;if(!emp||!login||!senha||!nome) return alert('Preencha empresa, login, senha e nome');usuarios.push({empresa:emp,login:login,senha:senha,nome:nome,cargo:cargo,tipo:tipo});salvarTudo();renderUsuarios();alert('✅ Criado '+login+' como '+tipo.toUpperCase()+' em '+emp);}
+function renderUsuarios(){let html='';usuarios.forEach((u,i)=>{if(sess.tipo!=='dono' && normalizaEmpresa(u.empresa)!==normalizaEmpresa(sess.empresa)) return;html+=`<div class="card">🏢 <b>${u.empresa}</b> | 👤 ${u.login} <span class="badge b-${u.tipo}">${u.tipo}</span> - ${u.nome} <button onclick="delUser(${i})" style="width:auto;background:#ef4444;color:#fff;padding:2px 8px;float:right">X</button></div>`;});document.getElementById('listaUsers').innerHTML=html||'Nenhum usuário';}
 function delUser(i){if(confirm('Apagar?')){usuarios.splice(i,1);salvarTudo();renderUsuarios();}}
-function criarChamado(){
- let tit=document.getElementById('c_titulo').value.trim();if(!tit) return alert('Titulo');
- let cli=document.getElementById('c_cliente').value.trim();
- let desc=document.getElementById('c_desc').value.trim();
- let ch={id:Date.now(),titulo:tit,cliente:cli,desc:desc,empresa:sess.empresa,criadoPor:sess.user,criadoEm:new Date().toLocaleString(),status:'aberto'};
- chamados.push(ch);salvarTudo();renderChamados();
-}
-function renderChamados(){
- let list=chamados.filter(c=>{
-   if(sess.tipo==='dono') return true;
-   if(sess.tipo==='suporte') return normalizaEmpresa(c.empresa)===normalizaEmpresa(sess.empresa);
-   if(sess.tipo==='cliente') return normalizaEmpresa(c.empresa)===normalizaEmpresa(sess.empresa) && c.criadoPor===sess.user;
-   return false;
- });
- let html='';list.slice().reverse().forEach(c=>{
-   html+=`<div class="card"><b>#${c.id} ${c.titulo}</b><br>🏢 ${c.empresa} | 👤 ${c.criadoPor}<br>${c.desc}<br><small>${c.criadoEm}</small></div>`;
- });
- document.getElementById('listaCham').innerHTML=html||'Sem chamados';
- document.getElementById('dashInfo').innerHTML=`Total chamados visiveis: ${list.length}`;
-}
-function salvarFinOculto(){
- let r=parseFloat(document.getElementById('fin_receita').value)||0;
- let d=parseFloat(document.getElementById('fin_despesa').value)||0;
- let obs=document.getElementById('fin_obs').value;
- let dados={receita:r,despesa:d,obs:obs,saldo:r-d,data:new Date().toLocaleString()};
- localStorage.setItem('fin_oculto_ramos',JSON.stringify(dados));mostrarFinOculto();alert('Financeiro oculto salvo!');
-}
-function mostrarFinOculto(){
- let dados=JSON.parse(localStorage.getItem('fin_oculto_ramos')||'null');
- if(dados){
-  document.getElementById('fin_resumo').innerHTML=`<b>Saldo: R$ ${dados.saldo.toFixed(2)}</b><br>Receita: R$ ${dados.receita} | Despesa: R$ ${dados.despesa}<br>Obs: ${dados.obs}<br><small>${dados.data}</small>`;
-  document.getElementById('fin_receita').value=dados.receita;document.getElementById('fin_despesa').value=dados.despesa;document.getElementById('fin_obs').value=dados.obs;
- }
-}
+function criarChamado(){let tit=document.getElementById('c_titulo').value.trim();if(!tit) return alert('Título');let cli=document.getElementById('c_cliente').value.trim();let desc=document.getElementById('c_desc').value.trim();let ch={id:Date.now(),titulo:tit,cliente:cli,desc:desc,empresa:sess.empresa,criadoPor:sess.user,criadoEm:new Date().toLocaleString()};chamados.push(ch);salvarTudo();renderChamados();}
+function renderChamados(){let list=chamados.filter(c=>{if(sess.tipo==='dono' && normalizaEmpresa(sess.empresa)==='ramosinfotec') return true;if(sess.tipo==='dono'||sess.tipo==='suporte') return normalizaEmpresa(c.empresa)===normalizaEmpresa(sess.empresa);if(sess.tipo==='cliente') return normalizaEmpresa(c.empresa)===normalizaEmpresa(sess.empresa) && c.criadoPor===sess.user;return false;});let html='';list.slice().reverse().forEach(c=>{html+=`<div class="card"><b>#${c.id} ${c.titulo}</b> <span style="color:#facc15">${c.empresa}</span><br>👤 ${c.criadoPor} | ${c.cliente}<br>${c.desc}<br><small>${c.criadoEm}</small></div>`;});document.getElementById('listaCham').innerHTML=html||'Sem chamados';document.getElementById('dashInfo').innerHTML=`<div class="grid2"><div class="card">📊 Chamados: <b>${list.length}</b></div><div class="card">🏢 Empresa: <b>${sess.empresa}</b></div><div class="card">👥 Usuários: <b>${usuarios.filter(u=>normalizaEmpresa(u.empresa)===normalizaEmpresa(sess.empresa)).length}</b></div><div class="card">🧾 OS: <b>${oss.filter(o=>normalizaEmpresa(o.empresa)===normalizaEmpresa(sess.empresa)).length}</b></div></div>`;}
+function criarCliente(){let n=document.getElementById('cli_nome').value.trim();if(!n) return alert('Nome');let f=document.getElementById('cli_fone').value;let e=document.getElementById('cli_empresa').value||sess.empresa;clientes.push({nome:n,fone:f,empresa:e,criadoEm:new Date().toLocaleString(),donoEmpresa:sess.empresa});salvarTudo();renderClientes();}
+function renderClientes(){let list=clientes.filter(c=>normalizaEmpresa(c.donoEmpresa)===normalizaEmpresa(sess.empresa));let html='';list.slice().reverse().forEach(c=>{html+=`<div class="card">${c.nome} - ${c.fone} | ${c.empresa}</div>`});document.getElementById('listaCli').innerHTML=html;}
+function criarOS(){let cli=document.getElementById('os_cli').value;let v=document.getElementById('os_valor').value;let s=document.getElementById('os_serv').value;if(!cli) return alert('Cliente');oss.push({cliente:cli,valor:parseFloat(v)||0,serv:s,empresa:sess.empresa,criadoEm:new Date().toLocaleString()});salvarTudo();renderOS();}
+function renderOS(){let list=oss.filter(o=>normalizaEmpresa(o.empresa)===normalizaEmpresa(sess.empresa));let html='';list.slice().reverse().forEach(o=>{html+=`<div class="card">🧾 ${o.cliente} - R$ ${o.valor.toFixed(2)} | ${o.serv}</div>`});document.getElementById('listaOS').innerHTML=html;}
+function criarFin(){let d=document.getElementById('fin_n_desc').value;let v=parseFloat(document.getElementById('fin_n_valor').value)||0;let t=document.getElementById('fin_n_tipo').value;if(!d) return alert('Desc');fins.push({desc:d,valor:v,tipo:t,empresa:sess.empresa,data:new Date().toLocaleString()});salvarTudo();renderFin();}
+function renderFin(){let list=fins.filter(f=>normalizaEmpresa(f.empresa)===normalizaEmpresa(sess.empresa));let totR=list.filter(f=>f.tipo==='receita').reduce((a,b)=>a+b.valor,0);let totD=list.filter(f=>f.tipo==='despesa').reduce((a,b)=>a+b.valor,0);let html=`<div class="card" style="border-color:#facc15">Saldo: R$ ${(totR-totD).toFixed(2)} | Receita: R$ ${totR.toFixed(2)} | Despesa: R$ ${totD.toFixed(2)}</div>`;list.slice().reverse().forEach(f=>{html+=`<div class="card">${f.tipo.toUpperCase()} - ${f.desc} - R$ ${f.valor.toFixed(2)}</div>`});document.getElementById('listaFin').innerHTML=html;}
+function criarEst(){let n=document.getElementById('est_nome').value;let q=document.getElementById('est_qtd').value;if(!n) return alert('Produto');estoque.push({nome:n,qtd:parseInt(q)||0,empresa:sess.empresa});salvarTudo();renderEst();}
+function renderEst(){let list=estoque.filter(e=>normalizaEmpresa(e.empresa)===normalizaEmpresa(sess.empresa));let html='';list.forEach(e=>{html+=`<div class="card">📦 ${e.nome} - Qtd: ${e.qtd}</div>`});document.getElementById('listaEst').innerHTML=html;}
+function criarAgenda(){let t=document.getElementById('ag_titulo').value;let d=document.getElementById('ag_desc').value;if(!t) return alert('Data');agenda.push({titulo:t,desc:d,empresa:sess.empresa});salvarTudo();renderAgenda();}
+function renderAgenda(){let list=agenda.filter(a=>normalizaEmpresa(a.empresa)===normalizaEmpresa(sess.empresa));let html='';list.forEach(a=>{html+=`<div class="card">📅 ${a.titulo} - ${a.desc}</div>`});document.getElementById('listaAg').innerHTML=html;}
+function salvarFinOculto(){let r=parseFloat(document.getElementById('fin_receita').value)||0;let d=parseFloat(document.getElementById('fin_despesa').value)||0;let obs=document.getElementById('fin_obs').value;let dados={receita:r,despesa:d,obs:obs,saldo:r-d,data:new Date().toLocaleString()};localStorage.setItem('fin_oculto_ramos_v73',JSON.stringify(dados));mostrarFinOculto();alert('Financeiro oculto salvo!');}
+function mostrarFinOculto(){let dados=JSON.parse(localStorage.getItem('fin_oculto_ramos_v73')||'null');if(dados){document.getElementById('fin_resumo').innerHTML=`<b>Saldo Oculto: R$ ${dados.saldo.toFixed(2)}</b><br>Receita: R$ ${dados.receita} | Despesa: R$ ${dados.despesa}<br>Obs: ${dados.obs}<br><small>${dados.data}</small>`;document.getElementById('fin_receita').value=dados.receita;document.getElementById('fin_despesa').value=dados.despesa;document.getElementById('fin_obs').value=dados.obs;}}
+function salvarRobo(){localStorage.setItem('robo_msg_'+normalizaEmpresa(sess.empresa),document.getElementById('robo_msg').value);alert('Robô salvo para '+sess.empresa);}
+function gerarRel(){let list=chamados.filter(c=>normalizaEmpresa(c.empresa)===normalizaEmpresa(sess.empresa));document.getElementById('relInfo').innerHTML=`<b>Empresa:</b> ${sess.empresa}<br><b>Chamados:</b> ${list.length}<br><b>Clientes:</b> ${clientes.filter(c=>normalizaEmpresa(c.donoEmpresa)===normalizaEmpresa(sess.empresa)).length}<br><b>Gerado:</b> ${new Date().toLocaleString()}`;}
+function exportarBackup(){let b={usuarios,chamados,clientes,oss,fins,estoque,agenda,finOculto:localStorage.getItem('fin_oculto_ramos_v73')};let blob=new Blob([JSON.stringify(b,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup_ramos_'+sess.empresa+'.json';a.click();}
 render();
 </script>
 </body>
