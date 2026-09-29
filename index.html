@@ -15,7 +15,9 @@ body{background:#f5f8ff;color:#0f2a54}
 .item{border:1px solid #e3ecff;border-radius:12px;padding:16px}
 .badge{background:#e3ecff;color:#0b3d91;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;display:inline-block;margin-top:8px}
 .cta{background:#0b3d91;color:white;text-align:center;padding:30px 20px;border-radius:16px}
-.btn{display:inline-block;background:white;color:#0b3d91;padding:14px 28px;border-radius:30px;font-weight:800;text-decoration:none;margin:10px 5px}
+.btn{display:inline-block;background:white;color:#0b3d91;padding:14px 28px;border-radius:30px;font-weight:800;text-decoration:none;margin:10px 5px;cursor:pointer;border:none}
+#telaLogin{position:fixed;top:0;left:0;right:0;bottom:0;background:#070b18;display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
+.input-dark{width:100%;padding:14px;border-radius:12px;background:#0a0e1e;border:1px solid #1e2a4a;color:white;margin-top:6px;margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -23,6 +25,7 @@ body{background:#f5f8ff;color:#0f2a54}
 <h1>Ramos Infotec</h1>
 <p>Soluções em TI • CNPJ 45.114.523/0001-05</p>
 <p style="margin-top:15px;font-weight:700;font-size:22px">Transformamos Tecnologia em Resultados</p>
+<button onclick="document.getElementById('telaLogin').style.display='flex'" class="btn" style="margin-top:20px;background:#ffcc00">🔒 Área do Cliente / Admin</button>
 </div>
 <div class="container">
 <div class="card">
@@ -44,5 +47,45 @@ body{background:#f5f8ff;color:#0f2a54}
 <div style="margin-top:20px">ramos-infotec.onrender.com<br>(11) 97199-5422</div>
 </div>
 </div>
+
+<!-- LOGIN COM SUAS SENHAS MESTRAS -->
+<div id="telaLogin">
+<div style="width:100%;max-width:380px;background:#11172e;padding:28px;border-radius:20px;border:1px solid #1e2a4a">
+<h2 style="color:white;text-align:center;font-weight:900">RAMOS INFOTEC</h2>
+<p style="color:#7a8bb5;text-align:center;font-size:11px;margin-bottom:20px">Acesso Restrito</p>
+<label style="color:#7a8bb5;font-size:10px">Empresa / Dominio</label>
+<input id="loginEmpresa" class="input-dark" placeholder="ramosinfotec">
+<label style="color:#7a8bb5;font-size:10px">Usuario</label>
+<input id="loginUser" class="input-dark" placeholder="admin">
+<label style="color:#7a8bb5;font-size:10px">Senha</label>
+<input id="loginPass" type="password" class="input-dark" placeholder="••••••••">
+<div id="loginErro" style="display:none;margin-top:12px;padding:10px;background:rgba(255,0,0,.2);border:1px solid red;border-radius:8px;color:#ffb3b3;font-size:13px"></div>
+<button onclick="fazerLogin()" style="width:100%;margin-top:16px;background:#2563eb;color:white;padding:14px;border-radius:12px;font-weight:800;border:none;cursor:pointer">ENTRAR</button>
+<button onclick="document.getElementById('telaLogin').style.display='none'" style="width:100%;margin-top:10px;background:transparent;color:#7a8bb5;padding:10px;border:none;cursor:pointer">Voltar ao site</button>
+</div>
+</div>
+
+<script>
+function fazerLogin(){
+const u=document.getElementById('loginUser').value.trim();
+const p=document.getElementById('loginPass').value;
+const e=document.getElementById('loginEmpresa')?document.getElementById('loginEmpresa').value.trim():'';
+const err=document.getElementById('loginErro');
+if(!u||!p){err.textContent='Preencha usuario e senha';err.style.display='block';return;}
+// SUAS 3 SENHAS MESTRAS
+if(u.toLowerCase()=='admin'&&(p=='@Xumone@197353'||p=='@Xu@408671')){
+localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','admin');localStorage.setItem('empresa_logada',e||'RAMOS INFOTEC');localStorage.setItem('usuario_logado','admin');
+alert('Logado como ADMIN MASTER! Vê TUDO + Pessoal');window.location.href='/sistema.html';return;
+}
+if((u.toLowerCase()=='dono'||u.toLowerCase()=='esposa')&&p=='@Xu@408671'){
+localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','dono');localStorage.setItem('empresa_logada',e||'RAMOS INFOTEC');localStorage.setItem('usuario_logado',u);
+alert('Logado como DONO(A)! Vê TUDO');window.location.href='/sistema.html';return;
+}
+let lista=JSON.parse(localStorage.getItem('ramos_usuarios')||'[{"empresa":"Empresa XYZ Ltda","login":"xyz","senha":"123"},{"empresa":"Empresa ABC Ltda","login":"abc","senha":"123"}]');
+let achou=lista.find(x=>x.login.toLowerCase()==u.toLowerCase()&&x.senha==p);
+if(achou){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','cliente');localStorage.setItem('empresa_logada',achou.empresa);localStorage.setItem('usuario_logado',u);alert('Logado como Cliente: '+achou.empresa);window.location.href='/sistema.html';return;}
+err.textContent='Usuario ou senha invalidos';err.style.display='block';
+}
+</script>
 </body>
 </html>
