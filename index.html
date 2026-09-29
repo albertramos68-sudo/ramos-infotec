@@ -1,95 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ramos InfoTec - Sistema</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-.input-dark{width:100%;padding:14px;border-radius:12px;background:#0a0e1e;border:1px solid #1e2a4a;color:white;outline:none}
-.label-top{font-size:10px;opacity:.6;margin-bottom:6px;display:block;font-weight:700;letter-spacing:1px}
-</style>
-</head>
-<body class="bg-[#070b18] text-white min-h-screen flex items-center justify-center p-4">
-<!-- TELA LOGIN -->
-<div id="telaLogin" class="w-full max-w-md bg-[#11172e] p-8 rounded-[20px] border border-[#1e2a4a]">
-  <h1 class="text-2xl font-black text-center">RAMOS INFOTEC</h1>
-  <p class="text-center text-xs opacity-60 mb-6">Sistema de Chamados e Clientes</p>
-
-  <div class="mt-8 text-left">
-    <label class="label-top">Empresa / Domínio</label>
-    <input id="loginEmpresa" class="input-dark mb-4" placeholder="Ex: Condominio Way">
-
-    <label class="label-top">Usuário</label>
-    <input id="loginUser" class="input-dark mb-4" placeholder="admin, dono, cliente...">
-
-    <label class="label-top">Senha</label>
-    <input id="loginPass" type="password" class="input-dark" placeholder="••••••••">
-
-    <div id="loginErro" style="display:none" class="mt-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-sm text-red-300"></div>
-
-    <button onclick="fazerLogin()" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-bold">ENTRAR</button>
-    <p class="text-[10px] opacity-40 text-center mt-4">Senhas ocultas para sua seguranca</p>
-  </div>
-</div>
-
-<!-- TELA SISTEMA -->
-<div id="telaSistema" style="display:none" class="w-full max-w-6xl">
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-xl font-bold">Bem-vindo: <span id="infoEmpresa"></span> - <span id="infoUser"></span></h2>
-    <button onclick="fazerLogout()" class="bg-red-600 px-4 py-2 rounded-lg text-sm">Sair</button>
-  </div>
-  <div id="conteudoSistema" class="bg-[#11172e] p-6 rounded-xl">Seu sistema de clientes e chamados aqui...</div>
-</div>
-
-<script>
-const ADMIN_PASS='admin123';
-const DONO_PASS='dono123';
-let TIPO_LOGADO=''; let EMPRESA_LOGADA=''; let USUARIO_LOGADO='';
-
 function fazerLogin(){
-  const empEl=document.getElementById('loginEmpresa');
-  const emp=empEl?empEl.value.trim():'';
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value;
-  const err=document.getElementById('loginErro');
-  if(!u||!p){err.textContent='Preencha usuario e senha';err.style.display='block';return;}
-
-  // ADMIN e DONO
-  if((u.toLowerCase()=='admin'&&p==ADMIN_PASS)||(u.toLowerCase()=='dono'&&p==DONO_PASS)){
-    TIPO_LOGADO=u.toLowerCase();EMPRESA_LOGADA=emp||'RAMOS INFOTEC';USUARIO_LOGADO=u;
-    localStorage.setItem('logado','1');localStorage.setItem('tipo_logado',TIPO_LOGADO);
-    localStorage.setItem('empresa_logada',EMPRESA_LOGADA);localStorage.setItem('usuario_logado',USUARIO_LOGADO);
-    entrarSistema();return;
-  }
-  // CLIENTES
-  let usuarios=JSON.parse(localStorage.getItem('ramos_usuarios')||'[]');
-  let achou=usuarios.find(x=>x.login.toLowerCase()==u.toLowerCase()&&x.senha==p&&(!emp||x.empresa.toLowerCase().includes(emp.toLowerCase())||emp.toLowerCase().includes(x.empresa.toLowerCase())));
-  if(achou){
-    TIPO_LOGADO=achou.tipo||'cliente';EMPRESA_LOGADA=achou.empresa;USUARIO_LOGADO=u;
-    localStorage.setItem('logado','1');localStorage.setItem('tipo_logado',TIPO_LOGADO);
-    localStorage.setItem('empresa_logada',EMPRESA_LOGADA);localStorage.setItem('usuario_logado',USUARIO_LOGADO);
-    entrarSistema();return;
-  }
-  err.textContent='Usuario, empresa ou senha invalidos';err.style.display='block';
+const u=document.getElementById('loginUser').value.trim();
+const p=document.getElementById('loginPass').value;
+const e=document.getElementById('loginEmpresa')?document.getElementById('loginEmpresa').value.trim():'';
+const err=document.getElementById('loginErro');
+if(!u||!p){err.textContent='Preencha usuario e senha';err.style.display='block';return;}
+if(u.toLowerCase()=='admin'&&(p=='@Xumone@197353'||p=='@Xu@408671')){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','admin');localStorage.setItem('empresa_logada',e||'RAMOS INFOTEC');location.reload();return;}
+if((u.toLowerCase()=='dono'||u.toLowerCase()=='esposa')&&p=='@Xu@408671'){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','dono');localStorage.setItem('empresa_logada',e||'RAMOS INFOTEC');location.reload();return;}
+let lista=JSON.parse(localStorage.getItem('ramos_usuarios')||'[{"empresa":"Empresa XYZ Ltda","login":"xyz","senha":"123"},{"empresa":"Empresa ABC Ltda","login":"abc","senha":"123"}]');
+let achou=lista.find(x=>x.login==u&&x.senha==p);
+if(achou){localStorage.setItem('logado','1');localStorage.setItem('tipo_logado','cliente');localStorage.setItem('empresa_logada',achou.empresa);location.reload();return;}
+err.textContent='Usuario ou senha invalidos';err.style.display='block';
 }
-
-function entrarSistema(){
-  document.getElementById('telaLogin').style.display='none';
-  document.getElementById('telaSistema').style.display='block';
-  document.getElementById('infoEmpresa').textContent=localStorage.getItem('empresa_logada')||'';
-  document.getElementById('infoUser').textContent=localStorage.getItem('usuario_logado')||'';
-  if(typeof montarMenu==='function') montarMenu();
-  if(typeof showTab==='function') showTab('clientes');
-}
-
-function fazerLogout(){
-  localStorage.clear();location.reload();
-}
-
-// Mantem logado
-if(localStorage.getItem('logado')=='1'){ entrarSistema(); }
-
-function montarMenu(){} function showTab(t){}
-</script>
-</body>
-</html>
