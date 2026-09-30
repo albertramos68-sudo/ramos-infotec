@@ -1,60 +1,192 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RAMOS INFOTEC V9 FINAL - CHAMADO COMPLETO</title><style>*{box-sizing:border-box}body{margin:0;background:#0f172a;color:#e2e8f0;font-family:Segoe UI,Arial}.top{background:#020617;border-bottom:2px solid #facc15;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:99}.logo{color:#facc15;font-weight:900;font-size:13px}.nav{display:flex;gap:6px;padding:10px;background:#0f172a;flex-wrap:wrap;position:sticky;top:44px;z-index:98;border-bottom:1px solid #1e293b}.tab{padding:7px 14px;border-radius:20px;font-size:11px;font-weight:800;cursor:pointer;border:none}.t-cli{background:#38bdf8;color:#000}.t-cham{background:#334155;color:#fff}.t-user{background:#facc15;color:#000}.t-fin{background:#10b981;color:#000}.t-est{background:#a78bfa;color:#000}.t-meu{background:#ef4444;color:#fff}.t-robo{background:#06b6d4;color:#000}.t-rel{background:#facc15;color:#000}.tab.active{outline:2px solid #fff}.wrap{padding:12px;max-width:1100px;margin:auto}.card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;margin-bottom:12px}.card h3{margin:0 0 10px;color:#facc15;font-size:13px}.card input,.card select,.card textarea{width:100%;background:#0f172a;border:1px solid #334155;border-radius:6px;padding:9px;color:#fff;font-size:12px;margin:3px 0}.btn{padding:7px 12px;border:none;border-radius:6px;font-weight:800;font-size:11px;cursor:pointer;margin:2px}.b-add{background:#22c55e;color:#000}.b-edit{background:#facc15;color:#000}.b-del{background:#ef4444;color:#fff}.b-view{background:#38bdf8;color:#000}.b-close{background:#a78bfa;color:#000}.b-print{background:#e2e8f0;color:#000}.login{height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#0f172a}.box{width:380px;background:#1e293b;border:1px solid #facc15;border-radius:12px;padding:20px}.box input{width:100%;background:#0f172a;border:1px solid #334155;padding:11px;border-radius:8px;color:#fff;margin:5px 0}.btn-entrar{width:100%;background:#facc15;color:#000;padding:12px;border:none;border-radius:8px;font-weight:900;cursor:pointer}.list{display:flex;justify-content:space-between;align-items:center;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:10px;margin:6px 0;font-size:12px;flex-wrap:wrap;gap:6px}.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:999;align-items:center;justify-content:center;padding:20px}.modal.active{display:flex}.modal-box{background:#1e293b;border:2px solid #facc15;border-radius:12px;padding:16px;max-width:600px;width:100%;max-height:90vh;overflow:auto}</style></head><body>
-<div id="login" class="login"><h2 style="color:#facc15">💎 RAMOS INFOTEC V9 FINAL</h2><p style="color:#94a3b8;font-size:11px">CHAMADO COM VISUALIZAR + FINANCEIRO COMPLETO</p><div class="box"><input id="e" value="ramosinfotec" placeholder="EMPRESA"><input id="l" value="admin" placeholder="LOGIN"><input id="s" value="@Xumone@197353" type="password" placeholder="SENHA"><button class="btn-entrar" onclick="entrar()">ENTRAR</button><div style="font-size:10px;color:#64748b;margin-top:8px">MASTER:<br>admin / @Xumone@197353<br>dono / @Xu@408671<br>dono / @Xumone@197353 (antigo)<br>esposa / @Xu@408671</div></div></div>
-<div id="app" style="display:none"><div class="top"><div class="logo">💎 RAMOS INFOTEC - <span id="uInfo"></span></div><button class="btn b-del" onclick="sair()">SAIR</button></div><div class="nav"><button class="tab t-cli active" onclick="aba('cli',this)">👤 Clientes</button><button class="tab t-cham" onclick="aba('cham',this)">🎫 Chamados</button><button class="tab t-user" onclick="aba('user',this)">👥 Usuários</button><button class="tab t-fin" onclick="aba('fin',this)">💰 Financeiro</button><button class="tab t-est" onclick="aba('est',this)">📦 Estoque</button><button class="tab t-meu" id="tabMeu" onclick="aba('meu',this)" style="display:none">🔒 Meu Financeiro (Só ADM)</button><button class="tab t-robo" onclick="aba('robo',this)">🤖 Robô Busca</button><button class="tab t-rel" onclick="aba('rel',this)">📊 Relatórios com LOGO</button></div><div class="wrap">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAMOS INFOTEC V10 FULL FINAL SEGURO</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:'Inter',sans-serif;background:#0a0f1e;color:#e2e8f0}
+.font-tech{font-family:'Orbitron',monospace}
+.glass{background:rgba(15,23,42,0.85);backdrop-filter:blur(12px);border:1px solid rgba(0,217,255,0.25)}
+.neon-text{color:#00D9FF;text-shadow:0 0 10px rgba(0,217,255,0.6)}
+.neon-border{border:1px solid #00D9FF;box-shadow:0 0 15px rgba(0,217,255,0.3)}
+.btn-neon{background:linear-gradient(90deg,#00D9FF,#0066FF);color:white}
+.input-tech{background:#0f172a;border:1px solid rgba(0,217,255,0.3);color:white;padding:9px;border-radius:8px;width:100%}
+</style>
+</head>
+<body>
+<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4">
+<div class="glass rounded-2xl p-8 w-full max-w-md neon-border">
+<div class="text-center mb-6">
+<div class="w-16 h-16 mx-auto rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center font-tech font-bold">RI</div>
+<h1 class="font-tech text-2xl neon-text mt-3">RAMOS INFOTEC</h1>
+<p class="text-xs text-cyan-300/70">Acesso Seguro - Portal Corporativo</p>
+</div>
+<div class="space-y-4">
+<div><label class="text-xs text-cyan-300 font-tech">EMPRESA</label><input id="loginEmpresa" class="input-tech mt-1" placeholder="Nome da empresa"></div>
+<div><label class="text-xs text-cyan-300 font-tech">USUARIO</label><input id="loginUser" class="input-tech mt-1" placeholder="Seu usuario"></div>
+<div><label class="text-xs text-cyan-300 font-tech">SENHA</label><input id="loginPass" type="password" class="input-tech mt-1" placeholder="••••••••"><p id="loginError" class="hidden text-xs text-red-400"></p></div>
+<button onclick="doLogin()" class="btn-neon w-full py-3 rounded-lg font-tech font-bold">ENTRAR</button>
+</div>
+</div>
+</div>
+<div id="appScreen" class="hidden">
+<header class="glass sticky top-0 z-50 p-3 flex flex-wrap justify-between items-center gap-2">
+<div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center font-tech font-bold">RI</div><div><div class="font-tech neon-text text-sm">RAMOS INFOTEC</div><div id="userInfo" class="text-[10px]"></div></div></div>
+<div class="flex gap-2 flex-wrap">
+<button onclick="showTab('clientes')" class="tabBtn px-3 py-1.5 rounded-full text-xs font-tech bg-slate-800" data-tab="clientes">CLIENTES</button>
+<button onclick="showTab('chamados')" class="tabBtn px-3 py-1.5 rounded-full text-xs font-tech bg-slate-800" data-tab="chamados">CHAMADOS</button>
+<button onclick="showTab('financeiro')" class="tabBtn px-3 py-1.5 rounded-full text-xs font-tech bg-slate-800" data-tab="financeiro">FINANCEIRO</button>
+<button onclick="showTab('financeiroPessoal')" id="btnFinPessoal" class="tabBtn hidden px-3 py-1.5 rounded-full text-xs font-tech bg-pink-900/40 border border-pink-500" data-tab="financeiroPessoal">MEU FINANCEIRO</button>
+<button onclick="showTab('estoque')" class="tabBtn px-3 py-1.5 rounded-full text-xs font-tech bg-slate-800" data-tab="estoque">ESTOQUE</button>
+<button onclick="showTab('usuarios')" class="tabBtn px-3 py-1.5 rounded-full text-xs font-tech bg-slate-800" data-tab="usuarios">USUARIOS</button>
+<button onclick="showTab('relatorios')" class="tabBtn px-3 py-1.5 rounded-full text-xs font-tech bg-slate-800" data-tab="relatorios">RELATORIOS</button>
+<button onclick="logout()" class="px-3 py-1.5 rounded-full text-xs bg-red-900/50">SAIR</button>
+</div>
+</header>
+<main class="p-4 max-w-7xl mx-auto">
+  <section id="tab-clientes" class="tab">
+<h2 class="font-tech neon-text text-lg mb-3">CLIENTES - Estado, Municipio, CEP, Endereco, Telefone</h2>
+<div class="glass rounded-xl p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+<input id="cliNome" class="input-tech" placeholder="Nome *">
+<input id="cliCpf" class="input-tech" placeholder="CPF/CNPJ">
+<input id="cliWhatsapp" class="input-tech" placeholder="WhatsApp">
+<input id="cliEmpresa" class="input-tech" placeholder="Empresa *">
+<select id="cliTipo" class="input-tech"><option>Contrato</option><option>Avulso</option></select>
+<input id="cliTelefone" class="input-tech" placeholder="Telefone">
+<input id="cliEstado" class="input-tech" placeholder="UF">
+<input id="cliMunicipio" class="input-tech" placeholder="Municipio">
+<input id="cliCep" class="input-tech" placeholder="CEP">
+<input id="cliEndereco" class="input-tech md:col-span-3" placeholder="Endereco">
+<button onclick="addCliente()" class="btn-neon md:col-span-3 py-2 rounded">ADICIONAR CLIENTE</button>
+</div>
+<div id="listaClientes" class="mt-4"></div>
+</section>
 
-<div id="p-cli" class="painel"><div class="card"><h3>👤 Novo Cliente - Com busca (ex: consultório médico)</h3><input id="cNome" placeholder="Nome * ex: Consultório Médico São Paulo"><input id="cDoc" placeholder="CPF/CNPJ"><input id="cZap" placeholder="WhatsApp"><input id="cEmp" placeholder="Empresa que trabalha - XYX, ADX, etc"><button class="btn b-add" onclick="saveCli()">➕ Adicionar</button><button class="btn b-edit" onclick="updateCli()" id="btnAltCli" style="display:none">✏️ Alterar</button><button class="btn b-print" onclick="printSec('p-cli')">🖨️ Imprimir</button></div><div id="listaCli"></div></div>
+<section id="tab-chamados" class="tab hidden">
+<h2 class="font-tech neon-text text-lg mb-3">CHAMADOS - Botão VISUALIZAR + Comentarios + Fechar/Reabrir</h2>
+<div class="glass rounded-xl p-4">
+<div class="grid grid-cols-4 gap-2 mb-3">
+<select id="chEmpresa" class="input-tech"><option value="">Todas Empresas</option></select>
+<select id="chStatusFiltro" class="input-tech"><option value="">Todos</option><option>Aberto</option><option>Em Andamento</option><option>Fechado</option></select>
+<input id="chBusca" class="input-tech" placeholder="Buscar..." oninput="filtrarChamados()">
+<button onclick="abrirModalChamado()" class="bg-green-600 py-2 rounded text-xs">+ NOVO CHAMADO</button>
+</div>
+<div id="listaChamados"></div>
+</div>
+</section>
 
-<div id="p-cham" class="painel" style="display:none"><div class="card"><h3>🎫 Abrir Chamado - Completo</h3><input id="chEmp" placeholder="Empresa do chamado - XYX"><input id="chCli" placeholder="Cliente"><textarea id="chDesc" placeholder="Descrição do problema" rows="2"></textarea><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><input id="chPagData" type="date" placeholder="Data pagamento"><input id="chValPago" type="number" placeholder="Valor Pago"><input id="chValPagar" type="number" placeholder="Valor a Pagar"><input id="chMulta" type="number" placeholder="Multa"><input id="chJuros" type="number" placeholder="Juros"><select id="chStatus"><option value="Aberto">Aberto</option><option value="Em Andamento">Em Andamento</option><option value="Fechado">Fechado</option></select></div><button class="btn b-add" onclick="saveCh()">➕ Adicionar Chamado</button><button class="btn b-edit" id="btnAltCh" style="display:none" onclick="updateCh()">✏️ Alterar Chamado</button><button class="btn b-print" onclick="printSec('p-cham')">🖨️ Imprimir</button></div><div id="listaCh"></div></div>
+<section id="tab-financeiro" class="tab hidden">
+<h2 class="font-tech neon-text mb-3">FINANCEIRO - Data Pag, Valor Pago, A Pagar, Multa, Juros</h2>
+<div class="glass p-4 grid grid-cols-4 gap-2">
+<input id="finData" type="date" class="input-tech"><input id="finEmpresa" class="input-tech" placeholder="Empresa"><input id="finValorPago" type="number" class="input-tech" placeholder="Pago"><input id="finValorAPagar" type="number" class="input-tech" placeholder="A Pagar"><input id="finMulta" type="number" class="input-tech" placeholder="Multa"><input id="finJuros" type="number" class="input-tech" placeholder="Juros"><select id="finTipoConta" class="input-tech"><option>Servico</option><option>Produto</option><option>Mensalidade</option></select><input id="finProduto" class="input-tech" placeholder="Produto"><button onclick="addFinanceiro()" class="btn-neon col-span-4 py-2 rounded">LANCAR</button>
+</div>
+<div id="listaFinanceiro" class="mt-4"></div>
+</section>
 
-<div id="p-user" class="painel" style="display:none"><div class="card"><h3>👥 Usuários - CLIENTE / SUPORTE / ADM</h3><input id="uEmp" value="ramosinfotec" placeholder="Empresa"><select id="uTipo"><option value="CLIENTE">CLIENTE - só vê chamados da empresa dele</option><option value="SUPORTE">SUPORTE - atende chamados</option><option value="ADM">ADM - vê quase tudo</option><option value="DONO">DONO/MASTER - vê tudo + meu financeiro</option></select><input id="uLogin" placeholder="LOGIN"><input id="uSenha" placeholder="SENHA"><input id="uNome" placeholder="Nome completo"><button class="btn b-add" onclick="saveUser()">➕ Adicionar</button><div id="listaUser"></div></div></div>
+<section id="tab-financeiroPessoal" class="tab hidden">
+<h2 class="font-tech neon-text mb-2">FINANCEIRO PESSOAL - Casa, Agua, Luz, Telefone, Internet, Empresa + FILTRO MES</h2>
+<div class="glass p-4 grid grid-cols-5 gap-2 border border-pink-500/30">
+<input id="finPData" type="date" class="input-tech">
+<select id="finPCategoria" class="input-tech"><option>Casa</option><option>Água</option><option>Luz</option><option>Telefone</option><option>Internet</option><option>Empresa</option><option>Carro</option><option>Mercado</option><option>Saúde</option><option>Outros</option></select>
+<input id="finPDesc" class="input-tech" placeholder="Descricao">
+<input id="finPValor" type="number" class="input-tech" placeholder="Valor">
+<select id="finPTipo" class="input-tech"><option>Saída</option><option>Entrada</option></select>
+<button onclick="addFinanceiroPessoal()" class="btn-neon col-span-5 py-2 rounded">ADICIONAR</button>
+</div>
+<div class="mt-3 glass p-3 flex gap-2 items-center">
+<input id="filtroMesPessoal" type="month" class="input-tech w-auto" onchange="renderFinPessoal()">
+<select id="filtroCategoriaPessoal" class="input-tech w-auto" onchange="renderFinPessoal()"><option value="">Todas</option><option>Casa</option><option>Água</option><option>Luz</option><option>Telefone</option><option>Internet</option><option>Empresa</option></select>
+<button onclick="limparFiltroPessoal()" class="px-3 py-1 bg-slate-700 rounded text-xs">LIMPAR</button>
+<div class="ml-auto text-sm">Saldo: R$<span id="saldoPessoal">0.00</span> | Geral: R$<span id="saldoGeral">0.00</span></div>
+</div>
+<div id="listaFinPessoal" class="mt-4"></div>
+</section>
 
-<div id="p-fin" class="painel" style="display:none"><div class="card"><h3>💰 Financeiro - Com Data Pag, Valor Pago, a Pagar, Multa, Juros</h3><div id="listaFin"></div><h4>Total Pago: R$ <span id="totFinPago">0</span> | A Pagar: R$ <span id="totFinPagar">0</span></h4></div></div>
+<section id="tab-estoque" class="tab hidden">
+<h2 class="font-tech neon-text mb-3">ESTOQUE - Produto, Qtd, Entrada/Saida, Buscar, Alterar, Excluir</h2>
+<div class="glass p-4 grid grid-cols-5 gap-2">
+<input id="estProduto" class="input-tech" placeholder="Produto *"><input id="estQtd" type="number" class="input-tech" placeholder="Qtd"><input id="estEntrada" type="date" class="input-tech"><input id="estSaida" type="date" class="input-tech"><button onclick="addEstoque()" class="btn-neon py-2 rounded">ADD</button>
+<input id="estBusca" class="input-tech col-span-5" placeholder="Buscar produto..." oninput="renderEstoque()">
+</div>
+<div id="listaEstoque" class="mt-4"></div>
+</section>
 
-<div id="p-est" class="painel" style="display:none"><div class="card"><h3>📦 Estoque + Financeiro</h3><input id="eProd" placeholder="Produto"><input id="eQtd" type="number" placeholder="Qtd"><button class="btn b-add" onclick="saveEst()">➕ Adicionar</button><div id="listaEst"></div></div></div>
+<section id="tab-usuarios" class="tab hidden">
+<h2 class="font-tech neon-text mb-3">USUARIOS - Alterar Permissao</h2>
+<div class="glass p-4 grid grid-cols-4 gap-2">
+<input id="usrEmpresa" class="input-tech" placeholder="Empresa"><input id="usrNome" class="input-tech" placeholder="Usuario"><input id="usrSenha" type="password" class="input-tech" placeholder="Senha"><select id="usrPerm" class="input-tech"><option value="admin">ADMIN</option><option value="financeiro_empresa">Financeiro</option><option value="estoque">Estoque</option><option value="cliente">Cliente</option></select>
+<button onclick="addUsuario()" class="btn-neon col-span-4 py-2 rounded">CRIAR</button>
+</div>
+<div id="listaUsuarios" class="mt-4"></div>
+</section>
 
-<div id="p-meu" class="painel" style="display:none"><div class="card" style="border:2px solid #ef4444"><h3>🔒 MEU FINANCEIRO - SÓ MASTER VÊ</h3><input id="mfDesc" placeholder="Descrição"><input id="mfValor" type="number" placeholder="Valor"><select id="mfTipo"><option>Entrada</option><option>Saída</option></select><button class="btn b-add" onclick="saveMeu()">➕ Add</button><div id="listaMeu"></div></div></div>
+<section id="tab-relatorios" class="tab hidden">
+<h2 class="font-tech neon-text mb-3">RELATORIOS COM LOGO RAMOS INFOTEC</h2>
+<div class="glass p-4 grid grid-cols-4 gap-2">
+<select id="relTipo" class="input-tech"><option value="empresa">Por Empresa</option><option value="usuario">Por Usuario</option><option value="produto">Por Produto</option></select>
+<input id="relFiltro" class="input-tech" placeholder="Filtro">
+<input id="relDataIni" type="date" class="input-tech"><input id="relDataFim" type="date" class="input-tech">
+<button onclick="gerarRelatorioGeral()" class="btn-neon col-span-4 py-2 rounded">GERAR</button>
+<button onclick="imprimirRelatorio()" class="bg-white text-black col-span-4 py-2 rounded">🖨️ IMPRIMIR COM LOGO RAMOS INFOTEC</button>
+</div>
+<div id="areaRelatorio" class="mt-4 bg-white text-black p-6 rounded-xl">
+<div class="text-center border-b pb-2 mb-3"><div class="font-tech font-bold text-lg" style="color:#0066FF">RAMOS INFOTEC</div><div class="text-xs">Relatorio Oficial</div></div>
+<div id="conteudoRelatorio" class="text-sm">Nenhum relatorio</div>
+</div>
+</section>
 
-<div id="p-robo" class="painel" style="display:none"><div class="card"><h3>🤖 Robô Busca - Procura cliente ex: consultório médico</h3><input id="roboBusca" placeholder="Digite: consultório médico, SAO PAULO, nome..." onkeyup="roboBusca()"><button class="btn b-view" onclick="roboBusca()">🤖 Buscar</button><div id="roboResult"></div></div></div>
+</main>
+</div>
 
-<div id="p-rel" class="painel" style="display:none"><div class="card" id="relCard"><div style="display:flex;gap:10px;border-bottom:2px solid #facc15;padding-bottom:10px;margin-bottom:10px"><div style="width:40px;height:40px;background:#facc15;color:#000;display:flex;align-items:center;justify-content:center;border-radius:8px;font-weight:900">RI</div><div><b>RAMOS INFOTEC</b><br><small>Relatório Oficial</small><br><small id="relData"></small></div></div><div id="relConteudo"></div><button class="btn b-print" onclick="printSec('relCard')">🖨️ Imprimir com LOGO</button></div></div>
-
-</div></div>
-
-<div id="modalCh" class="modal"><div class="modal-box"><h3 style="color:#facc15">👁️ Visualizar Chamado</h3><div id="modalConteudo" style="font-size:12px;line-height:1.8"></div><div style="margin-top:10px"><button class="btn b-close" onclick="fecharChamado()">🔒 Fechar Chamado</button><button class="btn b-edit" onclick="editarChamadoModal()">✏️ Alterar</button><button class="btn b-del" onclick="closeModal()">Fechar</button></div></div></div>
+<div id="modalChamado" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4"><div class="glass rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-auto neon-border"><div id="modalChamadoContent"></div><button onclick="fecharModalChamado()" class="mt-4 w-full py-2 rounded bg-slate-700">FECHAR</button></div></div>
+<div id="modalNovoChamado" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4"><div class="glass rounded-xl p-6 w-full max-w-lg neon-border"><h3 class="font-tech neon-text mb-3">CHAMADO</h3><input id="mChId" type="hidden"><input id="mChEmpresa" class="input-tech mb-2" placeholder="Empresa"><input id="mChCliente" class="input-tech mb-2" placeholder="Cliente"><input id="mChTitulo" class="input-tech mb-2" placeholder="Titulo"><textarea id="mChDesc" class="input-tech mb-2" placeholder="Descricao"></textarea><select id="mChStatus" class="input-tech mb-2"><option>Aberto</option><option>Em Andamento</option><option>Fechado</option></select><div class="flex gap-2"><button onclick="salvarChamado()" class="btn-neon flex-1 py-2 rounded">SALVAR</button><button onclick="fecharModalNovoChamado()" class="flex-1 py-2 rounded bg-slate-700">CANCELAR</button></div></div></div>
 
 <script>
-const K={cli:'cli_v9',ch:'ch_v9',users:'users_v9',est:'est_v9',meu:'meu_v9'};
-function get(k){return JSON.parse(localStorage.getItem(k)||'[]')}function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
-let editCliIdx=null,editChIdx=null,currentViewIdx=null;
-function init(){let u=get(K.users);if(u.length==0){u=[{empresa:'ramosinfotec',login:'admin',senha:'@Xumone@197353',tipo:'DONO',nome:'Admin Master'},{empresa:'ramosinfotec',login:'dono',senha:'@Xu@408671',tipo:'DONO',nome:'Dono Master'},{empresa:'ramosinfotec',login:'dono',senha:'@Xumone@197353',tipo:'DONO',nome:'Albert Ramos'},{empresa:'ramosinfotec',login:'esposa',senha:'@Xu@408671',tipo:'DONO',nome:'Simone Gome Ramos'},{empresa:'ramosinfotec',login:'admin',senha:'admin',tipo:'ADM',nome:'Admin'}];set(K.users,u);}return u;}
-function entrar(){let e=document.getElementById('e').value.toLowerCase();let l=document.getElementById('l').value;let s=document.getElementById('s').value;let us=init();let ach=us.find(x=>x.empresa.toLowerCase()==e&&x.login.toLowerCase()==l.toLowerCase()&&x.senha==s);if(!ach){alert('Login inválido! Use: admin / @Xumone@197353 ou dono / @Xu@408671');return;}localStorage.setItem('sess_v9',JSON.stringify(ach));start(ach);}
-function start(sess){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';document.getElementById('uInfo').innerText=sess.empresa+' / '+sess.login+' ('+sess.tipo+') - '+sess.nome;if(sess.tipo=='DONO'){document.getElementById('tabMeu').style.display='block';}renderAll();}
-function sair(){localStorage.removeItem('sess_v9');location.reload();}
-function aba(id,el){document.querySelectorAll('.painel').forEach(p=>p.style.display='none');document.getElementById('p-'+id).style.display='block';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');if(id=='rel')gerarRel();}
-function saveCli(){let o={nome:document.getElementById('cNome').value,doc:document.getElementById('cDoc').value,zap:document.getElementById('cZap').value,emp:document.getElementById('cEmp').value||'ramosinfotec'};if(!o.nome)return;let a=get(K.cli);if(editCliIdx!==null){a[editCliIdx]=o;editCliIdx=null;document.getElementById('btnAltCli').style.display='none';}else{a.push(o);}set(K.cli,a);['cNome','cDoc','cZap','cEmp'].forEach(id=>document.getElementById(id).value='');renderCli();}
-function renderCli(){let a=get(K.cli);let sess=JSON.parse(localStorage.getItem('sess_v9')||'{}');let d=document.getElementById('listaCli');d.innerHTML='';a.forEach((c,i)=>{d.innerHTML+=`<div class="list"><div><b>${c.nome}</b><br><small>${c.emp} - ${c.zap}</small></div><div><button class="btn b-edit" onclick="editCli(${i})">Alterar</button><button class="btn b-del" onclick="del('${K.cli}',${i})">Excluir</button></div></div>`});}
-function editCli(i){let c=get(K.cli)[i];document.getElementById('cNome').value=c.nome;document.getElementById('cDoc').value=c.doc;document.getElementById('cZap').value=c.zap;document.getElementById('cEmp').value=c.emp;editCliIdx=i;document.getElementById('btnAltCli').style.display='inline-block';}
-function updateCli(){saveCli();}
-function saveCh(){let sess=JSON.parse(localStorage.getItem('sess_v9'));let o={empresa:document.getElementById('chEmp').value||sess.empresa,cliente:document.getElementById('chCli').value,desc:document.getElementById('chDesc').value,criadoPor:sess.login+' ('+sess.nome+')',criadoEm:new Date().toLocaleString(),dataPag:document.getElementById('chPagData').value,valPago:document.getElementById('chValPago').value||0,valPagar:document.getElementById('chValPagar').value||0,multa:document.getElementById('chMulta').value||0,juros:document.getElementById('chJuros').value||0,status:document.getElementById('chStatus').value,fechadoEm:'',historico:['Criado por '+sess.login+' em '+new Date().toLocaleString()]};if(!o.desc)return;let a=get(K.ch);if(editChIdx!==null){let old=a[editChIdx];o.criadoPor=old.criadoPor;o.criadoEm=old.criadoEm;o.historico=old.historico;o.historico.push('Alterado por '+sess.login+' em '+new Date().toLocaleString());a[editChIdx]=o;editChIdx=null;document.getElementById('btnAltCh').style.display='none';}else{a.push(o);}set(K.ch,a);['chEmp','chCli','chDesc','chValPago','chValPagar','chMulta','chJuros'].forEach(id=>{let el=document.getElementById(id);if(el)el.value='';});renderCh();renderFin();}
-function renderCh(){let a=get(K.ch);let sess=JSON.parse(localStorage.getItem('sess_v9')||'{}');let isCliente=sess.tipo=='CLIENTE';let filtered=a.filter((c,idx)=>{c._idx=idx;if(isCliente){return c.empresa.toLowerCase()==sess.empresa.toLowerCase();}return true;});let d=document.getElementById('listaCh');d.innerHTML='';if(isCliente){d.innerHTML=`<div style="font-size:11px;color:#facc15;padding:6px">👁️ Você é CLIENTE da empresa ${sess.empresa} - vendo só seus chamados (${filtered.length})</div>`;}filtered.forEach(c=>{d.innerHTML+=`<div class="list"><div><b>${c.empresa} - ${c.cliente}</b> - ${c.desc}<br><small>Criado por ${c.criadoPor} em ${c.criadoEm} | Status: ${c.status}</small><br><small>Pag: ${c.dataPag||'-'} | Pago: R$ ${c.valPago} | A Pagar: R$ ${c.valPagar} | Multa: ${c.multa} | Juros: ${c.juros} ${c.fechadoEm?'| Fechado: '+c.fechadoEm:''}</small></div><div><button class="btn b-view" onclick="viewCh(${c._idx})">👁️ Visualizar</button><button class="btn b-edit" onclick="editCh(${c._idx})">Alterar</button><button class="btn b-close" onclick="quickClose(${c._idx})">Fechar</button><button class="btn b-del" onclick="del('${K.ch}',${c._idx})">Excluir</button></div></div>`});}
-function viewCh(i){currentViewIdx=i;let c=get(K.ch)[i];document.getElementById('modalConteudo').innerHTML=`<p><b>Empresa:</b> ${c.empresa}</p><p><b>Cliente:</b> ${c.cliente}</p><p><b>Descrição:</b> ${c.desc}</p><p><b>Quem criou:</b> ${c.criadoPor}</p><p><b>Horário criação:</b> ${c.criadoEm}</p><p><b>Empresa do chamado:</b> ${c.empresa}</p><p><b>Status:</b> ${c.status}</p><p><b>Data Pagamento:</b> ${c.dataPag||'-'}</p><p><b>Valor Pago:</b> R$ ${c.valPago}</p><p><b>Valor a Pagar:</b> R$ ${c.valPagar}</p><p><b>Multa:</b> R$ ${c.multa}</p><p><b>Juros:</b> R$ ${c.juros}</p><p><b>Fechado em:</b> ${c.fechadoEm||'Ainda aberto'}</p><p><b>Histórico:</b><br>${c.historico.join('<br>')}</p>`;document.getElementById('modalCh').classList.add('active');}
-function closeModal(){document.getElementById('modalCh').classList.remove('active');}
-function fecharChamado(){if(currentViewIdx===null)return;let a=get(K.ch);let sess=JSON.parse(localStorage.getItem('sess_v9'));a[currentViewIdx].status='Fechado';a[currentViewIdx].fechadoEm=new Date().toLocaleString();a[currentViewIdx].historico.push('Fechado por '+sess.login+' em '+a[currentViewIdx].fechadoEm);set(K.ch,a);renderCh();closeModal();alert('Chamado fechado!');}
-function quickClose(i){if(!confirm('Fechar chamado?'))return;let a=get(K.ch);let sess=JSON.parse(localStorage.getItem('sess_v9'));a[i].status='Fechado';a[i].fechadoEm=new Date().toLocaleString();a[i].historico.push('Fechado por '+sess.login+' em '+a[i].fechadoEm);set(K.ch,a);renderCh();}
-function editarChamadoModal(){closeModal();editCh(currentViewIdx);}
-function editCh(i){let c=get(K.ch)[i];document.getElementById('chEmp').value=c.empresa;document.getElementById('chCli').value=c.cliente;document.getElementById('chDesc').value=c.desc;document.getElementById('chPagData').value=c.dataPag;document.getElementById('chValPago').value=c.valPago;document.getElementById('chValPagar').value=c.valPagar;document.getElementById('chMulta').value=c.multa;document.getElementById('chJuros').value=c.juros;document.getElementById('chStatus').value=c.status;editChIdx=i;document.getElementById('btnAltCh').style.display='inline-block';aba('cham',document.querySelector('.t-cham'));}
-function updateCh(){saveCh();}
-function saveUser(){let o={empresa:document.getElementById('uEmp').value.toLowerCase(),tipo:document.getElementById('uTipo').value,login:document.getElementById('uLogin').value,senha:document.getElementById('uSenha').value,nome:document.getElementById('uNome').value};if(!o.login||!o.senha)return;let a=get(K.users);a.push(o);set(K.users,a);renderUser();alert('Criado: '+o.empresa+' / '+o.login+' - '+o.tipo);}
-function renderUser(){let a=get(K.users);let d=document.getElementById('listaUser');d.innerHTML='';a.forEach((c,i)=>{d.innerHTML+=`<div class="list"><div><b>${c.empresa} / ${c.login}</b> - <span style="color:${c.tipo=='DONO'?'#facc15':'#94a3b8'}">${c.tipo}</span><br><small>${c.nome}</small></div><button class="btn b-del" onclick="del('${K.users}',${i})">Excluir</button></div>`});}
-function renderFin(){let a=get(K.ch);let d=document.getElementById('listaFin');d.innerHTML='';let totPago=0,totPagar=0;a.forEach(c=>{totPago+=parseFloat(c.valPago)||0;totPagar+=parseFloat(c.valPagar)||0;d.innerHTML+=`<div class="list"><div>${c.empresa} - ${c.cliente} - ${c.desc}<br><small>Data Pag: ${c.dataPag||'-'} | Pago: R$ ${c.valPago} | A Pagar: R$ ${c.valPagar} | Multa: ${c.multa} | Juros: ${c.juros}</small></div></div>`});document.getElementById('totFinPago').innerText=totPago.toFixed(2);document.getElementById('totFinPagar').innerText=totPagar.toFixed(2);}
-function saveEst(){let o={prod:document.getElementById('eProd').value,qtd:document.getElementById('eQtd').value};if(!o.prod)return;let a=get(K.est);a.push(o);set(K.est,a);renderEst();}
-function renderEst(){let a=get(K.est);let d=document.getElementById('listaEst');d.innerHTML='';a.forEach((c,i)=>{d.innerHTML+=`<div class="list"><div>${c.prod} - Qtd: ${c.qtd}</div><button class="btn b-del" onclick="del('${K.est}',${i})">Excluir</button></div>`});}
-function saveMeu(){let o={desc:document.getElementById('mfDesc').value,valor:document.getElementById('mfValor').value,tipo:document.getElementById('mfTipo').value};let a=get(K.meu);a.push(o);set(K.meu,a);renderMeu();}
-function renderMeu(){let a=get(K.meu);let d=document.getElementById('listaMeu');d.innerHTML='';a.forEach((c,i)=>{d.innerHTML+=`<div class="list"><div>${c.desc} - R$ ${c.valor} (${c.tipo})</div><button class="btn b-del" onclick="del('${K.meu}',${i})">Excluir</button></div>`});}
-function roboBusca(){let t=document.getElementById('roboBusca').value.toLowerCase();let cli=get(K.cli);let res=document.getElementById('roboResult');if(!t){res.innerHTML='';return;}let ach=cli.filter(c=>JSON.stringify(c).toLowerCase().includes(t));res.innerHTML=ach.length?`🤖 Robô achou ${ach.length} para "${t}":<br>`+ach.map(c=>`<div class="list"><div><b>${c.nome}</b> - ${c.emp}</div></div>`).join(''):'🤖 Robô não achou nada pra "'+t+'" - igual seu print SAO PAULO';}
-function gerarRel(){document.getElementById('relData').innerText='Gerado: '+new Date().toLocaleString();document.getElementById('relConteudo').innerHTML=`Clientes: ${get(K.cli).length}<br>Chamados: ${get(K.ch).length}<br>Usuários: ${get(K.users).length}`;}
-function printSec(id){let c=document.getElementById(id).innerHTML;let w=window.open('','','width=900,height=600');w.document.write('<html><head><style>body{font-family:Arial;font-size:12px}.list{border:1px solid #ddd;padding:8px;margin:4px;display:flex;justify-content:space-between}.btn{display:none}</style></head><body><h2>💎 RAMOS INFOTEC</h2>'+c+'</body></html>');w.document.close();w.print();}
-function del(k,i){if(!confirm('Excluir?'))return;let a=get(k);a.splice(i,1);set(k,a);renderAll();}
-function renderAll(){renderCli();renderCh();renderUser();renderFin();renderEst();renderMeu();gerarRel();}
-(function(){let s=localStorage.getItem('sess_v9');if(s){start(JSON.parse(s));}init();})();
-</script></body></html>
+const DB_KEY='ramos_v10_full_final_seguro';
+let db=JSON.parse(localStorage.getItem(DB_KEY)||'null')||{clientes:[],chamados:[],financeiro:[],financeiroPessoal:[],estoque:[],usuarios:[{empresa:'RAMOS',usuario:'admin',senha:'@Xumone@197353',permissao:'admin'},{empresa:'RAMOS',usuario:'dono',senha:'@Xu@408671',permissao:'admin'},{empresa:'Amigao',usuario:'amigao',senha:'amigao123',permissao:'admin'}]};
+let currentUser=null;
+function save(){localStorage.setItem(DB_KEY,JSON.stringify(db));}
+function doLogin(){
+const emp=loginEmpresa.value.trim();
+const u=db.usuarios.find(x=>x.usuario===loginUser.value&&x.senha===loginPass.value&&(emp===''||x.empresa.toLowerCase()===emp.toLowerCase()||['admin','dono'].includes(x.usuario)));
+if(!u){loginError.innerText='Credenciais invalidas!';loginError.classList.remove('hidden');return;}
+currentUser=u;loginScreen.classList.add('hidden');appScreen.classList.remove('hidden');userInfo.innerText=u.empresa+' / '+u.usuario+' ('+u.permissao+')';
+if(['admin','dono'].includes(u.usuario)||u.permissao==='admin')document.getElementById('btnFinPessoal').classList.remove('hidden');
+showTab('chamados');renderAll();
+}
+function logout(){location.reload();}
+function showTab(n){document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));document.getElementById('tab-'+n).classList.remove('hidden');}
+function renderAll(){renderClientes();renderChamados();renderFinanceiro();renderFinPessoal();renderEstoque();renderUsuarios();populateEmpresas();}
+function addCliente(){const o={id:Date.now(),nome:cliNome.value,cpf:cliCpf.value,whatsapp:cliWhatsapp.value,empresa:cliEmpresa.value,tipo:cliTipo.value,telefone:cliTelefone.value,estado:cliEstado.value,municipio:cliMunicipio.value,cep:cliCep.value,endereco:cliEndereco.value,criado:new Date().toLocaleString()};if(!o.nome||!o.empresa)return alert('Nome e Empresa obrigatorios');db.clientes.push(o);save();renderClientes();populateEmpresas();}
+function renderClientes(){listaClientes.innerHTML=db.clientes.map(c=>`<div class="glass p-3 rounded flex justify-between"><div><b class="text-cyan-300">${c.nome}</b> - ${c.empresa}<br><span class="text-xs">${c.estado}/${c.municipio} ${c.cep} ${c.endereco}</span></div><button onclick="deletarCliente(${c.id})" class="px-2 py-1 bg-red-800 rounded text-xs">X</button></div>`).join('');}
+function deletarCliente(id){db.clientes=db.clientes.filter(c=>c.id!==id);save();renderClientes();}
+function abrirModalChamado(){modalNovoChamado.classList.remove('hidden');}
+function fecharModalNovoChamado(){modalNovoChamado.classList.add('hidden');}
+function salvarChamado(){const id=mChId.value;const o={id:id?+id:Date.now(),empresa:mChEmpresa.value,cliente:mChCliente.value,titulo:mChTitulo.value,descricao:mChDesc.value,status:mChStatus.value,criador:currentUser.usuario,criado:new Date().toLocaleString(),fechado:'',comentarios:[]};if(!o.empresa||!o.titulo)return alert('Empresa e titulo obrigatorios');if(id){const idx=db.chamados.findIndex(c=>c.id==id);o.comentarios=db.chamados[idx].comentarios;db.chamados[idx]=o;}else db.chamados.push(o);save();renderChamados();fecharModalNovoChamado();populateEmpresas();}
+function renderChamados(lista=null){let data=lista||db.chamados;listaChamados.innerHTML=data.map(ch=>`<div class="glass p-3 rounded flex justify-between items-center"><div><b class="text-cyan-300">#${ch.id} ${ch.titulo}</b> <span class="text-xs px-2 py-0.5 rounded ${ch.status==='Aberto'?'bg-green-700':'bg-red-700'}">${ch.status}</span><br><span class="text-xs">Empresa: ${ch.empresa} | Criado por: ${ch.criador} em ${ch.criado}</span></div><div class="flex flex-col gap-1"><button onclick="visualizarChamado(${ch.id})" class="px-3 py-1 bg-cyan-600 rounded text-xs">VISUALIZAR</button><button onclick="editarChamado(${ch.id})" class="px-3 py-1 bg-slate-600 rounded text-xs">ALTERAR</button><button onclick="fecharChamado(${ch.id})" class="px-3 py-1 bg-orange-700 rounded text-xs">FECHAR</button><button onclick="reabrirChamado(${ch.id})" class="px-3 py-1 bg-blue-700 rounded text-xs">REABRIR</button></div></div>`).join('')||'Nenhum';}
+function visualizarChamado(id){const ch=db.chamados.find(c=>c.id===id);modalChamadoContent.innerHTML=`<h3 class="font-tech neon-text">#${ch.id} - ${ch.titulo}</h3><p class="text-xs mt-2"><b>Empresa:</b> ${ch.empresa} | <b>Cliente:</b> ${ch.cliente}</p><p class="text-xs"><b>Criado por:</b> ${ch.criador} em ${ch.criado} | <b>Status:</b> ${ch.status}</p><p class="text-sm mt-2 p-2 bg-slate-900 rounded">${ch.descricao}</p><div class="mt-3"><h4 class="text-xs text-cyan-300">COMENTARIOS</h4><div>${(ch.comentarios||[]).map(com=>`<div class="text-xs p-1 bg-slate-800 rounded"><b>${com.user}</b>: ${com.texto}</div>`).join('')}</div><div class="flex gap-2 mt-2"><input id="novoComentario" class="input-tech flex-1" placeholder="O que esta sendo feito..."><button onclick="addComentario(${ch.id})" class="btn-neon px-3 rounded text-xs">COMENTAR</button></div></div>`;modalChamado.classList.remove('hidden');}
+function fecharModalChamado(){modalChamado.classList.add('hidden');}
+function addComentario(id){const txt=document.getElementById('novoComentario').value;if(!txt)return;const ch=db.chamados.find(c=>c.id===id);ch.comentarios.push({user:currentUser.usuario,data:new Date().toLocaleString(),texto:txt});save();visualizarChamado(id);renderChamados();}
+function editarChamado(id){const ch=db.chamados.find(c=>c.id===id);mChId.value=ch.id;mChEmpresa.value=ch.empresa;mChCliente.value=ch.cliente;mChTitulo.value=ch.titulo;mChDesc.value=ch.descricao;mChStatus.value=ch.status;abrirModalChamado();}
+function fecharChamado(id){const ch=db.chamados.find(c=>c.id===id);ch.status='Fechado';ch.fechado=new Date().toLocaleString();save();renderChamados();}
+function reabrirChamado(id){const ch=db.chamados.find(c=>c.id===id);ch.status='Aberto';ch.fechado='';save();renderChamados();}
+function filtrarChamados(){let l=db.chamados;const e=chEmpresa.value,s=chStatusFiltro.value,b=chBusca.value.toLowerCase();if(e)l=l.filter(c=>c.empresa===e);if(s)l=l.filter(c=>c.status===s);if(b)l=l.filter(c=>(c.titulo+c.descricao+c.empresa).toLowerCase().includes(b));renderChamados(l);}
+function populateEmpresas(){const emps=[...new Set(db.clientes.map(c=>c.empresa).concat(db.chamados.map(c=>c.empresa)))].filter(Boolean);chEmpresa.innerHTML='<option value="">Todas Empresas</option>'+emps.map(e=>`<option>${e}</option>`).join('');}
+function addFinanceiro(){const o={id:Date.now(),data:finData.value,empresa:finEmpresa.value,pago:parseFloat(finValorPago.value)||0,aPagar:parseFloat(finValorAPagar.value)||0,multa:parseFloat(finMulta.value)||0,juros:parseFloat(finJuros.value)||0,tipo:finTipoConta.value,produto:finProduto.value};db.financeiro.push(o);save();renderFinanceiro();}
+function renderFinanceiro(){listaFinanceiro.innerHTML=db.financeiro.map(f=>`<div class="glass p-2 rounded text-xs">${f.data} | ${f.empresa} | ${f.produto} Pago:${f.pago}</div>`).join('');}
+function addFinanceiroPessoal(){const o={id:Date.now(),data:finPData.value,categoria:finPCategoria.value,desc:finPDesc.value,valor:parseFloat(finPValor.value)||0,tipo:finPTipo.value};if(!o.data||!o.valor)return alert('Data e valor obrigatorios');db.financeiroPessoal.push(o);save();renderFinPessoal();}
+function renderFinPessoal(){const mes=filtroMesPessoal.value,cat=filtroCategoriaPessoal.value;let lista=db.financeiroPessoal;let geral=0;db.financeiroPessoal.forEach(f=>{geral+=f.tipo==='Entrada'?f.valor:-f.valor;});document.getElementById('saldoGeral').innerText=geral.toFixed(2);if(mes)lista=lista.filter(f=>f.data&&f.data.startsWith(mes));if(cat)lista=lista.filter(f=>f.categoria===cat);let saldo=0;lista.forEach(f=>{saldo+=f.tipo==='Entrada'?f.valor:-f.valor;});document.getElementById('saldoPessoal').innerText=saldo.toFixed(2);document.getElementById('listaFinPessoal').innerHTML=lista.slice().reverse().map(f=>`<div class="glass p-2 rounded text-xs flex justify-between"><span><b>${f.categoria}</b> ${f.data} ${f.desc} ${f.tipo} R$${f.valor.toFixed(2)}</span><button onclick="delFinP(${f.id})" class="bg-red-800 px-2 rounded">X</button></div>`).join('');}
+function delFinP(id){db.financeiroPessoal=db.financeiroPessoal.filter(f=>f.id!==id);save();renderFinPessoal();}
+function limparFiltroPessoal(){filtroMesPessoal.value='';filtroCategoriaPessoal.value='';renderFinPessoal();}
+function addEstoque(){const o={id:Date.now(),produto:estProduto.value,qtd:parseFloat(estQtd.value)||0,entrada:estEntrada.value,saida:estSaida.value};if(!o.produto)return;db.estoque.push(o);save();renderEstoque();}
+function renderEstoque(){const b=(estBusca.value||'').toLowerCase();let l=db.estoque;if(b)l=l.filter(e=>e.produto.toLowerCase().includes(b));listaEstoque.innerHTML=l.map(e=>`<div class="glass p-2 rounded text-xs">${e.produto} Qtd:${e.qtd} Entrada:${e.entrada}</div>`).join('');}
+function addUsuario(){const o={empresa:usrEmpresa.value,usuario:usrNome.value,senha:usrSenha.value,permissao:usrPerm.value};if(!o.usuario||!o.senha)return;db.usuarios.push(o);save();renderUsuarios();}
+function renderUsuarios(){listaUsuarios.innerHTML=db.usuarios.map((u,i)=>`<div class="glass p-2 rounded text-xs">${u.empresa}/${u.usuario} - ${u.permissao}</div>`).join('');}
+function gerarRelatorioGeral(){const t=relTipo.value,f=relFiltro.value.toLowerCase();let c='';if(t==='empresa'){let l=db.chamados.filter(x=>!f||x.empresa.toLowerCase().includes(f));c=`<b>Por Empresa: ${f||'Todas'}</b> Total:${l.length}<br>`+l.map(x=>`#${x.id} ${x.empresa} ${x.titulo}`).join('<br>');}else{let l=db.estoque.filter(x=>!f||x.produto.toLowerCase().includes(f));c=`<b>Por Produto:</b> ${l.length}<br>`+l.map(x=>`${x.produto}`).join('<br>');}document.getElementById('conteudoRelatorio').innerHTML=c;}
+function imprimirRelatorio(){const w=window.open('','_blank');w.document.write(`<html><body>${document.getElementById('areaRelatorio').innerHTML}<br><div style="text-align:center;color:#0066FF;font-weight:bold">RAMOS INFOTEC - Logo Oficial</div></body></html>`);w.document.close();w.print();}
+</script>
+</body>
+</html>
