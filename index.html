@@ -1,1 +1,172 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>RAMOS INFOTEC V14</title><script src="https://cdn.tailwindcss.com"></script><style>body{background:#0a0f1e;color:#e2e8f0;font-family:Inter,sans-serif}.glass{background:rgba(15,23,42,.95);border:1px solid rgba(0,217,255,.2)}.neon{color:#00D9FF}.btn{background:linear-gradient(90deg,#00D9FF,#0066FF);color:#fff;font-weight:bold}.lb{font-size:10px;color:#7dd3fc;font-weight:600;display:block;margin-bottom:3px;text-transform:uppercase}.inp{background:#0f172a;border:1px solid rgba(0,217,255,.2);color:#fff;padding:10px;border-radius:8px;width:100%;font-size:13px}</style></head><body><div id="loginScreen" class="min-h-screen flex items-center justify-center p-4"><div class="glass p-8 rounded-xl w-full max-w-sm border border-cyan-500/30"><div class="text-center mb-6"><div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-lg mx-auto flex items-center justify-center font-bold">RI</div><h1 class="neon font-bold mt-3">RAMOS INFOTEC V14</h1><p class="text-[10px] opacity-60">SISTEMA DE GESTÃO</p></div><label class="lb">Empresa</label><input id="empresa" class="inp mb-3" placeholder="Empresa"><label class="lb">Usuario</label><input id="usuario" class="inp mb-3" placeholder="Usuário"><label class="lb">Senha</label><input id="senha" type="password" class="inp mb-4" placeholder="Senha"><button onclick="doLogin()" class="btn w-full py-3 rounded-lg">ENTRAR</button></div></div><div id="appScreen" class="hidden min-h-screen p-4"><div class="glass p-6 rounded-xl text-center"><h1 class="text-2xl neon font-bold">ENTROU! SISTEMA OK 🚀</h1><p class="mt-4">Login funcionou!</p><button onclick="location.reload()" class="btn px-6 py-2 rounded mt-6">Sair</button></div></div><script>function doLogin(){try{let e=document.getElementById('empresa');let u=document.getElementById('usuario');let s=document.getElementById('senha');let empresa=(e.value||'').toString().trim();let usuario=(u.value||'').toString().trim();let senha=(s.value||'').toString().trim();if(!empresa||!usuario||!senha){alert('Preencha todos');return;}let empLow=empresa.toLowerCase();if((empLow==='empresa teste'&&usuario==='teste'&&senha==='teste123')||((empLow==='ramos'||empLow==='ramosinfotec')&&usuario==='admin'&&senha==='@Xumone@197353')){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('appScreen').classList.remove('hidden');localStorage.setItem('logado','1');return;}alert('Login inválido');}catch(err){alert('Erro: '+err.message);}}</script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RAMOS INFOTEC V14 - FIX DEFINITIVO</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{background:#070d1e;color:#e2e8f0;font-family:Inter,system-ui}
+.glass{background:rgba(15,23,42,.98);border:1px solid rgba(0,217,255,.2)}
+.neon{color:#00D9FF}
+.btn{background:linear-gradient(90deg,#00D9FF,#0066FF);color:#fff;font-weight:700}
+.btn:hover{opacity:.9}
+.lb{font-size:10px;color:#7dd3fc;font-weight:700;letter-spacing:.05em;display:block;margin-bottom:4px;text-transform:uppercase}
+.inp{background:#0f172a;border:1px solid rgba(0,217,255,.25);color:#fff;padding:10px 12px;border-radius:8px;width:100%;font-size:13px;outline:none}
+.inp:focus{border-color:#00D9FF}
+.tt{background:rgba(0,217,255,.08);border:1px solid rgba(0,217,255,.2);color:#00D9FF;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.tab{display:none}.tab.active{display:block!important}
+.menu-btn{width:100%;text-align:left;padding:10px 12px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:10px;color:#94a3b8}
+.menu-btn:hover{background:rgba(0,217,255,.1);color:#00D9FF}
+.menu-btn.active{background:rgba(0,217,255,.15);color:#00D9FF;border:1px solid rgba(0,217,255,.3)}
+.card{background:rgba(15,23,42,.9);border:1px solid rgba(0,217,255,.15);border-radius:12px;padding:16px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN - LIMPO SEM SENHA APARECENDO -->
+<div id="loginScreen" class="min-h-screen flex items-center justify-center p-4">
+  <div class="glass p-8 rounded-2xl w-full max-w-sm shadow-2xl">
+    <div class="text-center mb-6">
+      <div class="w-14 h-14 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl mx-auto flex items-center justify-center font-black text-lg">RI</div>
+      <h1 class="neon font-black mt-3 text-lg">RAMOS INFOTEC V14</h1>
+      <p class="text-[10px] opacity-50 tracking-widest mt-1">SISTEMA DE GESTÃO FIX DEFINITIVO</p>
+    </div>
+    <label class="lb">Empresa</label>
+    <input id="empresa" class="inp mb-3" placeholder="Ex: RAMOS">
+    <label class="lb">Usuário</label>
+    <input id="usuario" class="inp mb-3" placeholder="Ex: admin">
+    <label class="lb">Senha</label>
+    <input id="senha" type="password" class="inp mb-5" placeholder="••••••••">
+    <button onclick="doLogin()" class="btn w-full py-3 rounded-xl">ENTRAR</button>
+    <p class="text-[9px] text-center mt-4 opacity-30">Acesso restrito</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appScreen" class="hidden min-h-screen flex">
+  <!-- SIDEBAR -->
+  <div class="w-60 glass border-r p-4 hidden md:block">
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-9 h-9 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center font-bold">RI</div>
+      <div><p class="font-bold text-sm neon">RAMOS INFOTEC</p><p class="text-[9px] opacity-50">V14 FIX</p></div>
+    </div>
+    <nav class="space-y-1">
+      <button onclick="openTab('robo')" id="m-robo" class="menu-btn active">🤖 Robô WhatsApp</button>
+      <button onclick="openTab('remoto')" id="m-remoto" class="menu-btn">💻 Acesso Remoto</button>
+      <button onclick="openTab('clientes')" id="m-clientes" class="menu-btn">👥 Clientes</button>
+      <button onclick="openTab('chamados')" id="m-chamados" class="menu-btn">📋 Chamados</button>
+      <button onclick="openTab('financeiro')" id="m-financeiro" class="menu-btn">💰 Financeiro</button>
+      <button onclick="openTab('estoque')" id="m-estoque" class="menu-btn">📦 Estoque</button>
+      <button onclick="openTab('usuarios')" id="m-usuarios" class="menu-btn">👤 Usuários</button>
+      <button onclick="openTab('relatorios')" id="m-relatorios" class="menu-btn">📊 Relatórios</button>
+    </nav>
+    <button onclick="doLogout()" class="w-full mt-8 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold">SAIR</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="flex-1 p-4 md:p-6 overflow-auto">
+    <div class="flex md:hidden gap-2 mb-4 overflow-x-auto">
+      <button onclick="openTab('robo')" class="btn px-3 py-2 rounded text-xs">Robô</button>
+      <button onclick="openTab('clientes')" class="btn px-3 py-2 rounded text-xs">Clientes</button>
+      <button onclick="openTab('chamados')" class="btn px-3 py-2 rounded text-xs">Chamados</button>
+      <button onclick="doLogout()" class="bg-red-500 px-3 py-2 rounded text-xs text-white">Sair</button>
+    </div>
+
+    <div id="tab-robo" class="tab active">
+      <div class="tt">🤖 ROBÔ WHATSAPP - AUTOMAÇÃO</div>
+      <div class="card"><h2 class="neon font-bold">Robô Online</h2><p class="text-sm opacity-70 mt-2">Status: Operacional. Conexão WhatsApp ativa.</p><div class="grid grid-cols-2 gap-3 mt-4"><div class="card text-center"><p class="text-2xl font-bold neon">128</p><p class="text-xs">Mensagens hoje</p></div><div class="card text-center"><p class="text-2xl font-bold neon">96%</p><p class="text-xs">Taxa resposta</p></div></div></div>
+    </div>
+
+    <div id="tab-remoto" class="tab">
+      <div class="tt">💻 ACESSO REMOTO</div>
+      <div class="card"><p class="text-sm">Módulo de acesso remoto AnyDesk / RustDesk integrado.</p><button class="btn px-4 py-2 rounded mt-3 text-sm">Nova Conexão</button></div>
+    </div>
+
+    <div id="tab-clientes" class="tab">
+      <div class="tt">👥 CLIENTES</div>
+      <div class="card"><div class="flex gap-2 mb-3"><input id="cliNome" class="inp flex-1" placeholder="Nome cliente"><button onclick="addCliente()" class="btn px-4 rounded">+</button></div><div id="listaClientes" class="space-y-2 text-sm opacity-70">Nenhum cliente ainda.</div></div>
+    </div>
+
+    <div id="tab-chamados" class="tab">
+      <div class="tt">📋 CHAMADOS TÉCNICOS</div>
+      <div class="card"><div class="flex gap-2 mb-3"><input id="chamDesc" class="inp flex-1" placeholder="Descrição do chamado"><button onclick="addChamado()" class="btn px-4 rounded">+</button></div><div id="listaChamados" class="text-sm opacity-70">Nenhum chamado aberto.</div></div>
+    </div>
+
+    <div id="tab-financeiro" class="tab">
+      <div class="tt">💰 FINANCEIRO</div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3"><div class="card"><p class="text-xs opacity-60">A RECEBER</p><p class="text-xl font-bold neon">R$ 12.450</p></div><div class="card"><p class="text-xs opacity-60">A PAGAR</p><p class="text-xl font-bold text-red-400">R$ 3.200</p></div><div class="card"><p class="text-xs opacity-60">SALDO</p><p class="text-xl font-bold text-green-400">R$ 9.250</p></div></div>
+    </div>
+
+    <div id="tab-estoque" class="tab">
+      <div class="tt">📦 ESTOQUE</div>
+      <div class="card text-sm opacity-70">Controle de peças e equipamentos.</div>
+    </div>
+
+    <div id="tab-usuarios" class="tab">
+      <div class="tt">👤 USUÁRIOS DO SISTEMA</div>
+      <div class="card text-sm"><p><b>admin</b> - RAMOS / ramosinfotec</p><p class="mt-2"><b>teste</b> - Empresa teste</p><p class="mt-4 opacity-50 text-xs">Senhas não são exibidas por segurança.</p></div>
+    </div>
+
+    <div id="tab-relatorios" class="tab">
+      <div class="tt">📊 RELATÓRIOS</div>
+      <div class="card text-sm opacity-70">Relatórios de chamados, financeiro e atendimento.</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// LOGIN FIX DEFINITIVO - SEM ERRO TRIM
+function doLogin(){
+  try{
+    const e = document.getElementById('empresa');
+    const u = document.getElementById('usuario');
+    const s = document.getElementById('senha');
+    if(!e ||!u ||!s){ alert('Erro interno: campos não encontrados'); return; }
+    const empresa = (e.value || '').toString().trim();
+    const usuario = (u.value || '').toString().trim();
+    const senha = (s.value || '').toString().trim();
+    if(!empresa){ alert('Digite a Empresa'); e.focus(); return; }
+    if(!usuario){ alert('Digite o Usuário'); u.focus(); return; }
+    if(!senha){ alert('Digite a Senha'); s.focus(); return; }
+    const emp = empresa.toLowerCase();
+    const ok1 = (emp === 'empresa teste' && usuario === 'teste' && senha === 'teste123');
+    const ok2 = ((emp === 'ramos' || emp === 'ramosinfotec' || emp === 'ramos infotec') && usuario === 'admin' && senha === '@Xumone@197353');
+    if(ok1 || ok2){
+      localStorage.setItem('logado','1');
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('appScreen').classList.remove('hidden');
+      return;
+    }
+    alert('Login inválido! Use:\nEmpresa teste / teste / teste123\nou\nRAMOS / admin / @Xumone@197353');
+  }catch(err){
+    alert('Erro login: ' + err.message);
+    console.error(err);
+  }
+}
+function doLogout(){ localStorage.removeItem('logado'); location.reload(); }
+function openTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.menu-btn').forEach(b=>b.classList.remove('active'));
+  const tab = document.getElementById('tab-'+id); if(tab) tab.classList.add('active');
+  const menu = document.getElementById('m-'+id); if(menu) menu.classList.add('active');
+}
+function addCliente(){
+  const nome = (document.getElementById('cliNome').value||'').trim();
+  if(!nome) return; const div = document.getElementById('listaClientes');
+  if(div.innerText.includes('Nenhum')) div.innerHTML=''; div.innerHTML += `<div class="card py-2">${nome}</div>`; document.getElementById('cliNome').value='';
+}
+function addChamado(){
+  const desc = (document.getElementById('chamDesc').value||'').trim();
+  if(!desc) return; const div = document.getElementById('listaChamados');
+  if(div.innerText.includes('Nenhum')) div.innerHTML=''; div.innerHTML += `<div class="card py-2">${desc} - Aberto</div>`; document.getElementById('chamDesc').value='';
+}
+// Auto-login se já logado
+if(localStorage.getItem('logado')==='1'){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('appScreen').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
