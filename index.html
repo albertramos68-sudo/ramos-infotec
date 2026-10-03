@@ -22,7 +22,7 @@ try{M=JSON.parse(localStorage.getItem('v24_meu')||'[]')}catch(e){M=[]}
 try{E=JSON.parse(localStorage.getItem('v24_est')||'[]')}catch(e){E=[]}
 try{R=JSON.parse(localStorage.getItem('v24_rem')||'[]')}catch(e){R=[]}
 try{U=JSON.parse(localStorage.getItem('v24_usr')||'[]')}catch(e){U=[]}
-if(U.length==0){U=[{id:1,nome:'admin',empresa:'RAMOS',senha:'@Xumone@197353',perfil:'master'},{id:2,nome:'teste',empresa:'teste',senha:'123',perfil:'cliente'}];localStorage.setItem('v24_usr',JSON.stringify(U));}
+if(U.length==0){U=[{id:1,nome:'admin',empresa:'ramosinfotec',senha:'@Xumone@197353',perfil:'master'},{id:2,nome:'teste',empresa:'teste',senha:'123',perfil:'cliente'}];localStorage.setItem('v24_usr',JSON.stringify(U));}
 let editCliId=null,editFinId=null,editMeuId=null,editEstId=null,editUsuId=null,anexoTemp=null,cur='',emp='',role='';
 function save(){localStorage.setItem('v24_cli',JSON.stringify(C));localStorage.setItem('v24_cha',JSON.stringify(CH));localStorage.setItem('v24_fin',JSON.stringify(F));localStorage.setItem('v24_meu',JSON.stringify(M));localStorage.setItem('v24_est',JSON.stringify(E));localStorage.setItem('v24_rem',JSON.stringify(R));localStorage.setItem('v24_usr',JSON.stringify(U));kpi();}
 function sair(){document.getElementById('app').style.display='none';document.getElementById('login').style.display='flex';}
