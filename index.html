@@ -1,1 +1,105 @@
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAMOS INFOTEC - V32 LOGIN FACIL</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}body{background:#020617;color:#e2e8f0}
+.login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(#0f172a,#020617)}
+.card{background:#111d33;width:100%;max-width:420px;padding:28px;border-radius:16px;border:1px solid #1e293b}
+label{font-size:10px;color:#38bdf8;margin-top:10px;display:block;font-weight:bold}input,select,textarea{width:100%;padding:11px;background:#0f172a;border:1px solid #1e293b;border-radius:8px;color:#fff;margin-top:4px}
+.btn{padding:9px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:bold;font-size:11px;margin:2px}.btn-blue{background:#38bdf8;color:#000}.btn-green{background:#22c55e;color:#000}.btn-red{background:#ef4444;color:#fff}.btn-dark{background:#1e293b;color:#fff;border:1px solid #334155}.btn-orange{background:#f59e0b;color:#000}.w100{width:100%}
+#app{display:none}.top{background:#020617;padding:12px 18px;display:flex;justify-content:space-between;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:99}
+.menu{display:flex;gap:5px;background:#0f172a;padding:10px;overflow:auto;flex-wrap:wrap}.menu button{background:#1e293b;color:#94a3b8;border:0;padding:9px 14px;border-radius:20px;cursor:pointer;font-size:11px}.menu button.ativo{background:#38bdf8;color:#000;font-weight:bold}
+.content{padding:14px;max-width:1350px;margin:auto}.box{background:#111d33;padding:18px;border-radius:12px;border:1px solid #1e293b;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:11px}th,td{border:1px solid #1e293b;padding:7px;cursor:pointer}th{background:#0f172a;color:#38bdf8}tr:hover{background:#1e293b55}
+.flex{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="login" id="loginBox">
+<div class="card">
+<h2 style="text-align:center;color:#38bdf8">RAMOS INFOTEC</h2><p style="text-align:center;color:#22c55e;font-size:11px">🔒 V32 - LOGIN ramosinfotec</p>
+<label>NOME DA EMPRESA</label><input id="loginEmp" placeholder="ramosinfotec ou TESTE" value="ramosinfotec">
+<label>USUÁRIO</label><input id="loginUser" placeholder="admin ou teste" value="admin">
+<label>SENHA</label><input id="loginPass" type="password" placeholder="••••••••" value="@Xumone@197353">
+<button class="btn btn-blue w100" style="padding:12px" onclick="entrar()">ENTRAR</button>
+<div id="msg" style="color:#ef4444;text-align:center;margin-top:8px;font-size:11px"></div>
+<p style="text-align:center;font-size:9px;color:#475569;margin-top:8px">Pode digitar ramosinfotec tudo junto e minúsculo</p>
+</div>
+</div>
+<div id="app">
+<div class="top"><div><b>RAMOS INFOTEC</b> <small id="topEmp" style="color:#38bdf8"></small> | <small id="topUser"></small> | <small id="topPerfil" style="color:#22c55e"></small></div><button class="btn btn-dark" onclick="location.reload()">Sair</button></div>
+<div class="menu"><button onclick="aba('cli')" id="b-cli">👤 Cliente</button><button onclick="aba('cha')" id="b-cha">📞 Chamados (Atender)</button><button onclick="aba('fin')" id="b-fin">💰 Financeiro</button><button onclick="aba('mfin')" id="b-mfin">🏦 Meu Financeiro</button><button onclick="aba('est')" id="b-est">📦 Estoque</button><button onclick="aba('usu')" id="b-usu">👥 Usuário+Empresa</button><button onclick="aba('cliVisao')" id="b-cliVisao">👁️ Chamado Cliente</button></div>
+<div class="content">
+<div id="cli" class="aba"><div class="box"><h3>👤 Cliente</h3><div><label>EMPRESA</label><input id="clEmp"></div><div class="flex"><button class="btn btn-blue" onclick="cliIncluir()">INCLUIR</button><button class="btn btn-green" onclick="cliAlterar()">ALTERAR</button></div><table><thead><tr><th>Empresa</th></tr></thead><tbody id="tabCli"></tbody></table></div></div>
+<div id="cha" class="aba" style="display:none"><div class="box"><h3>📞 CHAMADOS - Atender clientes</h3><div class="flex"><button class="btn btn-dark" onclick="chComentar()">💬 INCLUIR COMENTÁRIO (Atender)</button><button class="btn btn-green" onclick="chFinalizar()">✅ FINALIZAR</button><button class="btn btn-orange" onclick="chPausar()">⏸️ PAUSAR</button><button class="btn btn-blue" onclick="chReabrir()">🔓 REABRIR</button></div><table><thead><tr><th>#</th><th>Empresa</th><th>Título</th><th>Status</th></tr></thead><tbody id="tabCha"></tbody></table></div></div>
+<div id="fin" class="aba" style="display:none"><div class="box"><h3>💰 Financeiro</h3><table><tbody id="tabFin"></tbody></table></div></div>
+<div id="mfin" class="aba" style="display:none"><div class="box"><h3>🏦 Meu Financeiro</h3><table><tbody id="tabMfin"></tbody></table></div></div>
+<div id="est" class="aba" style="display:none"><div class="box"><h3>📦 Estoque</h3><table><tbody id="tabEst"></tbody></table></div></div>
+<div id="usu" class="aba" style="display:none"><div class="box"><h3>👥 Usuário+Empresa</h3><div class="grid2"><div><label>USUÁRIO</label><input id="uNome"></div><div><label>SENHA</label><input id="uSenha" type="password"></div></div><label>EMPRESA</label><select id="uEmpresa"></select><label>PERFIL</label><select id="uPerfil"><option>Administrador</option><option>Cliente - Só Chamados</option></select><div class="flex"><button class="btn btn-blue" onclick="usuSalvar()">INCLUIR</button><button class="btn btn-green" onclick="usuAlterarSenha()">ALTERAR SENHA</button></div><table><thead><tr><th>Usuário</th><th>Empresa</th><th>Perfil</th></tr></thead><tbody id="tabUsu"></tbody></table></div></div>
+<div id="cliVisao" class="aba" style="display:none"><div class="box"><h3>👁️ CHAMADO Cliente</h3><div><label>TÍTULO</label><input id="cvTit"></div><label>O QUE ACONTECE</label><textarea id="cvDesc"></textarea><div class="flex"><button class="btn btn-blue" onclick="cvAbrir()">📝 ABRIR CHAMADO</button><button class="btn btn-dark" onclick="cvComentario()">💬 INCLUIR COMENTÁRIO</button><button class="btn btn-green" onclick="cvReabrir()">🔓 REABRIR O CHAMADO</button><button class="btn btn-orange" onclick="cvFinalizar()">✅ FINALIZAR</button></div><table><thead><tr><th>Título</th><th>Status</th></tr></thead><tbody id="tabCv"></tbody></table></div></div>
+</div>
+</div>
+<script>
+let db={cli:JSON.parse(localStorage.getItem('ri32_cli')||'[]'),cha:JSON.parse(localStorage.getItem('ri32_cha')||'[]'),fin:JSON.parse(localStorage.getItem('ri32_fin')||'[]'),mfin:JSON.parse(localStorage.getItem('ri32_mfin')||'[]'),est:JSON.parse(localStorage.getItem('ri32_est')||'[]'),usu:JSON.parse(localStorage.getItem('ri32_usu')||'[]'),cv:JSON.parse(localStorage.getItem('ri32_cv')||'[]')};
+let sel={cha:null,cv:null},logado={};
+function save(){localStorage.setItem('ri32_cli',JSON.stringify(db.cli));localStorage.setItem('ri32_cha',JSON.stringify(db.cha));localStorage.setItem('ri32_fin',JSON.stringify(db.fin));localStorage.setItem('ri32_mfin',JSON.stringify(db.mfin));localStorage.setItem('ri32_est',JSON.stringify(db.est));localStorage.setItem('ri32_usu',JSON.stringify(db.usu));localStorage.setItem('ri32_cv',JSON.stringify(db.cv));render()}
+function normalizaEmp(s){return s.toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');}
+function entrar(){
+let empRaw=loginEmp.value.trim(),u=loginUser.value.trim().toLowerCase(),p=loginPass.value.trim();
+if(!empRaw||!u||!p){msg.innerText='Preencha';return;}
+let empNorm=normalizaEmp(empRaw);
+let isRamos = empNorm.includes('ramosinfotec') || empNorm.includes('ramos') || empNorm==='ri';
+// ADMIN - aceita ramosinfotec minúsculo tudo junto
+if((u==='admin'||u==='ramos.admin'||u==='ramosinfotec') && p==='@Xumone@197353'){
+logado={nome:u,empresa:'RAMOS INFOTEC',perfil:'Administrador',senha:p};
+if(!db.usu.find(x=>x.nome===u))db.usu.push(logado);
+ok();return;
+}
+let ach=db.usu.find(x=>x.nome.toLowerCase()===u && x.senha===p);
+if(ach){logado=ach;ok();}else{msg.innerText='Usuário ou senha inválidos';}
+}
+function ok(){
+loginBox.style.display='none';app.style.display='block';
+topEmp.innerText=logado.empresa;topUser.innerText=logado.nome;topPerfil.innerText=logado.perfil;
+let isAdmin=logado.perfil&&logado.perfil.toLowerCase().includes('admin');
+if(isAdmin){
+document.querySelectorAll('.menu button').forEach(b=>b.style.display='block');
+aba('cha');
+}else{
+document.querySelectorAll('.menu button').forEach(b=>b.style.display='none');
+document.getElementById('b-cliVisao').style.display='block';
+aba('cliVisao');
+}
+render();
+}
+function aba(n){document.querySelectorAll('.aba').forEach(a=>a.style.display='none');document.getElementById(n).style.display='block';document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('ativo'));document.getElementById('b-'+n)?.classList.add('ativo');}
+function cliIncluir(){db.cli.push({emp:clEmp.value});save();}
+function cliAlterar(){if(sel.cli!==null){db.cli[sel.cli].emp=clEmp.value;save();}}
+function chComentar(){if(sel.cha===null)return alert('Clique na linha');let c=prompt('Comentário para ATENDER:');if(c){db.cha[sel.cha].desc=(db.cha[sel.cha].desc||'')+'\n[ATENDIMENTO: '+c+']';save();}}
+function chFinalizar(){if(sel.cha!==null){db.cha[sel.cha].status='Finalizado';save();}}
+function chPausar(){if(sel.cha!==null){db.cha[sel.cha].status='Pausado';save();}}
+function chReabrir(){if(sel.cha!==null){db.cha[sel.cha].status='Aberto';save();}}
+function finIncluir(){db.fin.push({nome:fNome?.value||'boleto'});save();}
+function finAlterar(){}
+function esIncluir(){}
+function esAlterar(){}
+function usuSalvar(){db.usu.push({nome:uNome.value,senha:uSenha.value,empresa:uEmpresa.value,perfil:uPerfil.value});save();}
+function usuAlterarSenha(){let n=prompt('Usuário:');let a=db.usu.find(x=>x.nome.toLowerCase()===n.toLowerCase());if(a){a.senha=prompt('Nova senha:');save();}}
+function cvAbrir(){if(!cvTit.value)return alert('Título');let novo={tit:cvTit.value,desc:cvDesc.value,status:'Aberto',emp:logado.empresa};db.cv.push(novo);db.cha.push(novo);save();cvTit.value='';cvDesc.value='';alert('ABERTO!');}
+function cvComentario(){if(sel.cv===null)return alert('Clique na linha');let c=prompt('Comentário:');if(c){db.cv[sel.cv].desc+='\n[CLIENTE: '+c+']';save();}}
+function cvReabrir(){if(sel.cv!==null){db.cv[sel.cv].status='Aberto';save();}}
+function cvFinalizar(){if(sel.cv!==null){db.cv[sel.cv].status='Finalizado';save();}}
+function render(){
+tabCli.innerHTML='';uEmpresa.innerHTML='';tabCha.innerHTML='';tabCv.innerHTML='';tabFin.innerHTML='';tabMfin.innerHTML='';tabEst.innerHTML='';tabUsu.innerHTML='';
+db.cli.forEach((c,i)=>{tabCli.innerHTML+=`<tr><td>${c.emp}</td></tr>`;uEmpresa.innerHTML+=`<option>${c.emp}</option>`;});
+if(uEmpresa.innerHTML==='')uEmpresa.innerHTML='<option>RAMOS INFOTEC</option><option>TESTE</option><option>ramosinfotec</option>';
+db.cha.forEach((c,i)=>{tabCha.innerHTML+=`<tr onclick="sel.cha=${i}"><td>${i+1}</td><td>${c.emp}</td><td>${c.tit}</td><td>${c.status}</td></tr>`;});
+db.usu.forEach(u=>{tabUsu.innerHTML+=`<tr><td>${u.nome}</td><td>${u.empresa}</td><td>${u.perfil}</td></tr>`;});
+let lista = logado.perfil&&logado.perfil.includes('Admin')? db.cv : db.cv.filter(v=>v.emp.toLowerCase()===logado.empresa.toLowerCase());
+lista.forEach((v,i)=>{let idx=db.cv.indexOf(v);tabCv.innerHTML+=`<tr onclick="sel.cv=${idx}"><td>${v.tit}</td><td>${v.status}</td></tr>`;});
+}
+</script>
+</body>
+</html>
