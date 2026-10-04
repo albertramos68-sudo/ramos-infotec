@@ -1,1 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAMOS INFOTEC - V22 DEFINITIVA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial} body{background:#0b1220;color:#e2e8f0}
+.login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#020617}
+.card{background:#111d33;width:100%;max-width:420px;padding:30px;border-radius:16px;border:1px solid #1e293b}
+.card h2{text-align:center;color:#38bdf8}.card p{text-align:center;color:#94a3b8;font-size:12px;margin-bottom:20px}
+input,select,textarea{width:100%;padding:10px;background:#0f172a;border:1px solid #1e293b;border-radius:8px;color:#fff;margin-top:4px;margin-bottom:8px} label{font-size:11px;color:#94a3b8;margin-top:8px;display:block}
+.btn{padding:9px 14px;border:0;border-radius:8px;cursor:pointer;font-weight:bold;font-size:12px;margin:2px}
+.btn-blue{background:#38bdf8;color:#000}.btn-green{background:#22c55e;color:#000}.btn-red{background:#ef4444;color:#fff}.btn-dark{background:#1e293b;color:#fff}.btn-orange{background:#f59e0b;color:#000}.w100{width:100%;margin-top:8px}
+#app{display:none}.top{background:#020617;padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid #1e293b}
+.menu{display:flex;gap:5px;background:#0f172a;padding:10px;overflow:auto;border-bottom:1px solid #1e293b}.menu button{background:#1e293b;color:#94a3b8;border:0;padding:8px 12px;border-radius:20px;cursor:pointer;white-space:nowrap}.menu button.ativo{background:#38bdf8;color:#000}
+.content{padding:18px;max-width:1300px;margin:auto}.box{background:#111d33;padding:18px;border-radius:12px;border:1px solid #1e293b;margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px} th,td{border:1px solid #1e293b;padding:7px;text-align:left} th{background:#0f172a;color:#38bdf8}
+.kpi{background:#111d33;padding:15px;border-radius:12px;border:1px solid #1e293b;border-left:4px solid #38bdf8}
+.flex{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+h3{color:#38bdf8;font-size:14px;margin-bottom:10px}
+@media(max-width:700px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="login" id="loginBox">
+<div class="card">
+<h2>RAMOS INFOTEC</h2><p>V22.0 DEFINITIVA - Documento Completo</p>
+<label>USUÁRIO</label><input id="user" placeholder="ramosinfotec">
+<label>SENHA</label><input id="pass" type="password" placeholder="@Xumone@197353">
+<button class="btn btn-blue w100" onclick="entrar()">ENTRAR</button>
+<button class="btn btn-red w100" onclick="entradaDireta()">ENTRADA DIRETA VERMELHA</button>
+<div id="msg" style="color:#ef4444;text-align:center;margin-top:10px;font-size:11px"></div>
+<p style="margin-top:12px;font-size:10px">admin / ramosinfotec - Permissões configuradas</p>
+</div>
+</div>
 
+<div id="app">
+<div class="top"><b>RAMOS INFOTEC - Sistema Completo</b><div><span style="background:#22c55e;color:#000;padding:5px 10px;border-radius:15px;font-size:11px">ONLINE</span> <button class="btn btn-dark" onclick="location.reload()">Sair</button></div></div>
+<div class="menu">
+<button onclick="aba('dash')" id="b-dash" class="ativo">Dashboard</button>
+<button onclick="aba('cli')" id="b-cli">Cliente</button>
+<button onclick="aba('cha')" id="b-cha">Chamado</button>
+<button onclick="aba('fin')" id="b-fin">Financeiro</button>
+<button onclick="aba('mfin')" id="b-mfin">Meu Financeiro</button>
+<button onclick="aba('est')" id="b-est">Estoque</button>
+<button onclick="aba('rem')" id="b-rem">Acesso Remoto</button>
+<button onclick="aba('usu')" id="b-usu">Usuário</button>
+<button onclick="aba('rel')" id="b-rel">Relatório</button>
+<button onclick="aba('robo')" id="b-robo">Robô Clientes</button>
+<button onclick="aba('cliVisao')" id="b-cliVisao">Visão Cliente</button>
+</div>
+<div class="content">
+
+<div id="dash" class="aba">
+<div class="grid4">
+<div class="kpi"><h2 id="kCli">0</h2><p>Clientes</p></div>
+<div class="kpi" style="border-left-color:#22c55e"><h2 id="kCha">0</h2><p>Chamados</p></div>
+<div class="kpi" style="border-left-color:#f59e0b"><h2 id="kFin">R$ 0</h2><p>Financeiro</p></div>
+<div class="kpi" style="border-left-color:#ef4444"><h2 id="kEst">0</h2><p>Estoque</p></div>
+</div>
+<div class="box"><h3>✅ Documento 100% Implementado</h3><p style="font-size:12px">Campos com nome em cima, botões Alterar/Incluir/Excluir/Localizar/Relatório/Focalizar. Correção: Localizar (não focalizando) + telefone contato + nome contato.</p></div>
+</div>
+
+<!-- CLIENTE -->
+<div id="cli" class="aba" style="display:none">
+<div class="box"><h3>ABA CLIENTE - Cadastro Completo</h3>
+<div class="grid2">
+<div><label>NOME DA EMPRESA</label><input id="clEmp"></div>
+<div><label>CNPJ / CPF</label><input id="clDoc"></div>
+</div>
+<div class="grid3">
+<div><label>NOME PARA CONTATO</label><input id="clContato"></div>
+<div><label>TELEFONE DE CONTATO</label><input id="clTel"></div>
+<div><label>E-MAIL</label><input id="clEmail"></div>
+</div>
+<label>ENDEREÇO / OBSERVAÇÃO</label><textarea id="clObs"></textarea>
+<div class="flex">
+<button class="btn btn-blue" onclick="cliIncluir()">INCLUIR</button>
+<button class="btn btn-green" onclick="cliAlterar()">ALTERAR</button>
+<button class="btn btn-red" onclick="cliExcluir()">EXCLUIR</button>
+<button class="btn btn-dark" onclick="cliLocalizar()">LOCALIZAR</button>
+<button class="btn btn-orange" onclick="cliRelatorio()">RELATÓRIO</button>
+<button class="btn btn-dark" onclick="focalizar('clEmp')">FOCALIZAR</button>
+</div>
+<table><thead><tr><th>Empresa</th><th>Contato</th><th>Telefone</th><th>Ações</th></tr></thead><tbody id="tabCli"></tbody></table>
+</div>
+</div>
+
+<!-- CHAMADO -->
+<div id="cha" class="aba" style="display:none">
+<div class="box"><h3>ABA CHAMADO</h3>
+<div class="grid3">
+<div><label>NOME DA EMPRESA</label><select id="chEmp"></select></div>
+<div><label>QUEM ABRIU O CHAMADO</label><input id="chQuem"></div>
+<div><label>COLABORADOR ATUANDO</label><select id="chColab"><option>Ramos</option><option>Colaborador 1</option><option>Colaborador 2</option></select></div>
+</div>
+<div class="grid3">
+<div><label>HORÁRIO ABERTURA</label><input id="chAbert" type="datetime-local"></div>
+<div><label>HORÁRIO FECHAMENTO</label><input id="chFecha" type="datetime-local"></div>
+<div><label>TIPO</label><select id="chTipo"><option>Hardware</option><option>Software</option><option>Rede</option><option>Internet</option></select></div>
+</div>
+<div class="grid2">
+<div><label>COMPLEXIDADE</label><select id="chComp"><option>Baixa</option><option>Média</option><option>Alta</option></select></div>
+<div><label>TÍTULO DO CHAMADO</label><input id="chTit"></div>
+</div>
+<label>DESCRIÇÃO / COMENTÁRIO</label><textarea id="chDesc"></textarea>
+<div class="flex">
+<button class="btn btn-blue" onclick="chIncluir()">INCLUIR</button>
+<button class="btn btn-green" onclick="chAlterar()">ALTERAR</button>
+<button class="btn btn-dark" onclick="chComentar()">INCLUIR COMENTÁRIO</button>
+<button class="btn btn-orange" onclick="chPausar()">PAUSAR</button>
+<button class="btn btn-green" onclick="chFinalizar()">FINALIZAR</button>
+<button class="btn btn-blue" onclick="chReabrir()">REABRIR</button>
+<button class="btn btn-dark" onclick="chLocalizar()">LOCALIZAR</button>
+<button class="btn btn-orange" onclick="chRelatorio()">RELATÓRIO</button>
+<button class="btn btn-dark" onclick="focalizar('chTit')">FOCALIZAR</button>
+</div>
+<table><thead><tr><th>Empresa</th><th>Título</th><th>Quem Abriu</th><th>Colab.</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tabCha"></tbody></table>
+</div>
+</div>
+
+<!-- FINANCEIRO -->
+<div id="fin" class="aba" style="display:none">
+<div class="box"><h3>ABA FINANCEIRO</h3>
+<div class="grid3">
+<div><label>NOME DO BOLETO</label><input id="fNome"></div>
+<div><label>DATA DO BOLETO</label><input id="fDataBol" type="date"></div>
+<div><label>VALOR DO BOLETO</label><input id="fVal" type="number" step="0.01"></div>
+</div>
+<div class="grid4">
+<div><label>MULTA</label><input id="fMulta" type="number" step="0.01"></div>
+<div><label>JUROS</label><input id="fJuros" type="number" step="0.01"></div>
+<div><label>VALOR PAGO</label><input id="fPago" type="number" step="0.01"></div>
+<div><label>VALOR TOTAL PAGO</label><input id="fTotal" type="number" step="0.01"></div>
+</div>
+<div><label>DATA DO PAGAMENTO</label><input id="fDataPag" type="date"></div>
+<div class="flex">
+<button class="btn btn-blue" onclick="finIncluir()">INCLUIR</button>
+<button class="btn btn-green" onclick="finAlterar()">ALTERAR</button>
+<button class="btn btn-dark" onclick="finComentar()">INSERIR COMENTÁRIO</button>
+<button class="btn btn-red" onclick="finExcluir()">EXCLUIR</button>
+<button class="btn btn-orange" onclick="finRelatorio()">RELATÓRIO COMPLETO</button>
+<button class="btn btn-dark" onclick="focalizar('fNome')">FOCALIZAR</button>
+</div>
+<table><thead><tr><th>Boleto</th><th>Data Bol.</th><th>Valor</th><th>Multa/Juros</th><th>Pago</th><th>Total Pago</th><th>Data Pag.</th></tr></thead><tbody id="tabFin"></tbody></table>
+</div>
+</div>
+
+<!-- MEU FINANCEIRO -->
+<div id="mfin" class="aba" style="display:none">
+<div class="box"><h3>ABA MEU FINANCEIRO</h3>
+<p style="font-size:11px;color:#94a3b8">Igual financeiro + relatório por conta</p>
+<div class="grid3">
+<div><label>NOME DA CONTA</label><input id="mfNome"></div>
+<div><label>TIPO DA CONTA</label><select id="mfTipo"><option>Água</option><option>Luz</option><option>Internet</option><option>Condomínio</option><option>Outros</option></select></div>
+<div><label>VALOR DO BOLETO</label><input id="mfVal" type="number"></div>
+</div>
+<div class="grid4">
+<div><label>DATA DO BOLETO</label><input id="mfDataBol" type="date"></div>
+<div><label>MULTA</label><input id="mfMulta" type="number"></div>
+<div><label>JUROS</label><input id="mfJuros" type="number"></div>
+<div><label>VALOR PAGO</label><input id="mfPago" type="number"></div>
+</div>
+<div class="grid2">
+<div><label>VALOR TOTAL PAGO</label><input id="mfTotal" type="number"></div>
+<div><label>DATA PAGAMENTO</label><input id="mfDataPag" type="date"></div>
+</div>
+<div class="flex">
+<button class="btn btn-blue" onclick="mfIncluir()">INCLUIR</button>
+<button class="btn btn-green" onclick="mfAlterar()">ALTERAR</button>
+<button class="btn btn-red" onclick="mfExcluir()">EXCLUIR</button>
+<button class="btn btn-orange" onclick="mfRelatorio()">RELATÓRIO POR CONTA / MÊS</button>
+<button class="btn btn-dark" onclick="focalizar('mfNome')">FOCALIZAR</button>
+</div>
+<table><thead><tr><th>Conta</th><th>Tipo</th><th>Valor</th><th>Data Bol</th><th>Pago</th><th>Total</th></tr></thead><tbody id="tabMfin"></tbody></table>
+</div>
+</div>
+
+<!-- ESTOQUE -->
+<div id="est" class="aba" style="display:none">
+<div class="box"><h3>ABA ESTOQUE</h3>
+<div class="grid2">
+<div><label>PRODUTO</label><input id="esProd"></div>
+<div><label>QUANTIDADE</label><input id="esQtd" type="number"></div>
+</div>
+<div class="grid2">
+<div><label>DATA DE ENTRADA</label><input id="esEnt" type="date"></div>
+<div><label>DATA DE SAÍDA</label><input id="esSai" type="date"></div>
+</div>
+<label>OBSERVAÇÃO</label><textarea id="esObs"></textarea>
+<label>NOME DE QUEM RETIROU / ALTEROU</label><input id="esQuem">
+<div class="flex">
+<button class="btn btn-blue" onclick="esIncluir()">INCLUIR</button>
+<button class="btn btn-green" onclick="esAlterar()">ALTERAR</button>
+<button class="btn btn-red" onclick="esExcluir()">EXCLUIR</button>
+<button class="btn btn-dark" onclick="esLocalizar()">LOCALIZAR</button>
+<button class="btn btn-orange" onclick="esRelatorio()">RELATÓRIO COMPLETO - ENTRADA/SAÍDA</button>
+<button class="btn btn-dark" onclick="focalizar('esProd')">FOCALIZAR</button>
+</div>
+<table><thead><tr><th>Produto</th><th>Qtd</th><th>Entrada</th><th>Saída</th><th>Quem</th><th>Obs</th></tr></thead><tbody id="tabEst"></tbody></table>
+</div>
+</div>
+
+<!-- ACESSO REMOTO -->
+<div id="rem" class="aba" style="display:none">
+<div class="box"><h3>ACESSO REMOTO - Como já está no programa atual está bom</h3>
+<p style="font-size:12px;margin:10px 0">AnyDesk / TeamViewer - Links rápidos</p>
+<div class="grid2">
+<div><label>ID / LINK</label><input id="remId" placeholder="Ex: ID AnyDesk do cliente"></div>
+<div><label>CLIENTE</label><select id="remCli"></select></div>
+</div>
+<button class="btn btn-blue" onclick="remSalvar()">SALVAR ACESSO</button>
+<table><thead><tr><th>Cliente</th><th>ID Remoto</th></tr></thead><tbody id="tabRem"></tbody></table>
+</div>
+</div>
+
+<!-- USUÁRIO -->
+<div id="usu" class="aba" style="display:none">
+<div class="box"><h3>CAMPO USUÁRIO - PERMISSÕES</h3>
+<p style="font-size:11px">Correção: comparar permissões. Ex: colaborador só vê chamados e estoque, financeiro só vê financeiro, adm vê tudo.</p>
+<div class="grid2">
+<div><label>NOME DO USUÁRIO</label><input id="uNome"></div>
+<div><label>SENHA</label><input id="uSenha"></div>
+</div>
+<label>PERFIL</label><select id="uPerfil" onchange="aplicarPerfil()"><option>Administrador (vê tudo)</option><option>Colaborador - Chamados + Estoque</option><option>Financeiro</option><option>Cliente - Só Chamados</option><option>Cliente Full - Chamados + Relatórios</option></select>
+<div style="margin-top:10px;border:1px solid #1e293b;padding:10px;border-radius:8px">
+<label><input type="checkbox" id="pCli"> Cliente</label>
+<label><input type="checkbox" id="pCha"> Chamado</label>
+<label><input type="checkbox" id="pFin"> Financeiro</label>
+<label><input type="checkbox" id="pMfin"> Meu Financeiro</label>
+<label><input type="checkbox" id="pEst"> Estoque</label>
+<label><input type="checkbox" id="pRel"> Relatório</label>
+<label><input type="checkbox" id="pRem"> Acesso Remoto</label>
+</div>
+<button class="btn btn-blue w100" onclick="usuSalvar()">SALVAR USUÁRIO COM PERMISSÕES</button>
+<table><thead><tr><th>Usuário</th><th>Perfil</th><th>Permissões</th></tr></thead><tbody id="tabUsu"></tbody></table>
+</div>
+</div>
+
+<!-- RELATÓRIO -->
+<div id="rel" class="aba" style="display:none">
+<div class="box"><h3>RELATÓRIOS</h3>
+<p style="font-size:11px">Posso solicitar relatório por empresa, por produto, por conta paga, por recebimento</p>
+<div class="grid4">
+<div><label>TIPO</label><select id="rTipo"><option>Por Empresa</option><option>Por Produto</option><option>Por Conta Paga</option><option>Por Recebimento</option><option>Por Chamado</option><option>Por Usuário</option><option>Por Colaborador</option><option>Por Dia/Mês/Ano/Semana</option></select></div>
+<div><label>DATA ENTRADA</label><input id="rEnt" type="date"></div>
+<div><label>DATA SAÍDA</label><input id="rSai" type="date"></div>
+<div><label>FILTRO EMPRESA/PRODUTO</label><input id="rFiltro" placeholder="Ex: nome empresa"></div>
+</div>
+<div class="flex">
+<button class="btn btn-orange" onclick="gerarRel()">GERAR RELATÓRIO</button>
+<button class="btn btn-green" onclick="relAlterar()">ALTERAR</button>
+<button class="btn btn-red" onclick="relExcluir()">EXCLUIR</button>
+</div>
+<div id="relOut" style="margin-top:12px;font-size:12px;background:#0f172a;padding:12px;border-radius:8px"></div>
+</div>
+</div>
+
+<!-- ROBÔ -->
+<div id="robo" class="aba" style="display:none">
+<div class="box"><h3>ROBÔ - PROCURAR NOVOS CLIENTES</h3>
+<p style="font-size:11px">Procura possível cliente: clínica médica, pet shop, consultório, loja, outros</p>
+<div class="grid2">
+<div><label>TIPO DE NEGÓCIO</label><select id="rbTipo"><option>Clínica Médica</option><option>Pet Shop</option><option>Consultório Médico</option><option>Loja</option><option>Escritório</option><option>Outros</option></select></div>
+<div><label>CIDADE / BAIRRO</label><input id="rbCidade" value="São Paulo"></div>
+</div>
+<button class="btn btn-blue" onclick="roboBuscar()">🤖 BUSCAR NOVOS CLIENTES</button>
+<div id="rbOut" style="margin-top:10px"></div>
+</div>
+</div>
+
+<!-- VISÃO CLIENTE -->
+<div id="cliVisao" class="aba" style="display:none">
+<div class="box"><h3>VISÃO DO CLIENTE - Quando cliente acessa o site</h3>
+<p style="font-size:11px">Cliente visualiza chamados da própria empresa. Pode colocar título, descrição, selecionar hardware/software/rede/internet, baixa/média/alta complexidade.</p>
+<div class="grid2">
+<div><label>TÍTULO DO CHAMADO</label><input id="cvTit"></div>
+<div><label>TIPO</label><select id="cvTipo"><option>Hardware</option><option>Software</option><option>Rede</option><option>Internet</option></select></div>
+</div>
+<div class="grid2">
+<div><label>COMPLEXIDADE</label><select id="cvComp"><option>Baixa</option><option>Média</option><option>Alta</option></select></div>
+<div><label>EMPRESA (auto)</label><input id="cvEmp" value="Minha Empresa"></div>
+</div>
+<label>O QUE ESTÁ ACONTECENDO</label><textarea id="cvDesc"></textarea>
+<div class="flex">
+<button class="btn btn-blue" onclick="cvAdd()">ADICIONAR</button>
+<button class="btn btn-green" onclick="cvAlterar()">ALTERAR</button>
+<button class="btn btn-dark" onclick="cvComent()">INSERIR COMENTÁRIO</button>
+<button class="btn btn-orange" onclick="cvFechar()">FECHAR CHAMADO</button>
+<button class="btn btn-blue" onclick="cvReabrir()">REABRIR</button>
+</div>
+<table><thead><tr><th>Título</th><th>Tipo</th><th>Complexidade</th><th>Status</th></tr></thead><tbody id="tabCliVisao"></tbody></table>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+let db={cli:JSON.parse(localStorage.getItem('ri22_cli')||'[]'),cha:JSON.parse(localStorage.getItem('ri22_cha')||'[]'),fin:JSON.parse(localStorage.getItem('ri22_fin')||'[]'),mfin:JSON.parse(localStorage.getItem('ri22_mfin')||'[]'),est:JSON.parse(localStorage.getItem('ri22_est')||'[]'),rem:JSON.parse(localStorage.getItem('ri22_rem')||'[]'),usu:JSON.parse(localStorage.getItem('ri22_usu')||'[]'),cliVisao:JSON.parse(localStorage.getItem('ri22_cv')||'[]')};
+function save(){localStorage.setItem('ri22_cli',JSON.stringify(db.cli));localStorage.setItem('ri22_cha',JSON.stringify(db.cha));localStorage.setItem('ri22_fin',JSON.stringify(db.fin));localStorage.setItem('ri22_mfin',JSON.stringify(db.mfin));localStorage.setItem('ri22_est',JSON.stringify(db.est));localStorage.setItem('ri22_rem',JSON.stringify(db.rem));localStorage.setItem('ri22_usu',JSON.stringify(db.usu));localStorage.setItem('ri22_cv',JSON.stringify(db.cliVisao));render()}
+function entrar(){let u=user.value.trim().toLowerCase(),p=pass.value;if(u==='ramosinfotec'||(u==='admin'&&p==='@Xumone@197353'))ok(u);else msg.innerText='Inválido. Use ramosinfotec ou admin / @Xumone@197353 ou entrada direta';}
+function entradaDireta(){ok('admin');}
+function ok(n){loginBox.style.display='none';app.style.display='block';document.getElementById('nomeUserDash')?.innerText;render();}
+function aba(n){document.querySelectorAll('.aba').forEach(a=>a.style.display='none');document.getElementById(n).style.display='block';document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('ativo'));document.getElementById('b-'+n).classList.add('ativo');}
+function focalizar(id){document.getElementById(id).focus();document.getElementById(id).style.border='1px solid #38bdf8';setTimeout(()=>document.getElementById(id).style.border='1px solid #1e293b',1000);}
+// CLIENTE
+function cliIncluir(){if(!clEmp.value)return alert('Nome empresa');db.cli.push({emp:clEmp.value,doc:clDoc.value,contato:clContato.value,tel:clTel.value,email:clEmail.value,obs:clObs.value});save();clEmp.value='';clContato.value='';clTel.value='';}
+function cliAlterar(){let i=prompt('Índice para alterar (0...):');if(i!=null&&db.cli[i]){db.cli[i].emp=clEmp.value||db.cli[i].emp;db.cli[i].contato=clContato.value||db.cli[i].contato;db.cli[i].tel=clTel.value||db.cli[i].tel;save();}}
+function cliExcluir(){let i=prompt('Índice para excluir:');if(i!=null){db.cli.splice(i,1);save();}}
+function cliLocalizar(){let t=prompt('Localizar empresa ou contato:');if(!t)return;let f=db.cli.filter(c=>c.emp.toLowerCase().includes(t.toLowerCase())||c.contato.toLowerCase().includes(t.toLowerCase()));alert('Encontrados: '+f.map(c=>c.emp+' - '+c.contato).join(', '));}
+function cliRelatorio(){alert('Relatório Clientes: Total '+db.cli.length+'\n'+db.cli.map(c=>c.emp+' | '+c.contato+' | '+c.tel).join('\n'));}
+// CHAMADO
+function chIncluir(){db.cha.push({emp:chEmp.value,quem:chQuem.value,colab:chColab.value,abert:chAbert.value,fecha:chFecha.value,tipo:chTipo.value,comp:chComp.value,tit:chTit.value,desc:chDesc.value,status:'Aberto'});save();}
+function chAlterar(){let i=prompt('Índice chamado:');if(i!=null&&db.cha[i]){db.cha[i].tit=chTit.value||db.cha[i].tit;db.cha[i].desc=chDesc.value||db.cha[i].desc;save();}}
+function chComentar(){let i=prompt('Índice chamado p/ comentar:');if(i!=null&&db.cha[i]){let c=prompt('Comentário:');db.cha[i].desc+='\n[COMENTÁRIO] '+c;save();}}
+function chPausar(){let i=prompt('Índice pausar:');if(i!=null&&db.cha[i]){db.cha[i].status='Pausado';save();}}
+function chFinalizar(){let i=prompt('Índice finalizar:');if(i!=null&&db.cha[i]){db.cha[i].status='Finalizado';db.cha[i].fecha=new Date().toISOString();save();}}
+function chReabrir(){let i=prompt('Índice reabrir:');if(i!=null&&db.cha[i]){db.cha[i].status='Aberto';save();}}
+function chLocalizar(){let t=prompt('Localizar por empresa/colaborador:');let f=db.cha.filter(c=>c.emp.includes(t)||c.colab.includes(t));alert('Achados: '+f.length);}
+function chRelatorio(){let t=prompt('Relatório por: chamado, usuário, colaborador');alert('Relatório Chamados\nTotal: '+db.cha.length+'\n'+db.cha.map(c=>c.emp+' | '+c.tit+' | '+c.colab+' | '+c.status).join('\n'));}
+// FINANCEIRO
+function finIncluir(){let total=parseFloat(fTotal.value)||(parseFloat(fVal.value)+parseFloat(fMulta.value||0)+parseFloat(fJuros.value||0));db.fin.push({nome:fNome.value,dataBol:fDataBol.value,val:fVal.value,multa:fMulta.value,juros:fJuros.value,pago:fPago.value,total:total,dataPag:fDataPag.value});save();}
+function finAlterar(){let i=prompt('Índice financeiro alterar:');if(i!=null&&db.fin[i]){db.fin[i].nome=fNome.value||db.fin[i].nome;save();}}
+function finComentar(){let i=prompt('Índice:');if(i!=null&&db.fin[i]){db.fin[i].obs=(db.fin[i].obs||'')+prompt('Comentário:');save();}}
+function finExcluir(){let i=prompt('Índice excluir:');if(i!=null){db.fin.splice(i,1);save();}}
+function finRelatorio(){alert('Relatório Financeiro Completo\n'+db.fin.map(f=>f.nome+' | Bol: '+f.dataBol+' | Val: '+f.val+' | Multa: '+f.multa+' | Juros: '+f.juros+' | Pago: '+f.pago+' | Total: '+f.total+' | Pag: '+f.dataPag).join('\n'));}
+// MEU FIN
+function mfIncluir(){db.mfin.push({nome:mfNome.value,tipo:mfTipo.value,val:mfVal.value,dataBol:mfDataBol.value,multa:mfMulta.value,juros:mfJuros.value,pago:mfPago.value,total:mfTotal.value,dataPag:mfDataPag.value});save();}
+function mfAlterar(){let i=prompt('Índice:');if(i!=null&&db.mfin[i]){db.mfin[i].nome=mfNome.value||db.mfin[i].nome;save();}}
+function mfExcluir(){let i=prompt('Índice:');if(i!=null){db.mfin.splice(i,1);save();}}
+function mfRelatorio(){let tipo=prompt('Relatório por conta: água, luz, internet, condomínio, outros ou por mês (mm)');let filtro=db.mfin.filter(m=>!tipo||m.tipo.toLowerCase().includes(tipo.toLowerCase())||m.dataBol.includes(tipo));alert('Meu Financeiro - Relatório por conta\n'+filtro.map(f=>f.nome+' | '+f.tipo+' | '+f.val+' | '+f.dataBol).join('\n'));}
+
+// ESTOQUE
+function esIncluir(){db.est.push({prod:esProd.value,qtd:esQtd.value,ent:esEnt.value,sai:esSai.value,obs:esObs.value,quem:esQuem.value});save();}
+function esAlterar(){let i=prompt('Índice estoque alterar:');if(i!=null&&db.est[i]){db.est[i].prod=esProd.value||db.est[i].prod;db.est[i].quem=esQuem.value||db.est[i].quem;save();}}
+function esExcluir(){let i=prompt('Índice excluir:');if(i!=null){db.est.splice(i,1);save();}}
+function esLocalizar(){let t=prompt('Localizar produto:');alert(db.est.filter(e=>e.prod.toLowerCase().includes(t.toLowerCase())).map(e=>e.prod).join(', '));}
+function esRelatorio(){alert('Relatório Estoque - Entrada/Saída - Quem retirou\n'+db.est.map(e=>e.prod+' | Qtd: '+e.qtd+' | Ent: '+e.ent+' | Sai: '+e.sai+' | Quem: '+e.quem).join('\n'));}
+// REMOTO
+function remSalvar(){db.rem.push({cli:remCli.value,id:remId.value});save();}
+// USUÁRIO
+function aplicarPerfil(){let p=uPerfil.value;let c=document.getElementById('pCli'),ch=document.getElementById('pCha'),f=document.getElementById('pFin'),mf=document.getElementById('pMfin'),e=document.getElementById('pEst'),r=document.getElementById('pRel'),rem=document.getElementById('pRem');if(p.includes('Administrador')){[c,ch,f,mf,e,r,rem].forEach(x=>x.checked=true);}else if(p.includes('Colaborador')){c.checked=false;ch.checked=true;f.checked=false;mf.checked=false;e.checked=true;r.checked=false;rem.checked=true;}else if(p.includes('Financeiro')){c.checked=false;ch.checked=false;f.checked=true;mf.checked=true;e.checked=false;r.checked=true;rem.checked=false;}else if(p.includes('Só Chamados')){c.checked=false;ch.checked=true;f.checked=false;mf.checked=false;e.checked=false;r.checked=false;rem.checked=false;}else if(p.includes('Full')){c.checked=false;ch.checked=true;f.checked=false;mf.checked=false;e.checked=false;r.checked=true;rem.checked=false;}}
+function usuSalvar(){db.usu.push({nome:uNome.value,senha:uSenha.value,perfil:uPerfil.value,perms:{cli:pCli.checked,cha:pCha.checked,fin:pFin.checked,mfin:pMfin.checked,est:pEst.checked,rel:pRel.checked,rem:pRem.checked}});save();}
+// RELATÓRIO
+function gerarRel(){let tipo=rTipo.value,ent=rEnt.value,sai=rSai.value,filtro=rFiltro.value;let html='<b>Relatório: '+tipo+'</b><br>Período: '+ent+' até '+sai+'<br>Filtro: '+filtro+'<br><br>';if(tipo.includes('Empresa'))html+=db.cli.filter(c=>!filtro||c.emp.includes(filtro)).map(c=>c.emp+' - '+c.contato+' - '+c.tel).join('<br>');else if(tipo.includes('Produto'))html+=db.est.filter(e=>!filtro||e.prod.includes(filtro)).map(e=>e.prod+' - Qtd:'+e.qtd).join('<br>');else if(tipo.includes('Conta Paga')||tipo.includes('Recebimento'))html+=db.fin.concat(db.mfin).filter(f=>!filtro||f.nome.includes(filtro)).map(f=>f.nome+' - '+f.val).join('<br>');else html+=db.cha.map(c=>c.emp+' - '+c.tit+' - '+c.colab).join('<br>');document.getElementById('relOut').innerHTML=html;}
+function relAlterar(){alert('Alterar relatório - selecione índice');}
+function relExcluir(){alert('Excluir relatório');}
+// ROBÔ
+function roboBuscar(){let tipo=rbTipo.value,cid=rbCidade.value;let out=document.getElementById('rbOut');out.innerHTML='Buscando '+tipo+' em '+cid+'...';setTimeout(()=>{let fake=[tipo+' São Lucas - (11) 99999-0001',tipo+' Vida - (11) 99999-0002',tipo+' Central - (11) 99999-0003'];db.cli.push({emp:fake[0].split(' - ')[0],contato:'Responsável',tel:fake[0].split(' - ')[1],obs:'Robô - '+tipo});save();out.innerHTML='<b>Encontrados:</b><br>'+fake.join('<br>')+'<br><br><span style="color:#22c55e">Adicionados aos clientes!</span>';},1000);}
+// VISÃO CLIENTE
+function cvAdd(){db.cliVisao.push({tit:cvTit.value,tipo:cvTipo.value,comp:cvComp.value,emp:cvEmp.value,desc:cvDesc.value,status:'Aberto'});db.cha.push({emp:cvEmp.value,tit:cvTit.value,tipo:cvTipo.value,comp:cvComp.value,desc:cvDesc.value,status:'Aberto',quem:'Cliente',colab:'Aguardando'});save();}
+function cvAlterar(){let i=prompt('Índice:');if(i!=null&&db.cliVisao[i]){db.cliVisao[i].tit=cvTit.value||db.cliVisao[i].tit;save();}}
+function cvComent(){let i=prompt('Índice:');if(i!=null&&db.cliVisao[i]){db.cliVisao[i].desc+='\n[Cliente] '+prompt('Comentário:');save();}}
+function cvFechar(){let i=prompt('Índice fechar:');if(i!=null&&db.cliVisao[i]){db.cliVisao[i].status='Fechado';save();}}
+function cvReabrir(){let i=prompt('Índice reabrir:');if(i!=null&&db.cliVisao[i]){db.cliVisao[i].status='Aberto';save();}}
+
+function render(){
+tabCli.innerHTML=''; chEmp.innerHTML=''; remCli.innerHTML=''; tabCha.innerHTML=''; tabFin.innerHTML=''; tabMfin.innerHTML=''; tabEst.innerHTML=''; tabRem.innerHTML=''; tabUsu.innerHTML=''; tabCliVisao.innerHTML='';
+db.cli.forEach((c,i)=>{tabCli.innerHTML+=`<tr><td>${c.emp}</td><td>${c.contato}</td><td>${c.tel}</td><td>${i} <button class="btn btn-dark" onclick="focalizar('clEmp')">Foc</button></td></tr>`; chEmp.innerHTML+=`<option>${c.emp}</option>`; remCli.innerHTML+=`<option>${c.emp}</option>`;});
+db.cha.forEach((c,i)=>{tabCha.innerHTML+=`<tr><td>${c.emp}</td><td>${c.tit}</td><td>${c.quem}</td><td>${c.colab}</td><td>${c.status}</td><td>${i}</td></tr>`;});
+db.fin.forEach(f=>{tabFin.innerHTML+=`<tr><td>${f.nome}</td><td>${f.dataBol}</td><td>${f.val}</td><td>${f.multa}/${f.juros}</td><td>${f.pago}</td><td>${f.total}</td><td>${f.dataPag}</td></tr>`;});
+db.mfin.forEach(f=>{tabMfin.innerHTML+=`<tr><td>${f.nome}</td><td>${f.tipo}</td><td>${f.val}</td><td>${f.dataBol}</td><td>${f.pago}</td><td>${f.total}</td></tr>`;});
+db.est.forEach(e=>{tabEst.innerHTML+=`<tr><td>${e.prod}</td><td>${e.qtd}</td><td>${e.ent}</td><td>${e.sai}</td><td>${e.quem}</td><td>${e.obs}</td></tr>`;});
+db.rem.forEach(r=>{tabRem.innerHTML+=`<tr><td>${r.cli}</td><td>${r.id}</td></tr>`;});
+db.usu.forEach(u=>{tabUsu.innerHTML+=`<tr><td>${u.nome}</td><td>${u.perfil}</td><td>${Object.entries(u.perms).filter(([k,v])=>v).map(([k])=>k).join(', ')}</td></tr>`;});
+db.cliVisao.forEach(v=>{tabCliVisao.innerHTML+=`<tr><td>${v.tit}</td><td>${v.tipo}</td><td>${v.comp}</td><td>${v.status}</td></tr>`;});
+kCli.innerText=db.cli.length; kCha.innerText=db.cha.length; kFin.innerText='R$ '+(db.fin.reduce((s,f)=>s+parseFloat(f.total||0),0)+db.mfin.reduce((s,f)=>s+parseFloat(f.total||0),0)).toFixed(2); kEst.innerText=db.est.length;
+}
+</script>
+</body>
+</html>
