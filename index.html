@@ -1,1 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAMOS INFOTEC V41 PERMISSÕES</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}body{background:#020617;color:#e2e8f0}
+.login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(#0f172a,#020617)}
+.card{background:#111d33;width:100%;max-width:380px;padding:28px;border-radius:16px;border:1px solid #1e293b}
+label{font-size:10px;color:#38bdf8;margin-top:10px;display:block;font-weight:bold}input,select,textarea{width:100%;padding:11px;background:#0f172a;border:1px solid #1e293b;border-radius:8px;color:#fff;margin-top:4px}
+.btn{padding:9px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:bold;font-size:11px;margin:2px}.btn-blue{background:#38bdf8;color:#000}.btn-green{background:#22c55e;color:#000}.btn-red{background:#ef4444;color:#fff}.btn-dark{background:#1e293b;color:#fff;border:1px solid #334155}.w100{width:100%}
+#app{display:none}.top{background:#020617;padding:12px 18px;display:flex;justify-content:space-between;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:99}
+.menu{display:flex;gap:5px;background:#0f172a;padding:10px;overflow:auto;flex-wrap:wrap}.menu button{background:#1e293b;color:#94a3b8;border:0;padding:9px 14px;border-radius:20px;cursor:pointer;font-size:11px}.menu button.ativo{background:#38bdf8;color:#000;font-weight:bold}
+.content{padding:14px;max-width:1350px;margin:auto}.box{background:#111d33;padding:18px;border-radius:12px;border:1px solid #1e293b;margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:11px}th,td{border:1px solid #1e293b;padding:7px;cursor:pointer}th{background:#0f172a;color:#38bdf8}
+.flex{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.perm{background:#0f172a;border:1px solid #334155;padding:12px;border-radius:10px;margin-top:10px}.perm label{color:#e2e8f0;font-size:11px;display:flex;align-items:center;gap:6px;margin-top:6px}.perm input{width:18px;height:18px}
+.timeline{background:#020617;border:1px solid #1e293b;border-radius:10px;padding:10px;margin-top:10px;max-height:300px;overflow:auto}
+.msg{padding:10px;border-radius:8px;margin-bottom:8px;font-size:11px}.msg-cliente{background:#0f172a;border-left:3px solid #38bdf8}.msg-atend{background:#1e293b;border-left:3px solid #22c55e}
+@media(max-width:800px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="login" id="loginBox">
+<div class="card">
+<h2 style="text-align:center;color:#38bdf8">RAMOS INFOTEC</h2><p style="text-align:center;color:#475569;font-size:10px;margin:6px 0 18px">Acesso restrito</p>
+<label>EMPRESA</label><input id="loginEmp" type="text" placeholder="" autocomplete="off">
+<label>USUÁRIO</label><input id="loginUser" type="text" placeholder="" autocomplete="off">
+<label>SENHA</label><input id="loginPass" type="password" placeholder="" autocomplete="new-password">
+<button class="btn btn-blue w100" style="padding:12px;margin-top:16px" onclick="entrar()">ENTRAR</button>
+<div id="msgLogin" style="color:#ef4444;text-align:center;margin-top:10px;font-size:11px"></div>
+</div>
+</div>
 
+<div id="app">
+<div class="top"><div><b style="color:#38bdf8">RAMOS INFOTEC</b> <small id="topEmp" style="color:#38bdf8"></small> | <small id="topUser"></small> | <small id="topPerfil" style="color:#22c55e"></small></div><button class="btn btn-dark" onclick="location.reload()">Sair</button></div>
+<div class="menu">
+<button onclick="aba('cli')" id="b-cli">👤 Cliente</button>
+<button onclick="aba('cha')" id="b-cha">📞 Chamados</button>
+<button onclick="aba('fin')" id="b-fin">💰 Financeiro</button>
+<button onclick="aba('mfin')" id="b-mfin">🏦 Meu Financeiro</button>
+<button onclick="aba('est')" id="b-est">📦 Estoque</button>
+<button onclick="aba('rel')" id="b-rel">📊 Relatório</button>
+<button onclick="aba('usu')" id="b-usu">👥 Usuário+Permissões</button>
+<button onclick="aba('cliVisao')" id="b-cliVisao">👁️ Chamado Cliente</button>
+</div>
+<div class="content">
+
+<div id="cli" class="aba"><div class="box"><h3>👤 Cliente - Completo</h3><div class="grid2"><div><label>NOME EMPRESA</label><input id="clEmp"></div><div><label>CNPJ/CPF</label><input id="clDoc"></div></div><div class="grid3"><div><label>NOME PARA CONTATO</label><input id="clContato"></div><div><label>TELEFONE DE CONTATO</label><input id="clTel"></div><div><label>E-MAIL</label><input id="clEmail"></div></div><div class="grid4"><div><label>CEP 🤖</label><input id="clCep" onblur="buscaCep()"></div><div><label>ESTADO</label><input id="clEstado"></div><div><label>CIDADE</label><input id="clCidade"></div><div><label>MUNICÍPIO</label><input id="clMunicipio"></div></div><div class="grid2"><div><label>ENDEREÇO</label><input id="clEnd"></div><div><label>NÚMERO</label><input id="clNum"></div></div><div class="flex"><button class="btn btn-blue" onclick="cliIncluir()">INCLUIR</button><button class="btn btn-green" onclick="cliAlterar()">ALTERAR</button><button class="btn btn-red" onclick="cliExcluir()">EXCLUIR</button></div><table><thead><tr><th>Empresa</th><th>Contato</th><th>Tel Contato</th><th>Cidade</th></tr></thead><tbody id="tabCli"></tbody></table></div></div>
+
+<div id="cha" class="aba" style="display:none"><div class="box"><h3>📞 Chamados - Timeline uma embaixo da outra</h3><div class="grid3"><div><label>EMPRESA</label><select id="chEmp"></select></div><div><label>QUEM ABRIU</label><input id="chQuem"></div><div><label>COLABORADOR</label><select id="chColab"><option>Ramos</option><option>Colab 1</option></select></div></div><div class="grid2"><div><label>ABERTURA</label><input id="chAbert" type="datetime-local"></div><div><label>FECHAMENTO</label><input id="chFecha" type="datetime-local"></div></div><div><label>TÍTULO</label><input id="chTit"></div><label>DESCRIÇÃO</label><textarea id="chDesc"></textarea><div id="timelineCha" class="timeline"><p style="color:#475569">Clique no chamado para ver histórico...</p></div><div class="flex"><button class="btn btn-blue" onclick="chIncluir()">INCLUIR</button><button class="btn btn-dark" onclick="chComentar()">💬 COMENTÁRIO (vai embaixo)</button><button class="btn btn-green" onclick="chFinalizar()">✅ FINALIZAR</button><button class="btn btn-blue" onclick="chReabrir()">🔓 REABRIR</button></div><table><thead><tr><th>#</th><th>Empresa</th><th>Título</th><th>Status</th><th>Abertura</th><th>Fechamento</th></tr></thead><tbody id="tabCha"></tbody></table></div></div>
+
+<div id="fin" class="aba" style="display:none"><div class="box"><h3>💰 Financeiro - Nome, Data Boleto, Valor, Multa, Juros, Pago, Total, Data Pag</h3><div class="grid3"><div><label>NOME BOLETO</label><input id="fNome"></div><div><label>DATA BOLETO</label><input id="fDataBol" type="date"></div><div><label>VALOR</label><input id="fVal" type="number"></div></div><div class="grid4"><div><label>MULTA</label><input id="fMulta" type="number"></div><div><label>JUROS</label><input id="fJuros" type="number"></div><div><label>VALOR PAGO</label><input id="fPago" type="number"></div><div><label>TOTAL PAGO</label><input id="fTotal" type="number"></div></div><div><label>DATA PAGAMENTO</label><input id="fDataPag" type="date"></div><div class="flex"><button class="btn btn-blue" onclick="finIncluir()">INCLUIR</button><button class="btn btn-green" onclick="finAlterar()">ALTERAR (todos)</button><button class="btn btn-red" onclick="finExcluir()">EXCLUIR</button></div><table><thead><tr><th>Boleto</th><th>Data Bol</th><th>Valor</th><th>Multa</th><th>Juros</th><th>Total</th><th>Data Pag</th></tr></thead><tbody id="tabFin"></tbody></table></div></div>
+
+<div id="mfin" class="aba" style="display:none"><div class="box"><h3>🏦 Meu Financeiro - Água, Luz, Internet, Condomínio</h3><div class="grid3"><div><label>NOME CONTA</label><input id="mfNome"></div><div><label>TIPO</label><select id="mfTipo"><option>Água</option><option>Luz</option><option>Internet</option><option>Condomínio</option><option>Outros</option></select></div><div><label>VALOR</label><input id="mfVal" type="number"></div></div><div class="grid4"><div><label>DATA BOLETO</label><input id="mfDataBol" type="date"></div><div><label>MULTA</label><input id="mfMulta" type="number"></div><div><label>JUROS</label><input id="mfJuros" type="number"></div><div><label>TOTAL</label><input id="mfTotal" type="number"></div></div><div class="grid2"><div><label>VALOR PAGO</label><input id="mfPago" type="number"></div><div><label>DATA PAGAMENTO</label><input id="mfDataPag" type="date"></div></div><div class="flex"><button class="btn btn-blue" onclick="mfIncluir()">INCLUIR</button><button class="btn btn-green" onclick="mfAlterar()">ALTERAR</button><button class="btn btn-red" onclick="mfExcluir()">EXCLUIR</button></div><table><thead><tr><th>Conta</th><th>Tipo</th><th>Valor</th><th>Total</th><th>Data Pag</th></tr></thead><tbody id="tabMfin"></tbody></table></div></div>
+
+<div id="est" class="aba" style="display:none"><div class="box"><h3>📦 Estoque - Completo</h3><div class="grid3"><div><label>PRODUTO</label><input id="esProd"></div><div><label>QTD</label><input id="esQtd" type="number"></div><div><label>QUEM RETIROU/ALTEROU</label><input id="esQuem"></div></div><div class="grid2"><div><label>ENTRADA</label><input id="esEnt" type="date"></div><div><label>SAÍDA</label><input id="esSai" type="date"></div></div><label>OBS</label><textarea id="esObs"></textarea><div class="flex"><button class="btn btn-blue" onclick="esIncluir()">INCLUIR</button><button class="btn btn-green" onclick="esAlterar()">ALTERAR</button><button class="btn btn-red" onclick="esExcluir()">EXCLUIR</button></div><table><thead><tr><th>Produto</th><th>Qtd</th><th>Quem Retirou</th><th>Entrada</th><th>Saída</th></tr></thead><tbody id="tabEst"></tbody></table></div></div>
+
+<div id="rel" class="aba" style="display:none"><div class="box"><h3>📊 Relatórios - TODAS as informações</h3><div class="flex"><button class="btn btn-blue" onclick="gerarRelatorio()">GERAR COMPLETO</button></div><div id="relResultado" style="margin-top:15px;background:#020617;padding:15px;border-radius:10px;min-height:300px;overflow:auto"></div></div></div>
+
+<div id="usu" class="aba" style="display:none"><div class="box">
+<h3>👥 Usuário - Criar usuário com permissões e direcionar para empresa</h3>
+<p style="font-size:11px;color:#94a3b8">Aqui você cria o usuário, escolhe a empresa dele e marca o que ele pode ver e fazer. Ex: você e esposa = FULL vê tudo. Colaborador financeiro = só Financeiro. Colaborador técnico = Chamados+Estoque.</p>
+
+<div class="grid2"><div><label>NOME DO USUÁRIO NOVO</label><input id="uNome" autocomplete="off" placeholder="ex: financeiro1"></div><div><label>SENHA DO USUÁRIO</label><input id="uSenha" type="password" autocomplete="new-password" placeholder="ex: 123"></div></div>
+
+<label>DIRECIONAR PARA EMPRESA ESPECÍFICA</label><select id="uEmpresa"></select>
+
+<label>PERFIL BASE (aplica permissões automático)</label><select id="uPerfil" onchange="aplicarPerfil()">
+<option>Administrador - Full</option>
+<option>Colaborador - Chamados+Estoque</option>
+<option>Financeiro - Só Financeiro da Empresa</option>
+<option>Cliente - Só Chamados</option>
+<option>Cliente Full - Chamados+Relatórios por dia/mês/ano</option>
+<option>Personalizado</option>
+</select>
+
+<div class="perm">
+<h4 style="color:#38bdf8">🔐 MÓDULOS QUE ELE PODE VER (marque)</h4>
+<div class="grid2">
+<label><input type="checkbox" id="pFull"> FULL - Vê tudo (você e esposa)</label>
+<label><input type="checkbox" id="pCliente"> 👤 Cliente</label>
+<label><input type="checkbox" id="pChamado" checked> 📞 Chamado</label>
+<label><input type="checkbox" id="pFinanceiro"> 💰 Financeiro (só da empresa dele)</label>
+<label><input type="checkbox" id="pMFinanceiro"> 🏦 Meu Financeiro</label>
+<label><input type="checkbox" id="pEstoque"> 📦 Estoque</label>
+<label><input type="checkbox" id="pRelatorio"> 📊 Relatório</label>
+<label><input type="checkbox" id="pClienteFull"> 👁️ Cliente Full - puxa relatório por dia/mês/ano/semana/colaborador</label>
+</div>
+<h4 style="color:#22c55e;margin-top:12px">⚙️ O QUE ELE PODE FAZER NO SISTEMA</h4>
+<div class="grid4">
+<label><input type="checkbox" id="aIncluir" checked> ➕ INCLUIR</label>
+<label><input type="checkbox" id="aAlterar" checked> ✏️ ALTERAR</label>
+<label><input type="checkbox" id="aExcluir"> ❌ EXCLUIR</label>
+<label><input type="checkbox" id="aFechar" checked> ✅ FECHAR/FINALIZAR</label>
+<label><input type="checkbox" id="aComentar" checked> 💬 COMENTÁRIO</label>
+<label><input type="checkbox" id="aPausar"> ⏸️ PAUSAR</label>
+<label><input type="checkbox" id="aReabrir" checked> 🔓 REABRIR</label>
+<label><input type="checkbox" id="aRelatorio"> 📊 GERAR RELATÓRIO</label>
+</div>
+</div>
+
+<div class="flex">
+<button class="btn btn-blue" onclick="usuSalvar()">INCLUIR USUÁRIO COM PERMISSÕES</button>
+<button class="btn btn-green" onclick="usuAlterarPerm()">ALTERAR PERMISSÕES DO SELECIONADO</button>
+<button class="btn btn-red" onclick="usuExcluir()">EXCLUIR USUÁRIO</button>
+</div>
+
+<table><thead><tr><th>Usuário</th><th>Empresa Direcionada</th><th>Perfil</th><th>Permissões</th></tr></thead><tbody id="tabUsu"></tbody></table>
+</div></div>
+
+<div id="cliVisao" class="aba" style="display:none"><div class="box"><h3>👁️ Chamado Cliente - COM DATAS</h3><div class="grid2"><div><label>EMPRESA</label><input id="cvEmp" disabled></div><div><label>QUEM ABRIU</label><input id="cvQuem"></div></div><div class="grid2"><div><label>TIPO</label><select id="cvTipo"><option>Hardware</option><option>Software</option><option>Rede</option><option>Internet</option></select></div><div><label>COMPLEXIDADE</label><select id="cvComplex"><option>Baixa</option><option>Média</option><option>Alta</option></select></div></div><div class="grid2"><div><label>DATA ABERTURA</label><input id="cvAbert" type="datetime-local" disabled></div><div><label>DATA FECHAMENTO</label><input id="cvFecha" type="datetime-local" disabled></div></div><div><label>TÍTULO</label><input id="cvTit"></div><label>O QUE ACONTECE</label><textarea id="cvDesc"></textarea><div id="timelineCv" class="timeline"></div><div class="flex"><button class="btn btn-blue" onclick="cvAbrir()">📝 ABRIR CHAMADO</button><button class="btn btn-dark" onclick="cvComentario()">💬 COMENTÁRIO (vai embaixo)</button><button class="btn btn-orange" onclick="cvFinalizar()">✅ FECHAR</button><button class="btn btn-blue" onclick="cvReabrir()">🔓 REABRIR</button></div><table><thead><tr><th>#</th><th>Título</th><th>Status</th><th>Abertura</th><th>Fechamento</th></tr></thead><tbody id="tabCv"></tbody></table></div></div>
+
+</div>
+</div>
+<script>
+(function(){
+let usu=JSON.parse(localStorage.getItem('ri41_usu')||'[]');
+if(usu.length===0){
+usu=[
+{nome:'admin',senha:'@Xumone@197353',empresa:'RAMOS INFOTEC',perfil:'Administrador - Full',perm:{full:true,cliente:true,chamado:true,financeiro:true,mfinanceiro:true,estoque:true,relatorio:true,clienteFull:true,incluir:true,alterar:true,excluir:true,fechar:true,comentar:true,pausar:true,reabrir:true,rel:true}},
+{nome:'teste',senha:'123',empresa:'TESTE',perfil:'Cliente - Só Chamados',perm:{cliente:true,chamado:true,clienteFull:false,financeiro:false,estoque:false,relatorio:false,full:false,incluir:true,alterar:true,fechar:true,comentar:true,reabrir:true}},
+{nome:'financeiro1',senha:'123',empresa:'RAMOS INFOTEC',perfil:'Financeiro - Só Financeiro',perm:{financeiro:true,mfinanceiro:true,relatorio:true,full:false,incluir:true,alterar:true,fechar:true}}
+];
+localStorage.setItem('ri41_usu',JSON.stringify(usu));
+}
+})();
+let db={cli:JSON.parse(localStorage.getItem('ri41_cli')||'[]'),cha:JSON.parse(localStorage.getItem('ri41_cha')||'[]'),fin:JSON.parse(localStorage.getItem('ri41_fin')||'[]'),mfin:JSON.parse(localStorage.getItem('ri41_mfin')||'[]'),est:JSON.parse(localStorage.getItem('ri41_est')||'[]'),usu:JSON.parse(localStorage.getItem('ri41_usu')||'[]'),cv:JSON.parse(localStorage.getItem('ri41_cv')||'[]')};
+let sel={cli:null,cha:null,fin:null,mfin:null,est:null,usu:null,cv:null},logado={};
+function save(){localStorage.setItem('ri41_cli',JSON.stringify(db.cli));localStorage.setItem('ri41_cha',JSON.stringify(db.cha));localStorage.setItem('ri41_fin',JSON.stringify(db.fin));localStorage.setItem('ri41_mfin',JSON.stringify(db.mfin));localStorage.setItem('ri41_est',JSON.stringify(db.est));localStorage.setItem('ri41_usu',JSON.stringify(db.usu));localStorage.setItem('ri41_cv',JSON.stringify(db.cv));render()}
+function normaliza(s){return (s||'').toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');}
+function entrar(){
+let emp=document.getElementById('loginEmp').value.trim();
+let u=document.getElementById('loginUser').value.trim();
+let p=document.getElementById('loginPass').value.trim();
+if(!emp||!u||!p){msgLogin.innerText='Preencha todos os campos';return;}
+db.usu=JSON.parse(localStorage.getItem('ri41_usu')||'[]');
+let un=u.toLowerCase();
+let en=normaliza(emp);
+if((un==='admin'||un==='ramosinfotec') && p==='@Xumone@197353' && (en.includes('ramosinfotec')||en.includes('ramos'))){
+logado={nome:u,empresa:'RAMOS INFOTEC',perfil:'Administrador - Full',perm:{full:true,cliente:true,chamado:true,financeiro:true,mfinanceiro:true,estoque:true,relatorio:true,clienteFull:true,incluir:true,alterar:true,excluir:true,fechar:true,comentar:true,pausar:true,reabrir:true,rel:true}};ok();return;
+}
+let ach=db.usu.find(x=>x.nome.toLowerCase()===un && x.senha===p);
+if(ach){logado=ach;ok();return;}
+msgLogin.innerText='Usuário ou senha inválidos.';
+}
+function ok(){loginBox.style.display='none';app.style.display='block';topEmp.innerText=logado.empresa;topUser.innerText=logado.nome;topPerfil.innerText=logado.perfil+(logado.perm?.full?' - FULL':'');cvEmp.value=logado.empresa;aplicarVisibilidade();render();}
+function aplicarVisibilidade(){let p=logado.perm||{};if(p.full){document.querySelectorAll('.menu button').forEach(b=>b.style.display='block');aba('cli');return;}document.querySelectorAll('.menu button').forEach(b=>b.style.display='none');if(p.cliente)document.getElementById('b-cli').style.display='block';if(p.chamado)document.getElementById('b-cha').style.display='block';if(p.financeiro)document.getElementById('b-fin').style.display='block';if(p.mfinanceiro)document.getElementById('b-mfin').style.display='block';if(p.estoque)document.getElementById('b-est').style.display='block';if(p.relatorio||p.clienteFull)document.getElementById('b-rel').style.display='block';if(p.cliente||p.chamado||p.clienteFull)document.getElementById('b-cliVisao').style.display='block';document.getElementById('b-usu').style.display=p.full?'block':'none';if(logado.perfil.includes('Cliente'))aba('cliVisao');else aba(p.chamado?'cha':p.financeiro?'fin':'est');}
+function aba(n){document.querySelectorAll('.aba').forEach(a=>a.style.display='none');document.getElementById(n).style.display='block';document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('ativo'));document.getElementById('b-'+n)?.classList.add('ativo');}
+function nowLocal(){let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16);}
+function mostrarTimeline(o){if(!o||!o.historico){timelineCha.innerHTML='<p style=color:#475569>Sem histórico</p>';timelineCv.innerHTML='<p style=color:#475569>Sem histórico</p>';return;}let h='';o.historico.forEach(x=>{h+=`<div class=msg ${x.quem.toLowerCase().includes('cliente')?'msg-cliente':'msg-atend'}><b>${x.quem}</b> <small>${(x.data||'').replace('T',' ')} </small><br>${x.texto}</div>`;});timelineCha.innerHTML=h;timelineCv.innerHTML=h;}
+function buscaCep(){let cep=clCep.value.replace(/\D/g,'');if(cep.length===8){fetch('https://viacep.com.br/ws/'+cep+'/json/').then(r=>r.json()).then(d=>{clEnd.value=d.logradouro;clCidade.value=d.localidade;clEstado.value=d.uf;clMunicipio.value=d.localidade;});}}
+function aplicarPerfil(){let v=uPerfil.value;pFull.checked=v.includes('Full');pCliente.checked=v.includes('Full')||v.includes('Cliente')||v.includes('Colaborador');pChamado.checked=true;pFinanceiro.checked=v.includes('Financeiro')||v.includes('Full');pMFinanceiro.checked=v.includes('Financeiro')||v.includes('Full');pEstoque.checked=v.includes('Estoque')||v.includes('Full')||v.includes('Colaborador');pRelatorio.checked=v.includes('Full');pClienteFull.checked=v.includes('Cliente Full')||v.includes('Full');aIncluir.checked=true;aAlterar.checked=true;aExcluir.checked=v.includes('Full');aFechar.checked=true;aComentar.checked=true;aPausar.checked=v.includes('Full')||v.includes('Colaborador');aReabrir.checked=true;aRelatorio.checked=v.includes('Full')||v.includes('Cliente Full');}
+function cliIncluir(){db.cli.push({emp:clEmp.value,doc:clDoc.value,contato:clContato.value,tel:clTel.value,email:clEmail.value,cep:clCep.value,estado:clEstado.value,cidade:clCidade.value,municipio:clMunicipio.value,end:clEnd.value,num:clNum.value});save();}
+function cliAlterar(){if(sel.cli!==null){db.cli[sel.cli].emp=clEmp.value;save();}}
+function cliExcluir(){if(sel.cli!==null){db.cli.splice(sel.cli,1);save();}}
+function chIncluir(){let d=chAbert.value||nowLocal();let o={emp:chEmp.value,tit:chTit.value,quem:chQuem.value,colab:chColab.value,desc:chDesc.value,status:'Aberto',abert:d,fecha:'',historico:[{quem:chQuem.value||'Admin',texto:chDesc.value,data:d}]};db.cha.push(o);db.cv.push(JSON.parse(JSON.stringify(o)));save();}
+function chComentar(){if(sel.cha===null)return alert('Clique na linha');let c=prompt('Comentário:');if(!c)return;db.cha[sel.cha].historico.push({quem:'RAMOS',texto:c,data:nowLocal()});save();mostrarTimeline(db.cha[sel.cha]);}
+function chFinalizar(){if(sel.cha!==null){db.cha[sel.cha].status='Finalizado';db.cha[sel.cha].fecha=nowLocal();save();}}
+function chReabrir(){if(sel.cha!==null){db.cha[sel.cha].status='Aberto';save();}}
+function finIncluir(){db.fin.push({nome:fNome.value,dataBol:fDataBol.value,val:fVal.value,multa:fMulta.value,juros:fJuros.value,pago:fPago.value,total:fTotal.value,dataPag:fDataPag.value});save();}
+function finAlterar(){if(sel.fin!==null){let f=db.fin[sel.fin];f.nome=fNome.value;f.dataBol=fDataBol.value;f.val=fVal.value;f.multa=fMulta.value;f.juros=fJuros.value;f.pago=fPago.value;f.total=fTotal.value;f.dataPag=fDataPag.value;save();}}
+function finExcluir(){if(sel.fin!==null){db.fin.splice(sel.fin,1);save();}}
+function mfIncluir(){db.mfin.push({nome:mfNome.value,tipo:mfTipo.value,val:mfVal.value,multa:mfMulta.value,juros:mfJuros.value,total:mfTotal.value,pago:mfPago.value,dataBol:mfDataBol.value,dataPag:mfDataPag.value});save();}
+function mfAlterar(){if(sel.mfin!==null){let f=db.mfin[sel.mfin];f.nome=mfNome.value;save();}}
+function mfExcluir(){if(sel.mfin!==null){db.mfin.splice(sel.mfin,1);save();}}
+function esIncluir(){db.est.push({prod:esProd.value,qtd:esQtd.value,quem:esQuem.value,ent:esEnt.value,sai:esSai.value,obs:esObs.value});save();}
+function esAlterar(){if(sel.est!==null){db.est[sel.est].prod=esProd.value;save();}}
+function esExcluir(){if(sel.est!==null){db.est.splice(sel.est,1);save();}}
+function usuSalvar(){
+let perm={full:pFull.checked,cliente:pCliente.checked,chamado:pChamado.checked,financeiro:pFinanceiro.checked,mfinanceiro:pMFinanceiro.checked,estoque:pEstoque.checked,relatorio:pRelatorio.checked,clienteFull:pClienteFull.checked,incluir:aIncluir.checked,alterar:aAlterar.checked,excluir:aExcluir.checked,fechar:aFechar.checked,comentar:aComentar.checked,pausar:aPausar.checked,reabrir:aReabrir.checked,rel:aRelatorio.checked};
+if(!uNome.value||!uSenha.value||!uEmpresa.value){alert('Preencha usuário, senha e empresa');return;}
+db.usu=JSON.parse(localStorage.getItem('ri41_usu')||'[]');
+db.usu.push({nome:uNome.value,senha:uSenha.value,empresa:uEmpresa.value,perfil:uPerfil.value,perm:perm});
+save();alert('✅ Usuário '+uNome.value+' criado para empresa '+uEmpresa.value+' com permissões: '+(perm.full?'FULL VÊ TUDO':Object.keys(perm).filter(k=>perm[k]).join(', ')));uNome.value='';uSenha.value='';
+}
+function usuAlterarPerm(){if(sel.usu===null)return alert('Clique na linha do usuário');let perm={full:pFull.checked,cliente:pCliente.checked,chamado:pChamado.checked,financeiro:pFinanceiro.checked,mfinanceiro:pMFinanceiro.checked,estoque:pEstoque.checked,relatorio:pRelatorio.checked,clienteFull:pClienteFull.checked,incluir:aIncluir.checked,alterar:aAlterar.checked,excluir:aExcluir.checked,fechar:aFechar.checked,comentar:aComentar.checked,pausar:aPausar.checked,reabrir:aReabrir.checked,rel:aRelatorio.checked};db.usu[sel.usu].perm=perm;db.usu[sel.usu].empresa=uEmpresa.value;db.usu[sel.usu].perfil=uPerfil.value;save();alert('Permissões alteradas para '+db.usu[sel.usu].nome);}
+function usuExcluir(){if(sel.usu!==null){if(confirm('Excluir usuário '+db.usu[sel.usu].nome+'?')){db.usu.splice(sel.usu,1);save();}}}
+function cvAbrir(){let d=nowLocal();let n={tit:cvTit.value,desc:cvDesc.value,quem:cvQuem.value,tipo:cvTipo.value,complex:cvComplex.value,status:'Aberto',emp:logado.empresa,abert:d,fecha:'',historico:[{quem:cvQuem.value||'Cliente',texto:cvDesc.value,data:d}]};db.cv.push(n);db.cha.push(JSON.parse(JSON.stringify(n)));save();cvAbert.value=d;mostrarTimeline(n);}
+function cvComentario(){if(sel.cv===null)return;let c=prompt('Comentário:');if(!c)return;db.cv[sel.cv].historico.push({quem:'Cliente',texto:c,data:nowLocal()});save();mostrarTimeline(db.cv[sel.cv]);}
+function cvFinalizar(){if(sel.cv!==null){db.cv[sel.cv].status='Finalizado';db.cv[sel.cv].fecha=nowLocal();cvFecha.value=db.cv[sel.cv].fecha;save();}}
+function cvReabrir(){if(sel.cv!==null){db.cv[sel.cv].status='Aberto';save();}}
+function gerarRelatorio(){let html='<h3>📊 Relatórios Completos - Todas infos</h3><table><thead><tr><th>Empresa</th><th>Título</th><th>Status</th><th>Abertura</th><th>Fechamento</th><th>Timeline uma embaixo da outra</th></tr></thead><tbody>';db.cha.forEach(c=>{let hist=(c.historico||[]).map(h=>`[${h.data} ${h.quem}] ${h.texto}`).join('<br>');html+=`<tr><td>${c.emp}</td><td>${c.tit}</td><td>${c.status}</td><td>${c.abert||''}</td><td>${c.fecha||''}</td><td>${hist}</td></tr>`;});html+='</tbody></table>';html+='<h4 style=margin-top:15px>Financeiro</h4><table><thead><tr><th>Boleto</th><th>Data</th><th>Valor</th><th>Multa/Juros</th><th>Total</th></tr></thead><tbody>';db.fin.forEach(f=>{html+=`<tr><td>${f.nome}</td><td>${f.dataBol}</td><td>${f.val}</td><td>${f.multa}/${f.juros}</td><td>${f.total}</td></tr>`;});html+='</tbody></table>';relResultado.innerHTML=html;}
+function render(){
+tabCli.innerHTML='';chEmp.innerHTML='';uEmpresa.innerHTML='';tabCha.innerHTML='';tabFin.innerHTML='';tabMfin.innerHTML='';tabEst.innerHTML='';tabUsu.innerHTML='';tabCv.innerHTML='';
+db.cli.forEach((c,i)=>{tabCli.innerHTML+=`<tr onclick="sel.cli=${i};clEmp.value='${c.emp}';"><td>${c.emp}</td><td>${c.contato||''}</td><td>${c.tel||''}</td><td>${c.cidade||''}</td></tr>`;chEmp.innerHTML+=`<option>${c.emp}</option>`;uEmpresa.innerHTML+=`<option>${c.emp}</option>`;});
+if(chEmp.innerHTML==='')chEmp.innerHTML='<option>RAMOS INFOTEC</option><option>TESTE</option>';if(uEmpresa.innerHTML==='')uEmpresa.innerHTML='<option>RAMOS INFOTEC</option><option>TESTE</option>';
+db.cha.forEach((c,i)=>{tabCha.innerHTML+=`<tr onclick="sel.cha=${i};mostrarTimeline(db.cha[${i}]);"><td>${i+1}</td><td>${c.emp}</td><td>${c.tit}</td><td>${c.status}</td><td>${(c.abert||'').replace('T',' ')}</td><td>${(c.fecha||'').replace('T',' ')}</td></tr>`;});
+db.fin.forEach((f,i)=>{tabFin.innerHTML+=`<tr onclick="sel.fin=${i};fNome.value='${f.nome||''}';fDataBol.value='${f.dataBol||''}';fVal.value='${f.val||''}';fMulta.value='${f.multa||''}';fJuros.value='${f.juros||''}';fPago.value='${f.pago||''}';fTotal.value='${f.total||''}';fDataPag.value='${f.dataPag||''}';"><td>${f.nome}</td><td>${f.dataBol||''}</td><td>${f.val||''}</td><td>${f.multa||''}</td><td>${f.juros||''}</td><td>${f.total||''}</td><td>${f.dataPag||''}</td></tr>`;});
+db.mfin.forEach((f,i)=>{tabMfin.innerHTML+=`<tr onclick="sel.mfin=${i};"><td>${f.nome}</td><td>${f.tipo}</td><td>${f.val||''}</td><td>${f.total||''}</td><td>${f.dataPag||''}</td></tr>`;});
+db.est.forEach((e,i)=>{tabEst.innerHTML+=`<tr onclick="sel.est=${i};"><td>${e.prod}</td><td>${e.qtd}</td><td>${e.quem||''}</td><td>${e.ent||''}</td><td>${e.sai||''}</td></tr>`;});
+db.usu.forEach((u,i)=>{let perms=u.perm?.full?'FULL - Vê tudo':Object.keys(u.perm||{}).filter(k=>u.perm[k]&&k!=='full').slice(0,4).join(', ');tabUsu.innerHTML+=`<tr onclick="sel.usu=${i};uNome.value='${u.nome}';uEmpresa.value='${u.empresa}';uPerfil.value='${u.perfil}';aplicarPerfil();"><td>${u.nome}</td><td>${u.empresa}</td><td>${u.perfil}</td><td style="font-size:9px">${perms}</td></tr>`;});
+let lista=logado.perm?.full?db.cv:db.cv.filter(v=>v.emp.toLowerCase()===logado.empresa.toLowerCase());
+lista.forEach(v=>{let idx=db.cv.indexOf(v);tabCv.innerHTML+=`<tr onclick="sel.cv=${idx};mostrarTimeline(db.cv[${idx}]);cvAbert.value='${v.abert||''}';cvFecha.value='${v.fecha||''}';"><td>${idx+1}</td><td>${v.tit}</td><td>${v.status}</td><td>${(v.abert||'').replace('T',' ')}</td><td>${(v.fecha||'').replace('T',' ')}</td></tr>`;});
+}
+</script>
+</body>
+</html>
