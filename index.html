@@ -1,84 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAMOS INFOTEC - Sistema</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAMOS INFOTEC - Sistema Completo</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#0f172a;display:flex;align-items:center;justify-content:center;min-height:100vh}
-.card{background:#fff;width:100%;max-width:400px;padding:30px;border-radius:15px;box-shadow:0 20px 40px rgba(0,0,0,.3)}
-h1{color:#0f172a;text-align:center;margin-bottom:5px}
-.sub{text-align:center;color:#64748b;margin-bottom:25px;font-size:14px}
-input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px}
-.btn{width:100%;padding:12px;border:0;border-radius:8px;cursor:pointer;font-weight:bold}
-.btn-blue{background:#0f172a;color:#fff}
-.btn-red{background:#dc2626;color:#fff;margin-top:10px}
-.msg{margin-top:12px;text-align:center;font-size:13px;color:#dc2626}
-#sistema{display:none;width:100%;max-width:1100px;background:#fff;min-height:100vh}
-.top{background:#0f172a;color:#fff;padding:15px 25px;display:flex;justify-content:space-between}
-.content{padding:25px}
-.box{border:1px solid #e2e8f0;padding:20px;border-radius:10px;margin-bottom:15px}
-.badge{background:#22c55e;color:#fff;padding:5px 10px;border-radius:20px;font-size:12px}
+body{background:#f1f5f9}
+.login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0f172a}
+.card{background:#fff;width:100%;max-width:400px;padding:30px;border-radius:15px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px}
+.btn{padding:10px 15px;border:0;border-radius:8px;cursor:pointer;font-weight:bold}
+.btn-blue{background:#0f172a;color:#fff;width:100%} .btn-red{background:#dc2626;color:#fff;width:100%;margin-top:10px}
+#app{display:none}
+.top{background:#0f172a;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.menu{display:flex;gap:5px;background:#1e293b;padding:10px;flex-wrap:wrap}
+.menu button{background:#334155;color:#fff;border:0;padding:8px 12px;border-radius:6px;cursor:pointer}
+.menu button.ativo{background:#fff;color:#0f172a}
+.content{padding:20px;max-width:1200px;margin:auto}
+.box{background:#fff;padding:20px;border-radius:10px;border:1px solid #e2e8f0;margin-bottom:15px}
+table{width:100%;border-collapse:collapse;margin-top:10px} th,td{border:1px solid #e2e8f0;padding:8px;text-align:left;font-size:13px} th{background:#f8fafc}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+.kpi{background:#fff;padding:15px;border-radius:10px;border-left:5px solid #0f172a}
 </style>
 </head>
 <body>
 
-<div class="card" id="loginBox">
-<h1>RAMOS INFOTEC</h1>
-<p class="sub">Acesso ao Sistema - V20.8 FINAL</p>
-<input id="user" placeholder="Usuário: ramosinfotec">
+<div class="login" id="loginBox">
+<div class="card">
+<h2 style="text-align:center">RAMOS INFOTEC</h2><p style="text-align:center;color:#64748b;font-size:13px;margin-bottom:20px">V21.0 COMPLETA</p>
+<input id="user" placeholder="ramosinfotec">
 <input id="pass" type="password" placeholder="Senha">
 <button class="btn btn-blue" onclick="entrar()">ENTRAR</button>
-<button class="btn btn-red" onclick="entradaDireta()">ENTRADA DIRETA - ACESSO CLIENTE</button>
-<div class="msg" id="msg"></div>
-<p style="font-size:11px;color:#94a3b8;text-align:center;margin-top:15px">admin / @Xumone@197353 <br> ou ramosinfotec</p>
+<button class="btn btn-red" onclick="entradaDireta()">ENTRADA DIRETA VERMELHA</button>
+<div id="msg" style="color:red;text-align:center;margin-top:10px;font-size:12px"></div>
+</div>
 </div>
 
-<div id="sistema">
-<div class="top">
-<span><b>RAMOS INFOTEC</b> - Painel</span>
-<span><span class="badge">ONLINE</span> <button onclick="sair()" style="margin-left:10px;padding:5px 10px;border-radius:5px;border:0;cursor:pointer">Sair</button></span>
+<div id="app">
+<div class="top"><b>RAMOS INFOTEC - Sistema</b><div><span style="background:#22c55e;padding:5px 10px;border-radius:15px;font-size:12px">ONLINE</span> <button onclick="location.reload()" style="margin-left:10px;padding:6px 10px;border-radius:5px;border:0;cursor:pointer">Sair</button></div></div>
+<div class="menu">
+<button onclick="aba('dash')" id="b-dash" class="ativo">Dashboard</button>
+<button onclick="aba('cli')" id="b-cli">Clientes</button>
+<button onclick="aba('os')" id="b-os">Ordens de Serviço</button>
+<button onclick="aba('fin')" id="b-fin">Financeiro</button>
+<button onclick="aba('est')" id="b-est">Estoque</button>
 </div>
+
 <div class="content">
-<div class="box">
-<h3>✅ Sistema Funcionando!</h3>
-<p style="margin-top:10px">Bem-vindo, <b id="nomeUser"></b>! Seu sistema está 100% operacional para apresentar ao cliente.</p>
+<!-- DASH -->
+<div id="dash" class="aba">
+<div class="grid">
+<div class="kpi"><h3 id="kpiCli">0</h3><p>Clientes</p></div>
+<div class="kpi" style="border-color:#22c55e"><h3 id="kpiOs">0</h3><p>OS Abertas</p></div>
+<div class="kpi" style="border-color:#3b82f6"><h3 id="kpiFat">R$ 0,00</h3><p>Faturamento</p></div>
 </div>
-<div class="box">
-<h3>📋 Pronto para o 1º Cliente</h3>
-<p>Clientes | Ordens de Serviço | Financeiro | Relatórios</p>
-<p style="margin-top:10px;color:#22c55e"><b>Status: ATIVO E PRONTO PARA VENDAS</b></p>
+<div class="box"><h3>✅ Sistema Completo Restaurado!</h3><p style="margin-top:8px">Bem-vindo <b id="nomeUser"></b> - Tudo que você fez está aqui, agora com banco local funcionando.</p></div>
 </div>
-<div class="box">
-<h3>🚀 Link para Cliente</h3>
-<p>Mostre este link: <b>https://ramos-infotec.onrender.com</b></p>
-<p style="font-size:13px;color:#64748b;margin-top:5px">Usuário demonstração: ramosinfotec</p>
+
+<!-- CLIENTES -->
+<div id="cli" class="aba" style="display:none">
+<div class="box"><h3>Clientes</h3><input id="cNome" placeholder="Nome do cliente"><input id="cTel" placeholder="Telefone / WhatsApp"><input id="cObs" placeholder="Observação"><button class="btn" style="background:#0f172a;color:#fff" onclick="addCli()">+ Adicionar Cliente</button>
+<table><thead><tr><th>Nome</th><th>Telefone</th><th>Ação</th></tr></thead><tbody id="tabCli"></tbody></table></div>
 </div>
+
+<!-- OS -->
+<div id="os" class="aba" style="display:none">
+<div class="box"><h3>Nova Ordem de Serviço</h3><select id="osCli"></select><input id="osProb" placeholder="Problema relatado"><input id="osVal" type="number" placeholder="Valor R$"><button class="btn" style="background:#0f172a;color:#fff" onclick="addOs()">+ Criar OS</button>
+<table><thead><tr><th>Cliente</th><th>Problema</th><th>Valor</th><th>Status</th></tr></thead><tbody id="tabOs"></tbody></table></div>
+</div>
+
+<!-- FINANCEIRO -->
+<div id="fin" class="aba" style="display:none">
+<div class="box"><h3>Financeiro</h3><p>Total em OS: <b id="finTotal">R$ 0,00</b></p><table><thead><tr><th>Descrição</th><th>Valor</th></tr></thead><tbody id="tabFin"></tbody></table></div>
+</div>
+
+<!-- ESTOQUE -->
+<div id="est" class="aba" style="display:none">
+<div class="box"><h3>Estoque</h3><input id="eProd" placeholder="Produto"><input id="eQtd" type="number" placeholder="Qtd"><button class="btn" style="background:#0f172a;color:#fff" onclick="addEst()">+ Adicionar</button>
+<table><thead><tr><th>Produto</th><th>Qtd</th></tr></thead><tbody id="tabEst"></tbody></table></div>
+</div>
+
 </div>
 </div>
 
 <script>
-function entrar(){
- const u=document.getElementById('user').value.trim().toLowerCase();
- const p=document.getElementById('pass').value;
- const msg=document.getElementById('msg');
- if(u==='ramosinfotec' || (u==='admin' && p==='@Xumone@197353')){
-   ok(u);
- }else{
-   msg.innerText='Usuário ou senha inválido. Use ramosinfotec ou admin / @Xumone@197353 ou ENTRADA DIRETA';
- }
+let clientes=JSON.parse(localStorage.getItem('ri_cli')||'[]');
+let oss=JSON.parse(localStorage.getItem('ri_os')||'[]');
+let estoque=JSON.parse(localStorage.getItem('ri_est')||'[]');
+
+function entrar(){ let u=user.value.trim().toLowerCase(); let p=pass.value; if(u==='ramosinfotec'||(u==='admin'&&p==='@Xumone@197353')){ok(u)}else{msg.innerText='Use ramosinfotec ou admin / @Xumone@197353 ou entrada direta'} }
+function entradaDireta(){ok('admin - entrada direta')}
+function ok(nome){ loginBox.style.display='none'; app.style.display='block'; nomeUser.innerText=nome; render(); }
+function aba(n){ document.querySelectorAll('.aba').forEach(a=>a.style.display='none'); document.getElementById(n).style.display='block'; document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('ativo')); document.getElementById('b-'+n).classList.add('ativo'); }
+
+function addCli(){ if(!cNome.value)return; clientes.push({nome:cNome.value,tel:cTel.value}); localStorage.setItem('ri_cli',JSON.stringify(clientes)); cNome.value=''; cTel.value=''; render(); }
+function addOs(){ if(!osCli.value)return; oss.push({cli:osCli.value,prob:osProb.value,val:parseFloat(osVal.value)||0,status:'Aberta'}); localStorage.setItem('ri_os',JSON.stringify(oss)); render(); }
+function addEst(){ if(!eProd.value)return; estoque.push({prod:eProd.value,qtd:eQtd.value}); localStorage.setItem('ri_est',JSON.stringify(estoque)); render(); }
+
+function render(){
+ tabCli.innerHTML=''; osCli.innerHTML=''; tabOs.innerHTML=''; tabFin.innerHTML=''; tabEst.innerHTML='';
+ let total=0;
+ clientes.forEach((c,i)=>{ tabCli.innerHTML+=`<tr><td>${c.nome}</td><td>${c.tel}</td><td><button onclick="clientes.splice(${i},1);localStorage.setItem('ri_cli',JSON.stringify(clientes));render()">Excluir</button></td></tr>`; osCli.innerHTML+=`<option>${c.nome}</option>`; });
+ oss.forEach(o=>{ tabOs.innerHTML+=`<tr><td>${o.cli}</td><td>${o.prob}</td><td>R$ ${o.val.toFixed(2)}</td><td>${o.status}</td></tr>`; tabFin.innerHTML+=`<tr><td>OS - ${o.cli} - ${o.prob}</td><td>R$ ${o.val.toFixed(2)}</td></tr>`; total+=o.val; });
+ estoque.forEach(e=>{ tabEst.innerHTML+=`<tr><td>${e.prod}</td><td>${e.qtd}</td></tr>`; });
+ kpiCli.innerText=clientes.length; kpiOs.innerText=oss.length; kpiFat.innerText='R$ '+total.toFixed(2); finTotal.innerText='R$ '+total.toFixed(2);
 }
-function entradaDireta(){ ok('cliente - entrada direta'); }
-function ok(nome){
- document.getElementById('loginBox').style.display='none';
- document.getElementById('sistema').style.display='block';
- document.getElementById('nomeUser').innerText=nome;
- document.body.style.background='#f1f5f9';
- document.body.style.display='block';
-}
-function sair(){ location.reload(); }
-document.getElementById('pass').addEventListener('keydown',e=>{ if(e.key==='Enter') entrar(); });
 </script>
 </body>
 </html>
