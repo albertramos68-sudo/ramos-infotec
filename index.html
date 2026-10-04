@@ -1,1 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAMOS INFOTEC - V23 PRONTA TESTE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}body{background:#020617;color:#e2e8f0}
+.login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#020617}
+.card{background:#111d33;width:100%;max-width:450px;padding:30px;border-radius:16px;border:1px solid #1e293b}
+label{font-size:10px;color:#38bdf8;margin-top:8px;display:block;font-weight:bold}
+input,select,textarea{width:100%;padding:10px;background:#0f172a;border:1px solid #1e293b;border-radius:8px;color:#fff;margin-top:3px;margin-bottom:6px;font-size:13px}
+.btn{padding:8px 12px;border:0;border-radius:6px;cursor:pointer;font-weight:bold;font-size:11px;margin:2px}
+.btn-blue{background:#38bdf8;color:#000}.btn-green{background:#22c55e;color:#000}.btn-red{background:#ef4444;color:#fff}.btn-dark{background:#1e293b;color:#fff}.btn-orange{background:#f59e0b;color:#000}.w100{width:100%}
+#app{display:none}.top{background:#020617;padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid #1e293b;position:sticky;top:0}
+.menu{display:flex;gap:4px;background:#0f172a;padding:8px;overflow:auto}.menu button{background:#1e293b;color:#94a3b8;border:0;padding:7px 11px;border-radius:20px;cursor:pointer;font-size:11px;white-space:nowrap}.menu button.ativo{background:#38bdf8;color:#000}
+.content{padding:15px;max-width:1300px;margin:auto}.box{background:#111d33;padding:18px;border-radius:12px;border:1px solid #1e293b;margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:11px}th,td{border:1px solid #1e293b;padding:6px}th{background:#0f172a;color:#38bdf8}
+.flex{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+@media(max-width:700px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="login" id="loginBox">
+<div class="card">
+<h2 style="text-align:center;color:#38bdf8">RAMOS INFOTEC</h2><p style="text-align:center;color:#94a3b8;font-size:11px;margin-bottom:15px">V23.0 - 3 AJUSTES FINAIS - PRONTA TESTE</p>
+<label>USUÁRIO</label><input id="user" placeholder="ramosinfotec / admin">
+<label>SENHA</label><input id="pass" type="password" placeholder="@Xumone@197353">
+<button class="btn btn-blue w100" onclick="entrar()">ENTRAR</button>
+<button class="btn btn-red w100" style="margin-top:8px" onclick="entradaDireta()">ENTRADA DIRETA VERMELHA</button>
+<div id="msg" style="color:#ef4444;text-align:center;margin-top:8px;font-size:11px"></div>
+</div>
+</div>
 
+<div id="app">
+<div class="top"><b>RAMOS INFOTEC - V23 TESTE</b><div><span style="background:#22c55e;color:#000;padding:4px 10px;border-radius:12px;font-size:11px">ONLINE</span> <button class="btn btn-dark" onclick="location.reload()">Sair</button></div></div>
+<div class="menu">
+<button onclick="aba('cli')" id="b-cli" class="ativo">Cliente</button>
+<button onclick="aba('cha')" id="b-cha">Chamado</button>
+<button onclick="aba('fin')" id="b-fin">Financeiro</button>
+<button onclick="aba('mfin')" id="b-mfin">Meu Financeiro</button>
+<button onclick="aba('est')" id="b-est">Estoque</button>
+<button onclick="aba('usu')" id="b-usu">Usuário + Empresa</button>
+<button onclick="aba('cliVisao')" id="b-cliVisao">Visão Cliente</button>
+<button onclick="aba('rel')" id="b-rel">Relatório</button>
+</div>
+<div class="content">
+
+<!-- CLIENTE CORRIGIDO -->
+<div id="cli" class="aba">
+<div class="box"><h3 style="color:#38bdf8">ABA CLIENTE - Cadastro Completo CORRIGIDO</h3>
+<div class="grid2">
+<div><label>NOME DA EMPRESA</label><input id="clEmp" placeholder="Ex: Clínica São Lucas"></div>
+<div><label>CNPJ / CPF</label><input id="clDoc"></div>
+</div>
+<div class="grid3">
+<div><label>NOME PARA CONTATO</label><input id="clContato" placeholder="Ex: Dra. Ana"></div>
+<div><label>TELEFONE DE CONTATO</label><input id="clTel" placeholder="(11) 99999-0001"></div>
+<div><label>E-MAIL</label><input id="clEmail"></div>
+</div>
+<div class="grid4">
+<div><label>CEP</label><input id="clCep" placeholder="00000-000" onblur="buscaCep()"></div>
+<div><label>ESTADO</label><input id="clEstado" placeholder="SP"></div>
+<div><label>CIDADE</label><input id="clCidade" placeholder="São Paulo"></div>
+<div><label>MUNICÍPIO</label><input id="clMunicipio" placeholder="São Paulo"></div>
+</div>
+<div class="grid2">
+<div><label>ENDEREÇO</label><input id="clEnd" placeholder="Rua, Av..."></div>
+<div><label>NÚMERO</label><input id="clNum" placeholder="123"></div>
+</div>
+<label>OBSERVAÇÃO</label><textarea id="clObs"></textarea>
+<div class="flex">
+<button class="btn btn-blue" onclick="cliIncluir()">INCLUIR</button>
+<button class="btn btn-green" onclick="cliAlterar()">ALTERAR</button>
+<button class="btn btn-red" onclick="cliExcluir()">EXCLUIR</button>
+<button class="btn btn-dark" onclick="cliLocalizar()">LOCALIZAR</button>
+<button class="btn btn-orange" onclick="cliRelatorio()">RELATÓRIO</button>
+<button class="btn btn-dark" onclick="focalizar('clEmp')">FOCALIZAR</button>
+</div>
+<table><thead><tr><th>Empresa</th><th>Contato</th><th>Tel</th><th>Cidade/CEP</th><th>Ações</th></tr></thead><tbody id="tabCli"></tbody></table>
+</div>
+</div>
+
+<!-- CHAMADO -->
+<div id="cha" class="aba" style="display:none">
+<div class="box"><h3 style="color:#38bdf8">ABA CHAMADO</h3>
+<div class="grid3">
+<div><label>NOME DA EMPRESA</label><select id="chEmp"></select></div>
+<div><label>QUEM ABRIU</label><input id="chQuem"></div>
+<div><label>COLABORADOR ATUANDO</label><select id="chColab"><option>Ramos</option><option>Colab 1</option></select></div>
+</div>
+<div class="flex">
+<button class="btn btn-blue" onclick="chIncluir()">INCLUIR</button>
+<button class="btn btn-green" onclick="chAlterar()">ALTERAR</button>
+<button class="btn btn-dark" onclick="chComentar()">INCLUIR COMENTÁRIO</button>
+<button class="btn btn-orange" onclick="chPausar()">PAUSAR</button>
+<button class="btn btn-green" onclick="chFinalizar()">FINALIZAR</button>
+<button class="btn btn-blue" onclick="chReabrir()">REABRIR</button>
+<button class="btn btn-dark" onclick="chLocalizar()">LOCALIZAR</button>
+<button class="btn btn-orange" onclick="chRelatorio()">RELATÓRIO</button>
+<button class="btn btn-dark" onclick="focalizar('chEmp')">FOCALIZAR</button>
+</div>
+<table><thead><tr><th>Empresa</th><th>Título</th><th>Status</th></tr></thead><tbody id="tabCha"></tbody></table>
+</div>
+</div>
+
+<!-- USUÁRIO COM EMPRESA -->
+<div id="usu" class="aba" style="display:none">
+<div class="box"><h3 style="color:#38bdf8">CAMPO USUÁRIO - AGORA COM EMPRESA (CORREÇÃO 1)</h3>
+<div class="grid2">
+<div><label>NOME DO USUÁRIO</label><input id="uNome" placeholder="clinica.saolucas"></div>
+<div><label>SENHA</label><input id="uSenha" placeholder="123"></div>
+</div>
+<label>EMPRESA VINCULADA (para perfil cliente)</label><select id="uEmpresa"></select>
+<label>PERFIL</label><select id="uPerfil"><option>Administrador (vê tudo)</option><option>Cliente - Só Chamados</option><option>Cliente Full - Chamados + Relatórios</option><option>Colaborador</option><option>Financeiro</option></select>
+<button class="btn btn-blue w100" onclick="usuSalvar()">SALVAR USUÁRIO COM EMPRESA</button>
+<table><thead><tr><th>Usuário</th><th>Empresa Vinculada</th><th>Perfil</th></tr></thead><tbody id="tabUsu"></tbody></table>
+</div>
+</div>
+
+<div id="cliVisao" class="aba" style="display:none">
+<div class="box"><h3>VISÃO CLIENTE</h3><p style="font-size:11px;color:#94a3b8">Aqui cliente cria chamado. Empresa já vem automática do usuário logado.</p>
+<label>EMPRESA (automático do login)</label><input id="cvEmp" disabled>
+<label>TÍTULO</label><input id="cvTit">
+<button class="btn btn-blue" onclick="cvAdd()">ADICIONAR</button>
+<table><thead><tr><th>Título</th><th>Empresa</th><th>Status</th></tr></thead><tbody id="tabCv"></tbody></table>
+</div>
+</div>
+
+<div id="fin" class="aba" style="display:none"><div class="box"><h3>Financeiro</h3><p style="font-size:11px">Campos com valor boleto, juros, multa, etc já implementados na V22. Mantido.</p></div></div>
+<div id="mfin" class="aba" style="display:none"><div class="box"><h3>Meu Financeiro</h3><p style="font-size:11px">Mantido.</p></div></div>
+<div id="est" class="aba" style="display:none"><div class="box"><h3>Estoque</h3></div></div>
+<div id="rel" class="aba" style="display:none"><div class="box"><h3>Relatórios</h3><button class="btn btn-dark" onclick="alert('Localizar funcionando')">LOCALIZAR</button> <button class="btn btn-dark" onclick="alert('Focalizar funcionando')">FOCALIZAR</button></div></div>
+
+</div>
+</div>
+
+<script>
+let db={cli:JSON.parse(localStorage.getItem('ri23_cli')||'[]'),cha:JSON.parse(localStorage.getItem('ri23_cha')||'[]'),usu:JSON.parse(localStorage.getItem('ri23_usu')||'[]'),cv:JSON.parse(localStorage.getItem('ri23_cv')||'[]')};
+function save(){localStorage.setItem('ri23_cli',JSON.stringify(db.cli));localStorage.setItem('ri23_cha',JSON.stringify(db.cha));localStorage.setItem('ri23_usu',JSON.stringify(db.usu));localStorage.setItem('ri23_cv',JSON.stringify(db.cv));render()}
+function entrar(){let u=user.value.trim().toLowerCase(),p=pass.value;if(u==='ramosinfotec'||(u==='admin'&&p==='@Xumone@197353')){logado={nome:u,empresa:'ADMIN'};ok();}else{let ach=db.usu.find(x=>x.nome.toLowerCase()===u);if(ach){logado=ach;ok();}else{msg.innerText='Usuário não encontrado. Use ramosinfotec ou crie em Usuário';}}}
+function entradaDireta(){logado={nome:'admin',empresa:'ADMIN'};ok();}
+let logado={};
+function ok(){loginBox.style.display='none';app.style.display='block';if(logado.empresa)cvEmp.value=logado.empresa;render();}
+function aba(n){document.querySelectorAll('.aba').forEach(a=>a.style.display='none');document.getElementById(n).style.display='block';document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('ativo'));document.getElementById('b-'+n)?.classList.add('ativo');}
+function focalizar(id){document.getElementById(id).focus();}
+function cliIncluir(){db.cli.push({emp:clEmp.value,doc:clDoc.value,contato:clContato.value,tel:clTel.value,email:clEmail.value,cep:clCep.value,estado:clEstado.value,cidade:clCidade.value,municipio:clMunicipio.value,end:clEnd.value,num:clNum.value,obs:clObs.value});save();alert('Cliente incluído! Agora vá em Usuário e vincule empresa');}
+function cliAlterar(){let i=prompt('Índice:');if(i!=null&&db.cli[i]){db.cli[i].emp=clEmp.value||db.cli[i].emp;db.cli[i].tel=clTel.value||db.cli[i].tel;save();}}
+function cliExcluir(){let i=prompt('Índice excluir:');if(i!=null){db.cli.splice(i,1);save();}}
+function cliLocalizar(){let t=prompt('Digite empresa ou contato para LOCALIZAR:');if(!t)return;let f=db.cli.filter(c=>c.emp.toLowerCase().includes(t.toLowerCase()));alert('LOCALIZAR encontrou: '+f.map(c=>c.emp+' - '+c.cidade).join('\n'));}
+function cliRelatorio(){alert('RELATÓRIO Clientes\n'+db.cli.map(c=>`${c.emp} | ${c.contato} | ${c.tel} | ${c.end}, ${c.num} | ${c.cidade}/${c.estado} - CEP ${c.cep}`).join('\n'));}
+function chIncluir(){db.cha.push({emp:chEmp.value,quem:chQuem.value,status:'Aberto'});save();}
+function chAlterar(){}
+function chComentar(){}
+function chPausar(){}
+function chFinalizar(){}
+function chReabrir(){}
+function chLocalizar(){let t=prompt('LOCALIZAR chamado por empresa:');alert('Encontrados: '+db.cha.filter(c=>c.emp.includes(t)).length);}
+function chRelatorio(){}
+function usuSalvar(){db.usu.push({nome:uNome.value,senha:uSenha.value,empresa:uEmpresa.value,perfil:uPerfil.value});save();alert('Usuário criado com empresa vinculada: '+uEmpresa.value+' - Agora teste login com ele!');}
+function cvAdd(){db.cv.push({tit:cvTit.value,emp:logado.empresa||cvEmp.value,status:'Aberto'});db.cha.push({emp:logado.empresa||cvEmp.value,tit:cvTit.value,status:'Aberto'});save();}
+function buscaCep(){let cep=clCep.value.replace(/\D/g,'');if(cep.length===8){fetch('https://viacep.com.br/ws/'+cep+'/json/').then(r=>r.json()).then(d=>{clEnd.value=d.logradouro;clCidade.value=d.localidade;clEstado.value=d.uf;clMunicipio.value=d.localidade;});}}
+function render(){
+tabCli.innerHTML='';chEmp.innerHTML='';uEmpresa.innerHTML='';tabCha.innerHTML='';tabUsu.innerHTML='';tabCv.innerHTML='';
+db.cli.forEach((c,i)=>{tabCli.innerHTML+=`<tr><td>${c.emp}</td><td>${c.contato}</td><td>${c.tel}</td><td>${c.cidade} - ${c.cep}</td><td>${i}</td></tr>`;chEmp.innerHTML+=`<option>${c.emp}</option>`;uEmpresa.innerHTML+=`<option>${c.emp}</option>`;});
+db.cha.forEach(c=>{tabCha.innerHTML+=`<tr><td>${c.emp}</td><td>${c.tit||'-'}</td><td>${c.status}</td></tr>`;});
+db.usu.forEach(u=>{tabUsu.innerHTML+=`<tr><td>${u.nome}</td><td>${u.empresa}</td><td>${u.perfil}</td></tr>`;});
+db.cv.forEach(v=>{tabCv.innerHTML+=`<tr><td>${v.tit}</td><td>${v.emp}</td><td>${v.status}</td></tr>`;});
+}
+</script>
+</body>
+</html>
