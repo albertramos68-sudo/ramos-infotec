@@ -1,57 +1,113 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RAMOS V57.3 FIX</title><script src="https://cdn.tailwindcss.com"></script><style>body{background:#070d1e;color:#e2e8f0}.glass{background:rgba(15,23,42,.98);border:1px solid #00D9FF33}.lb{font-size:12px;color:#7dd3fc;font-weight:800;display:block;margin-bottom:4px}.inp{background:#0f172a;border:1px solid #00D9FF55;color:#fff;padding:10px;border-radius:10px;width:100%}.sel{background:#0f172a;border:1px solid #00D9FFAA;color:#00D9FF;padding:10px;border-radius:10px}.tab{display:none}.tab.active{display:block!important}.menu-btn{width:100%;text-align:left;padding:10px;border-radius:10px;font-size:13px;color:#94a3b8}.card{background:rgba(15,23,42,.9);border:1px solid #00D9FF22;border-radius:14px;padding:14px}.b{padding:8px 12px;border-radius:8px;font-size:12px;font-weight:800;color:#fff;border:none;cursor:pointer}.b-inc{background:#0891b2}.b-alt{background:#2563eb}.b-exc{background:#dc2626}.b-ver{background:#334155}.chk{width:16px;height:16px}</style></head><body>
-<div id="login" class="min-h-screen flex items-center justify-center p-4"><div class="glass p-8 rounded-2xl w-full max-w-md"><h1 class="text-cyan-400 font-black text-lg">RAMOS V57.3 PERMISSAO FIX</h1><p class="text-[10px] opacity-60">TESTE SO ABRIR CHAMADO</p>
-<label class="lb">Empresa</label><input id="empresa" class="inp mb-3" placeholder="Empresa">
-<label class="lb">Usuario</label><input id="usuario" class="inp mb-3" placeholder="Usuario">
-<label class="lb">Senha</label><input id="senha" type="password" class="inp mb-5" placeholder="Senha">
-<button onclick="login()" class="w-full py-4 rounded-xl bg-cyan-500 text-black font-black">ENTRAR V57.3</button>
-</div></div>
-<div id="app" class="hidden min-h-screen flex"><div class="w-64 glass p-3"><p class="font-bold text-cyan-400 text-sm">RAMOS V57.3</p><p id="uInfo" class="text-[10px] opacity-60 mb-3">-</p><nav id="menuM" class="space-y-2"></nav><button onclick="logout()" class="w-full mt-4 py-3 rounded bg-red-500/10 border border-red-500/20 text-red-400 text-[11px] font-bold">SAIR</button></div><div class="flex-1 p-3 overflow-auto">
-<div id="t-dashboard" class="tab"><div class="card">📊 DASHBOARD - So aparece se tiver permissao Relatorios</div></div>
-<div id="t-clientes" class="tab"><div class="card">👥 CLIENTES</div></div>
-<div id="t-chamados" class="tab"><div class="card"><h2>📋 CHAMADOS</h2><input id="chTitulo" class="inp mt-3" placeholder="Titulo*"><input id="chEmpresa" class="inp mt-2" placeholder="Empresa*"><button onclick="addChamado()" class="b b-inc mt-2">INCLUIR</button><div id="lCha" class="mt-3"></div></div></div>
-<div id="t-financeiro" class="tab"><div class="card">💰 FINANCEIRO</div></div>
-<div id="t-meufin" class="tab"><div class="card">💳 MEU FINANCEIRO</div></div>
-<div id="t-estoque" class="tab"><div class="card">📦 ESTOQUE</div></div>
-<div id="t-usuarios" class="tab"><div class="card"><h2>👤 USUARIOS - V57.3 FIX SEM MARCACAO AUTO</h2>
-<div class="grid grid-cols-3 gap-3 mt-3">
-<div><label class="lb">Empresa ▼</label><div class="flex gap-1"><select id="selEmpresaDrop" class="sel" style="width:60px" onchange="syncEmpresa(this.value)"><option>▼</option></select><input id="uEmpresa" class="inp" placeholder="Digite E" oninput="filtraEmpresa()"></div><div id="listaEmpVisual" class="mt-1 max-h-24 overflow-auto bg-slate-900 border border-cyan-500/30 rounded text-[12px] hidden"></div></div>
-<input id="uNome" class="inp" placeholder="Usuario*" style="height:42px;margin-top:22px"><input id="uSenha" class="inp" placeholder="Senha*" style="height:42px;margin-top:22px">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAMOS V57.4 FINAL - PERMISSAO FIX</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{background:#0a1931;color:#fff;font-family:Arial}
+.card{background:#132a4d;border:1px solid #1e3a5f;border-radius:12px;padding:12px;margin-bottom:8px}
+.b{padding:8px 12px;border-radius:8px;font-weight:bold;cursor:pointer}
+.b-p{background:#00d1ff;color:#000}.b-exc{background:#ff3b3b;color:#fff}
+input,select{background:#0f2447;border:1px solid #1e3a5f;color:#fff;padding:10px;border-radius:8px;width:100%;margin:4px 0}
+.sidebar{width:220px;background:#0d2245;min-height:100vh;padding:16px;position:fixed}
+.main{margin-left:220px;padding:20px}
+.menu-item{padding:10px;cursor:pointer;border-radius:8px;margin:2px 0}
+.menu-item:hover{background:#132a4d}
+.menu-item.active{background:#00d1ff;color:#000}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div id="login" class="flex items-center justify-center min-h-screen">
+<div class="card w-96 text-center">
+<h1 class="text-cyan-400 font-black text-[18px]">RAMOS V57.4 FINAL</h1>
+<p class="text-[11px] text-cyan-200 mb-3">PERMISSAO FIX + COMPLETO</p>
+<input id="lEmpresa" list="listaEmpresasLogin" placeholder="Empresa (digite E)">
+<datalist id="listaEmpresasLogin"></datalist>
+<input id="lUsuario" value="admin" placeholder="Usuario">
+<input id="lSenha" type="password" value="@Xumone@197353" placeholder="Senha">
+<button onclick="fazerLogin()" class="b b-p w-full mt-3">ENTRAR V57.4</button>
+<p class="text-[10px] mt-3 text-gray-400">Empresa: ramosinfotec / Usuario: admin / Senha: @Xumone@197353</p>
 </div>
-<div class="mt-4 p-3 bg-slate-800 rounded-xl"><p class="text-[12px] font-bold text-cyan-400 mb-3">PERMISSOES - DESMARCADO POR PADRAO:</p><div class="grid grid-cols-2 gap-3 text-[13px]">
-<label><input type="checkbox" id="p_clientes" class="chk"> Clientes</label>
-<label><input type="checkbox" id="p_chamados" class="chk"> Ver Chamados</label>
-<label><input type="checkbox" id="p_abrir" class="chk"> Abrir Chamado</label>
-  <label><input type="checkbox" id="p_meufin" class="chk"> Meu Financeiro</label>
-<label><input type="checkbox" id="p_comentar" class="chk"> Comentarios</label>
-<label><input type="checkbox" id="p_financeiro" class="chk"> Financeiro</label>
-<label><input type="checkbox" id="p_estoque" class="chk"> Estoque</label>
-<label><input type="checkbox" id="p_relatorios" class="chk"> Relatorios/Dashboard</label>
-<label><input type="checkbox" id="p_excluir" class="chk"> Excluir</label>
-<label><input type="checkbox" id="p_chefe" class="chk"> Chefe</label>
-<label><input type="checkbox" id="p_usuarios" class="chk"> Usuarios</label>
-</div><div class="mt-4 flex gap-2"><button onclick="presetEmpresa()" class="b b-ver text-[10px]">SO ABRIR CHAMADO</button><button onclick="limparPerm()" class="b b-exc text-[10px]">LIMPAR TUDO</button></div></div>
-<div class="flex gap-2 mt-4"><button onclick="addUs()" class="b b-inc w-full py-3">💾 SALVAR</button></div><div id="lUs" class="mt-4"></div></div></div>
-<div id="t-relatorios" class="tab"><div class="card">📊 RELATORIOS - Meus chamados</div></div>
+</div>
+<div id="app" class="hidden">
+<div class="sidebar">
+<h2 class="font-black text-cyan-400">RAMOS V57.4</h2>
+<p id="userInfo" class="text-[10px] mb-4 text-gray-300"></p>
+<div id="menu">
+<div class="menu-item" data-perm="dashboard" onclick="showTab('dash')">📊 Dashboard</div>
+<div class="menu-item" data-perm="clientes" onclick="showTab('cli')">👥 Clientes</div>
+<div class="menu-item" data-perm="chamados" data-perm2="abrir" onclick="showTab('cha')">🎫 Chamados</div>
+<div class="menu-item" data-perm="financeiro" onclick="showTab('fin')">💰 Financeiro</div>
+<div class="menu-item" data-perm="meufin" onclick="showTab('meufin')">💳 Meu Financeiro</div>
+<div class="menu-item" data-perm="estoque" onclick="showTab('est')">📦 Estoque</div>
+<div class="menu-item" data-perm="relatorios" onclick="showTab('rel')">📈 Relatórios</div>
+<div class="menu-item" data-perm="usuarios" onclick="showTab('usu')">👤 Usuários</div>
+<div class="menu-item" onclick="showTab('rem')">🖥️ Remoto</div>
+</div>
+<button onclick="sair()" class="b b-exc w-full mt-6">SAIR</button>
+</div>
+<div class="main">
+<div id="tab-dash" class="tab"><h1 class="text-xl font-bold mb-4">Dashboard</h1><div id="kpis" class="grid grid-cols-3 gap-3"></div></div>
+<div id="tab-cli" class="tab hidden"><h1 class="text-xl font-bold mb-2">Clientes</h1>
+<input id="cNome" placeholder="Nome empresa"><input id="cCnpj" placeholder="CNPJ / CPF"><input id="cEmail" placeholder="Email"><input id="cTel" placeholder="Telefone">
+<button onclick="addCli()" class="b b-p mt-2">Salvar Cliente</button><div id="lCli" class="mt-4"></div></div>
+<div id="tab-cha" class="tab hidden"><h1 class="text-xl font-bold mb-2">Chamados</h1>
+<input id="chTitulo" placeholder="Titulo do chamado"><input id="chEmpresa" list="listaEmpresas" placeholder="Empresa (digite E para ver lista)"><datalist id="listaEmpresas"></datalist><input id="chDesc" placeholder="Descrição">
+<button onclick="addChamado()" class="b b-p mt-2">Abrir Chamado</button><div id="lCha" class="mt-4"></div></div>
+<div id="tab-fin" class="tab hidden"><h1 class="text-xl font-bold">Financeiro</h1><div id="lFin"></div></div>
+<div id="tab-meufin" class="tab hidden"><h1 class="text-xl font-bold">Meu Financeiro</h1><input id="mfDesc" placeholder="Descrição"><input id="mfValor" type="number" placeholder="Valor"><button onclick="addMeuFin()" class="b b-p mt-2">Adicionar</button><div id="lMeuFin" class="mt-3"></div></div>
+<div id="tab-est" class="tab hidden"><h1 class="text-xl font-bold">Estoque</h1><input id="eNome" placeholder="Item"><input id="eQtd" type="number" placeholder="Qtd"><button onclick="addEst()" class="b b-p mt-2">Salvar</button><div id="lEst" class="mt-3"></div></div>
+<div id="tab-rel" class="tab hidden"><h1 class="text-xl font-bold">Relatórios</h1><div id="lRel" class="mt-3"></div></div>
+<div id="tab-usu" class="tab hidden"><h1 class="text-xl font-bold">Usuários - PERMISSÃO FIX</h1>
+<div class="card mt-3">
+<input id="uEmpresa" list="listaEmpresas2" placeholder="Empresa do usuario (digite E)"><datalist id="listaEmpresas2"></datalist><input id="uNome" placeholder="Nome usuario"><input id="uSenha" placeholder="Senha">
+<div class="grid grid-cols-2 gap-2 mt-3 text-[12px]">
+<label><input type="checkbox" id="p_clientes" class="chk w-auto"> Clientes</label><label><input type="checkbox" id="p_chamados" class="chk w-auto"> Ver Chamados</label><label><input type="checkbox" id="p_abrir" class="chk w-auto"> Abrir Chamado</label><label><input type="checkbox" id="p_comentar" class="chk w-auto"> Comentar</label><label><input type="checkbox" id="p_financeiro" class="chk w-auto"> Financeiro</label><label><input type="checkbox" id="p_meufin" class="chk w-auto"> Meu Financeiro</label><label><input type="checkbox" id="p_estoque" class="chk w-auto"> Estoque</label><label><input type="checkbox" id="p_relatorios" class="chk w-auto"> Relatórios</label><label><input type="checkbox" id="p_excluir" class="chk w-auto"> Excluir</label><label><input type="checkbox" id="p_usuarios" class="chk w-auto"> Usuários</label><label><input type="checkbox" id="p_chefe" class="chk w-auto"> CHEFE (tudo)</label>
+</div>
+<div class="flex gap-2 mt-3">
+<button onclick="presetEmpresa()" class="b bg-yellow-500 text-black text-[11px]">SO ABRIR CHAMADO</button><button onclick="presetChefe()" class="b bg-green-500 text-black text-[11px]">CHEFE TOTAL</button><button onclick="limparPerm()" class="b bg-gray-600 text-[11px]">LIMPAR</button>
+</div>
+<button onclick="addUs()" class="b b-p w-full mt-3">SALVAR USUARIO</button>
+</div><div id="lUs" class="mt-4"></div></div>
+<div id="tab-rem" class="tab hidden"><h1 class="text-xl font-bold">Acesso Remoto</h1><input id="remId" placeholder="ID AnyDesk / TeamViewer"><button onclick="alert('Conectando '+document.getElementById('remId').value)" class="b b-p mt-2">Conectar</button></div>
 </div></div>
 <script>
-let clientes=JSON.parse(localStorage.getItem('v57_cli')||'[]'),chamados=JSON.parse(localStorage.getItem('v57_cha')||'[]'),users=JSON.parse(localStorage.getItem('v57_usr')||'[]');
-function save(){localStorage.setItem('v57_cli',JSON.stringify(clientes));localStorage.setItem('v57_cha',JSON.stringify(chamados));localStorage.setItem('v57_usr',JSON.stringify(users));}
-function login(){let emp=document.getElementById('empresa').value.trim(),usu=document.getElementById('usuario').value.trim(),sen=document.getElementById('senha').value.trim();if(!emp||!usu||!sen)return alert('Preencha');if(emp.toLowerCase()==='ramosinfotec'&&usu==='admin'&&sen==='@Xumone@197353'){localStorage.setItem('log','1');localStorage.setItem('role','master');localStorage.setItem('user',usu);localStorage.setItem('emp','RAMOS');localStorage.setItem('perm',JSON.stringify({clientes:true,chamados:true,abrir:true,comentar:true,financeiro:true,meufin:true,estoque:true,relatorios:true,excluir:true,chefe:true,usuarios:true}));show();return;}let u=users.find(x=>x.empresa.toLowerCase()===emp.toLowerCase()&&x.nome.toLowerCase()===usu.toLowerCase()&&x.senha===sen);if(u){localStorage.setItem('log','1');localStorage.setItem('role',u.chefe?'chefe':'user');localStorage.setItem('user',u.nome);localStorage.setItem('emp',u.empresa);localStorage.setItem('perm',JSON.stringify(u.perms));show();return;}alert('Incorreto');}
-function show(){document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');let r=localStorage.getItem('role'),u=localStorage.getItem('user'),e=localStorage.getItem('emp'),perm=JSON.parse(localStorage.getItem('perm')||'{}');document.getElementById('uInfo').innerText=u+' - '+e+' ('+r+')';buildMenu(perm,r);rAll();}
-function buildMenu(p,r){let menu=document.getElementById('menuM'),html='';if(r==='master'||p.relatorios||p.chefe) html+=`<button onclick="tab('dashboard')" class="menu-btn">📊 Dashboard</button>`;if(r==='master'||p.clientes||p.chefe) html+=`<button onclick="tab('clientes')" class="menu-btn">👥 Clientes</button>`;if(r==='master'||p.chamados||p.abrir||p.chefe) html+=`<button onclick="tab('chamados')" class="menu-btn">📋 Chamados</button>`;if(r==='master'||p.financeiro||p.chefe) html+=`<button onclick="tab('financeiro')" class="menu-btn">💰 Financeiro</button>`;if(r==='master'||p.meufin||p.financeiro||p.chefe) html+=`<button onclick="tab('meufin')" class="menu-btn">💳 Meu Financeiro</button>`;if(r==='master'||p.estoque||p.chefe) html+=`<button onclick="tab('estoque')" class="menu-btn">📦 Estoque</button>`;if(r==='master'||p.usuarios||p.chefe) html+=`<button onclick="tab('usuarios')" class="menu-btn">👤 Usuarios</button>`;if(r==='master'||p.relatorios||p.chefe||p.abrir) html+=`<button onclick="tab('relatorios')" class="menu-btn">📊 Relatorios</button>`;if(html==='')html=`<button onclick="tab('chamados')" class="menu-btn">➕ Abrir Chamado</button>`;menu.innerHTML=html;setTimeout(()=>{let f=menu.querySelector('.menu-btn');if(f)f.click();},100);}
-function logout(){localStorage.removeItem('log');document.getElementById('app').classList.add('hidden');document.getElementById('login').classList.remove('hidden');document.getElementById('empresa').value='';document.getElementById('usuario').value='';document.getElementById('senha').value='';}
-function tab(id){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));let el=document.getElementById('t-'+id);if(el)el.classList.add('active');}
-function carregaEmpresas(){let empresas=[...new Set(clientes.map(c=>c.empresa).filter(e=>e))].sort();let dl=document.getElementById('selEmpresaDrop');if(dl){dl.innerHTML='<option value="">▼</option>'+empresas.map(e=>`<option value="${e}">${e}</option>`).join('')+'<option value="__nova__">+ NOVA</option>';}}
-function syncEmpresa(v){if(v==='__nova__'){document.getElementById('uEmpresa').value='';return;}if(v)document.getElementById('uEmpresa').value=v;filtraEmpresa();}
-function filtraEmpresa(){let txt=(document.getElementById('uEmpresa').value||'').toLowerCase();let empresas=[...new Set(clientes.map(c=>c.empresa).filter(e=>e))];let filtradas=txt?empresas.filter(e=>e.toLowerCase().includes(txt)):empresas;let div=document.getElementById('listaEmpVisual');if(!div)return;if(filtradas.length>0&&txt){div.classList.remove('hidden');div.innerHTML=filtradas.slice(0,8).map(e=>`<div onclick="document.getElementById('uEmpresa').value='${e}';this.parentElement.classList.add('hidden')" class="p-2 hover:bg-cyan-500/20 cursor-pointer">🏢 ${e}</div>`).join('');}else if(!txt&&empresas.length>0){div.classList.remove('hidden');div.innerHTML=empresas.slice(0,8).map(e=>`<div onclick="document.getElementById('uEmpresa').value='${e}';this.parentElement.classList.add('hidden')" class="p-2 hover:bg-cyan-500/20 cursor-pointer">🏢 ${e}</div>`).join('');}else{div.classList.add('hidden');}}
-function presetEmpresa(){document.querySelectorAll('.chk').forEach(c=>c.checked=false);document.getElementById('p_abrir').checked=true;}
+let clientes=JSON.parse(localStorage.getItem('ramos_clientes')||'[]');
+let chamados=JSON.parse(localStorage.getItem('ramos_chamados')||'[]');
+let meuFin=JSON.parse(localStorage.getItem('ramos_meufin')||'[]');
+let estoque=JSON.parse(localStorage.getItem('ramos_estoque')||'[]');
+let users=JSON.parse(localStorage.getItem('ramos_users')||'null');
+if(!users){users=[{id:1,nome:'admin',empresa:'ramosinfotec',senha:'@Xumone@197353',perms:{clientes:true,chamados:true,abrir:true,comentar:true,financeiro:true,meufin:true,estoque:true,relatorios:true,excluir:true,chefe:true,usuarios:true},chefe:true}];}
+let currentUser=null;
+function save(){localStorage.setItem('ramos_clientes',JSON.stringify(clientes));localStorage.setItem('ramos_chamados',JSON.stringify(chamados));localStorage.setItem('ramos_meufin',JSON.stringify(meuFin));localStorage.setItem('ramos_estoque',JSON.stringify(estoque));localStorage.setItem('ramos_users',JSON.stringify(users));}
+function carregaEmpresas(){let ops=clientes.map(c=>`<option value="${c.nome}">`).join('');let ops2=users.map(u=>`<option value="${u.empresa}">`).join('')+ops;['listaEmpresas','listaEmpresas2','listaEmpresasLogin'].forEach(id=>{let el=document.getElementById(id); if(el) el.innerHTML=ops2;});}
+function fazerLogin(){let emp=document.getElementById('lEmpresa').value.trim().toLowerCase();let nome=document.getElementById('lUsuario').value.trim().toLowerCase();let senha=document.getElementById('lSenha').value.trim();let u=users.find(x=>x.nome.toLowerCase()===nome && x.empresa.toLowerCase()===emp && x.senha===senha);if(!u){return alert('Login errado! Empresa: ramosinfotec Usuario: admin Senha: @Xumone@197353');}currentUser=u;document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');document.getElementById('userInfo').innerHTML=`${u.nome.toUpperCase()}<br>${u.empresa}<br>Perms: ${Object.keys(u.perms).filter(k=>u.perms[k]).join(', ')}`;aplicarPermissoes();rAll();showTab('dash');}
+function aplicarPermissoes(){if(!currentUser) return;let p=currentUser.perms;let isChefe=p.chefe;document.querySelectorAll('.menu-item').forEach(item=>{let perm=item.dataset.perm;let perm2=item.dataset.perm2;if(isChefe){item.classList.remove('hidden');return;}if(!perm){item.classList.remove('hidden');return;}if(perm==='dashboard'){if(isChefe){item.classList.remove('hidden');}else{item.classList.add('hidden');}return;}if(perm2){if(p[perm]||p[perm2]) item.classList.remove('hidden'); else item.classList.add('hidden');}else{if(p[perm]) item.classList.remove('hidden'); else item.classList.add('hidden');}});}
+function sair(){location.reload();}
+function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));document.getElementById('tab-'+t).classList.remove('hidden');document.querySelectorAll('.menu-item').forEach(x=>x.classList.remove('active'));if(event && event.target) event.target.classList.add('active'); if(t==='dash') rDash();}
+function addCli(){let nome=document.getElementById('cNome').value.trim(); if(!nome) return alert('Nome'); clientes.push({id:Date.now(),nome,cnpj:document.getElementById('cCnpj').value,email:document.getElementById('cEmail').value,tel:document.getElementById('cTel').value}); save(); rCli(); carregaEmpresas(); document.getElementById('cNome').value='';}
+function rCli(){document.getElementById('lCli').innerHTML=clientes.slice().reverse().map(c=>`<div class="card flex justify-between text-[13px]">${c.nome} - ${c.email||''} <button onclick="delCli(${c.id})" class="b b-exc text-[10px]">X</button></div>`).join('');}
+function delCli(id){if(!currentUser.perms.excluir &&!currentUser.perms.chefe) return alert('Sem permissao excluir'); clientes=clientes.filter(x=>x.id!==id); save(); rCli();}
+function addChamado(){let tit=document.getElementById('chTitulo').value.trim(); let emp=document.getElementById('chEmpresa').value.trim(); if(!tit||!emp) return alert('Titulo e empresa'); chamados.push({id:Date.now(),titulo:tit,empresa:emp,desc:document.getElementById('chDesc').value,status:'Aberto',autor:currentUser.nome}); save(); rCha(); document.getElementById('chTitulo').value='';}
+function rCha(){let lista=currentUser.perms.chefe?chamados:chamados.filter(c=>c.empresa.toLowerCase()===currentUser.empresa.toLowerCase());document.getElementById('lCha').innerHTML=lista.slice().reverse().map(c=>`<div class="card text-[12px]"><b>${c.titulo}</b> - ${c.empresa} (${c.status})<br>${c.desc||''} <span class="text-[10px] text-gray-400">por ${c.autor}</span></div>`).join('');document.getElementById('lFin').innerHTML=`<div class="card">Total Chamados: ${lista.length}</div>`;document.getElementById('lRel').innerHTML=`<div class="card">Clientes: ${clientes.length}<br>Chamados: ${chamados.length}<br>Estoque itens: ${estoque.length}</div>`;}
+function addMeuFin(){let d=document.getElementById('mfDesc').value; let v=parseFloat(document.getElementById('mfValor').value); if(!d||!v) return; meuFin.push({id:Date.now(),desc:d,valor:v}); save(); rMeuFin();}
+function rMeuFin(){document.getElementById('lMeuFin').innerHTML=meuFin.slice().reverse().map(m=>`<div class="card text-[12px] flex justify-between">${m.desc} R$ ${m.valor} <button onclick="delMeuFin(${m.id})" class="b b-exc text-[10px]">X</button></div>`).join('');}
+function delMeuFin(id){meuFin=meuFin.filter(x=>x.id!==id); save(); rMeuFin();}
+function addEst(){let n=document.getElementById('eNome').value; let q=document.getElementById('eQtd').value; if(!n) return; estoque.push({id:Date.now(),nome:n,qtd:q}); save(); rEst();}
+function rEst(){document.getElementById('lEst').innerHTML=estoque.slice().reverse().map(e=>`<div class="card text-[12px] flex justify-between">${e.nome} - Qtd: ${e.qtd} <button onclick="delEst(${e.id})" class="b b-exc text-[10px]">X</button></div>`).join('');}
+function delEst(id){estoque=estoque.filter(x=>x.id!==id); save(); rEst();}
+function rDash(){document.getElementById('kpis').innerHTML=`<div class="card">Clientes<br><b class="text-xl">${clientes.length}</b></div><div class="card">Chamados<br><b class="text-xl">${chamados.length}</b></div><div class="card">Estoque<br><b class="text-xl">${estoque.length}</b></div>`;}
+function presetEmpresa(){document.querySelectorAll('.chk').forEach(c=>c.checked=false);document.getElementById('p_abrir').checked=true;document.getElementById('p_comentar').checked=false;}
+function presetChefe(){document.querySelectorAll('.chk').forEach(c=>c.checked=true);}
 function limparPerm(){document.querySelectorAll('.chk').forEach(c=>c.checked=false);}
 function getPerms(){let g=id=>document.getElementById(id).checked;return {clientes:g('p_clientes'),chamados:g('p_chamados'),abrir:g('p_abrir'),comentar:g('p_comentar'),financeiro:g('p_financeiro'),meufin:g('p_meufin'),estoque:g('p_estoque'),relatorios:g('p_relatorios'),excluir:g('p_excluir'),chefe:g('p_chefe'),usuarios:g('p_usuarios')};}
-function addUs(){let emp=document.getElementById('uEmpresa').value.trim(),nome=document.getElementById('uNome').value.trim(),senha=document.getElementById('uSenha').value.trim();if(!emp||!nome||!senha)return alert('Preencha');let perms=getPerms();if(users.some(u=>u.nome.toLowerCase()===nome.toLowerCase()&&u.empresa.toLowerCase()===emp.toLowerCase()))return alert('Ja existe');users.push({id:Date.now(),nome,empresa:emp,senha,perms,chefe:perms.chefe});save();rUs();alert('SALVO! Perms: '+Object.keys(perms).filter(k=>perms[k]).join(', '));carregaEmpresas();}
-function rUs(){document.getElementById('lUs').innerHTML=users.map(u=>`<div class="card py-2 text-[12px]"><b>${u.nome}</b> - ${u.empresa}<br>${Object.keys(u.perms).filter(k=>u.perms[k]).join(', ')} <button onclick="delUs(${u.id})" class="b b-exc ml-2">EXC</button></div>`).join('');}
-function delUs(id){users=users.filter(x=>x.id!==id);save();rUs();}
-function addChamado(){chamados.push({id:Date.now(),titulo:document.getElementById('chTitulo').value,empresa:document.getElementById('chEmpresa').value});save();rCha();}
-function rCha(){document.getElementById('lCha').innerHTML=chamados.slice().reverse().map(c=>`<div class="card text-[12px]">${c.titulo} - ${c.empresa}</div>`).join('');}
-function rAll(){carregaEmpresas();rUs();rCha();}
-window.addEventListener('load',rAll);
-</script></body></html>
+function addUs(){let emp=document.getElementById('uEmpresa').value.trim(),nome=document.getElementById('uNome').value.trim(),senha=document.getElementById('uSenha').value.trim();if(!emp||!nome||!senha)return alert('Preencha empresa, nome, senha');let perms=getPerms();if(users.some(u=>u.nome.toLowerCase()===nome.toLowerCase()&&u.empresa.toLowerCase()===emp.toLowerCase()))return alert('Usuario ja existe nessa empresa');users.push({id:Date.now(),nome,empresa:emp,senha,perms,chefe:perms.chefe});save();rUs();carregaEmpresas();alert('USUARIO SALVO! '+nome+' - Perms: '+(Object.keys(perms).filter(k=>k&&perms[k]).join(', ')||'SOMENTE ABRIR CHAMADO'));document.getElementById('uNome').value='';document.getElementById('uSenha').value='';}
+function rUs(){document.getElementById('lUs').innerHTML=users.map(u=>`<div class="card text-[12px] flex justify-between"><div><b>${u.nome}</b> - ${u.empresa}<br><span class="text-[10px] text-cyan-300">${Object.keys(u.perms).filter(k=>u.perms[k]).join(', ')||'Só abrir chamado'}</span></div><button onclick="delUs(${u.id})" class="b b-exc text-[10px]">EXC</button></div>`).join('');}
+function delUs(id){if(users.length===1) return alert('Nao pode apagar ultimo'); users=users.filter(x=>x.id!==id); save(); rUs();}
+function rAll(){carregaEmpresas(); rCli(); rCha(); rMeuFin(); rEst(); rUs(); rDash();}
+window.addEventListener('load',()=>{carregaEmpresas(); rAll();});
+</script>
+</body>
+</html>
