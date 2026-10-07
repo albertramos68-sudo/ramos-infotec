@@ -1,1 +1,98 @@
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Xumone - V63 PRODUÇÃO</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#0f172a;color:#fff}
+.login{max-width:380px;margin:80px auto;background:#1e293b;padding:30px;border-radius:12px}
+.login h2{margin-bottom:15px;text-align:center}
+.login input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none}
+.login button{width:100%;padding:12px;background:#f59e0b;color:#000;font-weight:bold;border:none;border-radius:8px;cursor:pointer;margin-top:10px}
+.header{background:#1e293b;padding:15px;display:flex;justify-content:space-between}
+.card{background:#1e293b;padding:20px;border-radius:12px;margin:15px}
+select,input{padding:10px;border-radius:6px;border:none;margin:5px}
+.btn{background:#f59e0b;color:#000;padding:10px 15px;border-radius:6px;border:none;cursor:pointer;font-weight:bold}
+.badge{padding:5px 10px;border-radius:20px;font-size:12px}
+.ok{background:#22c55e;color:#000}
+</style>
+</head>
+<body>
+<div id="loginScreen" class="login">
+<h2>🔐 Xumone V63 PRODUÇÃO</h2>
+<p style="font-size:13px;color:#94a3b8;text-align:center;margin-bottom:10px">Login corrigido - sem erro de cache</p>
+<input id="user" placeholder="Usuário" value="admin">
+<input id="pass" type="password" placeholder="Senha" value="@Xumone@197353">
+<button onclick="fazerLogin()">ENTRAR - V63 PRODUÇÃO</button>
+<button onclick="limparTudo()" style="background:#ef4444;color:#fff;margin-top:8px">🧹 LIMPAR CACHE</button>
+<p id="msg" style="margin-top:10px;text-align:center;color:#fbbf24"></p>
+</div>
+<div id="app" style="display:none">
+<div class="header">
+<span>🚀 V63 PRODUÇÃO - ONLINE</span>
+<span><button class="btn" onclick="logout()">Sair</button></span>
+</div>
+<div class="card">
+<h3>💰 Financeiro V63 - Selects Corrigidos</h3>
+<select id="selEmpresa" onchange="mostrarConteudo()">
+<option value="">Selecione Empresa</option>
+<option value="Xumone Matriz">Xumone Matriz</option>
+<option value="Xumone Filial">Xumone Filial</option>
+</select>
+<select id="selCliente" onchange="mostrarConteudo()">
+<option value="">Selecione Cliente</option>
+<option value="Cliente A">Cliente A - R$ 1.500,00</option>
+<option value="Cliente B">Cliente B - R$ 2.300,00</option>
+</select>
+<select id="selCategoria" onchange="mostrarConteudo()">
+<option value="">Selecione Categoria</option>
+<option value="Receita">Receita</option>
+<option value="Despesa">Despesa</option>
+</select>
+<div id="conteudoFinanceiro" style="margin-top:20px;background:#0f172a;padding:15px;border-radius:8px;min-height:80px">
+Selecione acima para ver o conteúdo...
+</div>
+</div>
+</div>
+<script>
+(function(){
+  if(!localStorage.getItem('v63_fix')){
+    localStorage.clear();sessionStorage.clear();
+    localStorage.setItem('v63_fix','ok');
+  }
+})();
+function fazerLogin(){
+  const u=document.getElementById('user').value.trim();
+  const p=document.getElementById('pass').value.trim();
+  if(u==='admin' && p==='@Xumone@197353'){
+    localStorage.setItem('logado_v63','true');
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').style.display='block';
+  } else {
+    document.getElementById('msg').innerText='❌ Use admin / @Xumone@197353';
+  }
+}
+function limparTudo(){
+  localStorage.clear();sessionStorage.clear();
+  localStorage.setItem('v63_fix','ok');
+  document.getElementById('msg').innerText='✅ Cache limpo!';
+  setTimeout(()=>location.reload(),1000);
+}
+function logout(){localStorage.removeItem('logado_v63');location.reload();}
+function mostrarConteudo(){
+  const emp=document.getElementById('selEmpresa').value;
+  const cli=document.getElementById('selCliente').value;
+  const cat=document.getElementById('selCategoria').value;
+  const div=document.getElementById('conteudoFinanceiro');
+  if(!emp&&!cli&&!cat){div.innerHTML='Selecione acima...';return;}
+  div.innerHTML=`🏢 ${emp}<br>👤 ${cli}<br>📂 ${cat}<br><br>✅ Dados carregados! V63 OK`;
+}
+if(localStorage.getItem('logado_v63')==='true'){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').style.display='block';
+}
+</script>
+</body>
+</html>
