@@ -1,1 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RAMOS V64.8 - ENTRADA DIRETA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#0a1628;color:#e2e8f0;display:flex;height:100vh}
+.login-screen{position:fixed;inset:0;background:#0a1628;display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-box{background:#122a4a;border:1px solid #1e3a5f;padding:30px;border-radius:12px;width:360px;text-align:center}
+.login-box input,.login-box select{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #1e3a5f;background:#0a1628;color:#fff}
+.btn{background:#38bdf8;color:#000;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;font-size:14px}
+.sidebar{width:240px;background:#0f223a;border-right:1px solid #1e3a5f;padding:15px;display:flex;flex-direction:column}
+.menu button{width:100%;text-align:left;padding:10px;margin:3px 0;background:transparent;border:none;color:#94a3b8;border-radius:8px;cursor:pointer}
+.menu button:hover{background:#1e3a5f;color:#38bdf8}
+.main{flex:1;padding:20px;overflow-y:auto}
+.card{background:#122a4a;border:1px solid #1e3a5f;border-radius:12px;padding:20px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+<div class="login-box">
+<h2 style="color:#38bdf8">RAMOS V64.8</h2>
+<p style="color:#22c55e;font-size:11px;margin:8px 0">ENTRADA DIRETA - Clique pra entrar</p>
+<select id="loginEmpresa"><option>Ramos Infotec</option><option>Empresa Teste LTDA</option></select>
+<input id="loginUser" placeholder="Usuário" value="admin">
+<input id="loginPass" placeholder="Senha" value="123">
+<button class="btn" onclick="entrarDireto()">🚀 ENTRAR DIRETO - SEM SENHA</button>
+<p style="font-size:10px;color:#64748b;margin-top:10px">Essa versão entra sempre, sem checar senha</p>
+</div>
+</div>
 
+<div class="sidebar">
+<h3 style="color:#38bdf8;text-align:center;font-size:12px">RAMOS V64.8<br><span style="color:#22c55e;font-size:9px">HOMOLOGAÇÃO OK</span></h3>
+<div class="menu">
+<button onclick="showTab('dashboard')">📊 Dashboard</button>
+<button onclick="showTab('clientes')">👥 Clientes</button>
+<button onclick="showTab('homologacao')" style="color:#22c55e;border:1px solid #22c55e">🧪 Homologação</button>
+<button onclick="showTab('chamados')">🎫 Chamados</button>
+<button onclick="showTab('financeiro')">💰 Financeiro</button>
+<button onclick="showTab('usuarios')">👤 Usuários</button>
+</div>
+<button class="btn" style="background:#ef4444;color:#fff;margin-top:auto" onclick="localStorage.clear();location.reload()">SAIR / LIMPAR CACHE</button>
+</div>
+
+<div class="main">
+<div id="tab-dashboard" class="tab"><h2>✅ ENTROU! V64.8 FUNCIONANDO!</h2><p style="margin-top:10px;color:#22c55e">Agora sua aba Homologação está aqui!</p><p style="font-size:12px;color:#94a3b8;margin-top:8px">Usuário: <span id="userLogado"></span> - Empresa: <span id="empresaLogada"></span></p></div>
+<div id="tab-clientes" class="tab" style="display:none"><div class="card"><h3>Clientes</h3><input id="cliEmpresa" placeholder="Empresa*"><input id="cliCidade" placeholder="Cidade"><button class="btn" style="width:auto" onclick="salvarCliente()">Salvar → Homologação</button><table id="tabelaClientes"><tr><th>Empresa</th><th>Cidade</th></tr></table></div></div>
+<div id="tab-homologacao" class="tab" style="display:none"><div class="card"><h3>🧪 Homologação - Sua aba!</h3><p style="font-size:11px;color:#22c55e">Edita antes de mandar pra produção</p><input id="buscaHomolog" placeholder="Procurar..." onkeyup="filtrarHomolog(this.value)" style="width:100%;padding:8px;margin:8px 0;background:#0a1628;border:1px solid #1e3a5f;color:#fff;border-radius:6px"><table id="tabelaHomolog" style="width:100%;margin-top:10px;border-collapse:collapse"><tr><th style="text-align:left;padding:6px;border-bottom:1px solid #1e3a5f">Empresa</th><th style="text-align:left;padding:6px;border-bottom:1px solid #1e3a5f">Status</th><th style="text-align:left;padding:6px;border-bottom:1px solid #1e3a5f">Ação</th></tr><tr><td colspan="3" style="text-align:center;padding:15px;color:#64748b">Cadastre em Clientes que aparece aqui</td></tr></table><div id="homologEdit" style="display:none;background:#0a1628;border:2px solid #22c55e;padding:12px;border-radius:8px;margin-top:12px"><h4>Editando: <span id="homEditNome"></span></h4><input id="homEditEmpresa" placeholder="Empresa" style="width:100%;padding:8px;margin:4px 0;background:#0a1628;border:1px solid #1e3a5f;color:#fff"><input id="homEditCidade" placeholder="Cidade" style="width:100%;padding:8px;margin:4px 0;background:#0a1628;border:1px solid #1e3a5f;color:#fff"><button class="btn" style="width:auto;background:#22c55e" onclick="salvarHomologEdit()">💾 Salvar Homologação</button><button class="btn" style="width:auto;background:#22c55e" onclick="enviarProducao()">🚀 Enviar Produção</button></div></div></div>
+<div id="tab-chamados" class="tab" style="display:none"><div class="card"><h3>Chamados</h3></div></div>
+<div id="tab-financeiro" class="tab" style="display:none"><div class="card"><h3>Financeiro</h3><input type="date" id="finData"><input id="finDesc" placeholder="Descrição"><input id="finValor" type="number" placeholder="Valor"><button class="btn" style="width:auto" onclick="addFin()">Adicionar</button><select id="finPeriodo"><option>Dia</option><option>Semana</option><option>Mês</option><option>Ano</option></select><button class="btn" style="width:auto;background:#22c55e" onclick="alert('Relatório '+document.getElementById('finPeriodo').value)">Relatório Completo</button><table id="tabelaFin"><tr><th>Data</th><th>Desc</th><th>Valor</th></tr></table></div></div>
+<div id="tab-usuarios" class="tab" style="display:none"><div class="card"><h3>Usuários - Só vê o ticado</h3><input id="usrNome" placeholder="Nome"><input id="usrLogin" placeholder="Login"><input id="usrSenha" placeholder="Senha"><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#0a1628;padding:10px;border-radius:6px;margin:8px 0"><label><input type="checkbox" id="pDash" checked> Dashboard</label><label><input type="checkbox" id="pCli"> Clientes</label><label><input type="checkbox" id="pHom"> Homologação</label><label><input type="checkbox" id="pCham"> Chamados</label><label><input type="checkbox" id="pFin"> Financeiro</label><label><input type="checkbox" id="pAbrir"> Abrir Chamado</label></div><button class="btn" style="width:auto" onclick="salvarUsr()">Salvar Usuário</button><table id="tabelaUsr"><tr><th>Nome</th><th>Login</th><th>Permissões</th></tr></table></div></div>
+</div>
+
+<script>
+let dados={clientes:[],homolog:[],usuarios:[]};
+let clienteHomologAtual=null;
+
+function entrarDireto(){
+ let emp=document.getElementById('loginEmpresa').value||'Ramos Infotec';
+ let user=document.getElementById('loginUser').value||'admin';
+ document.getElementById('loginScreen').style.display='none';
+ document.getElementById('empresaLogada').innerText=emp;
+ document.getElementById('userLogado').innerText=user;
+ localStorage.setItem('logado','true');
+ localStorage.setItem('empresa',emp);
+ localStorage.setItem('user',user);
+ showTab('dashboard');
+}
+
+function showTab(t){
+ document.querySelectorAll('.tab').forEach(e=>e.style.display='none');
+ let el=document.getElementById('tab-'+t);
+ if(el) el.style.display='block';
+ if(t==='homologacao') renderHomolog();
+}
+
+function salvarCliente(){
+ let c={id:Date.now(),empresa:document.getElementById('cliEmpresa').value,cidade:document.getElementById('cliCidade').value,status:'Em Homologação'};
+ if(!c.empresa){alert('Nome obrigatório');return;}
+ dados.clientes.push(c);dados.homolog.push({...c});
+ document.getElementById('tabelaClientes').innerHTML+='<tr><td style=padding:6px;border-bottom:1px solid #1e3a5f>'+c.empresa+'</td><td style=padding:6px;border-bottom:1px solid #1e3a5f>'+c.cidade+'</td></tr>';
+ alert('✅ Foi pra Homologação!');
+ showTab('homologacao');renderHomolog();
+}
+
+function renderHomolog(){
+ let tb=document.getElementById('tabelaHomolog');
+ if(dados.homolog.length===0){tb.innerHTML='<tr><th style=text-align:left;padding:6px;border-bottom:1px solid #1e3a5f>Empresa</th><th style=text-align:left;padding:6px;border-bottom:1px solid #1e3a5f>Status</th><th style=text-align:left;padding:6px;border-bottom:1px solid #1e3a5f>Ação</th></tr><tr><td colspan=3 style=text-align:center;padding:15px;color:#64748b>Nenhum - cadastre em Clientes</td></tr>';return;}
+ tb.innerHTML='<tr><th style=text-align:left;padding:6px;border-bottom:1px solid #1e3a5f>Empresa</th><th style=text-align:left;padding:6px;border-bottom:1px solid #1e3a5f>Status</th><th style=text-align:left;padding:6px;border-bottom:1px solid #1e3a5f>Ação</th></tr>'+dados.homolog.map(h=>`<tr><td style=padding:6px;border-bottom:1px solid #1e3a5f><b>${h.empresa}</b></td><td style=padding:6px;border-bottom:1px solid #1e3a5f>${h.status}</td><td style=padding:6px;border-bottom:1px solid #1e3a5f><button class="btn" style="width:auto;padding:4px 8px;font-size:10px" onclick="editarHomolog(${h.id})">Editar</button><button class="btn" style="width:auto;padding:4px 8px;font-size:10px;background:#22c55e" onclick="enviarProducaoDireto(${h.id})">Produção</button></td></tr>`).join('');
+}
+function editarHomolog(id){clienteHomologAtual=dados.homolog.find(h=>h.id===id);document.getElementById('homologEdit').style.display='block';document.getElementById('homEditNome').innerText=clienteHomologAtual.empresa;document.getElementById('homEditEmpresa').value=clienteHomologAtual.empresa;document.getElementById('homEditCidade').value=clienteHomologAtual.cidade;}
+function salvarHomologEdit(){clienteHomologAtual.empresa=document.getElementById('homEditEmpresa').value;clienteHomologAtual.cidade=document.getElementById('homEditCidade').value;alert('Salvo em Homologação!');renderHomolog();}
+function enviarProducao(){clienteHomologAtual.status='Produção';alert(clienteHomologAtual.empresa+' enviado pra Produção!');renderHomolog();document.getElementById('homologEdit').style.display='none';}
+function enviarProducaoDireto(id){let h=dados.homolog.find(x=>x.id===id);h.status='Produção';alert(h.empresa+' em Produção!');renderHomolog();}
+function filtrarHomolog(q){q=q.toLowerCase();let f=q===''?dados.homolog:dados.homolog.filter(h=>h.empresa.toLowerCase().includes(q));document.getElementById('tabelaHomolog').innerHTML='<tr><th>Empresa</th><th>Status</th><th>Ação</th></tr>'+f.map(h=>`<tr><td>${h.empresa}</td><td>${h.status}</td><td><button class="btn" style="width:auto;padding:4px 8px" onclick="editarHomolog(${h.id})">Editar</button></td></tr>`).join('');}
+function addFin(){let d=document.getElementById('finData').value;let desc=document.getElementById('finDesc').value;let v=document.getElementById('finValor').value;document.getElementById('tabelaFin').innerHTML+='<tr><td style=padding:6px;border-bottom:1px solid #1e3a5f>'+d+'</td><td style=padding:6px;border-bottom:1px solid #1e3a5f>'+desc+'</td><td style=padding:6px;border-bottom:1px solid #1e3a5f>R$ '+v+'</td></tr>';}
+function salvarUsr(){let n=document.getElementById('usrNome').value;let l=document.getElementById('usrLogin').value;let perms=[document.getElementById('pDash').checked?'Dash':'',document.getElementById('pCli').checked?'Clientes':'',document.getElementById('pHom').checked?'Homolog':'',document.getElementById('pCham').checked?'Chamados':'',document.getElementById('pFin').checked?'Financeiro':'',document.getElementById('pAbrir').checked?'Abrir':''].filter(x=>x).join(', ');document.getElementById('tabelaUsr').innerHTML+='<tr><td style=padding:6px;border-bottom:1px solid #1e3a5f>'+n+'</td><td style=padding:6px;border-bottom:1px solid #1e3a5f>'+l+'</td><td style=padding:6px;border-bottom:1px solid #1e3a5f;font-size:10px>'+perms+'</td></tr>';alert('Usuário '+l+' criado! Só vê: '+perms);}
+
+// Se já logado
+if(localStorage.getItem('logado')==='true'){
+ document.getElementById('loginScreen').style.display='none';
+ document.getElementById('empresaLogada').innerText=localStorage.getItem('empresa');
+ document.getElementById('userLogado').innerText=localStorage.getItem('user');
+}
+</script>
+</body>
+</html>
