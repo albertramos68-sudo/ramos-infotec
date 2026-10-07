@@ -1,1 +1,124 @@
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAMOS V64.2 - Homologacao</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
+body{background:#0a1628;color:#e2e8f0;display:flex;height:100vh;overflow:hidden}
+.sidebar{width:240px;background:#0f223a;border-right:1px solid #1e3a5f;display:flex;flex-direction:column;padding:15px;overflow-y:auto}
+.menu button{width:100%;text-align:left;padding:10px 12px;margin:3px 0;background:transparent;border:none;color:#94a3b8;border-radius:8px;cursor:pointer;font-size:13px}
+.menu button.active,.menu button:hover{background:#1e3a5f;color:#38bdf8}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:#0f223a;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e3a5f}
+.search-box{display:flex;align-items:center;background:#0a1628;border:1px solid #1e3a5f;border-radius:20px;padding:6px 15px;width:420px}
+.search-box input{background:transparent;border:none;color:#fff;width:100%;outline:none;margin-left:8px}
+.content{flex:1;overflow-y:auto;padding:20px;background:#0a1628}
+.card{background:#122a4a;border:1px solid #1e3a5f;border-radius:12px;padding:20px;margin-bottom:15px}
+.login-screen{position:fixed;inset:0;background:#0a1628;display:flex;align-items:center;justify-content:center;z-index:99}
+.login-box{background:#122a4a;border:1px solid #1e3a5f;padding:30px;border-radius:12px;width:360px;text-align:center}
+.login-box input,.login-box select{width:100%;padding:12px;margin:7px 0;border-radius:8px;border:1px solid #1e3a5f;background:#0a1628;color:#fff}
+.btn{background:#38bdf8;color:#000;padding:9px 16px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:13px;margin:2px}
+.btn-orange{background:#f59e0b}.btn-green{background:#22c55e}.btn-red{background:#ef4444;color:#fff}
+.file-br{display:flex;align-items:center;gap:8px;background:#0a1628;border:1px dashed #1e3a5f;padding:10px;border-radius:8px;margin:6px 0}
+.file-br button{background:#334155;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer}
+.robot{position:fixed;bottom:20px;right:20px;background:#38bdf8;color:#000;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;z-index:10}
+.robot-panel{position:fixed;bottom:85px;right:20px;width:360px;background:#122a4a;border:1px solid #1e3a5f;border-radius:12px;padding:15px;display:none;z-index:10}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.stat{background:#0f223a;padding:15px;border-radius:10px;text-align:center;border:1px solid #1e3a5f}
+input,select,textarea{padding:10px;border-radius:6px;border:1px solid #1e3a5f;background:#0a1628;color:#fff;margin:4px}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{padding:9px;border-bottom:1px solid #1e3a5f;text-align:left;font-size:12px}
+</style>
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+<div class="login-box">
+<h3 style="color:#38bdf8">RAMOS V64.2 FINAL</h3>
+<select id="loginEmpresa"><option value="">Selecione a Empresa</option><option value="Ramos Infotec">Ramos Infotec</option><option value="Empresa Teste LTDA">Empresa Teste LTDA</option></select>
+<input id="loginUser" placeholder="Usuario"><input id="loginPass" type="password" placeholder="Senha">
+<button class="btn" style="width:100%;margin-top:10px" onclick="login()">ENTRAR V64.2</button>
+<p id="loginMsg" style="color:#fbbf24;margin-top:8px;font-size:12px"></p>
+</div>
+</div>
+<div class="sidebar">
+<h2>RAMOS V64.2 HOMOLOG</h2>
+<div class="menu">
+<button class="active" onclick="showTab('dashboard')">Dashboard</button>
+<button onclick="showTab('clientes')">Clientes</button>
+<button onclick="showTab('homologacao')" style="background:#1e3a5f;color:#22c55e;border:1px solid #22c55e">✅ Homologacao</button>
+<button onclick="showTab('chamados')">Chamados</button>
+<button onclick="showTab('financeiro')">Financeiro</button>
+<button onclick="showTab('meuFinanceiro')">Meu Financeiro</button>
+<button onclick="showTab('estoque')">Estoque</button>
+<button onclick="showTab('relatorios')">Relatorios</button>
+<button onclick="showTab('usuarios')">Usuarios</button>
+<button onclick="showTab('remoto')">Remoto</button>
+</div>
+<button class="btn btn-red" style="margin-top:auto;width:100%" onclick="logout()">SAIR</button>
+</div>
+<div class="main">
+<div class="topbar"><div><b id="empresaLogada">Ramos Infotec</b> - <span id="userLogado">admin</span></div><div class="search-box">🤖<input id="buscaGlobal" placeholder="Robo busca: cliente, chamado..." onkeyup="roboBusca(this.value)"></div></div>
+<div class="content">
+<div id="tab-dashboard" class="tab"><div class="grid"><div class="stat"><h3 id="statClientes">0</h3><p>Clientes</p></div><div class="stat"><h3 id="statChamados">0</h3><p>Chamados</p></div><div class="stat"><h3 id="statHom">0</h3><p>Homologacao</p></div><div class="stat"><h3 id="statEstoque">0</h3><p>Estoque</p></div></div></div>
+<div id="tab-clientes" class="tab" style="display:none">
+<div class="card">
+<h3>Clientes - V64.2 CORRIGIDO BR</h3>
+<p style="color:#22c55e;font-size:11px">✅ Escolher arquivo BR corrigido | Mascara (00) 99999-9999 | CEP com busca</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+<input id="cliEmpresa" placeholder="Nome Empresa*"><input id="cliCnpj" placeholder="CNPJ/CPF"><input id="cliEmail" placeholder="Email"><input id="cliCep" placeholder="CEP" onblur="buscarCep(this.value)" oninput="maskCep(this)"><input id="cliEndereco" placeholder="Endereco"><input id="cliNumero" placeholder="Numero"><input id="cliCidade" placeholder="Cidade"><input id="cliEstado" placeholder="UF"><input id="cliMunicipio" placeholder="Municipio"><input id="cliTelefone" placeholder="Telefone (00) 99999-9999" oninput="maskTel(this)"><input id="cliContato" placeholder="Contato"><select id="cliTipo"><option>Avulso</option><option>Contrato</option></select>
+</div>
+<div class="file-br"><button onclick="document.getElementById('cliAnexo').click()">Escolher arquivo</button><span id="fileName">Nenhum arquivo escolhido</span><input type="file" id="cliAnexo" style="display:none" onchange="document.getElementById('fileName').innerText=this.files[0]?.name||'Nenhum'"></div>
+<button class="btn" onclick="salvarCliente()">Salvar Cliente -> Vai pra Homologacao</button>
+<table id="tabelaClientes"><tr><th>Empresa</th><th>Cidade</th><th>Telefone</th><th>Tipo</th><th>Status</th></tr></table>
+</div>
+</div>
+<div id="tab-homologacao" class="tab" style="display:none">
+<div class="card">
+<h3>✅ Homologacao - Procurar Clientes</h3>
+<div style="display:flex;gap:8px;margin-top:12px"><div class="search-box" style="flex:1">🔍<input id="buscaHomolog" placeholder="Procurar clientes: nome, cidade, telefone, CNPJ..." onkeyup="filtrarHomolog(this.value)"></div><button class="btn" onclick="filtrarHomolog('')">Todos</button></div>
+<table id="tabelaHomolog"><tr><th>Empresa Teste</th><th>Cidade/UF</th><th>Contato</th><th>Telefone</th><th>Status</th><th>Acoes</th></tr><tr><td colspan="6" style="text-align:center;color:#64748b;padding:20px">Nenhuma empresa teste ainda. Cadastre em Clientes</td></tr></table>
+<div id="homologInfo" style="margin-top:15px;background:#0a1628;padding:12px;border-radius:8px;display:none"><h4>Detalhes: <span id="homEmpresaNome"></span></h4><p id="homDetalhes" style="font-size:12px;color:#94a3b8;margin-top:6px"></p><div style="margin-top:10px"><button class="btn btn-green" onclick="homologarCliente('homologar')">✅ Homologar e Liberar</button><button class="btn btn-orange" onclick="homologarCliente('pendente')">Pendente</button><button class="btn btn-red" onclick="homologarCliente('reprovar')">Reprovar</button><button class="btn" onclick="abrirChamadoHomolog()">Abrir Chamado p/ essa Empresa</button></div></div>
+</div>
+</div>
+<div id="tab-chamados" class="tab" style="display:none"><div class="card"><h3>Chamados</h3><select id="chEmpresa"><option>Ramos Infotec</option><option>Empresa Teste LTDA</option></select><input id="chTitulo" placeholder="Titulo*"><select id="chTipo"><option>Hardware</option><option>Software</option><option>Rede</option><option>Micro</option><option>Notebook</option><option>Impressora</option><option>Pentest</option><option>Internet</option></select><textarea id="chDescricao" placeholder="Descricao" style="width:100%;height:60px"></textarea><textarea id="chObs" placeholder="Observacao" style="width:100%;height:50px"></textarea><button class="btn" onclick="abrirChamado()">Abrir Chamado</button></div><div class="card"><table id="tabelaChamados"><tr><th>Empresa</th><th>Titulo</th><th>Tipo</th><th>Status</th><th>Acoes</th></tr></table><div id="comentariosArea" style="display:none;margin-top:15px;background:#0a1628;padding:10px;border-radius:8px"><div id="listaComentarios"></div><input id="novoComentario" placeholder="Comentario" style="width:70%"><button class="btn" onclick="incluirComentario()">Incluir</button></div></div></div>
+<div id="tab-financeiro" class="tab" style="display:none"><div class="card"><h3>Financeiro</h3><input type="date" id="finData"><select id="finEmpresa"><option>Ramos Infotec</option></select><select id="finCategoria"><option>Receita</option><option>Despesa</option></select><input id="finValor" placeholder="Valor" type="number"><button class="btn" onclick="addFinanceiro()">Adicionar</button><table id="tabelaFinanceiro"><tr><th>Data</th><th>Empresa</th><th>Categoria</th><th>Valor</th></tr></table><div id="conteudoFinanceiro"></div></div></div>
+<div id="tab-estoque" class="tab" style="display:none"><div class="card"><h3>Estoque</h3><input id="estProduto" placeholder="Produto*"><input id="estQtd" type="number" placeholder="Qtd"><input type="datetime-local" id="estDataEntrada"><button class="btn btn-green" onclick="entradaEstoque()">Entrada</button><div style="margin-top:8px"><input id="estSaidaNome" placeholder="Quem retirou*"><input id="estSaidaQtd" type="number" placeholder="Qtd"><input id="estSaidaMotivo" placeholder="Motivo*"><input type="datetime-local" id="estDataSaida"><button class="btn btn-red" onclick="saidaEstoque()">Saida</button></div><p>Em estoque: <b id="estoqueQtd">0</b></p><table id="tabelaEstoque"><tr><th>Produto</th><th>Entrada</th><th>Saida</th><th>Estoque</th><th>Quem retirou</th></tr></table></div></div>
+<div id="tab-relatorios" class="tab" style="display:none"><div class="card"><h3>Relatorios</h3><select id="relTipo"><option>Por Produto</option><option>Por Usuario</option></select><button class="btn btn-green" onclick="gerarRelatorio()">Gerar</button><div id="relResultado">...</div></div></div>
+<div id="tab-usuarios" class="tab" style="display:none"><div class="card"><h3>Usuarios - **** + Trocar senha</h3><input id="usrNome" placeholder="Nome"><input id="usrLogin" placeholder="Login"><input id="usrSenha" type="password" placeholder="Senha ****"><input id="usrTrocaSenha" type="password" placeholder="Trocar senha"><button class="btn" onclick="salvarUsuario()">Salvar</button><table id="tabelaUsuarios"><tr><th>Nome</th><th>Login</th><th>Empresa</th></tr></table></div></div>
+<div id="tab-meuFinanceiro" class="tab" style="display:none"><div class="card"><h3>Meu Financeiro</h3></div></div>
+<div id="tab-remoto" class="tab" style="display:none"><div class="card"><h3>Remoto</h3></div></div>
+</div>
+</div>
+<div class="robot" onclick="toggleRobot()">🤖</div>
+<div id="robotPanel" class="robot-panel"><h4>Robo de Busca V64.2</h4><input id="robotInput" placeholder="Procurar cliente..." style="width:100%;margin-top:8px" onkeyup="roboBusca(this.value)"><div id="robotResult" style="margin-top:10px;font-size:12px;background:#0a1628;padding:8px;border-radius:6px;max-height:160px;overflow:auto">Digite para buscar...</div><button class="btn" style="width:100%;margin-top:8px" onclick="showTab('homologacao');toggleRobot()">Ir pra Homologacao</button></div>
+<script>
+let dados={clientes:[],chamados:[],financeiro:[],estoque:[],usuarios:[],homolog:[]};let chamadoAtual=null,clienteHomologAtual=null;
+function login(){const emp=document.getElementById('loginEmpresa').value;const u=document.getElementById('loginUser').value.trim();const p=document.getElementById('loginPass').value.trim();if(!emp){document.getElementById('loginMsg').innerText='Selecione a empresa!';return;}if(u!==''&&p!==''){localStorage.setItem('logado','true');localStorage.setItem('empresa',emp);localStorage.setItem('user',u);document.getElementById('loginScreen').style.display='none';document.getElementById('empresaLogada').innerText=emp;document.getElementById('userLogado').innerText=u;}else{document.getElementById('loginMsg').innerText='Invalido!';}}
+function logout(){localStorage.clear();location.reload();}
+function showTab(t){document.querySelectorAll('.tab').forEach(e=>e.style.display='none');document.getElementById('tab-'+t).style.display='block';if(t==='homologacao') renderHomolog();}
+function maskTel(el){let v=el.value.replace(/\D/g,'');v=v.replace(/^(\d{2})(\d)/g,'($1) $2');v=v.replace(/(\d{5})(\d)/,'$1-$2');el.value=v;}
+function maskCep(el){let v=el.value.replace(/\D/g,'');v=v.replace(/^(\d{5})(\d)/,'$1-$2');el.value=v;}
+function buscarCep(cep){cep=cep.replace(/\D/g,'');if(cep.length!==8)return;document.getElementById('cliEndereco').value='Buscando CEP...';fetch('https://viacep.com.br/ws/'+cep+'/json/').then(r=>r.json()).then(d=>{if(!d.erro){document.getElementById('cliEndereco').value=d.logradouro;document.getElementById('cliCidade').value=d.localidade;document.getElementById('cliEstado').value=d.uf;document.getElementById('cliMunicipio').value=d.localidade;}});}
+function salvarCliente(){const c={id:Date.now(),empresa:document.getElementById('cliEmpresa').value.trim(),cnpj:document.getElementById('cliCnpj').value,cidade:document.getElementById('cliCidade').value,estado:document.getElementById('cliEstado').value,municipio:document.getElementById('cliMunicipio').value,endereco:document.getElementById('cliEndereco').value,numero:document.getElementById('cliNumero').value,cep:document.getElementById('cliCep').value,telefone:document.getElementById('cliTelefone').value,contato:document.getElementById('cliContato').value,tipo:document.getElementById('cliTipo').value,status:'Pendente'};if(!c.empresa){alert('Nome Empresa obrigatorio!');return;}dados.clientes.push(c);dados.homolog.push({...c});document.getElementById('tabelaClientes').innerHTML+='<tr><td>'+c.empresa+'</td><td>'+c.cidade+'</td><td>'+c.telefone+'</td><td>'+c.tipo+'</td><td>'+c.status+'</td></tr>';document.getElementById('statClientes').innerText=dados.clientes.length;document.getElementById('statHom').innerText=dados.homolog.length;let opt=document.createElement('option');opt.value=c.empresa;opt.innerText=c.empresa;document.getElementById('loginEmpresa').appendChild(opt.cloneNode(true));document.getElementById('chEmpresa').appendChild(opt.cloneNode(true));document.getElementById('finEmpresa').appendChild(opt.cloneNode(true));alert('Cliente '+c.empresa+' salvo! Foi para Homologacao!');showTab('homologacao');renderHomolog();}
+function renderHomolog(){const tbody=document.getElementById('tabelaHomolog');if(dados.homolog.length===0){tbody.innerHTML='<tr><td colspan=6 style=text-align:center;color:#64748b;padding:20px>Nenhuma empresa teste.</td></tr>';return;}tbody.innerHTML='<tr><th>Empresa Teste</th><th>Cidade/UF</th><th>Contato</th><th>Telefone</th><th>Status</th><th>Acoes</th></tr>'+dados.homolog.map(h=>`<tr><td><b>${h.empresa}</b></td><td>${h.cidade}/${h.estado}</td><td>${h.contato}</td><td>${h.telefone}</td><td>${h.status}</td><td><button class=btn onclick="verHomolog(${h.id})">Ver / Validar</button></td></tr>`).join('');}
+function verHomolog(id){clienteHomologAtual=dados.homolog.find(h=>h.id===id);document.getElementById('homologInfo').style.display='block';document.getElementById('homEmpresaNome').innerText=clienteHomologAtual.empresa;document.getElementById('homDetalhes').innerHTML=`CNPJ: ${clienteHomologAtual.cnpj} | Cidade: ${clienteHomologAtual.cidade} - ${clienteHomologAtual.estado}<br>Endereco: ${clienteHomologAtual.endereco}, ${clienteHomologAtual.numero} - CEP ${clienteHomologAtual.cep}<br>Contato: ${clienteHomologAtual.contato} - ${clienteHomologAtual.telefone} - Tipo: ${clienteHomologAtual.tipo}`;}
+function homologarCliente(acao){if(!clienteHomologAtual)return;if(acao==='homologar') clienteHomologAtual.status='Homologado';if(acao==='pendente') clienteHomologAtual.status='Pendente';if(acao==='reprovar') clienteHomologAtual.status='Reprovado';alert('Cliente '+clienteHomologAtual.empresa+' marcado como '+clienteHomologAtual.status+'!');renderHomolog();}
+function filtrarHomolog(q){q=q.toLowerCase();const filtrados = q===''? dados.homolog : dados.homolog.filter(h=> (h.empresa+h.cidade+h.telefone+h.cnpj+h.contato).toLowerCase().includes(q));const tbody=document.getElementById('tabelaHomolog');tbody.innerHTML='<tr><th>Empresa</th><th>Cidade/UF</th><th>Contato</th><th>Telefone</th><th>Status</th><th>Acoes</th></tr>'+filtrados.map(h=>`<tr><td><b>${h.empresa}</b></td><td>${h.cidade}/${h.estado}</td><td>${h.contato}</td><td>${h.telefone}</td><td>${h.status}</td><td><button class=btn onclick="verHomolog(${h.id})">Ver</button></td></tr>`).join('') || '<tr><td colspan=6>Nenhum resultado</td></tr>';}
+function abrirChamadoHomolog(){if(!clienteHomologAtual)return;showTab('chamados');document.getElementById('chEmpresa').value=clienteHomologAtual.empresa;document.getElementById('chTitulo').value='Chamado para '+clienteHomologAtual.empresa;}
+function abrirChamado(){const ch={id:Date.now(),empresa:document.getElementById('chEmpresa').value,titulo:document.getElementById('chTitulo').value,tipo:document.getElementById('chTipo').value,status:'Aberto',comentarios:[]};if(!ch.titulo){alert('Titulo obrigatorio');return;}dados.chamados.push(ch);document.getElementById('tabelaChamados').innerHTML+='<tr><td>'+ch.empresa+'</td><td>'+ch.titulo+'</td><td>'+ch.tipo+'</td><td>'+ch.status+'</td><td><button class=btn onclick=abrirComentarios('+ch.id+')>Abrir</button></td></tr>';document.getElementById('statChamados').innerText=dados.chamados.length;}
+function abrirComentarios(id){chamadoAtual=dados.chamados.find(c=>c.id===id);document.getElementById('comentariosArea').style.display='block';document.getElementById('listaComentarios').innerHTML=chamadoAtual.comentarios.map(c=>'<div><b>'+c.user+'</b> ('+c.data+'): '+c.texto+'</div>').join('');}
+function incluirComentario(){const txt=document.getElementById('novoComentario').value;if(!txt)return;chamadoAtual.comentarios.push({user:localStorage.getItem('empresa')+' - '+localStorage.getItem('user'),data:new Date().toLocaleString(),texto:txt});document.getElementById('novoComentario').value='';abrirComentarios(chamadoAtual.id);}
+function addFinanceiro(){const f={data:document.getElementById('finData').value,empresa:document.getElementById('finEmpresa').value,cat:document.getElementById('finCategoria').value,valor:document.getElementById('finValor').value};dados.financeiro.push(f);document.getElementById('tabelaFinanceiro').innerHTML+='<tr><td>'+f.data+'</td><td>'+f.empresa+'</td><td>'+f.cat+'</td><td>R$ '+f.valor+'</td></tr>';document.getElementById('conteudoFinanceiro').innerHTML='Financeiro carregado!';}
+let estoqueTotal=0;
+function entradaEstoque(){const p=document.getElementById('estProduto').value;const q=parseInt(document.getElementById('estQtd').value)||0;if(!p)return;estoqueTotal+=q;document.getElementById('estoqueQtd').innerText=estoqueTotal;document.getElementById('tabelaEstoque').innerHTML+='<tr><td>'+p+'</td><td>'+document.getElementById('estDataEntrada').value+' +'+q+'</td><td>-</td><td>'+estoqueTotal+'</td><td>-</td></tr>';document.getElementById('statEstoque').innerText=estoqueTotal;}
+function saidaEstoque(){const nome=document.getElementById('estSaidaNome').value;const q=parseInt(document.getElementById('estSaidaQtd').value)||0;const motivo=document.getElementById('estSaidaMotivo').value;if(!nome){alert('Nome quem retirou obrigatorio!');return;}if(!motivo){alert('Motivo obrigatorio!');return;}estoqueTotal-=q;document.getElementById('estoqueQtd').innerText=estoqueTotal;document.getElementById('tabelaEstoque').innerHTML+='<tr><td>'+document.getElementById('estProduto').value+'</td><td>-</td><td>'+document.getElementById('estDataSaida').value+' -'+q+'</td><td>'+estoqueTotal+'</td><td>'+nome+' - '+motivo+'</td></tr>';}
+function salvarUsuario(){const u=document.getElementById('usrNome').value;if(!u)return;dados.usuarios.push({nome:u});document.getElementById('tabelaUsuarios').innerHTML+='<tr><td>'+u+'</td><td>'+document.getElementById('usrLogin').value+'</td><td>'+localStorage.getItem('empresa')+'</td></tr>';}
+function toggleRobot(){const p=document.getElementById('robotPanel');p.style.display=p.style.display==='none'?'block':'none';}
+function roboBusca(q){if(!q){document.getElementById('robotResult').innerHTML='Digite...';return;}q=q.toLowerCase();let res=[];dados.homolog.forEach(h=>{if((h.empresa+h.cidade+h.telefone).toLowerCase().includes(q)) res.push('Homolog: '+h.empresa+' - '+h.status);});dados.clientes.forEach(c=>{if(c.empresa.toLowerCase().includes(q)) res.push('Cliente: '+c.empresa);});if(res.length===0) res=['Nenhum resultado'];document.getElementById('robotResult').innerHTML=res.join('<br>');document.getElementById('buscaHomolog').value=q;filtrarHomolog(q);}
+function gerarRelatorio(){document.getElementById('relResultado').innerHTML='Relatorio '+document.getElementById('relTipo').value+' gerado! Total: '+dados.clientes.length;}
+if(localStorage.getItem('logado')==='true'){document.getElementById('loginScreen').style.display='none';document.getElementById('empresaLogada').innerText=localStorage.getItem('empresa');}
+</script>
+</body>
+</html>
