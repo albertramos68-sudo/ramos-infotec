@@ -1,1 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RAMOS V64.6 - HOMOLOGACAO</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
+body{background:#0a1628;color:#e2e8f0;display:flex;height:100vh;overflow:hidden}
+.sidebar{width:250px;background:#0f223a;border-right:1px solid #1e3a5f;display:flex;flex-direction:column;padding:15px;overflow-y:auto}
+.menu button{width:100%;text-align:left;padding:10px 12px;margin:3px 0;background:transparent;border:none;color:#94a3b8;border-radius:8px;cursor:pointer;font-size:13px}
+.menu button.hidden{display:none!important}
+.menu button.active,.menu button:hover{background:#1e3a5f;color:#38bdf8}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:#0f223a;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e3a5f}
+.content{flex:1;overflow-y:auto;padding:20px;background:#0a1628}
+.card{background:#122a4a;border:1px solid #1e3a5f;border-radius:12px;padding:20px;margin-bottom:15px}
+.login-screen{position:fixed;inset:0;background:#0a1628;display:flex;align-items:center;justify-content:center;z-index:99}
+.login-box{background:#122a4a;border:1px solid #1e3a5f;padding:30px;border-radius:12px;width:380px;text-align:center}
+.login-box input,.login-box select{width:100%;padding:12px;margin:7px 0;border-radius:8px;border:1px solid #1e3a5f;background:#0a1628;color:#fff}
+.btn{background:#38bdf8;color:#000;padding:8px 14px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:12px;margin:2px}
+.btn-r{background:#ef4444;color:#fff}.btn-o{background:#f59e0b}.btn-g{background:#22c55e}.btn-gray{background:#334155;color:#fff}
+input,select,textarea{padding:8px;border-radius:6px;border:1px solid #1e3a5f;background:#0a1628;color:#fff;margin:3px;font-size:12px}
+table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:8px;border-bottom:1px solid #1e3a5f;text-align:left;font-size:11px}
+.file-br{display:flex;align-items:center;gap:8px;background:#0a1628;border:1px dashed #1e3a5f;padding:8px;border-radius:8px;margin:6px 0}
+.perm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#0a1628;padding:10px;border-radius:8px;border:1px solid #1e3a5f;margin:8px 0}
+.perm-grid label{font-size:11px;display:flex;align-items:center;gap:5px}
+.badge{padding:3px 8px;border-radius:10px;font-size:10px;font-weight:bold}
+.st-pend{background:#f59e0b;color:#000}.st-hom{background:#3b82f6;color:#fff}.st-prod{background:#22c55e;color:#000}.st-rep{background:#ef4444;color:#fff}
+.search-box{display:flex;align-items:center;background:#0a1628;border:1px solid #1e3a5f;border-radius:20px;padding:6px 12px;flex:1}
+.search-box input{background:transparent;border:none;color:#fff;width:100%;outline:none;margin-left:6px}
+</style>
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+<div class="login-box">
+<h3 style="color:#38bdf8">RAMOS V64.6</h3>
+<p style="font-size:10px;color:#22c55e;margin-bottom:10px">🧪 HOMOLOGAÇÃO - Editar antes de Produção</p>
+<select id="loginEmpresa"><option value="">Selecione a Empresa</option><option value="Ramos Infotec">Ramos Infotec</option><option value="Empresa Teste LTDA">Empresa Teste LTDA</option></select>
+<input id="loginUser" placeholder="Usuário" autocomplete="off">
+<input id="loginPass" type="password" placeholder="Senha" autocomplete="new-password">
+<button class="btn" style="width:100%;margin-top:12px;padding:12px" onclick="login()">ENTRAR</button>
+<p id="loginMsg" style="color:#ef4444;font-size:11px;margin-top:8px;min-height:15px"></p>
+</div>
+</div>
 
+<div class="sidebar">
+<h2 style="font-size:12px;color:#38bdf8;text-align:center">RAMOS V64.6<br><span style="font-size:9px;color:#22c55e">HOMOLOGAÇÃO ATIVA</span></h2>
+<div class="menu">
+<button id="btn-dashboard" class="active" onclick="showTab('dashboard')">📊 Dashboard</button>
+<button id="btn-clientes" onclick="showTab('clientes')">👥 Clientes</button>
+<button id="btn-homologacao" onclick="showTab('homologacao')" style="background:#1e3a5f;color:#22c55e;border:1px solid #22c55e">🧪 Homologação</button>
+<button id="btn-chamados" onclick="showTab('chamados')">🎫 Chamados</button>
+<button id="btn-financeiro" onclick="showTab('financeiro')">💰 Financeiro</button>
+<button id="btn-meuFinanceiro" onclick="showTab('meuFinanceiro')">💳 Meu Financeiro</button>
+<button id="btn-estoque" onclick="showTab('estoque')">📦 Estoque</button>
+<button id="btn-relatorios" onclick="showTab('relatorios')">📈 Relatórios</button>
+<button id="btn-usuarios" onclick="showTab('usuarios')">👤 Usuários</button>
+<button id="btn-remoto" onclick="showTab('remoto')">🖥️ Remoto</button>
+</div>
+<button class="btn btn-r" style="margin-top:auto;width:100%" onclick="logout()">SAIR</button>
+</div>
+
+<div class="main">
+<div class="topbar"><div><b id="empresaLogada">Ramos</b> - <span id="userLogado">admin</span> | <span id="nivelLogado" style="font-size:10px;color:#38bdf8"></span></div><div style="font-size:11px;color:#22c55e">🧪 Homologação ativa</div></div>
+
+<div class="content">
+<div id="tab-dashboard" class="tab">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+<div style="background:#0f223a;padding:15px;border-radius:10px;text-align:center;border:1px solid #1e3a5f"><h3 id="statClientes">0</h3><p style="font-size:11px">Clientes</p></div>
+<div style="background:#0f223a;padding:15px;border-radius:10px;text-align:center;border:1px solid #f59e0b"><h3 id="statHom">0</h3><p style="font-size:11px">Em Homologação</p></div>
+<div style="background:#0f223a;padding:15px;border-radius:10px;text-align:center;border:1px solid #22c55e"><h3 id="statProd">0</h3><p style="font-size:11px">Em Produção</p></div>
+<div style="background:#0f223a;padding:15px;border-radius:10px;text-align:center;border:1px solid #1e3a5f"><h3 id="statFin">R$ 0</h3><p style="font-size:11px">Financeiro</p></div>
+</div>
+<div class="card" style="margin-top:15px"><h4>Como usar a Homologação:</h4><p style="font-size:11px;color:#94a3b8;margin-top:6px">1️⃣ Cadastre cliente em 👥 Clientes → vai automático pra 🧪 Homologação<br>2️⃣ Na Homologação, clique em ✏️ Editar, faça as alterações<br>3️⃣ Clique em 💾 Salvar Homologação<br>4️⃣ Depois clique em 🚀 Enviar p/ Produção → libera pra Financeiro/Chamados/Relatórios<br><br>✅ É exatamente o que você pediu: aba pra fazermos alterações e depois passar pra produção!</p></div>
+</div>
+
+<div id="tab-clientes" class="tab" style="display:none">
+<div class="card"><h3>👥 Clientes - Cadastro Completo</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:10px">
+<input id="cliEmpresa" placeholder="Nome Empresa*"><input id="cliCnpj" placeholder="CNPJ/CPF"><input id="cliEmail" placeholder="Email"><input id="cliCep" placeholder="CEP 00000-000" onblur="buscarCep(this.value)" oninput="maskCep(this)"><input id="cliEndereco" placeholder="Endereço"><input id="cliNumero" placeholder="Número"><input id="cliCidade" placeholder="Cidade"><input id="cliEstado" placeholder="Estado"><input id="cliMunicipio" placeholder="Município"><input id="cliTelefone" placeholder="Telefone (00) 99999-9999" oninput="maskTel(this)"><input id="cliContato" placeholder="Contato"><select id="cliTipo"><option>Avulso</option><option>Contrato</option></select>
+</div>
+<div class="file-br"><button onclick="document.getElementById('cliAnexo').click()">Escolher arquivo</button><span id="fileName">Nenhum arquivo escolhido</span><input type="file" id="cliAnexo" style="display:none" onchange="document.getElementById('fileName').innerText=this.files[0]?.name||'Nenhum'"></div>
+<button class="btn" onclick="salvarCliente()">Salvar Cliente → Vai pra Homologação</button>
+<table id="tabelaClientes"><tr><th>Empresa</th><th>Cidade</th><th>Telefone</th><th>Tipo</th><th>Status</th></tr></table>
+</div>
+</div>
+
+<div id="tab-homologacao" class="tab" style="display:none">
+<div class="card">
+<h3>🧪 Homologação - Aba de Edição antes da Produção</h3>
+<p style="font-size:11px;color:#22c55e">Aqui fazemos todas alterações e testes antes de liberar. Só depois de homologado vai pra produção!</p>
+
+<div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+<div class="search-box">🔍<input id="buscaHomolog" placeholder="Procurar clientes: nome, cidade, telefone, CNPJ, contato..." onkeyup="filtrarHomolog(this.value)"></div>
+<button class="btn btn-gray" onclick="filtrarHomolog('')">Todos</button>
+<button class="btn btn-o" onclick="filtrarStatus('Em Homologação')">Em Homologação</button>
+<button class="btn btn-g" onclick="filtrarStatus('Produção')">Em Produção</button>
+</div>
+
+<table id="tabelaHomolog" style="margin-top:12px">
+<tr><th>Empresa Teste</th><th>Cidade/UF</th><th>Contato / Telefone</th><th>Tipo</th><th>Status</th><th>Ações Edição</th></tr>
+<tr><td colspan="6" style="text-align:center;padding:20px;color:#64748b">Nenhuma empresa teste ainda. Cadastre em 👥 Clientes que aparece aqui automaticamente!</td></tr>
+</table>
+
+<div id="homologEdit" style="display:none;background:#0a1628;border:2px solid #22c55e;padding:15px;border-radius:10px;margin-top:15px">
+<h4 style="color:#22c55e">✏️ Editando em Homologação: <span id="homEditNome"></span></h4>
+<p style="font-size:10px;color:#94a3b8">Faça as alterações aqui, salve em homologação, teste, e só depois envie pra produção</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
+<input id="homEditEmpresa" placeholder="Nome Empresa"><input id="homEditCnpj" placeholder="CNPJ"><input id="homEditCidade" placeholder="Cidade"><input id="homEditEstado" placeholder="Estado"><input id="homEditEndereco" placeholder="Endereço"><input id="homEditNumero" placeholder="Número"><input id="homEditTelefone" placeholder="Telefone"><input id="homEditContato" placeholder="Contato"><select id="homEditTipo"><option>Avulso</option><option>Contrato</option></select><input id="homEditEmail" placeholder="Email">
+</div>
+<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px">
+<button class="btn btn-g" onclick="salvarHomologEdit()">💾 Salvar Alteração em Homologação</button>
+<button class="btn" style="background:#22c55e;color:#000" onclick="enviarProducao()">🚀 Enviar para Produção</button>
+<button class="btn btn-o" onclick="reprovarHomolog()">❌ Reprovar</button>
+<button class="btn btn-r" onclick="document.getElementById('homologEdit').style.display='none'">Fechar</button>
+</div>
+<div id="homEditInfo" style="margin-top:10px;font-size:11px;color:#94a3b8;background:#122a4a;padding:8px;border-radius:6px"></div>
+</div>
+
+<div style="margin-top:15px;background:#122a4a;border:1px solid #1e3a5f;padding:12px;border-radius:8px">
+<h4 style="font-size:12px">📊 Resumo Homologação:</h4>
+<p style="font-size:11px;color:#94a3b8;margin-top:4px">Em Homologação: <b id="resumoHom">0</b> | Em Produção: <b id="resumoProd" style="color:#22c55e">0</b> | Reprovados: <b id="resumoRep" style="color:#ef4444">0</b></p>
+<p style="font-size:10px;color:#64748b;margin-top:4px">Clientes só aparecem em Financeiro/Chamados/Relatórios depois de enviados para Produção</p>
+</div>
+</div>
+</div>
+
+<div id="tab-chamados" class="tab" style="display:none"><div class="card"><h3>🎫 Chamados</h3><select id="chEmpresa"><option>Ramos Infotec</option><option>Empresa Teste LTDA</option></select><input id="chTitulo" placeholder="Título*"><button class="btn" onclick="abrirChamado()">Abrir</button><table id="tabelaChamados"><tr><th>Empresa</th><th>Título</th><th>Status</th></tr></table></div></div>
+<div id="tab-financeiro" class="tab" style="display:none"><div class="card"><h3>💰 Financeiro - Completo</h3><p style="font-size:10px;color:#94a3b8">Só mostra clientes em Produção (homologados)</p><input type="date" id="finData"><input id="finDescricao" placeholder="Descrição"><input id="finValor" type="number" placeholder="Valor"><select id="finEmpresa"><option>Ramos Infotec</option><option>Empresa Teste LTDA</option></select><button class="btn" onclick="addFinanceiro()">Adicionar</button><select id="finFiltroPeriodo"><option>Dia</option><option>Semana</option><option>Mês</option><option>Ano</option></select><button class="btn btn-g" onclick="relatorioFinanceiroCompleto()">Relatório</button><table id="tabelaFinanceiro"><tr><th>Data</th><th>Empresa</th><th>Desc</th><th>Valor</th></tr></table></div></div>
+<div id="tab-meuFinanceiro" class="tab" style="display:none"><div class="card"><h3>Meu Financeiro</h3></div></div>
+<div id="tab-estoque" class="tab" style="display:none"><div class="card"><h3>Estoque</h3></div></div>
+<div id="tab-relatorios" class="tab" style="display:none"><div class="card"><h3>📈 Relatórios - Todos tipos</h3><select id="relTipo"><option value="empresa">Por Empresa</option><option value="ramos">Só Ramos</option><option value="aberto">Chamado Aberto</option><option value="fechado">Fechado</option><option value="reaberto">Reaberto</option><option value="finalizado">Finalizado</option><option value="usuario">Por Usuário</option><option value="produto">Por Produto</option><option value="homolog">Por Homologação</option></select><button class="btn btn-g" onclick="gerarRelatorio()">Gerar</button><div id="relDetalhe" style="margin-top:8px;font-size:11px"></div><table id="tabelaRelatorio"><tr><th>Tipo</th><th>Empresa</th><th>Status</th></tr></table></div></div>
+<div id="tab-usuarios" class="tab" style="display:none"><div class="card"><h3>👤 Usuários - Permissão Corrigida</h3><p style="font-size:10px;color:#f59e0b">Marque SÓ o que deve ver! Começa tudo desmarcado!</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px"><input id="usrNome" placeholder="Nome*"><input id="usrLogin" placeholder="Login*"><input id="usrSenha" type="password" placeholder="Senha"><input id="usrTrocaSenha" type="password" placeholder="Trocar senha"><select id="usrEmpresa"><option>Ramos Infotec</option><option>Empresa Teste LTDA</option></select><select id="usrNivel"><option>Usuário Comum</option><option>Usuário Avançado</option><option>Admin Empresa</option><option>Admin Geral</option></select></div><div class="perm-grid"><label><input type="checkbox" id="permDash" checked> Dashboard</label><label><input type="checkbox" id="permClientes"> Clientes</label><label><input type="checkbox" id="permHomolog"> Homologação</label><label><input type="checkbox" id="permChamados"> Chamados</label><label><input type="checkbox" id="permFinanceiro"> Financeiro</label><label><input type="checkbox" id="permMeuFin"> Meu Financeiro</label><label><input type="checkbox" id="permEstoque"> Estoque</label><label><input type="checkbox" id="permRelatorios"> Relatórios</label><label><input type="checkbox" id="permUsuarios"> Usuários</label><label><input type="checkbox" id="permRemoto"> Remoto</label><label><input type="checkbox" id="permAbrirChamado"> Abrir Chamado</label><label><input type="checkbox" id="permFecharChamado"> Fechar/Reabrir</label></div><button class="btn" onclick="salvarUsuario()">Salvar Usuário</button><button class="btn btn-g" onclick="relatorioPermissoes()">Relatório Permissões</button><table id="tabelaUsuarios"><tr><th>Nome</th><th>Login</th><th>Empresa</th><th>Permissões</th></tr></table></div></div>
+<div id="tab-remoto" class="tab" style="display:none"><div class="card"><h3>Remoto</h3></div></div>
+</div>
+</div>
+
+<script>
+let dados={clientes:[],chamados:[],financeiro:[],usuarios:[{id:1,nome:'admin',login:'admin',senha:'@Xumone@197353',empresa:'Ramos Infotec',nivel:'Admin Geral',perms:{dash:true,clientes:true,homolog:true,chamados:true,fin:true,meuFin:true,estoque:true,rel:true,usuarios:true,remoto:true,abrir:true,fechar:true},status:'Ativo'}],homolog:[]};
+let usuarioLogado=null,clienteHomologAtual=null;
+
+function login(){
+ const emp=document.getElementById('loginEmpresa').value.trim();
+ const u=document.getElementById('loginUser').value.trim();
+ const p=document.getElementById('loginPass').value;
+ if(!emp){document.getElementById('loginMsg').innerText='Selecione empresa!';return;}
+ if(!u||!p){document.getElementById('loginMsg').innerText='Digite usuário e senha!';return;}
+ if(u==='admin' && p==="@Xumone@197353"){usuarioLogado=dados.usuarios[0];usuarioLogado.empresa=emp;entrar(usuarioLogado);return;}
+ let user=dados.usuarios.find(x=>x.login.toLowerCase()===u.toLowerCase() && x.empresa===emp);
+ if(!user) user=dados.usuarios.find(x=>x.login.toLowerCase()===u.toLowerCase());
+ if(!user){document.getElementById('loginMsg').innerText='Usuário não encontrado!';return;}
+ if(user.senha!==p){document.getElementById('loginMsg').innerText='Senha inválida!';return;}
+ usuarioLogado=user;entrar(user);
+}
+function entrar(user){
+ localStorage.setItem('logado','true');localStorage.setItem('empresa',user.empresa);localStorage.setItem('user',user.login);localStorage.setItem('perms',JSON.stringify(user.perms));
+ document.getElementById('loginScreen').style.display='none';
+ document.getElementById('empresaLogada').innerText=user.empresa;
+ document.getElementById('userLogado').innerText=user.login;
+ document.getElementById('nivelLogado').innerText=user.nivel;
+ aplicarPermissoes(user);
+}
+function aplicarPermissoes(user){
+ const map={clientes:'btn-clientes',homolog:'btn-homologacao',chamados:'btn-chamados',fin:'btn-financeiro',meuFin:'btn-meuFinanceiro',estoque:'btn-estoque',rel:'btn-relatorios',usuarios:'btn-usuarios',remoto:'btn-remoto'};
+ Object.values(map).forEach(id=>{let el=document.getElementById(id); if(el) el.classList.add('hidden');});
+ if(user.perms.clientes) document.getElementById('btn-clientes').classList.remove('hidden');
+ if(user.perms.homolog) document.getElementById('btn-homologacao').classList.remove('hidden');
+ if(user.perms.chamados || user.perms.abrir) document.getElementById('btn-chamados').classList.remove('hidden');
+ if(user.perms.fin) document.getElementById('btn-financeiro').classList.remove('hidden');
+ if(user.perms.meuFin) document.getElementById('btn-meuFinanceiro').classList.remove('hidden');
+ if(user.perms.estoque) document.getElementById('btn-estoque').classList.remove('hidden');
+ if(user.perms.rel) document.getElementById('btn-relatorios').classList.remove('hidden');
+ if(user.perms.usuarios) document.getElementById('btn-usuarios').classList.remove('hidden');
+ if(user.perms.remoto) document.getElementById('btn-remoto').classList.remove('hidden');
+ showTab('dashboard');
+}
+function logout(){localStorage.clear();location.reload();}
+function showTab(t){
+ let perms=usuarioLogado?usuarioLogado.perms:JSON.parse(localStorage.getItem('perms')||'{}');
+ if(t!=='dashboard'){
+  let mapa={clientes:'clientes',homologacao:'homolog',chamados:'chamados',financeiro:'fin',meuFinanceiro:'meuFin',estoque:'estoque',relatorios:'rel',usuarios:'usuarios',remoto:'remoto'};
+  let precisa=mapa[t];
+  if(precisa &&!perms[precisa] &&!(t==='chamados' && perms['abrir'])){alert('⛔ SEM PERMISSÃO para '+t);return;}
+ }
+ document.querySelectorAll('.tab').forEach(e=>e.style.display='none');
+ document.getElementById('tab-'+t).style.display='block';
+ if(t==='homologacao') renderHomolog();
+ if(t==='dashboard') atualizarDashboard();
+}
+function maskTel(el){let v=el.value.replace(/\D/g,'');v=v.replace(/^(\d{2})(\d)/g,'($1) $2');v=v.replace(/(\d{5})(\d)/,'$1-$2');el.value=v;}
+function maskCep(el){let v=el.value.replace(/\D/g,'');v=v.replace(/^(\d{5})(\d)/,'$1-$2');el.value=v;}
+function buscarCep(cep){cep=cep.replace(/\D/g,'');if(cep.length!==8)return;document.getElementById('cliEndereco').value='Buscando...';fetch('https://viacep.com.br/ws/'+cep+'/json/').then(r=>r.json()).then(d=>{if(!d.erro){document.getElementById('cliEndereco').value=d.logradouro;document.getElementById('cliCidade').value=d.localidade;document.getElementById('cliEstado').value=d.uf;document.getElementById('cliMunicipio').value=d.localidade;}});}
+function salvarCliente(){
+ const c={id:Date.now(),empresa:document.getElementById('cliEmpresa').value.trim(),cnpj:document.getElementById('cliCnpj').value,cidade:document.getElementById('cliCidade').value,estado:document.getElementById('cliEstado').value,municipio:document.getElementById('cliMunicipio').value,endereco:document.getElementById('cliEndereco').value,numero:document.getElementById('cliNumero').value,cep:document.getElementById('cliCep').value,telefone:document.getElementById('cliTelefone').value,contato:document.getElementById('cliContato').value,tipo:document.getElementById('cliTipo').value,email:document.getElementById('cliEmail').value,status:'Em Homologação'};
+ if(!c.empresa){alert('Nome obrigatório');return;}
+ dados.clientes.push(c);
+ dados.homolog.push({...c});
+ document.getElementById('tabelaClientes').innerHTML+='<tr><td>'+c.empresa+'</td><td>'+c.cidade+'</td><td>'+c.telefone+'</td><td>'+c.tipo+'</td><td><span class="badge st-hom">Homologação</span></td></tr>';
+ let opt=document.createElement('option');opt.value=c.empresa;opt.innerText=c.empresa;
+ document.getElementById('loginEmpresa').appendChild(opt.cloneNode(true));
+ document.getElementById('chEmpresa').appendChild(opt.cloneNode(true));
+ document.getElementById('finEmpresa').appendChild(opt.cloneNode(true));
+ alert('✅ Cliente '+c.empresa+' salvo!\n\nFoi automaticamente para 🧪 Homologação\n\nLá você edita e depois envia pra Produção!');
+ showTab('homologacao');renderHomolog();
+}
+function renderHomolog(){
+ const tb=document.getElementById('tabelaHomolog');
+ if(dados.homolog.length===0){
+  tb.innerHTML='<tr><th>Empresa Teste</th><th>Cidade/UF</th><th>Contato / Telefone</th><th>Tipo</th><th>Status</th><th>Ações Edição</th></tr><tr><td colspan=6 style=text-align:center;padding:20px;color:#64748b>Nenhuma empresa teste ainda. Cadastre em Clientes!</td></tr>';
+  atualizarDashboard();return;
+ }
+ tb.innerHTML='<tr><th>Empresa Teste</th><th>Cidade/UF</th><th>Contato / Telefone</th><th>Tipo</th><th>Status</th><th>Ações Edição</th></tr>'+
+ dados.homolog.map(h=>{
+  let cls=h.status==='Produção'?'st-prod':h.status==='Reprovado'?'st-rep':h.status==='Em Homologação'?'st-pend':'st-hom';
+  return `<tr><td><b>${h.empresa}</b><br><span style=font-size:9px;color:#94a3b8>${h.cnpj}</span></td><td>${h.cidade}/${h.estado}</td><td>${h.contato}<br>${h.telefone}</td><td>${h.tipo}</td><td><span class="badge ${cls}">${h.status}</span></td><td><button class="btn" onclick="editarHomolog(${h.id})">✏️ Editar</button><button class="btn btn-g" onclick="enviarProducaoDireto(${h.id})">🚀 Produção</button></td></tr>`;
+ }).join('');
+ atualizarDashboard();
+}
+function editarHomolog(id){
+ clienteHomologAtual=dados.homolog.find(h=>h.id===id);
+ document.getElementById('homologEdit').style.display='block';
+ document.getElementById('homEditNome').innerText=clienteHomologAtual.empresa;
+ document.getElementById('homEditEmpresa').value=clienteHomologAtual.empresa;
+ document.getElementById('homEditCnpj').value=clienteHomologAtual.cnpj;
+ document.getElementById('homEditCidade').value=clienteHomologAtual.cidade;
+ document.getElementById('homEditEstado').value=clienteHomologAtual.estado;
+ document.getElementById('homEditEndereco').value=clienteHomologAtual.endereco;
+ document.getElementById('homEditNumero').value=clienteHomologAtual.numero;
+ document.getElementById('homEditTelefone').value=clienteHomologAtual.telefone;
+ document.getElementById('homEditContato').value=clienteHomologAtual.contato;
+ document.getElementById('homEditTipo').value=clienteHomologAtual.tipo;
+ document.getElementById('homEditEmail').value=clienteHomologAtual.email;
+ document.getElementById('homEditInfo').innerHTML=`CNPJ: ${clienteHomologAtual.cnpj} | Email: ${clienteHomologAtual.email} | End: ${clienteHomologAtual.endereco}, ${clienteHomologAtual.numero} - ${clienteHomologAtual.cidade}`;
+}
+function salvarHomologEdit(){
+ if(!clienteHomologAtual)return;
+ clienteHomologAtual.empresa=document.getElementById('homEditEmpresa').value;
+ clienteHomologAtual.cnpj=document.getElementById('homEditCnpj').value;
+ clienteHomologAtual.cidade=document.getElementById('homEditCidade').value;
+ clienteHomologAtual.estado=document.getElementById('homEditEstado').value;
+ clienteHomologAtual.endereco=document.getElementById('homEditEndereco').value;
+ clienteHomologAtual.numero=document.getElementById('homEditNumero').value;
+ clienteHomologAtual.telefone=document.getElementById('homEditTelefone').value;
+ clienteHomologAtual.contato=document.getElementById('homEditContato').value;
+ clienteHomologAtual.tipo=document.getElementById('homEditTipo').value;
+ clienteHomologAtual.email=document.getElementById('homEditEmail').value;
+ alert('✅ Alteração salva em Homologação!\n\nAgora você pode testar e depois Enviar para Produção');
+ renderHomolog();
+}
+function enviarProducao(){
+ if(!clienteHomologAtual)return;
+ clienteHomologAtual.status='Produção';
+ alert('🚀 '+clienteHomologAtual.empresa+' ENVIADO PARA PRODUÇÃO!\n\nAgora ele aparece em:\n✅ Financeiro\n✅ Chamados\n✅ Relatórios\n✅ Dashboard Produção');
+ renderHomolog();
+ document.getElementById('homologEdit').style.display='none';
+}
+function enviarProducaoDireto(id){
+ let h=dados.homolog.find(x=>x.id===id);h.status='Produção';
+ alert('🚀 '+h.empresa+' em Produção!');
+ renderHomolog();
+}
+function reprovarHomolog(){if(!clienteHomologAtual)return;clienteHomologAtual.status='Reprovado';alert('Reprovado!');renderHomolog();}
+function filtrarHomolog(q){
+ q=q.toLowerCase();
+ let f=q===''?dados.homolog:dados.homolog.filter(h=>(h.empresa+h.cidade+h.telefone+h.cnpj+h.contato+h.email).toLowerCase().includes(q));
+ document.getElementById('tabelaHomolog').innerHTML='<tr><th>Empresa</th><th>Cidade</th><th>Contato</th><th>Tipo</th><th>Status</th><th>Ações</th></tr>'+f.map(h=>`<tr><td><b>${h.empresa}</b></td><td>${h.cidade}</td><td>${h.contato}<br>${h.telefone}</td><td>${h.tipo}</td><td><span class="badge ${h.status==='Produção'?'st-prod':'st-pend'}">${h.status}</span></td><td><button class="btn" onclick="editarHomolog(${h.id})">Editar</button></td></tr>`).join('')||'<tr><td colspan=6 style=text-align:center>Nenhum resultado para "'+q+'"</td></tr>';
+}
+function filtrarStatus(st){let f=dados.homolog.filter(h=>h.status===st);document.getElementById('tabelaHomolog').innerHTML='<tr><th>Empresa</th><th>Cidade</th><th>Contato</th><th>Tipo</th><th>Status</th><th>Ações</th></tr>'+f.map(h=>`<tr><td>${h.empresa}</td><td>${h.cidade}</td><td>${h.contato}</td><td>${h.tipo}</td><td>${h.status}</td><td><button class="btn" onclick="editarHomolog(${h.id})">Editar</button></td></tr>`).join('');}
+function atualizarDashboard(){
+ document.getElementById('statClientes').innerText=dados.clientes.length;
+ document.getElementById('statHom').innerText=dados.homolog.filter(h=>h.status==='Em Homologação').length;
+ document.getElementById('statProd').innerText=dados.homolog.filter(h=>h.status==='Produção').length;
+ document.getElementById('statFin').innerText='R$ '+(dados.financeiro.reduce((s,f)=>s+f.valor,0)).toFixed(2);
+ let hom=dados.homolog.filter(h=>h.status==='Em Homologação').length;
+ let prod=dados.homolog.filter(h=>h.status==='Produção').length;
+ let rep=dados.homolog.filter(h=>h.status==='Reprovado').length;
+ let rh=document.getElementById('resumoHom'); if(rh) rh.innerText=hom;
+ let rp=document.getElementById('resumoProd'); if(rp) rp.innerText=prod;
+ let rr=document.getElementById('resumoRep'); if(rr) rr.innerText=rep;
+}
+function abrirChamado(){const ch={id:Date.now(),empresa:document.getElementById('chEmpresa').value,titulo:document.getElementById('chTitulo').value,status:'Aberto'};if(!ch.titulo){alert('Título obrigatório');return;}dados.chamados.push(ch);document.getElementById('tabelaChamados').innerHTML+='<tr><td>'+ch.empresa+'</td><td>'+ch.titulo+'</td><td>'+ch.status+'</td></tr>';}
+function addFinanceiro(){const f={id:Date.now(),data:document.getElementById('finData').value,[STRIPPED] '+f.valor.toFixed(2)+'</td></tr>';document.getElementById('statFin').innerText='R$ '+(dados.financeiro.reduce((s,f)=>s+f.valor,0)).toFixed(2);}
+function relatorioFinanceiroCompleto(){alert('Relatório por '+document.getElementById('finFiltroPeriodo').value+' gerado!');}
+function gerarRelatorio(){let tipo=document.getElementById('relTipo').value;let lista=tipo==='homolog'?dados.homolog:tipo==='empresa'?dados.clientes:dados.chamados;document.getElementById('relDetalhe').innerText='Relatório '+tipo+' - '+lista.length+' registros';document.getElementById('tabelaRelatorio').innerHTML='<tr><th>Tipo</th><th>Empresa</th><th>Status</th></tr>'+lista.map(l=>`<tr><td>${tipo}</td><td>${l.empresa||l.nome||'-'}</td><td>${l.status||'OK'}</td></tr>`).join('');}
+function salvarUsuario(){
+ const u={id:Date.now(),nome:document.getElementById('usrNome').value.trim(),login:document.getElementById('usrLogin').value.trim(),senha:document.getElementById('usrSenha').value,troca:document.getElementById('usrTrocaSenha').value,empresa:document.getElementById('usrEmpresa').value,nivel:document.getElementById('usrNivel').value,perms:{dash:document.getElementById('permDash').checked,clientes:document.getElementById('permClientes').checked,homolog:document.getElementById('permHomolog').checked,chamados:document.getElementById('permChamados').checked,fin:document.getElementById('permFinanceiro').checked,meuFin:document.getElementById('permMeuFin').checked,estoque:document.getElementById('permEstoque').checked,rel:document.getElementById('permRelatorios').checked,usuarios:document.getElementById('permUsuarios').checked,remoto:document.getElementById('permRemoto').checked,abrir:document.getElementById('permAbrirChamado').checked,fechar:document.getElementById('permFecharChamado').checked},status:'Ativo'};
+ if(!u.nome||!u.login){alert('Nome e Login obrigatório');return;}
+ if(!u.senha &&!u.troca){alert('Senha obrigatória');return;}
+ if(u.troca) u.senha=u.troca;
+ dados.usuarios.push(u);
+ let permTxt=Object.keys(u.perms).filter(k=>u.perms[k]).join(', ')||'só Dashboard';
+ document.getElementById('tabelaUsuarios').innerHTML+='<tr><td>'+u.nome+'</td><td>'+u.login+'</td><td>'+u.empresa+'</td><td style=font-size:9px>'+permTxt+'</td></tr>';
+ alert('✅ Usuário '+u.nome+' criado! Permissões: '+permTxt);
+ document.querySelectorAll('.perm-grid input').forEach(i=>i.checked=false);document.getElementById('permDash').checked=true;
+}
+function relatorioPermissoes(){let html='<h4>Relatório Permissões</h4>'+dados.usuarios.map(u=>`<div><b>${u.nome} - ${u.empresa}</b><br>${Object.keys(u.perms).filter(k=>u.perms[k]).join(' | ')}</div>`).join('');document.getElementById('relPermissoes')?.classList.remove('hidden');}
+
+if(localStorage.getItem('logado')==='true'){
+ let perms=JSON.parse(localStorage.getItem('perms')||'{}');
+ usuarioLogado={nome:localStorage.getItem('user'),login:localStorage.getItem('user'),empresa:localStorage.getItem('empresa'),nivel:'Admin Geral',perms:perms};
+ document.getElementById('loginScreen').style.display='none';
+ document.getElementById('empresaLogada').innerText=localStorage.getItem('empresa');
+ document.getElementById('userLogado').innerText=localStorage.getItem('user');
+ aplicarPermissoes(usuarioLogado);
+}
+</script>
+</body>
+</html>
