@@ -1,1 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RAMOS V66.2 AÇÕES FIX</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#0a1628;color:#e2e8f0;display:flex;height:100vh;overflow:hidden}
+.sidebar{width:260px;background:#0f223a;border-right:1px solid #1e3a5f;display:flex;flex-direction:column;padding:15px}
+.menu button{width:100%;text-align:left;padding:10px;margin:3px 0;background:transparent;border:none;color:#94a3b8;border-radius:8px;cursor:pointer;font-size:13px}
+.menu button.active,.menu button:hover{background:#1e3a5f;color:#38bdf8}
+.menu button.hidden{display:none!important}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:#0f223a;padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid #1e3a5f}
+.content{flex:1;overflow-y:auto;padding:20px}
+.card{background:#122a4a;border:1px solid #1e3a5f;border-radius:12px;padding:18px;margin-bottom:12px}
+.login-screen{position:fixed;inset:0;background:#0a1628;display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-box{background:#122a4a;border:1px solid #1e3a5f;padding:28px;border-radius:12px;width:360px;text-align:center}
+.login-box input,.login-box select{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #1e3a5f;background:#0a1628;color:#fff}
+.btn{background:#38bdf8;color:#000;padding:6px 12px;border:none;border-radius:6px;font-weight:bold;cursor:pointer;margin:2px;font-size:11px}
+.btn-r{background:#ef4444;color:#fff}.btn-g{background:#22c55e;color:#000}.btn-o{background:#f59e0b;color:#000}.btn-gray{background:#334155;color:#fff}
+input,select,textarea{padding:8px;border-radius:6px;border:1px solid #1e3a5f;background:#0a1628;color:#fff;margin:3px;font-size:12px}
+table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:7px;border-bottom:1px solid #1e3a5f;font-size:11px;text-align:left}
+.badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:bold}
+</style>
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+<div class="login-box">
+<h3 style="color:#38bdf8">RAMOS V66.2</h3>
+<p style="font-size:10px;color:#22c55e">Botões Fechar/Alterar/Finalizar + Falta Internet</p>
+<select id="loginEmpresa"><option>Ramos Infotec</option><option>Empresa Teste LTDA</option></select>
+<input id="loginUser" value="admin"><input id="loginPass" type="password" value="@Xumone@197353">
+<button class="btn" style="width:100%;padding:14px" onclick="login()">ENTRAR</button>
+</div>
+</div>
 
+<div class="sidebar">
+<h2 style="font-size:12px;color:#38bdf8;text-align:center">RAMOS V66.2<br><span style="font-size:9px;color:#22c55e">AÇÕES COMPLETO</span></h2>
+<div class="menu">
+<button id="btn-dashboard" onclick="showTab('dashboard')">📊 Dashboard</button>
+<button id="btn-clientes" onclick="showTab('clientes')">👥 Clientes</button>
+<button id="btn-homologacao" onclick="showTab('homologacao')" style="color:#22c55e;border:1px solid #22c55e">🧪 Homologação</button>
+<button id="btn-chamados" onclick="showTab('chamados')">🎫 Chamados (Admin)</button>
+<button id="btn-abrirChamado" onclick="showTab('abrirChamado')" style="color:#f59e0b">📝 Abrir Chamado</button>
+<button id="btn-financeiro" onclick="showTab('financeiro')">💰 Financeiro</button>
+<button id="btn-estoque" onclick="showTab('estoque')">📦 Estoque</button>
+<button id="btn-relatorios" onclick="showTab('relatorios')">📈 Relatórios</button>
+<button id="btn-usuarios" onclick="showTab('usuarios')">👤 Usuários</button>
+</div>
+<button class="btn btn-r" style="margin-top:auto;width:100%" onclick="logout()">SAIR</button>
+</div>
+
+<div class="main">
+<div class="topbar"><div><b id="empresaLogada"></b> - <span id="userLogado"></span> - <span id="nivelLogado" style="font-size:10px;color:#38bdf8"></span></div><div style="font-size:10px;color:#22c55e" id="permInfo"></div></div>
+<div class="content">
+
+<div id="tab-dashboard" class="tab"><div class="card"><h4>Dashboard</h4><p id="boasVindas" style="font-size:11px"></p><p style="font-size:11px;margin-top:8px">Clientes: <b id="statCli">0</b> | Homolog: <b id="statHom">0</b> | Chamados Abertos: <b id="statAbertos">0</b> | Fechados: <b id="statFechados">0</b></p></div></div>
+
+<div id="tab-clientes" class="tab" style="display:none"><div class="card"><h3>Clientes</h3><input id="cliEmpresa" placeholder="Empresa*"><input id="cliCidade" placeholder="Cidade"><button class="btn" style="width:auto" onclick="salvarCliente()">Salvar → Homologação</button><table id="tabelaClientes"><tr><th>Empresa</th><th>Cidade</th></tr></table></div></div>
+
+<div id="tab-homologacao" class="tab" style="display:none"><div class="card"><h3>🧪 Homologação</h3><table id="tabelaHomolog"><tr><th>Empresa</th><th>Status</th></tr></table></div></div>
+
+<div id="tab-chamados" class="tab" style="display:none">
+<div class="card">
+<h3>🎫 Chamados - Painel Admin (com botões Fechar / Alterar / Finalizar)</h3>
+<p style="font-size:10px;color:#94a3b8">Aqui o admin vê todos, fecha, altera e finaliza</p>
+<div style="display:flex;gap:6px;margin-top:8px"><input id="buscaChamado" placeholder="🔍 Buscar por empresa, título, tipo..." onkeyup="filtrarChamados()" style="flex:1"><button class="btn btn-gray" onclick="renderChamados()">Atualizar</button><button class="btn btn-o" onclick="filtrarStatusChamado('Aberto')">Abertos</button><button class="btn btn-g" onclick="filtrarStatusChamado('Fechado')">Fechados</button><button class="btn btn-r" onclick="filtrarStatusChamado('Finalizado')">Finalizados</button></div>
+<table id="tabelaChamados"><tr><th>Empresa</th><th>Título</th><th>Tipo</th><th>Quem Abriu</th><th>Status</th><th>Ações</th></tr><tr><td colspan="6" style="text-align:center;padding:15px;color:#64748b">Nenhum chamado ainda</td></tr></table>
+
+<div id="boxAlterarChamado" style="display:none;background:#0a1628;border:2px solid #f59e0b;padding:12px;border-radius:8px;margin-top:12px">
+<h4 style="color:#f59e0b">✏️ Alterar Chamado: <span id="altChamadoTitulo"></span></h4>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px">
+<input id="altChamadoEmpresa" placeholder="Empresa"><input id="altChamadoTituloInput" placeholder="Título"><select id="altChamadoTipo"><option>Hardware</option><option>Software</option><option>Rede</option><option>Micro não liga</option><option>Notebook</option><option>Impressora</option><option>Falta Internet</option><option>Sistema Lento</option><option>Email</option><option>Outro</option></select><select id="altChamadoStatus"><option>Aberto</option><option>Em Andamento</option><option>Fechado</option><option>Finalizado</option><option>Reaberto</option></select>
+</div>
+<textarea id="altChamadoDesc" placeholder="Descrição" style="width:100%;height:60px;margin-top:6px"></textarea>
+<div style="margin-top:8px"><button class="btn btn-g" onclick="salvarAlteracaoChamado()">💾 Salvar Alteração</button><button class="btn" style="background:#22c55e" onclick="fecharChamadoDireto()">🔒 Fechar Chamado</button><button class="btn" style="background:#38bdf8" onclick="finalizarChamadoDireto()">✅ Finalizar</button><button class="btn btn-r" onclick="document.getElementById('boxAlterarChamado').style.display='none'">Cancelar</button></div>
+</div>
+</div>
+</div>
+
+<div id="tab-abrirChamado" class="tab" style="display:none">
+<div class="card">
+<h3>📝 Abrir Chamado - Visão Simples (Simone)</h3>
+<p style="font-size:10px;color:#22c55e">✅ Agora com todos os tipos incluindo Falta Internet!</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:8px">
+<input id="chTituloSimples" placeholder="Título do problema*">
+<select id="chTipoSimples">
+<option value="">Selecione o que é*</option>
+<option>Hardware</option><option>Software</option><option>Rede</option>
+<option>Micro não liga</option><option>Notebook com problema</option>
+<option>Impressora</option><option>Falta Internet</option>
+<option>Internet Lenta</option><option>Sistema Lento</option>
+<option>Email não funciona</option><option>Troca de Toner</option>
+<option>Formatação</option><option>Outro</option>
+</select>
+<select id="chPrioridadeSimples"><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select>
+<input id="chSetorSimples" placeholder="Setor / Local* (ex: Financeiro)">
+<input id="chRamalSimples" placeholder="Ramal / Contato">
+<input id="chEmpresaSimples" placeholder="Empresa" readonly>
+</div>
+<textarea id="chDescSimples" placeholder="Descreva o problema detalhadamente: micro não liga, falta internet, etc..." style="width:100%;height:80px;margin-top:6px;background:#0a1628;color:#fff;border:1px solid #1e3a5f;border-radius:6px;padding:8px"></textarea>
+<br><button class="btn btn-g" style="margin-top:8px;padding:10px 20px" onclick="abrirChamadoSimples()">🚀 Enviar Chamado</button>
+<p style="font-size:11px;color:#22c55e;margin-top:8px" id="msgChamado"></p>
+<div style="margin-top:12px;background:#0a1628;padding:10px;border-radius:8px"><p style="font-size:11px;color:#94a3b8">Seus chamados abertos:</p><table id="tabelaMeusChamados"><tr><th>Título</th><th>Tipo</th><th>Status</th></tr></table></div>
+</div>
+</div>
+
+<div id="tab-financeiro" class="tab" style="display:none"><div class="card"><h3>Financeiro</h3></div></div>
+<div id="tab-estoque" class="tab" style="display:none"><div class="card"><h3>Estoque</h3></div></div>
+<div id="tab-relatorios" class="tab" style="display:none"><div class="card"><h3>Relatórios</h3></div></div>
+<div id="tab-usuarios" class="tab" style="display:none"><div class="card"><h3>Usuários - Permissão REAL</h3><input id="usrNome" placeholder="Nome*"><input id="usrLogin" placeholder="Login*"><input id="usrSenha" placeholder="Senha*"><select id="usrEmpresa"><option>Ramos Infotec</option><option>Empresa Teste LTDA</option></select><select id="usrNivel"><option>Usuário Comum</option><option>Admin Empresa</option><option>Admin Geral</option></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#0a1628;padding:10px;border-radius:8px;margin:8px 0"><label><input type="checkbox" id="pDash"> Dashboard</label><label><input type="checkbox" id="pClientes"> Clientes</label><label><input type="checkbox" id="pHomolog"> Homologação</label><label><input type="checkbox" id="pChamados"> Chamados Admin</label><label><input type="checkbox" id="pAbrir"> Abrir Chamado</label><label><input type="checkbox" id="pFinanceiro"> Financeiro</label></div><button class="btn" onclick="salvarUsuario()">Salvar Usuário</button><table id="tabelaUsuarios"><tr><th>Nome</th><th>Login</th><th>Empresa</th><th>Permissões</th></tr></table></div></div>
+
+</div>
+</div>
+
+<script>
+let dados={clientes:[],homolog:[],chamados:[],usuarios:[{nome:'admin',login:'admin',senha:'@Xumone@197353',empresa:'Ramos Infotec',nivel:'Admin Geral',perms:{dash:true,clientes:true,homolog:true,chamados:true,abrir:true,fin:true,estoque:true,rel:true,usuarios:true}}]};
+let usuarioLogado=null; let chamadoEditAtual=null;
+
+function salvarDados(){ localStorage.setItem('ramos_usuarios', JSON.stringify(dados.usuarios)); localStorage.setItem('ramos_clientes', JSON.stringify(dados.clientes)); localStorage.setItem('ramos_homolog', JSON.stringify(dados.homolog)); localStorage.setItem('ramos_chamados', JSON.stringify(dados.chamados)); }
+function carregarDados(){ let u=localStorage.getItem('ramos_usuarios'); if(u){ dados.usuarios=JSON.parse(u); } let c=localStorage.getItem('ramos_clientes'); if(c){ dados.clientes=JSON.parse(c); } let h=localStorage.getItem('ramos_homolog'); if(h){ dados.homolog=JSON.parse(h); } let ch=localStorage.getItem('ramos_chamados'); if(ch){ dados.chamados=JSON.parse(ch); } renderTudo(); }
+
+function login(){ let user=document.getElementById('loginUser').value.trim().toLowerCase(); let pass=document.getElementById('loginPass').value; let encontrado=null; for(let i=0;i<dados.usuarios.length;i++){ if(dados.usuarios[i].login.toLowerCase()==user && dados.usuarios[i].senha==pass){ encontrado=dados.usuarios[i]; } } if(user=='admin' && pass=='@Xumone@197353'){ encontrado=dados.usuarios[0]; } if(!encontrado){ alert('Usuário/senha incorreto'); return; } usuarioLogado=encontrado; localStorage.setItem('logado','true'); localStorage.setItem('userLogado', JSON.stringify(encontrado)); document.getElementById('loginScreen').style.display='none'; aplicarPermissao(encontrado); }
+
+function aplicarPermissao(user){
+  document.getElementById('empresaLogada').innerText=user.empresa; document.getElementById('userLogado').innerText=user.login; document.getElementById('nivelLogado').innerText=user.nivel; document.getElementById('boasVindas').innerText='Bem vinda '+user.nome+'! '+user.empresa;
+  let botoes=document.querySelectorAll('.menu button'); for(let i=0;i<botoes.length;i++){ botoes[i].classList.add('hidden'); }
+  if(user.perms.dash){ document.getElementById('btn-dashboard').classList.remove('hidden'); }
+  if(user.perms.clientes){ document.getElementById('btn-clientes').classList.remove('hidden'); }
+  if(user.perms.homolog){ document.getElementById('btn-homologacao').classList.remove('hidden'); }
+  if(user.perms.chamados){ document.getElementById('btn-chamados').classList.remove('hidden'); }
+  if(user.perms.abrir){ document.getElementById('btn-abrirChamado').classList.remove('hidden'); }
+  if(user.perms.fin){ document.getElementById('btn-financeiro').classList.remove('hidden'); }
+  if(user.login=='admin'){ for(let i=0;i<botoes.length;i++){ botoes[i].classList.remove('hidden'); } }
+  document.getElementById('chEmpresaSimples').value=user.empresa;
+  let tabs=document.querySelectorAll('.tab'); for(let i=0;i<tabs.length;i++){ tabs[i].style.display='none'; }
+  if(user.perms.abrir &&!user.perms.chamados &&!user.perms.dash){ document.getElementById('tab-abrirChamado').style.display='block'; } else { document.getElementById('tab-dashboard').style.display='block'; }
+  renderChamados(); renderMeusChamados();
+}
+
+function logout(){ localStorage.removeItem('logado'); localStorage.removeItem('userLogado'); location.reload(); }
+function showTab(t){ if(usuarioLogado && usuarioLogado.login!='admin'){ let pode=false; if(t=='dashboard' && usuarioLogado.perms.dash){ pode=true; } if(t=='clientes' && usuarioLogado.perms.clientes){ pode=true; } if(t=='homologacao' && usuarioLogado.perms.homolog){ pode=true; } if(t=='chamados' && usuarioLogado.perms.chamados){ pode=true; } if(t=='abrirChamado' && usuarioLogado.perms.abrir){ pode=true; } if(t=='financeiro' && usuarioLogado.perms.fin){ pode=true; } if(!pode && t!='abrirChamado'){ alert('Sem permissão'); return; } } let tabs=document.querySelectorAll('.tab'); for(let i=0;i<tabs.length;i++){ tabs[i].style.display='none'; } document.getElementById('tab-'+t).style.display='block'; if(t=='chamados'){ renderChamados(); } if(t=='abrirChamado'){ renderMeusChamados(); } }
+
+function salvarCliente(){ let emp=document.getElementById('cliEmpresa').value; if(emp==''){ alert('Empresa'); return; } let c={id:Date.now(), empresa:emp, cidade:document.getElementById('cliCidade').value, status:'Em Homologação'}; dados.clientes.push(c); dados.homolog.push(c); salvarDados(); renderTudo(); }
+
+function renderTudo(){ let tc=document.getElementById('tabelaClientes'); tc.innerHTML='<tr><th>Empresa</th><th>Cidade</th></tr>'; for(let i=0;i<dados.clientes.length;i++){ tc.innerHTML+='<tr><td>'+dados.clientes[i].empresa+'</td><td>'+dados.clientes[i].cidade+'</td></tr>'; } let th=document.getElementById('tabelaHomolog'); th.innerHTML='<tr><th>Empresa</th><th>Status</th></tr>'; for(let i=0;i<dados.homolog.length;i++){ th.innerHTML+='<tr><td>'+dados.homolog[i].empresa+'</td><td>'+dados.homolog[i].status+'</td></tr>'; } let tu=document.getElementById('tabelaUsuarios'); tu.innerHTML='<tr><th>Nome</th><th>Login</th><th>Empresa</th><th>Permissões</th></tr>'; for(let i=0;i<dados.usuarios.length;i++){ let u=dados.usuarios[i]; let p=[]; for(let k in u.perms){ if(u.perms[k]){ p.push(k); }} tu.innerHTML+='<tr><td>'+u.nome+'</td><td>'+u.login+'</td><td>'+u.empresa+'</td><td style=font-size:9px>'+p.join(', ')+'</td></tr>'; } document.getElementById('statCli').innerText=dados.clientes.length; document.getElementById('statHom').innerText=dados.homolog.length; renderChamados(); }
+
+function renderChamados(){
+  let tb=document.getElementById('tabelaChamados'); if(dados.chamados.length==0){ tb.innerHTML='<tr><th>Empresa</th><th>Título</th><th>Tipo</th><th>Quem Abriu</th><th>Status</th><th>Ações</th></tr><tr><td colspan=6 style=text-align:center;padding:15px;color:#64748b>Nenhum chamado</td></tr>'; document.getElementById('statAbertos').innerText=0; document.getElementById('statFechados').innerText=0; return; }
+  let html='<tr><th>Empresa</th><th>Título</th><th>Tipo</th><th>Quem Abriu</th><th>Status</th><th>Ações Fechar/Alterar/Finalizar</th></tr>';
+  let abertos=0; let fechados=0;
+  for(let i=0;i<dados.chamados.length;i++){
+    let ch=dados.chamados[i]; if(ch.status=='Aberto'){ abertos++; } if(ch.status=='Fechado' || ch.status=='Finalizado'){ fechados++; }
+    let cor='#f59e0b'; if(ch.status=='Fechado'){ cor='#ef4444'; } if(ch.status=='Finalizado'){ cor='#22c55e'; } if(ch.status=='Aberto'){ cor='#38bdf8'; }
+    html+='<tr><td>'+ch.empresa+'</td><td><b>'+ch.titulo+'</b><br><span style=font-size:9px;color:#94a3b8>'+(ch.descricao||'')+'</span></td><td>'+ch.tipo+'<br><span style=font-size:9px>'+(ch.prioridade||'')+'</span></td><td>'+ch.usuarioAbriu+'<br><span style=font-size:9px>'+(ch.setor||'')+'</span></td><td><span class=badge style=background:'+cor+';color:#000>'+ch.status+'</span></td><td><button class=btn btn-o onclick=alterarChamado('+ch.id+')>✏️ Alterar</button><button class=btn style=background:#ef4444;color:#fff onclick=fecharChamado('+ch.id+')>🔒 Fechar</button><button class=btn btn-g onclick=finalizarChamado('+ch.id+')>✅ Finalizar</button><button class=btn btn-gray onclick=reabrirChamado('+ch.id+')>↩️ Reabrir</button></td></tr>';
+  }
+  tb.innerHTML=html; document.getElementById('statAbertos').innerText=abertos; document.getElementById('statFechados').innerText=fechados;
+}
+
+function renderMeusChamados(){
+  if(!usuarioLogado){ return; }
+  let tb=document.getElementById('tabelaMeusChamados'); let meus=[]; for(let i=0;i<dados.chamados.length;i++){ if(dados.chamados[i].usuarioAbriu==usuarioLogado.login){ meus.push(dados.chamados[i]); } }
+  tb.innerHTML='<tr><th>Título</th><th>Tipo</th><th>Status</th></tr>'; for(let i=0;i<meus.length;i++){ let cor='#f59e0b'; if(meus[i].status=='Fechado'){ cor='#ef4444'; } if(meus[i].status=='Finalizado'){ cor='#22c55e'; } tb.innerHTML+='<tr><td>'+meus[i].titulo+'</td><td>'+meus[i].tipo+'</td><td><span class=badge style=background:'+cor+';color:#000>'+meus[i].status+'</span></td></tr>'; }
+}
+
+function abrirChamadoSimples(){
+  let titulo=document.getElementById('chTituloSimples').value; let tipo=document.getElementById('chTipoSimples').value; let prioridade=document.getElementById('chPrioridadeSimples').value; let setor=document.getElementById('chSetorSimples').value; let desc=document.getElementById('chDescSimples').value;
+  if(titulo==''||tipo==''){ alert('Título e Tipo obrigatório! Selecione Falta Internet, Micro não liga, etc'); return; }
+  let ch={id:Date.now(), titulo:titulo, tipo:tipo, prioridade:prioridade, setor:setor, descricao:desc, empresa:usuarioLogado.empresa, usuarioAbriu:usuarioLogado.login, status:'Aberto', ramal:document.getElementById('chRamalSimples').value};
+  dados.chamados.push(ch); salvarDados(); renderChamados(); renderMeusChamados();
+  document.getElementById('msgChamado').innerText='✅ Chamado "'+titulo+'" ('+tipo+') enviado! Prioridade '+prioridade+' - Empresa '+usuarioLogado.empresa;
+  document.getElementById('chTituloSimples').value=''; document.getElementById('chDescSimples').value='';
+}
+
+function alterarChamado(id){ for(let i=0;i<dados.chamados.length;i++){ if(dados.chamados[i].id==id){ chamadoEditAtual=dados.chamados[i]; }} document.getElementById('boxAlterarChamado').style.display='block'; document.getElementById('altChamadoTitulo').innerText=chamadoEditAtual.titulo; document.getElementById('altChamadoEmpresa').value=chamadoEditAtual.empresa; document.getElementById('altChamadoTituloInput').value=chamadoEditAtual.titulo; document.getElementById('altChamadoTipo').value=chamadoEditAtual.tipo; document.getElementById('altChamadoStatus').value=chamadoEditAtual.status; document.getElementById('altChamadoDesc').value=chamadoEditAtual.descricao||''; }
+
+function salvarAlteracaoChamado(){ chamadoEditAtual.empresa=document.getElementById('altChamadoEmpresa').value; chamadoEditAtual.titulo=document.getElementById('altChamadoTituloInput').value; chamadoEditAtual.tipo=document.getElementById('altChamadoTipo').value; chamadoEditAtual.status=document.getElementById('altChamadoStatus').value; chamadoEditAtual.descricao=document.getElementById('altChamadoDesc').value; salvarDados(); renderChamados(); alert('✏️ Chamado alterado! Status: '+chamadoEditAtual.status); document.getElementById('boxAlterarChamado').style.display='none'; }
+function fecharChamado(id){ for(let i=0;i<dados.chamados.length;i++){ if(dados.chamados[i].id==id){ dados.chamados[i].status='Fechado'; }} salvarDados(); renderChamados(); renderMeusChamados(); alert('🔒 Chamado fechado!'); }
+function finalizarChamado(id){ for(let i=0;i<dados.chamados.length;i++){ if(dados.chamados[i].id==id){ dados.chamados[i].status='Finalizado'; }} salvarDados(); renderChamados(); renderMeusChamados(); alert('✅ Chamado finalizado!'); }
+function reabrirChamado(id){ for(let i=0;i<dados.chamados.length;i++){ if(dados.chamados[i].id==id){ dados.chamados[i].status='Aberto'; }} salvarDados(); renderChamados(); renderMeusChamados(); alert('↩️ Chamado reaberto!'); }
+function fecharChamadoDireto(){ chamadoEditAtual.status='Fechado'; salvarDados(); renderChamados(); document.getElementById('boxAlterarChamado').style.display='none'; alert('Fechado!'); }
+function finalizarChamadoDireto(){ chamadoEditAtual.status='Finalizado'; salvarDados(); renderChamados(); document.getElementById('boxAlterarChamado').style.display='none'; alert('Finalizado!'); }
+
+function filtrarChamados(){ let q=document.getElementById('buscaChamado').value.toLowerCase(); let tb=document.getElementById('tabelaChamados'); if(q==''){ renderChamados(); return; } let f=[]; for(let i=0;i<dados.chamados.length;i++){ if(dados.chamados[i].titulo.toLowerCase().indexOf(q)>=0 || dados.chamados[i].tipo.toLowerCase().indexOf(q)>=0 || dados.chamados[i].empresa.toLowerCase().indexOf(q)>=0){ f.push(dados.chamados[i]); }} let html='<tr><th>Empresa</th><th>Título</th><th>Tipo</th><th>Quem</th><th>Status</th><th>Ações</th></tr>'; for(let i=0;i<f.length;i++){ html+='<tr><td>'+f[i].empresa+'</td><td>'+f[i].titulo+'</td><td>'+f[i].tipo+'</td><td>'+f[i].usuarioAbriu+'</td><td>'+f[i].status+'</td><td><button class=btn onclick=alterarChamado('+f[i].id+')>Alterar</button><button class=btn style=background:#ef4444;color:#fff onclick=fecharChamado('+f[i].id+')>Fechar</button><button class=btn btn-g onclick=finalizarChamado('+f[i].id+')>Finalizar</button></td></tr>'; } tb.innerHTML=html; }
+function filtrarStatusChamado(st){ let tb=document.getElementById('tabelaChamados'); let f=[]; for(let i=0;i<dados.chamados.length;i++){ if(dados.chamados[i].status==st){ f.push(dados.chamados[i]); }} let html='<tr><th>Empresa</th><th>Título</th><th>Tipo</th><th>Status</th><th>Ações</th></tr>'; for(let i=0;i<f.length;i++){ html+='<tr><td>'+f[i].empresa+'</td><td>'+f[i].titulo+'</td><td>'+f[i].tipo+'</td><td>'+f[i].status+'</td><td><button class=btn onclick=alterarChamado('+f[i].id+')>Alterar</button><button class=btn style=background:#ef4444;color:#fff onclick=fecharChamado('+f[i].id+')>Fechar</button><button class=btn btn-g onclick=finalizarChamado('+f[i].id+')>Finalizar</button></td></tr>'; } tb.innerHTML=html; }
+
+function salvarUsuario(){ let nome=document.getElementById('usrNome').value; let login=document.getElementById('usrLogin').value.trim().toLowerCase(); let senha=document.getElementById('usrSenha').value; let empresa=document.getElementById('usrEmpresa').value; let nivel=document.getElementById('usrNivel').value; if(nome==''||login==''||senha==''){ alert('Nome, Login, Senha'); return; } let perms={dash:document.getElementById('pDash').checked, clientes:document.getElementById('pClientes').checked, homolog:document.getElementById('pHomolog').checked, chamados:document.getElementById('pChamados').checked, abrir:document.getElementById('pAbrir').checked, fin:document.getElementById('pFinanceiro').checked}; let u={nome:nome,login:login,senha:senha,empresa:empresa,nivel:nivel,perms:perms}; dados.usuarios.push(u); salvarDados(); renderTudo(); alert('Usuário '+login+' criado!'); }
+
+carregarDados();
+let logado=localStorage.getItem('logado'); let userLogado=localStorage.getItem('userLogado');
+if(logado=='true' && userLogado){ usuarioLogado=JSON.parse(userLogado); document.getElementById('loginScreen').style.display='none'; aplicarPermissao(usuarioLogado); }
+</script>
+</body>
+</html>
