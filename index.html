@@ -2,163 +2,128 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramos Infotec - V71 FINAL</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ramos Infotec - V72 LIMPA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{background:#0f172a;color:#fff}
-.login-box{max-width:360px;margin:60px auto;background:#1e293b;padding:25px;border-radius:12px}
-.login-box h2{text-align:center;margin-bottom:15px}
-input,select{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:none}
-button{width:100%;padding:11px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
-button:hover{background:#2563eb}
+.login-box{max-width:380px;margin:80px auto;background:#1e293b;padding:30px;border-radius:14px}
+input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;font-size:15px}
+button{width:100%;padding:12px;background:#3b82f6;color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin-top:10px}
+.card{background:#1e293b;padding:15px;border-radius:10px;margin:10px}
+.hidden{display:none}
 .menu{display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:#1e293b}
 .menu button{width:auto;padding:8px 14px}
-.card{background:#1e293b;padding:15px;border-radius:10px;margin:10px}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{padding:8px;border-bottom:1px solid #334155;text-align:left;font-size:13px}
-.hidden{display:none}
-.perm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
-.perm-grid label{background:#0f172a;padding:6px;border-radius:6px;font-size:13px}
+table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:8px;border-bottom:1px solid #334155;font-size:13px}
 .badge{background:#10b981;padding:2px 6px;border-radius:4px;font-size:11px}
+.perm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}.perm-grid label{background:#0f172a;padding:6px;border-radius:6px;font-size:13px}
 </style>
 </head>
 <body>
-
 <div id="tela-login" class="login-box">
-<h2>RAMOS INFOTEC<br><small style="font-size:12px;color:#94a3b8">V71 - Acesso Restrito</small></h2>
-<input id="login-email" placeholder="E-mail ou Nome" value="">
-<input id="login-senha" type="password" placeholder="Senha" value="">
-<button onclick="fazerLogin()">ENTRAR</button>
-<p id="login-erro" style="color:#f87171;margin-top:10px;font-size:13px"></p>
-<p style="margin-top:15px;font-size:11px;color:#94a3b8;text-align:center">Admin padrão: contato@ramosinfotec.com.br / senha: admin123</p>
+<h2 style="text-align:center">RAMOS INFOTEC<br><small style="font-size:12px;color:#94a3b8">V72 - Acesso Restrito</small></h2>
+<input style="display:none" type="text" name="fakeusernameremembered">
+<input style="display:none" type="password" name="fakepasswordremembered">
+<form autocomplete="off" onsubmit="return false;">
+<input id="login-email" type="text" placeholder="Empresa ***" autocomplete="off" value="" readonly onfocus="this.removeAttribute('readonly');">
+<input id="login-nome" type="text" placeholder="Nome ***" autocomplete="off" value="" readonly onfocus="this.removeAttribute('readonly');">
+<input id="login-senha" type="password" placeholder="Senha *****" autocomplete="new-password" value="" readonly onfocus="this.removeAttribute('readonly');">
+<button type="button" onclick="fazerLogin()">ENTRAR</button>
+</form>
+<p id="login-erro" style="color:#f87171;margin-top:10px;font-size:13px;text-align:center"></p>
 </div>
 
 <div id="tela-sistema" class="hidden">
-<div class="menu" id="menu">
+<div class="menu">
 <button onclick="mostrar('dashboard')">Dashboard</button>
-<button onclick="mostrar('clientes')" id="m-clientes">Clientes</button>
-<button onclick="mostrar('os')" id="m-os">O.S</button>
-<button onclick="mostrar('produtos')" id="m-produtos">Estoque</button>
-<button onclick="mostrar('prospectar')" id="m-prospectar">🚀 Prospectar</button>
-<button onclick="mostrar('financeiro')" id="m-financeiro">💰 Meu Financeiro</button>
-<button onclick="mostrar('usuarios')" id="m-usuarios">👥 Usuários</button>
+<button id="m-clientes" onclick="mostrar('clientes')">Clientes</button>
+<button id="m-os" onclick="mostrar('os')">O.S</button>
+<button id="m-produtos" onclick="mostrar('produtos')">Estoque</button>
+<button id="m-prospectar" onclick="mostrar('prospectar')">🚀 Prospectar</button>
+<button id="m-financeiro" onclick="mostrar('financeiro')">💰 Meu Financeiro</button>
+<button id="m-usuarios" onclick="mostrar('usuarios')">👥 Usuários</button>
 <button onclick="logout()" style="background:#ef4444">Sair</button>
 </div>
 
-<div id="sec-dashboard" class="card"><h3>Dashboard - <span id="user-logado"></span> <span id="badge-perfil"></span></h3><p style="margin-top:10px;color:#94a3b8">Bem-vindo à Ramos Infotec - 11 97199-5422</p></div>
-<div id="sec-clientes" class="card hidden"><h3>Clientes</h3><p style="color:#94a3b8">Lista de clientes mantida</p></div>
-<div id="sec-os" class="card hidden"><h3>Ordens de Serviço</h3><p style="color:#94a3b8">O.S funcionando</p></div>
-<div id="sec-produtos" class="card hidden"><h3>Estoque</h3><p style="color:#94a3b8">Estoque funcionando</p></div>
+<div id="sec-dashboard" class="card"><h3>Dashboard - <span id="user-logado"></span> <span id="badge-perfil"></span></h3><p style="color:#94a3b8;margin-top:10px">Bem-vindo - Ramos Infotec 11 97199-5422</p></div>
+<div id="sec-clientes" class="card hidden"><h3>Clientes</h3></div>
+<div id="sec-os" class="card hidden"><h3>O.S</h3></div>
+<div id="sec-produtos" class="card hidden"><h3>Estoque</h3></div>
 
 <div id="sec-financeiro" class="card hidden">
-<h3>💰 Meu Financeiro - Só ADMIN</h3>
-<input id="fin-desc" placeholder="Descrição ex: Recebimento Cliente">
+<h3>💰 Meu Financeiro - Só ADMIN vê</h3>
+<input id="fin-desc" placeholder="Descrição">
 <input id="fin-valor" type="number" placeholder="Valor">
 <select id="fin-tipo"><option value="entrada">Entrada</option><option value="saida">Saída</option></select>
 <button onclick="addFinanceiro()">Lançar</button>
 <table><thead><tr><th>Data</th><th>Desc</th><th>Valor</th></tr></thead><tbody id="fin-lista"></tbody></table>
-<h4 style="margin-top:10px">Saldo: R$ <span id="fin-saldo">0</span></h4>
+<h4>Saldo: R$ <span id="fin-saldo">0</span></h4>
 </div>
 
 <div id="sec-usuarios" class="card hidden">
-<h3>👥 Criar Usuário - Permissões</h3>
-<input id="u-empresa" placeholder="Empresa *** ex: Ramos Infotec">
-<input id="u-nome" placeholder="Nome *** ex: Maria Esposa">
-<input id="u-email" placeholder="E-mail para login">
+<h3>👥 Criar Usuário - Empresa / Nome / Senha</h3>
+<input id="u-empresa" placeholder="Empresa ***">
+<input id="u-nome" placeholder="Nome ***">
+<input id="u-email" placeholder="E-mail login (opcional)">
 <input id="u-senha" placeholder="Senha *****">
 <div class="perm-grid">
 <label><input type="checkbox" id="p-clientes" checked> Clientes</label>
 <label><input type="checkbox" id="p-os" checked> O.S</label>
 <label><input type="checkbox" id="p-produtos" checked> Estoque</label>
 <label><input type="checkbox" id="p-prospectar"> Prospectar</label>
-<label style="opacity:0.4"><input type="checkbox" id="p-financeiro" disabled> Meu Financeiro (só ADMIN)</label>
-<label style="opacity:0.4"><input type="checkbox" id="p-usuarios" disabled> Usuários (só ADMIN)</label>
 </div>
 <button onclick="salvarUsuario()">Salvar Usuário</button>
 <table><thead><tr><th>Empresa</th><th>Nome</th><th>Perfil</th><th>Ações</th></tr></thead><tbody id="lista-usuarios"></tbody></table>
 </div>
 
 <div id="sec-prospectar" class="card hidden">
-<h3>🚀 Prospectar - 11 97199-5422</h3>
-<select id="pros-ramo"><option value="advocacia">Advocacia</option><option value="contabilidade">Contabilidade</option><option value="pitstop">Pit-Stop</option><option value="roupa">Loja de Roupa</option><option value="cabeleireiro">Cabeleireiro</option></select>
-<input id="pros-bairro" placeholder="Bairro ex: Interlagos - SP">
+<h3>🚀 Prospectar 11 97199-5422</h3>
+<select id="pros-ramo"><option value="advocacia">Advocacia</option><option value="contabilidade">Contabilidade</option><option value="pitstop">Pit-Stop</option><option value="roupa">Loja Roupa</option><option value="cabeleireiro">Cabeleireiro</option></select>
+<input id="pros-bairro" placeholder="Bairro">
 <button onclick="gerarLeads()">GERAR 20 LEADS</button>
-<div id="pros-lista" style="margin-top:10px"></div>
+<div id="pros-lista"></div>
 </div>
 </div>
 
 <script>
-let usuarios = JSON.parse(localStorage.getItem('ramos_usuarios') || '[]');
-if(usuarios.length===0){ usuarios=[{empresa:'Ramos Infotec', nome:'Admin', email:'contato@ramosinfotec.com.br', senha:'admin123', perfil:'admin', perms:{clientes:true, os:true, produtos:true, prospectar:true, financeiro:true, usuarios:true}}]; localStorage.setItem('ramos_usuarios', JSON.stringify(usuarios));}
-let financeiros = JSON.parse(localStorage.getItem('ramos_fin') || '[]');
-let logado = null;
+let usuarios=JSON.parse(localStorage.getItem('ramos_usuarios')||'[]');
+if(usuarios.length===0){usuarios=[{empresa:'Ramos Infotec',nome:'Admin',email:'contato@ramosinfotec.com.br',senha:'admin123',perfil:'admin',perms:{clientes:true,os:true,produtos:true,prospectar:true,financeiro:true,usuarios:true}}];localStorage.setItem('ramos_usuarios',JSON.stringify(usuarios));}
+let financeiros=JSON.parse(localStorage.getItem('ramos_fin')||'[]');let logado=null;
 function fazerLogin(){
- const e=document.getElementById('login-email').value.trim();
- const s=document.getElementById('login-senha').value.trim();
- const u=usuarios.find(x=>(x.email===e || x.nome===e) && x.senha===s);
- if(!u){ document.getElementById('login-erro').innerText='Login ou senha inválidos'; return; }
- logado=u;
- document.getElementById('tela-login').classList.add('hidden');
- document.getElementById('tela-sistema').classList.remove('hidden');
- document.getElementById('user-logado').innerText=u.nome+' - '+u.empresa;
- document.getElementById('badge-perfil').innerHTML='<span class="badge">'+u.perfil+'</span>';
- aplicarPermissoes(); mostrar('dashboard'); renderFin(); renderUsuarios();
+const e=document.getElementById('login-email').value.trim();
+const n=document.getElementById('login-nome').value.trim();
+const s=document.getElementById('login-senha').value.trim();
+let u=usuarios.find(x=>(x.empresa===e||x.email===e)&&x.nome===n&&x.senha===s);
+if(!u){u=usuarios.find(x=>(x.email===e||x.nome===e)&&x.senha===s);}
+if(!u){document.getElementById('login-erro').innerText='Dados inválidos';return;}
+logado=u;
+document.getElementById('tela-login').classList.add('hidden');
+document.getElementById('tela-sistema').classList.remove('hidden');
+document.getElementById('user-logado').innerText=u.nome+' - '+u.empresa;
+document.getElementById('badge-perfil').innerHTML='<span class="badge">'+u.perfil+'</span>';
+aplicarPermissoes();mostrar('dashboard');renderFin();renderUsuarios();
 }
-function logout(){ location.reload(); }
-function aplicarPermissoes(){
- if(logado.perfil!=='admin'){ document.getElementById('m-financeiro').style.display='none'; document.getElementById('m-usuarios').style.display='none'; }
- document.getElementById('m-clientes').style.display=logado.perms.clientes||logado.perfil==='admin'?'inline-block':'none';
- document.getElementById('m-os').style.display=logado.perms.os||logado.perfil==='admin'?'inline-block':'none';
- document.getElementById('m-produtos').style.display=logado.perms.produtos||logado.perfil==='admin'?'inline-block':'none';
- document.getElementById('m-prospectar').style.display=logado.perms.prospectar||logado.perfil==='admin'?'inline-block':'none';
-}
-function mostrar(id){ document.querySelectorAll('[id^="sec-"]').forEach(el=>el.classList.add('hidden')); document.getElementById('sec-'+id).classList.remove('hidden'); }
+function logout(){location.reload();}
+function aplicarPermissoes(){if(logado.perfil!=='admin'){document.getElementById('m-financeiro').style.display='none';document.getElementById('m-usuarios').style.display='none';}}
+function mostrar(id){document.querySelectorAll('[id^="sec-"]').forEach(el=>el.classList.add('hidden'));document.getElementById('sec-'+id).classList.remove('hidden');}
 function salvarUsuario(){
- const empresa=document.getElementById('u-empresa').value.trim();
- const nome=document.getElementById('u-nome').value.trim();
- const email=document.getElementById('u-email').value.trim();
- const senha=document.getElementById('u-senha').value.trim();
- if(!empresa||!nome||!senha){ alert('Preencha Empresa, Nome e Senha'); return; }
- const perms={ clientes: document.getElementById('p-clientes').checked, os: document.getElementById('p-os').checked, produtos: document.getElementById('p-produtos').checked, prospectar: document.getElementById('p-prospectar').checked, financeiro:false, usuarios:false };
- const idx=usuarios.findIndex(u=>u.email===email && email!=='');
- if(idx>=0){ usuarios[idx]={...usuarios[idx], empresa, nome, senha, perms}; }
- else{ usuarios.push({empresa, nome, email: email||nome, senha, perfil: email==='contato@ramosinfotec.com.br'?'admin':'usuario', perms}); }
- localStorage.setItem('ramos_usuarios', JSON.stringify(usuarios)); renderUsuarios(); alert('Usuário salvo! Agora funciona editar.');
+const empresa=document.getElementById('u-empresa').value.trim();
+const nome=document.getElementById('u-nome').value.trim();
+const email=document.getElementById('u-email').value.trim();
+const senha=document.getElementById('u-senha').value.trim();
+if(!empresa||!nome||!senha){alert('Preencha Empresa, Nome e Senha');return;}
+const perms={clientes:document.getElementById('p-clientes').checked,os:document.getElementById('p-os').checked,produtos:document.getElementById('p-produtos').checked,prospectar:document.getElementById('p-prospectar').checked,financeiro:false,usuarios:false};
+const idx=usuarios.findIndex(u=>u.email===email&&email!=='');
+if(idx>=0){usuarios[idx]={...usuarios[idx],empresa,nome,senha,perms};}
+else{usuarios.push({empresa,nome,email:email||nome,senha,perfil:email==='contato@ramosinfotec.com.br'?'admin':'usuario',perms});}
+localStorage.setItem('ramos_usuarios',JSON.stringify(usuarios));renderUsuarios();alert('Usuário salvo! Agora edita e funciona.');
 }
-function renderUsuarios(){
- const tb=document.getElementById('lista-usuarios'); tb.innerHTML='';
- usuarios.forEach((u,i)=>{ tb.innerHTML+=`<tr><td>${u.empresa}</td><td>${u.nome}</td><td>${u.perfil}</td><td><button onclick="editarUsuario(${i})" style="width:auto;padding:4px 8px">Editar</button> <button onclick="excluirUsuario(${i})" style="width:auto;padding:4px 8px;background:#ef4444">Excluir</button></td></tr>`; });
-}
-function editarUsuario(i){ const u=usuarios[i]; document.getElementById('u-empresa').value=u.empresa; document.getElementById('u-nome').value=u.nome; document.getElementById('u-email').value=u.email; document.getElementById('u-senha').value=u.senha; mostrar('usuarios'); }
-function excluirUsuario(i){ if(confirm('Excluir?')){ usuarios.splice(i,1); localStorage.setItem('ramos_usuarios', JSON.stringify(usuarios)); renderUsuarios(); } }
-function addFinanceiro(){
- if(logado.perfil!=='admin'){ alert('Só ADMIN'); return; }
- const d=document.getElementById('fin-desc').value; const v=parseFloat(document.getElementById('fin-valor').value); const t=document.getElementById('fin-tipo').value;
- if(!d||!v){ alert('Preencha'); return; }
- financeiros.push({data:new Date().toLocaleDateString(), desc:d, valor:t==='saida'?-v:v});
- localStorage.setItem('ramos_fin', JSON.stringify(financeiros)); renderFin();
-}
-function renderFin(){
- const tb=document.getElementById('fin-lista'); tb.innerHTML=''; let saldo=0;
- financeiros.forEach(f=>{ saldo+=f.valor; tb.innerHTML+=`<tr><td>${f.data}</td><td>${f.desc}</td><td style="color:${f.valor>0?'#10b981':'#ef4444'}">R$ ${f.valor}</td></tr>`; });
- document.getElementById('fin-saldo').innerText=saldo.toFixed(2);
-}
-function gerarLeads(){
- const ramo=document.getElementById('pros-ramo').value; const bairro=document.getElementById('pros-bairro').value||'Interlagos - SP';
- const msgs={
-  advocacia:`Olá! Vi o escritório no ${bairro}. Sou da Ramos Infotec (11 97199-5422). Evitamos que o PJe e certificado digital travem na hora da audiência. Diagnóstico grátis? www.ramosinfotec.com.br`,
-  contabilidade:`Olá! Sou da Ramos Infotec 11 97199-5422. Atendemos contabilidades no ${bairro} para sistema fiscal não travar.`,
-  pitstop:`Olá! Ramos Infotec 11 97199-5422 - ${bairro}. Seu sistema de venda travando perde venda. Suporte rápido para Pit-Stop.`,
-  roupa:`Olá! Ramos Infotec 11 97199-5422. Loja no ${bairro} não pode parar por sistema. Suporte local rápido.`,
-  cabeleireiro:`Olá! Ramos Infotec 11 97199-5422. Salão no ${bairro} precisa agenda funcionando sempre.`
- };
- const div=document.getElementById('pros-lista'); div.innerHTML='';
- for(let i=1;i<=20;i++){
-  const msg=encodeURIComponent(msgs[ramo]);
-  div.innerHTML+=`<div style="background:#0f172a;padding:8px;margin:5px 0;border-radius:6px"><b>${ramo} ${bairro} ${i}</b><br><a href="https://wa.me/5511971995422?text=${msg}" target="_blank" style="color:#25D366">WhatsApp Pronto</a></div>`;
- }
-}
+function renderUsuarios(){const tb=document.getElementById('lista-usuarios');tb.innerHTML='';usuarios.forEach((u,i)=>{tb.innerHTML+=`<tr><td>${u.empresa}</td><td>${u.nome}</td><td>${u.perfil}</td><td><button onclick="editarUsuario(${i})" style="width:auto;padding:4px 8px">Editar</button> <button onclick="excluirUsuario(${i})" style="width:auto;padding:4px 8px;background:#ef4444">Excluir</button></td></tr>`;});}
+function editarUsuario(i){const u=usuarios[i];document.getElementById('u-empresa').value=u.empresa;document.getElementById('u-nome').value=u.nome;document.getElementById('u-email').value=u.email;document.getElementById('u-senha').value=u.senha;mostrar('usuarios');}
+function excluirUsuario(i){if(confirm('Excluir?')){usuarios.splice(i,1);localStorage.setItem('ramos_usuarios',JSON.stringify(usuarios));renderUsuarios();}}
+function addFinanceiro(){if(logado.perfil!=='admin'){alert('Só ADMIN');return;}const d=document.getElementById('fin-desc').value;const v=parseFloat(document.getElementById('fin-valor').value);const t=document.getElementById('fin-tipo').value;if(!d||!v){alert('Preencha');return;}financeiros.push({data:new Date().toLocaleDateString(),desc:d,valor:t==='saida'?-v:v});localStorage.setItem('ramos_fin',JSON.stringify(financeiros));renderFin();}
+function renderFin(){const tb=document.getElementById('fin-lista');tb.innerHTML='';let saldo=0;financeiros.forEach(f=>{saldo+=f.valor;tb.innerHTML+=`<tr><td>${f.data}</td><td>${f.desc}</td><td style="color:${f.valor>0?'#10b981':'#ef4444'}">R$ ${f.valor}</td></tr>`;});document.getElementById('fin-saldo').innerText=saldo.toFixed(2);}
+function gerarLeads(){const ramo=document.getElementById('pros-ramo').value;const bairro=document.getElementById('pros-bairro').value||'Interlagos - SP';const msgs={advocacia:`Olá! Sou da Ramos Infotec 11 97199-5422 - ${bairro}. Evitamos PJe travar.`,contabilidade:`Olá! Ramos Infotec 11 97199-5422 - ${bairro}.`,pitstop:`Olá! Ramos Infotec 11 97199-5422 - ${bairro}.`,roupa:`Olá! Ramos Infotec 11 97199-5422 - ${bairro}.`,cabeleireiro:`Olá! Ramos Infotec 11 97199-5422 - ${bairro}.`};const div=document.getElementById('pros-lista');div.innerHTML='';for(let i=1;i<=20;i++){const msg=encodeURIComponent(msgs[ramo]);div.innerHTML+=`<div style="background:#0f172a;padding:8px;margin:5px 0;border-radius:6px"><b>${ramo} ${bairro} ${i}</b><br><a href="https://wa.me/5511971995422?text=${msg}" target="_blank" style="color:#25D366">WhatsApp</a></div>`;}}
 </script>
 </body>
 </html>
