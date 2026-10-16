@@ -1,139 +1,197 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Ramos Infotec V78.3</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ramos Info Tec - V79.1 COMPLETA</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#0f172a;color:#fff}
-.login-box{max-width:380px;margin:30px auto;background:#1e293b;padding:22px;border-radius:14px}
-input,select,textarea{width:100%;padding:11px;margin:4px 0;border-radius:8px;border:none;font-size:13px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-button{padding:9px 11px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin:3px}
-.btn-azul{background:#3b82f6;color:#fff}.btn-verde{background:#10b981;color:#fff}.btn-amarelo{background:#f59e0b;color:#000}.btn-vermelho{background:#ef4444;color:#fff}.btn-cinza{background:#334155;color:#fff}
-.card{background:#1e293b;padding:13px;border-radius:10px;margin:10px}
-.hidden{display:none}.menu{display:flex;gap:4px;flex-wrap:wrap;padding:8px;background:#1e293b;position:sticky;top:0;z-index:20}.menu button{font-size:10px;padding:6px 7px}
-table{width:100%;border-collapse:collapse;margin-top:8px}th,td{padding:5px;border-bottom:1px solid #334155;font-size:11px}
-.acoes{display:flex;gap:3px;flex-wrap:wrap}.acoes button{padding:4px 6px;font-size:10px}
-.checks{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#0f172a;padding:8px;border-radius:6px;margin:6px 0;font-size:11px}
-.fake{position:fixed;left:-9999px;top:-9999px;opacity:0}
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#020617;color:#e2e8f0}
+header{background:#0f172a;padding:12px;display:flex;justify-content:space-between;flex-wrap:wrap;position:sticky;top:0;z-index:9}
+nav{display:flex;gap:5px;flex-wrap:wrap}nav button{background:#1e293b;color:#cbd5e1;padding:7px 11px;border-radius:8px;border:1px solid #334155;cursor:pointer}
+.card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:16px;margin:12px}
+input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#fff}
+.btn{padding:9px 13px;border-radius:8px;border:none;font-weight:bold;cursor:pointer}
+.btn-p{background:#3b82f6;color:#fff}.btn-d{background:#ef4444;color:#fff}.btn-s{background:#334155;color:#fff}
+table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:9px;border-bottom:1px solid #334155;font-size:13px;text-align:left}
+.badge{padding:3px 7px;border-radius:6px;font-size:11px}.ok{background:#16a34a}.warn{background:#eab308;color:#000}.err{background:#ef4444}
+.hidden{display:none}.search{margin-bottom:10px;background:#020617}
+#loginPage{max-width:420px;margin:50px auto}
 </style>
 </head>
 <body>
-
-<!-- ANTI CHROME - ARMADILHA -->
-<form autocomplete="off" class="fake"><input type="text" name="username"><input type="password" name="password"></form>
-
-<div id="tela-login" class="login-box">
-<h2 style="text-align:center">RAMOS INFOTEC<br><small style="color:#94a3b8">V78.3 SEGURA C/ EMPRESA</small></h2>
-
-<input id="emp" type="text" placeholder="EMPRESA - ex: ramosinfotec" autocomplete="off" data-lpignore="true" readonly onfocus="this.removeAttribute('readonly')">
-<input id="log" type="text" placeholder="LOGIN - ex: ramosinfotec" autocomplete="off" data-lpignore="true" readonly onfocus="this.removeAttribute('readonly')">
-<input id="sen" type="password" placeholder="SENHA *****" autocomplete="new-password" data-lpignore="true" readonly onfocus="this.removeAttribute('readonly')">
-
-<button class="btn-azul" style="width:100%" onclick="fazerLogin()">ENTRAR</button>
-<p id="erro" style="color:#f87171;text-align:center;font-size:11px;margin-top:6px"></p>
-<button class="btn-cinza" style="width:100%;font-size:10px;margin-top:6px" onclick="resetar()">RESETAR SISTEMA</button>
+<div id="loginPage" class="card">
+<h2>Ramos Info Tec V79.1 🔒</h2>
+<input id="emp" placeholder="Empresa" value="ramosinfotec">
+<input id="log" placeholder="Usuário" value="ramosinfotec">
+<input id="sen" type="password" placeholder="Senha @Xumone@197353">
+<button class="btn btn-p" style="width:100%" onclick="fazerLogin()">Entrar</button>
+<p id="erro" style="color:#fb7185"></p>
+<button class="btn btn-s" onclick="resetar()">RESETAR</button>
 </div>
-
-<div id="tela-sistema" class="hidden">
-<div class="menu">
-<button class="btn-verde" id="m-chat" onclick="mostrar('chat')">💬 CHAT</button>
-<button class="btn-cinza" id="m-dash" onclick="mostrar('dashboard')">Dash</button>
-<button class="btn-cinza" id="m-cad" onclick="mostrar('cadastro')">📋 Cadastro</button>
-<button class="btn-cinza" id="m-usu" onclick="mostrar('usuarios')">👥 Usuários</button>
-<button class="btn-cinza" id="m-est" onclick="mostrar('estoque')">📦 Estoque</button>
-<button class="btn-cinza" id="m-os" onclick="mostrar('os')">🛠️ OS</button>
-<button class="btn-cinza" id="m-fin" onclick="mostrar('financeiro')">💰 Fin</button>
-<button class="btn-cinza" id="m-meufin" onclick="mostrar('meufin')">🔒 Meu Fin</button>
-<button class="btn-vermelho" onclick="logout()">Sair</button>
+<div id="app" class="hidden">
+<header><b id="userInfo"></b><nav id="menu"></nav><button class="btn btn-d" onclick="sair()">Sair</button></header>
+<div id="view-dashboard" class="card view"><h2>📊 Dashboard</h2><div id="dashInfo"></div></div>
+<div id="view-cadastro" class="card view hidden">
+<h2>👥 Cadastro + Robô CNPJ</h2>
+<input id="buscaCad" class="search" placeholder="🔍 Buscar..." oninput="renderCad()">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<input id="c-nome" placeholder="Nome"><input id="c-doc" placeholder="CPF/CNPJ">
+<input id="c-tel" placeholder="Telefone"><input id="c-email" placeholder="Email">
+<input id="c-emp" placeholder="Empresa"><input id="c-end" placeholder="Endereço">
 </div>
-
-<div id="sec-dashboard" class="card"><h3>Dashboard - <span id="ul"></span></h3><div id="dash-resumo" style="font-size:11px;margin-top:6px"></div></div>
-<div id="sec-chat" class="card hidden"><h3>💬 CHAT</h3><div id="chat-lista" style="height:200px;overflow:auto;background:#0f172a;padding:8px;border-radius:6px"></div><textarea id="chat-msg" placeholder="Mensagem"></textarea><button class="btn-verde" onclick="enviarChat()">ENVIAR</button></div>
-
-<div id="sec-cadastro" class="card hidden"><h3>📋 Cadastro Completo</h3>
-<div class="grid"><input id="cad-empresa" placeholder="Empresa ***"><input id="cad-fantasia" placeholder="Fantasia"></div>
-<div class="grid"><input id="cad-cpf" placeholder="CPF/CNPJ"><input id="cad-tel" placeholder="Telefone"></div>
-<input id="cad-end" placeholder="Endereço">
-<div class="grid"><input id="cad-num" placeholder="Número"><input id="cad-bairro" placeholder="Bairro"></div>
-<div class="grid"><input id="cad-mun" placeholder="Município"><input id="cad-uf" placeholder="UF"></div>
-<div class="grid"><input id="cad-contato" placeholder="Contato"><input id="cad-email" placeholder="Email"></div>
-<div class="acoes"><button class="btn-azul" onclick="salvarCadastro()">Salvar Cadastro</button></div>
-<table><thead><tr><th>Empresa</th><th>CPF</th><th>Município/Bairro</th><th>Ações</th></tr></thead><tbody id="tab-cad"></tbody></table></div>
-
-<div id="sec-usuarios" class="card hidden"><h3>👥 Usuários - Permissões</h3>
-<input id="u-empresa" placeholder="Empresa ***"><div class="grid"><input id="u-nome" placeholder="Login ***"><input id="u-senha" placeholder="Senha ***"></div>
-<div class="checks">
-<label><input type="checkbox" id="p-dash" checked> Dash</label><label><input type="checkbox" id="p-chat" checked> Chat</label>
-<label><input type="checkbox" id="p-cad"> Cadastro</label><label><input type="checkbox" id="p-usu"> Usuários</label>
-<label><input type="checkbox" id="p-est"> Estoque</label><label><input type="checkbox" id="p-os" checked> OS</label>
-<label><input type="checkbox" id="p-fin"> Fin</label><label><input type="checkbox" id="p-meufin"> Meu Fin</label>
+<button class="btn btn-p" onclick="roboBuscar()">🤖 Robô Buscar</button>
+<button class="btn btn-p" onclick="salvarCad()">💾 Salvar</button><button class="btn btn-s" id="btnCancelCad" onclick="cancelCad()" style="display:none">Cancelar</button>
+<table id="tabCad"></table>
 </div>
-<button class="btn-azul" onclick="salvarUsuario()">Salvar Usuário</button>
-<table><thead><tr><th>Empresa</th><th>Login</th><th>Permissões</th><th>Ações</th></tr></thead><tbody id="tab-usu"></tbody></table></div>
-
-<div id="sec-estoque" class="card hidden"><h3>📦 Estoque</h3>
-<div class="grid"><input id="est-nome" placeholder="Produto"><input id="est-qtd" type="number" placeholder="Qtd"></div>
-<div class="grid"><input id="est-data-cad" type="date"><input id="est-data-saida" type="date"></div>
-<div class="grid"><input id="est-quem" placeholder="Quem retirou"><input id="est-hora" type="time"></div>
-<button class="btn-azul" onclick="salvarEstoque()">Salvar</button>
-<table><thead><tr><th>Produto</th><th>Qtd</th><th>Datas</th><th>Quem</th><th>Ações</th></tr></thead><tbody id="tab-est"></tbody></table></div>
-
-<div id="sec-financeiro" class="card hidden"><h3>💰 Financeiro Completo</h3>
-<input id="fin-desc" placeholder="Descrição">
-<div class="grid"><input id="fin-data-boleto" type="date"><input id="fin-data-venc" type="date"></div>
-<div class="grid"><input id="fin-data-pag" type="date"><input id="fin-banco" placeholder="Banco"></div>
-<div class="grid"><input id="fin-valor" type="number" placeholder="Valor"><input id="fin-valor-pago" type="number" placeholder="Valor Pago"></div>
-<div class="grid"><input id="fin-multa" type="number" placeholder="Multa"><input id="fin-juros" type="number" placeholder="Juros"></div>
-<div class="grid"><input id="fin-quem-cad" placeholder="Quem cadastrou"><input id="fin-quem-pagou" placeholder="Quem pagou"></div>
-<button class="btn-azul" onclick="salvarFin()">Lançar</button>
-<table><thead><tr><th>Venc</th><th>Desc</th><th>Valor</th><th>Banco</th><th>Ações</th></tr></thead><tbody id="tab-fin"></tbody></table></div>
-
-<div id="sec-meufin" class="card hidden"><h3>🔒 Meu Financeiro</h3>
-<input id="mfin-desc" placeholder="Descrição"><div class="grid"><input id="mfin-data-venc" type="date"><input id="mfin-banco" placeholder="Banco"></div>
-<div class="grid"><input id="mfin-valor" type="number" placeholder="Valor"><input id="mfin-valor-pago" type="number" placeholder="Pago"></div>
-<button class="btn-azul" onclick="salvarMeuFin()">Lançar</button>
-<table><thead><tr><th>Venc</th><th>Desc</th><th>Valor</th><th>Ações</th></tr></thead><tbody id="tab-meufin"></tbody></table></div>
-
-<div id="sec-os" class="card hidden"><h3>🛠️ OS</h3><input id="os-titulo" placeholder="Título"><textarea id="os-desc" placeholder="Desc"></textarea><button class="btn-verde" onclick="abrirChamado()">ABRIR</button><table><thead><tr><th>ID</th><th>Empresa</th><th>Título</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tab-os"></tbody></table></div>
-
+<div id="view-estoque" class="card view hidden">
+<h2>📦 Estoque</h2>
+<input id="buscaEst" class="search" placeholder="🔍 Buscar..." oninput="renderEst()">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<input id="e-nome" placeholder="Produto"><input id="e-qtd" type="number" placeholder="Qtd"><input id="e-valor" type="number" placeholder="Valor"><input id="e-min" type="number" placeholder="Mínimo">
 </div>
-
+<button class="btn btn-p" onclick="salvarEst()">💾 Salvar</button><button class="btn btn-s" id="btnCancelEst" onclick="cancelEst()" style="display:none">Cancelar</button>
+<table id="tabEst"></table>
+</div>
+<div id="view-chamado-abertura" class="card view hidden">
+<h2>🎫 Abertura de Chamado - CLIENTE</h2>
+<input id="ch-titulo" placeholder="Título"><textarea id="ch-desc" placeholder="Descrição"></textarea>
+<button class="btn btn-p" onclick="abrirChamado()">Abrir Chamado</button>
+<table id="tabMeusChamados"></table>
+</div>
+<div id="view-chamado" class="card view hidden">
+<h2>🛠️ Atendimento Chamado - TÉCNICO</h2>
+<input id="buscaCh" class="search" placeholder="🔍 Buscar..." oninput="renderChamados()">
+<table id="tabCh"></table><div id="detCh" class="card hidden" style="background:#020617"></div>
+</div>
+<div id="view-os" class="card view hidden">
+<h2>📋 OS</h2>
+<input id="buscaOS" class="search" placeholder="🔍 Buscar..." oninput="renderOS()">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><select id="os-cliente"></select><input id="os-serv" placeholder="Serviço"><input id="os-valor" type="number" placeholder="Valor"></div>
+<button class="btn btn-p" onclick="salvarOS()">💾 Salvar OS</button><button class="btn btn-s" id="btnCancelOS" onclick="cancelOS()" style="display:none">Cancelar</button>
+<table id="tabOS"></table>
+</div>
+<div id="view-financeiro" class="card view hidden">
+<h2>💰 Financeiro</h2>
+<input id="buscaFin" class="search" placeholder="🔍 Buscar..." oninput="renderFin()">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><select id="f-tipo"><option>Receita</option><option>Despesa</option></select><input id="f-desc" placeholder="Descrição"><input id="f-valor" type="number" placeholder="Valor"><input id="f-data" type="date"></div>
+<button class="btn btn-p" onclick="salvarFin()">💾 Salvar</button><button class="btn btn-s" id="btnCancelFin" onclick="cancelFin()" style="display:none">Cancelar</button>
+<table id="tabFin"></table>
+</div>
+<div id="view-meufinanceiro" class="card view hidden">
+<h2>🔐 Meu Financeiro (Só Admin)</h2>
+<input id="buscaMeuFin" class="search" placeholder="🔍 Buscar..." oninput="renderMeuFin()">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="mf-desc" placeholder="Descrição privada"><input id="mf-valor" type="number" placeholder="Valor"><input id="mf-data" type="date"></div>
+<button class="btn btn-p" onclick="salvarMeuFin()">💾 Salvar</button><table id="tabMeuFin"></table>
+</div>
+<div id="view-relatorios" class="card view hidden">
+<h2>📈 Relatórios</h2>
+<button class="btn btn-s" onclick="relatorio('clientes')">Clientes</button><button class="btn btn-s" onclick="relatorio('estoque')">Estoque Baixo</button><button class="btn btn-s" onclick="relatorio('os')">OS</button><button class="btn btn-s" onclick="relatorio('financeiro')">Financeiro</button><button class="btn btn-s" onclick="relatorio('chamados')">Chamados</button>
+<div id="areaRel"></div>
+</div>
+<div id="view-usuarios" class="card view hidden">
+<h2>👑 Usuários e Permissões + Desbloqueio</h2>
+<input id="buscaUsu" class="search" placeholder="🔍 Buscar..." oninput="renderUsuarios()"><div id="areaUsuarios"></div>
+</div>
+</div>
 <script>
-window.addEventListener('load',()=>{setTimeout(()=>{['emp','log','sen'].forEach(id=>{let e=document.getElementById(id);if(e){e.value='';e.setAttribute('readonly','');}});},150);});
-
-let usuarios=JSON.parse(localStorage.getItem('v783_usu')||'[]');
-if(usuarios.length===0){usuarios=[{empresa:'ramosinfotec',nome:'ramosinfotec',senha:'admin123',perms:{dash:1,cad:1,usu:1,est:1,os:1,fin:1,meufin:1,chat:1}}];localStorage.setItem('v783_usu',JSON.stringify(usuarios));}
-let cads=JSON.parse(localStorage.getItem('v783_cad')||'[]');let ests=JSON.parse(localStorage.getItem('v783_est')||'[]');let oss=JSON.parse(localStorage.getItem('v783_os')||'[]');let fins=JSON.parse(localStorage.getItem('v783_fin')||'[]');let meufins=JSON.parse(localStorage.getItem('v783_meufin')||'[]');let chats=JSON.parse(localStorage.getItem('v783_chat')||'[]');
-let logado=null;
-
+let usuarios=JSON.parse(localStorage.getItem('usuarios_v791')||'null')||[{empresa:'ramosinfotec',nome:'ramosinfotec',senha:'@Xumone@197353',perms:{dash:1,cad:1,est:1,os:1,fin:1,meufin:1,chat:1,usu:1,rel:1,admin:1}}];
+let clientes=JSON.parse(localStorage.getItem('cli_v791')||'[]');let estoque=JSON.parse(localStorage.getItem('est_v791')||'[]');let chamados=JSON.parse(localStorage.getItem('cha_v791')||'[]');let oss=JSON.parse(localStorage.getItem('oss_v791')||'[]');let financeiro=JSON.parse(localStorage.getItem('fin_v791')||'[]');let meuFinanceiro=JSON.parse(localStorage.getItem('meuf_v791')||'[]');
+let logado=null,editIndex=-1,editTipo='';
+function saveAll(){localStorage.setItem('usuarios_v791',JSON.stringify(usuarios));localStorage.setItem('cli_v791',JSON.stringify(clientes));localStorage.setItem('est_v791',JSON.stringify(estoque));localStorage.setItem('cha_v791',JSON.stringify(chamados));localStorage.setItem('oss_v791',JSON.stringify(oss));localStorage.setItem('fin_v791',JSON.stringify(financeiro));localStorage.setItem('meuf_v791',JSON.stringify(meuFinanceiro));}
+function senhaForte(s){return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-_#=]).{8,}$/.test(s);}
 function fazerLogin(){
- let emp=document.getElementById('emp').value.trim().toLowerCase();
- let lg=document.getElementById('log').value.trim().toLowerCase();
- let se=document.getElementById('sen').value.trim().toLowerCase();
- let u=usuarios.find(x=>x.empresa.toLowerCase()===emp && x.nome.toLowerCase()===lg && x.senha.toLowerCase()===se);
- if(!u){u=usuarios.find(x=>x.nome.toLowerCase()===lg && x.senha.toLowerCase()===se);}
- if(!u){document.getElementById('erro').innerText='Inválido! Use Empresa: ramosinfotec Login: ramosinfotec Senha: admin123'; return;}
- logado=u; document.getElementById('tela-login').classList.add('hidden'); document.getElementById('tela-sistema').classList.remove('hidden'); document.getElementById('ul').innerText=u.empresa+' / '+u.nome; renderTudo(); mostrar('dashboard');
+let emp=document.getElementById('emp').value.trim().toLowerCase();let lg=document.getElementById('log').value.trim().toLowerCase();let se=document.getElementById('sen').value.trim();
+let chave=emp+'_'+lg;let tent=JSON.parse(localStorage.getItem('tent_v791')||'{}');let bloq=JSON.parse(localStorage.getItem('bloq_v791')||'{}');
+if(bloq[chave]&&Date.now()-bloq[chave]<15*60*1000){document.getElementById('erro').innerText='Bloqueado 15min. Contate admin.';return;}
+if(bloq[chave]&&Date.now()-bloq[chave]>=15*60*1000){delete bloq[chave];delete tent[chave];localStorage.setItem('bloq_v791',JSON.stringify(bloq));localStorage.setItem('tent_v791',JSON.stringify(tent));}
+let u=usuarios.find(x=>x.empresa.toLowerCase()===emp&&x.nome.toLowerCase()===lg&&x.senha===se);
+if(!u){tent[chave]=(tent[chave]||0)+1;localStorage.setItem('tent_v791',JSON.stringify(tent));if(tent[chave]>=3){bloq[chave]=Date.now();localStorage.setItem('bloq_v791',JSON.stringify(bloq));document.getElementById('erro').innerText='Bloqueado 15min após 3 erros.';}else{document.getElementById('erro').innerText='Usuário ou senha incorretos, tente novamente. '+tent[chave]+'/3';}return;}
+tent[chave]=0;localStorage.setItem('tent_v791',JSON.stringify(tent));logado=u;localStorage.setItem('logado_v791',JSON.stringify(u));iniciar();
 }
-function resetar(){localStorage.clear(); location.reload();}
-function logout(){['emp','log','sen'].forEach(id=>document.getElementById(id).value=''); location.reload();}
-function mostrar(id){document.querySelectorAll('[id^="sec-"]').forEach(e=>e.classList.add('hidden')); document.getElementById('sec-'+id).classList.remove('hidden');}
-function renderTudo(){renderCad();renderUsu();renderEst();renderOS();renderFin();renderMeuFin();document.getElementById('dash-resumo').innerText=`Cadastros:${cads.length} Estoque:${ests.length} OS:${oss.length}`;}
-function enviarChat(){let t=document.getElementById('chat-msg').value; if(!t)return; chats.push({empresa:logado.empresa,texto:t}); localStorage.setItem('v783_chat',JSON.stringify(chats)); document.getElementById('chat-msg').value='';}
-function salvarCadastro(){let o={empresa:document.getElementById('cad-empresa').value, fantasia:document.getElementById('cad-fantasia').value, cpf:document.getElementById('cad-cpf').value, end:document.getElementById('cad-end').value, num:document.getElementById('cad-num').value, bairro:document.getElementById('cad-bairro').value, mun:document.getElementById('cad-mun').value, uf:document.getElementById('cad-uf').value, tel:document.getElementById('cad-tel').value}; cads.push(o); localStorage.setItem('v783_cad',JSON.stringify(cads)); renderCad();}
-function renderCad(){let tb=document.getElementById('tab-cad'); tb.innerHTML=''; cads.forEach((c,i)=>{tb.innerHTML+=`<tr><td>${c.empresa}</td><td>${c.cpf}</td><td>${c.mun} - ${c.bairro}</td><td><button class="btn-vermelho" onclick="cads.splice(${i},1);localStorage.setItem('v783_cad',JSON.stringify(cads));renderCad();">Excluir</button></td></tr>`;});}
-function salvarUsuario(){let perms={dash:document.getElementById('p-dash').checked?1:0,cad:document.getElementById('p-cad').checked?1:0,usu:document.getElementById('p-usu').checked?1:0,est:document.getElementById('p-est').checked?1:0,os:document.getElementById('p-os').checked?1:0,fin:document.getElementById('p-fin').checked?1:0,meufin:document.getElementById('p-meufin').checked?1:0,chat:document.getElementById('p-chat').checked?1:0}; let o={empresa:document.getElementById('u-empresa').value.toLowerCase(),nome:document.getElementById('u-nome').value.toLowerCase(),senha:document.getElementById('u-senha').value.toLowerCase(),perms}; usuarios.push(o); localStorage.setItem('v783_usu',JSON.stringify(usuarios)); renderUsu();}
-function renderUsu(){let tb=document.getElementById('tab-usu'); tb.innerHTML=''; usuarios.forEach((u,i)=>{let p=Object.keys(u.perms||{}).filter(k=>u.perms[k]).join(','); tb.innerHTML+=`<tr><td>${u.empresa}</td><td>${u.nome}</td><td style="font-size:9px">${p}</td><td><button class="btn-vermelho" onclick="usuarios.splice(${i},1);localStorage.setItem('v783_usu',JSON.stringify(usuarios));renderUsu();">Excluir</button></td></tr>`;});}
-function salvarEstoque(){let o={nome:document.getElementById('est-nome').value,qtd:document.getElementById('est-qtd').value,dataCad:document.getElementById('est-data-cad').value,dataSaida:document.getElementById('est-data-saida').value,quem:document.getElementById('est-quem').value,hora:document.getElementById('est-hora').value}; ests.push(o); localStorage.setItem('v783_est',JSON.stringify(ests)); renderEst();}
-function renderEst(){let tb=document.getElementById('tab-est'); tb.innerHTML=''; ests.forEach((e,i)=>{tb.innerHTML+=`<tr><td>${e.nome}</td><td>${e.qtd}</td><td>${e.dataCad} / ${e.dataSaida}</td><td>${e.quem} ${e.hora}</td><td><button class="btn-vermelho" onclick="ests.splice(${i},1);localStorage.setItem('v783_est',JSON.stringify(ests));renderEst();">Excluir</button></td></tr>`;});}
-function abrirChamado(){let t={id:Date.now(),empresa:logado.empresa,titulo:document.getElementById('os-titulo').value,status:'Aberto'}; oss.push(t); localStorage.setItem('v783_os',JSON.stringify(oss)); renderOS();}
-function renderOS(){let tb=document.getElementById('tab-os'); tb.innerHTML=''; oss.forEach((o,i)=>{tb.innerHTML+=`<tr><td>${o.id.toString().slice(-4)}</td><td>${o.empresa}</td><td>${o.titulo}</td><td>${o.status}</td><td><button class="btn-vermelho" onclick="oss.splice(${i},1);localStorage.setItem('v783_os',JSON.stringify(oss));renderOS();">Excluir</button></td></tr>`;});}
-function salvarFin(){let f={desc:document.getElementById('fin-desc').value,dataVenc:document.getElementById('fin-data-venc').value,banco:document.getElementById('fin-banco').value,valor:document.getElementById('fin-valor').value}; fins.push(f); localStorage.setItem('v783_fin',JSON.stringify(fins)); renderFin();}
-function renderFin(){let tb=document.getElementById('tab-fin'); tb.innerHTML=''; fins.forEach((f,i)=>{tb.innerHTML+=`<tr><td>${f.dataVenc}</td><td>${f.desc}</td><td>${f.valor}</td><td>${f.banco}</td><td><button class="btn-vermelho" onclick="fins.splice(${i},1);localStorage.setItem('v783_fin',JSON.stringify(fins));renderFin();">Excluir</button></td></tr>`;});}
-function salvarMeuFin(){let f={desc:document.getElementById('mfin-desc').value,dataVenc:document.getElementById('mfin-data-venc').value,valor:document.getElementById('mfin-valor').value}; meufins.push(f); localStorage.setItem('v783_meufin',JSON.stringify(meufins)); renderMeuFin();}
-function renderMeuFin(){let tb=document.getElementById('tab-meufin'); tb.innerHTML=''; meufins.forEach((f,i)=>{tb.innerHTML+=`<tr><td>${f.dataVenc}</td><td>${f.desc}</td><td>${f.valor}</td><td><button class="btn-vermelho" onclick="meufins.splice(${i},1);localStorage.setItem('v783_meufin',JSON.stringify(meufins));renderMeuFin();">Excluir</button></td></tr>`;});}
+function iniciar(){
+document.getElementById('loginPage').classList.add('hidden');document.getElementById('app').classList.remove('hidden');document.getElementById('userInfo').innerText=logado.nome+' | '+logado.empresa;
+let m=document.getElementById('menu');m.innerHTML='';let perms=logado.perms||{};let itens=[['dashboard','📊 Dash'],['cadastro','👥 Cadastro'],['estoque','📦 Estoque'],['chamado-abertura','🎫 Meu Chamado'],['chamado','🛠️ Chamados'],['os','📋 OS'],['financeiro','💰 Financ'],['meufinanceiro','🔐 MeuFin'],['relatorios','📈 Rel'],['usuarios','👑 Perm']];
+itens.forEach(([id,label])=>{if(perms.admin||perms[id]||id==='chamado-abertura'||id==='dashboard'){if(id==='meufinanceiro'&&logado.nome!=='ramosinfotec'&&!perms.admin)return;let b=document.createElement('button');b.innerText=label;b.onclick=()=>mostrar(id);m.appendChild(b);}});
+mostrar('dashboard');atualizarDash();
+}
+function mostrar(id){document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));document.getElementById('view-'+id).classList.remove('hidden');if(id==='cadastro')renderCad();if(id==='estoque')renderEst();if(id==='chamado')renderChamados();if(id==='chamado-abertura')renderMeusChamados();if(id==='os')renderOS();if(id==='financeiro')renderFin();if(id==='meufinanceiro')renderMeuFin();if(id==='usuarios')renderUsuarios();}
+function atualizarDash(){document.getElementById('dashInfo').innerHTML=`Clientes: ${clientes.length} | OS Abertas: ${chamados.filter(c=>c.status!=='Finalizado').length} | Estoque: ${estoque.length} | Financ: R$ ${financeiro.reduce((a,b)=>a+(b.tipo==='Receita'?b.valor:-b.valor),0).toFixed(2)}`;}
+ // CADASTRO + ROBÔ
+function roboBuscar(){let doc=document.getElementById('c-doc').value.replace(/\D/g,'');if(doc.length!==14){alert('CNPJ 14 digitos');return;}fetch('https://brasilapi.com.br/api/cnpj/v1/'+doc).then(r=>r.json()).then(d=>{document.getElementById('c-nome').value=d.razao_social||'';document.getElementById('c-end').value=(d.logradouro||'')+' '+ (d.municipio||'');alert('🤖 Achado: '+d.razao_social)}).catch(()=>alert('Robô não achou'));}
+function salvarCad(){let obj={nome:document.getElementById('c-nome').value,doc:document.getElementById('c-doc').value,tel:document.getElementById('c-tel').value,email:document.getElementById('c-email').value,emp:document.getElementById('c-emp').value,end:document.getElementById('c-end').value};if(!obj.nome)return alert('Nome');if(editTipo==='cad'&&editIndex>=0){clientes[editIndex]=obj;editIndex=-1;editTipo='';}else clientes.push(obj);saveAll();renderCad();cancelCad();}
+function renderCad(){let b=document.getElementById('buscaCad').value.toLowerCase();let tab='<tr><th>Nome</th><th>Doc</th><th>Ações</th></tr>';clientes.forEach((c,i)=>{if(b&&!JSON.stringify(c).toLowerCase().includes(b))return;tab+=`<tr><td>${c.nome}</td><td>${c.doc}</td><td><button class=btn-p onclick="alterarCad(${i})">Alterar</button> <button class=btn-d onclick="excluirCad(${i})">Excluir</button></td></tr>`});document.getElementById('tabCad').innerHTML=tab;let sel=document.getElementById('os-cliente');if(sel)sel.innerHTML=clientes.map(c=>`<option>${c.nome}</option>`).join('');}
+function alterarCad(i){let c=clientes[i];document.getElementById('c-nome').value=c.nome;document.getElementById('c-doc').value=c.doc;document.getElementById('c-tel').value=c.tel;document.getElementById('c-email').value=c.email;document.getElementById('c-emp').value=c.emp;document.getElementById('c-end').value=c.end;editIndex=i;editTipo='cad';document.getElementById('btnCancelCad').style.display='inline-block';}
+function excluirCad(i){if(confirm('Excluir?')){clientes.splice(i,1);saveAll();renderCad();}}
+function cancelCad(){editIndex=-1;editTipo='';['c-nome','c-doc','c-tel','c-email','c-emp','c-end'].forEach(id=>document.getElementById(id).value='');document.getElementById('btnCancelCad').style.display='none';}
+// ESTOQUE
+function salvarEst(){let obj={nome:document.getElementById('e-nome').value,qtd:+document.getElementById('e-qtd').value,valor:+document.getElementById('e-valor').value,min:+document.getElementById('e-min').value};if(!obj.nome)return;if(editTipo==='est'&&editIndex>=0){estoque[editIndex]=obj;editIndex=-1;editTipo='';}else estoque.push(obj);saveAll();renderEst();cancelEst();}
+function renderEst(){let b=document.getElementById('buscaEst').value.toLowerCase();let tab='<tr><th>Produto</th><th>Qtd</th><th>Valor</th><th>Ações</th></tr>';estoque.forEach((e,i)=>{if(b&&!e.nome.toLowerCase().includes(b))return;tab+=`<tr><td>${e.nome} ${e.qtd<=e.min?'<span class=badge err>BAIXO</span>':''}</td><td>${e.qtd}</td><td>R$${e.valor}</td><td><button class=btn-p onclick="alterarEst(${i})">Alterar</button> <button class=btn-d onclick="excluirEst(${i})">Excluir</button></td></tr>`});document.getElementById('tabEst').innerHTML=tab;}
+function alterarEst(i){let e=estoque[i];document.getElementById('e-nome').value=e.nome;document.getElementById('e-qtd').value=e.qtd;document.getElementById('e-valor').value=e.valor;document.getElementById('e-min').value=e.min;editIndex=i;editTipo='est';document.getElementById('btnCancelEst').style.display='inline-block';}
+function excluirEst(i){estoque.splice(i,1);saveAll();renderEst();}
+function cancelEst(){editIndex=-1;editTipo='';['e-nome','e-qtd','e-valor','e-min'].forEach(id=>document.getElementById(id).value='');document.getElementById('btnCancelEst').style.display='none';}
+// CHAMADOS - CLIENTE COM BOTÕES CORRETOS
+function abrirChamado(){let obj={id:Date.now(),titulo:document.getElementById('ch-titulo').value,desc:document.getElementById('ch-desc').value,cliente:logado.nome,status:'Aberto',data:new Date().toLocaleString('pt-BR'),comentarios:[]};if(!obj.titulo)return alert('Título');chamados.push(obj);saveAll();renderMeusChamados();document.getElementById('ch-titulo').value='';document.getElementById('ch-desc').value='';alert('Chamado aberto!');}
+function renderMeusChamados(){
+let tab='<tr><th>ID</th><th>Título</th><th>Status</th><th>Data</th><th>Ações</th></tr>';
+chamados.filter(c=>c.cliente===logado.nome||logado.perms.admin).forEach(c=>{
+let idx=chamados.findIndex(x=>x.id===c.id);
+tab+=`<tr><td>${c.id}</td><td>${c.titulo}</td><td><span class="badge ${c.status==='Aberto'?'warn':'ok'}">${c.status}</span></td><td>${c.data}</td><td><button class=btn-p onclick="verMeuChamado(${idx})">Ver/Comentar</button> <button class=btn-p onclick="alterarMeuChamado(${idx})">Alterar</button> <button class=btn-d onclick="excluirCh(${idx})">Excluir</button></td></tr>`;
+});
+document.getElementById('tabMeusChamados').innerHTML=tab;
+}
+function verMeuChamado(i){
+let c=chamados[i];let det=document.getElementById('detMeuCh');if(!det){det=document.createElement('div');det.id='detMeuCh';det.className='card';det.style.background='#020617';document.getElementById('view-chamado-abertura').appendChild(det);}
+det.classList.remove('hidden');
+det.innerHTML=`<h3>${c.titulo} - ${c.status}</h3><p>${c.desc}</p><hr><h4>Comentários (data/hora/quem)</h4><div style="max-height:200px;overflow:auto;background:#1e293b;padding:8px;border-radius:8px">${c.comentarios.map(cm=>`<p style="border-bottom:1px solid #334155"><b>${cm.quem}</b> em ${cm.data}: ${cm.texto}</p>`).join('')||'Nenhum'}</div><textarea id="meuComent" placeholder="Inserir comentário"></textarea><br><button class=btn-p onclick="inserirMeuComent(${i})">💬 Inserir Comentário</button> <button class=btn-s onclick="this.parentElement.classList.add('hidden')">Fechar</button>`;
+}
+function inserirMeuComent(i){let txt=document.getElementById('meuComent').value.trim();if(!txt)return;chamados[i].comentarios.push({quem:logado.nome,data:new Date().toLocaleString('pt-BR'),texto:txt});saveAll();verMeuChamado(i);renderMeusChamados();}
+function alterarMeuChamado(i){let c=chamados[i];let nt=prompt('Novo título',c.titulo);if(nt===null)return;let nd=prompt('Nova desc',c.desc);if(nd===null)return;chamados[i].titulo=nt||c.titulo;chamados[i].desc=nd||c.desc;chamados[i].comentarios.push({quem:logado.nome,data:new Date().toLocaleString('pt-BR'),texto:'CLIENTE ALTEROU'});saveAll();renderMeusChamados();}
+// CHAMADOS TÉCNICO
+function renderChamados(){let b=document.getElementById('buscaCh').value.toLowerCase();let tab='<tr><th>ID</th><th>Cliente</th><th>Título</th><th>Status</th><th>Ações</th></tr>';chamados.forEach((c,i)=>{if(b&&!JSON.stringify(c).toLowerCase().includes(b))return;tab+=`<tr><td>${c.id}</td><td>${c.cliente}</td><td>${c.titulo}</td><td>${c.status}</td><td><button class=btn-p onclick="verChamado(${i})">Atender</button> <button class=btn-d onclick="excluirCh(${i})">Excluir</button></td></tr>`});document.getElementById('tabCh').innerHTML=tab;}
+function verChamado(i){let c=chamados[i];let det=document.getElementById('detCh');det.classList.remove('hidden');det.innerHTML=`<h3>${c.titulo} - ${c.status}</h3><p>${c.desc}</p><p>Cliente: ${c.cliente} | ${c.data}</p><hr><h4>Comentários</h4><div>${c.comentarios.map(cm=>`<p><b>${cm.quem}</b> em ${cm.data}: ${cm.texto}</p>`).join('')}</div><textarea id="novoComent" placeholder="Comentário técnico"></textarea><br><button class=btn-p onclick="inserirComent(${i})">Inserir Comentário</button> <button class=btn-p style="background:#16a34a" onclick="finalizarCh(${i})">Finalizar</button> <button class=btn-p style="background:#eab308;color:#000" onclick="reabrirCh(${i})">Reabrir</button> <button class=btn-s onclick="fecharDet()">Fechar</button>`;}
+function inserirComent(i){let t=document.getElementById('novoComent').value;if(!t)return;chamados[i].comentarios.push({quem:logado.nome,data:new Date().toLocaleString('pt-BR'),texto:t});saveAll();verChamado(i);}
+function finalizarCh(i){chamados[i].status='Finalizado';chamados[i].comentarios.push({quem:logado.nome,data:new Date().toLocaleString('pt-BR'),texto:'CHAMADO FINALIZADO'});saveAll();renderChamados();verChamado(i);}
+function reabrirCh(i){chamados[i].status='Aberto';chamados[i].comentarios.push({quem:logado.nome,data:new Date().toLocaleString('pt-BR'),texto:'CHAMADO REABERTO'});saveAll();renderChamados();verChamado(i);}
+function excluirCh(i){if(confirm('Excluir?')){chamados.splice(i,1);saveAll();renderChamados();renderMeusChamados();}}
+function fecharDet(){document.getElementById('detCh').classList.add('hidden');}
+// OS/FIN/MEUFIN
+function salvarOS(){let obj={cliente:document.getElementById('os-cliente').value,serv:document.getElementById('os-serv').value,valor:+document.getElementById('os-valor').value,data:new Date().toLocaleDateString()};if(editTipo==='os'&&editIndex>=0){oss[editIndex]=obj;editIndex=-1;editTipo='';}else oss.push(obj);saveAll();renderOS();}
+function renderOS(){let b=document.getElementById('buscaOS').value.toLowerCase();let tab='<tr><th>Cliente</th><th>Serviço</th><th>Valor</th><th>Ações</th></tr>';oss.forEach((o,i)=>{if(b&&!JSON.stringify(o).toLowerCase().includes(b))return;tab+=`<tr><td>${o.cliente}</td><td>${o.serv}</td><td>R$${o.valor}</td><td><button class=btn-p onclick="alterarOS(${i})">Alterar</button> <button class=btn-d onclick="excluirOS(${i})">Excluir</button></td></tr>`});document.getElementById('tabOS').innerHTML=tab;}
+function alterarOS(i){let o=oss[i];document.getElementById('os-serv').value=o.serv;document.getElementById('os-valor').value=o.valor;editIndex=i;editTipo='os';document.getElementById('btnCancelOS').style.display='inline-block';}
+function excluirOS(i){oss.splice(i,1);saveAll();renderOS();}
+function cancelOS(){editIndex=-1;editTipo='';document.getElementById('btnCancelOS').style.display='none';}
+function salvarFin(){let obj={tipo:document.getElementById('f-tipo').value,desc:document.getElementById('f-desc').value,valor:+document.getElementById('f-valor').value,data:document.getElementById('f-data').value};if(editTipo==='fin'&&editIndex>=0){financeiro[editIndex]=obj;editIndex=-1;editTipo='';}else financeiro.push(obj);saveAll();renderFin();}
+function renderFin(){let b=document.getElementById('buscaFin').value.toLowerCase();let tab='<tr><th>Tipo</th><th>Desc</th><th>Valor</th><th>Ações</th></tr>';financeiro.forEach((f,i)=>{if(b&&!JSON.stringify(f).toLowerCase().includes(b))return;tab+=`<tr><td>${f.tipo}</td><td>${f.desc}</td><td>R$${f.valor}</td><td><button class=btn-p onclick="alterarFin(${i})">Alterar</button> <button class=btn-d onclick="excluirFin(${i})">Excluir</button></td></tr>`});document.getElementById('tabFin').innerHTML=tab;}
+function alterarFin(i){let f=financeiro[i];document.getElementById('f-tipo').value=f.tipo;document.getElementById('f-desc').value=f.desc;document.getElementById('f-valor').value=f.valor;document.getElementById('f-data').value=f.data;editIndex=i;editTipo='fin';document.getElementById('btnCancelFin').style.display='inline-block';}
+function excluirFin(i){financeiro.splice(i,1);saveAll();renderFin();}
+function cancelFin(){editIndex=-1;editTipo='';document.getElementById('btnCancelFin').style.display='none';}
+function salvarMeuFin(){let obj={desc:document.getElementById('mf-desc').value,valor:+document.getElementById('mf-valor').value,data:document.getElementById('mf-data').value};meuFinanceiro.push(obj);saveAll();renderMeuFin();}
+function renderMeuFin(){let b=document.getElementById('buscaMeuFin').value.toLowerCase();let tab='<tr><th>Desc</th><th>Valor</th><th>Ações</th></tr>';meuFinanceiro.forEach((f,i)=>{if(b&&!JSON.stringify(f).toLowerCase().includes(b))return;tab+=`<tr><td>${f.desc}</td><td>R$${f.valor}</td><td><button class=btn-d onclick="excluirMeuFin(${i})">Excluir</button></td></tr>`});document.getElementById('tabMeuFin').innerHTML=tab;}
+function excluirMeuFin(i){meuFinanceiro.splice(i,1);saveAll();renderMeuFin();}
+function relatorio(t){let area=document.getElementById('areaRel');let h='<h3>Rel '+t+'</h3><table>';if(t==='clientes')h+=clientes.map(c=>`<tr><td>${c.nome}</td><td>${c.doc}</td></tr>`).join('');if(t==='estoque')h+=estoque.filter(e=>e.qtd<=e.min).map(e=>`<tr><td>${e.nome}</td><td>${e.qtd}</td></tr>`).join('');if(t==='os')h+=oss.map(o=>`<tr><td>${o.cliente}</td><td>${o.serv}</td><td>${o.valor}</td></tr>`).join('');if(t==='financeiro')h+=financeiro.map(f=>`<tr><td>${f.tipo}</td><td>${f.desc}</td><td>${f.valor}</td></tr>`).join('');if(t==='chamados')h+=chamados.map(c=>`<tr><td>${c.id}</td><td>${c.titulo}</td><td>${c.status}</td></tr>`).join('');h+='</table>';area.innerHTML=h;}
+function renderUsuarios(){
+let bloq=JSON.parse(localStorage.getItem('bloq_v791')||'{}');let b=document.getElementById('buscaUsu').value.toLowerCase();let html='';
+usuarios.forEach((u,i)=>{if(b&&!JSON.stringify(u).toLowerCase().includes(b))return;let chave=u.empresa.toLowerCase()+'_'+u.nome.toLowerCase();let bloqueado=bloq[chave]&&Date.now()-bloq[chave]<15*60*1000;
+html+=`<div class=card><b>${u.nome}</b> @ ${u.empresa} ${bloqueado?'<span class=badge err>BLOQUEADO</span>':''}<br>
+<label><input type=checkbox ${u.perms.dash?'checked':''} onchange="togglePerm(${i},'dash')">Dash</label>
+<label><input type=checkbox ${u.perms.cad?'checked':''} onchange="togglePerm(${i},'cad')">Cad</label>
+<label><input type=checkbox ${u.perms.est?'checked':''} onchange="togglePerm(${i},'est')">Est</label>
+<label><input type=checkbox ${u.perms.os?'checked':''} onchange="togglePerm(${i},'os')">OS</label>
+<label><input type=checkbox ${u.perms.fin?'checked':''} onchange="togglePerm(${i},'fin')">Fin</label>
+<label><input type=checkbox ${u.perms.rel?'checked':''} onchange="togglePerm(${i},'rel')">Rel</label>
+<label><input type=checkbox ${u.perms.usu?'checked':''} onchange="togglePerm(${i},'usu')">Usu</label><br>
+<button class=btn-p onclick="alterarUsu(${i})">Alterar</button> <button class=btn-d onclick="excluirUsu(${i})">Excluir</button> ${bloqueado?`<button class=btn-d onclick="desbloquear('${u.empresa}','${u.nome}')">🔓 DESBLOQUEAR</button>`:''}</div>`;
+});
+html+=`<hr><h4>Novo usuário (senha forte)</h4><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="u-emp" placeholder="Empresa"><input id="u-nome" placeholder="Nome"><input id="u-senha" placeholder="Senha forte"></div><button class=btn-p onclick="criarUsu()">Salvar</button>`;
+document.getElementById('areaUsuarios').innerHTML=html;
+}
+function togglePerm(i,p){usuarios[i].perms[p]=usuarios[i].perms[p]?0:1;saveAll();}
+function criarUsu(){let emp=document.getElementById('u-emp').value,nome=document.getElementById('u-nome').value,senha=document.getElementById('u-senha').value.trim();if(!emp||!nome||!senha)return alert('Preencha');if(!senhaForte(senha))return alert('Senha fraca! 8+, Maiúscula, minúscula, número e @');usuarios.push({empresa:emp,nome:nome,senha:senha,perms:{dash:1}});saveAll();renderUsuarios();}
+function alterarUsu(i){let n=prompt('Nova senha',usuarios[i].senha);if(!n)return;if(!senhaForte(n))return alert('Fraca');usuarios[i].senha=n;saveAll();renderUsuarios();}
+function excluirUsu(i){if(i===0)return alert('Não excluir admin');if(confirm('Excluir?')){usuarios.splice(i,1);saveAll();renderUsuarios();}}
+function desbloquear(emp,nome){let chave=emp.toLowerCase()+'_'+nome.toLowerCase();let t=JSON.parse(localStorage.getItem('tent_v791')||'{}');let b=JSON.parse(localStorage.getItem('bloq_v791')||'{}');delete t[chave];delete b[chave];localStorage.setItem('tent_v791',JSON.stringify(t));localStorage.setItem('bloq_v791',JSON.stringify(b));alert('Desbloqueado!');renderUsuarios();}
+function sair(){localStorage.removeItem('logado_v791');location.reload();}
+function resetar(){if(confirm('Resetar?')){localStorage.clear();location.reload();}}
+let l=JSON.parse(localStorage.getItem('logado_v791')||'null');if(l){logado=l;iniciar();}
 </script>
 </body>
 </html>
