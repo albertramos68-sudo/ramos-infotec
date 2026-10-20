@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ramos Info Tec - V79.4 COM ABA USUÁRIO PERMISSÕES</title>
+<title>Ramos Info Tec - V79.5 LIMPA OLHINHO</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial;background:#020617;color:#e2e8f0}
 header{background:#0f172a;padding:12px;display:flex;justify-content:space-between;flex-wrap:wrap;position:sticky;top:0;z-index:9}
@@ -23,21 +23,15 @@ table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:9px;bord
 </head>
 <body>
 <div id="loginPage" class="card">
-<h2>Ramos Info Tec V79.4 COM ABA USUÁRIO PERMISSÕES</h2>
-<div id="loginPage" class="card">
-<h2>Ramos Info Tec V79.5 LIMPO</h2>
-
+<h2>Ramos Info Tec V79.5 LIMPA</h2>
 <input id="emp" placeholder="Empresa" autocomplete="off">
-
 <input id="log" placeholder="Usuário" autocomplete="off">
-
 <div style="position:relative">
 <input id="sen" type="password" placeholder="Senha" autocomplete="new-password" style="padding-right:40px">
-<span onclick="let s=document.getElementById('sen');s.type=s.type==='password'?'text':'password'" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:18px">👁️</span>
+<span onclick="let s=document.getElementById('sen');s.type=s.type==='password'?'text':'password';this.innerText=s.type==='password'?'👁️':'🙈'" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:18px;user-select:none">👁️</span>
 </div>
-
 <button class="btn btn-p" style="width:100%;margin-top:10px" onclick="fazerLogin()">Entrar</button>
-<p id="erro" style="color:#fb7185"></p>
+<p id="erro" style="color:#fb7185;margin-top:8px"></p>
 </div>
 <div id="app" class="hidden">
 <header><b id="userInfo"></b><nav id="menu"></nav><button class="btn btn-d" onclick="sair()">Sair</button></header>
@@ -53,7 +47,6 @@ table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:9px;bord
 <div id="view-usuarios" class="card view hidden"><h2>👑 Usuários e Permissões - NOVO MODELO ROMOSINFOTEC</h2><input id="buscaUsu" class="search" placeholder="🔍 Buscar usuário, empresa..." oninput="renderUsuarios()"><div id="areaUsuarios"></div></div>
 </div>
 <script>
-// TODA LÓGICA ORIGINAL MANTIDA + NOVA ABA USUÁRIO V79.4
 let usuarios=JSON.parse(localStorage.getItem('usuarios_v793')||'null')||[{empresa:'ramosinfotec',nome:'ramosinfotec',senha:'@Xumone@197353',clienteVinculado:'',perms:{dash:1,cad:1,est:1,os:1,fin:1,meufin:1,usu:1,rel:1,admin:1,chat:1,abrirChamado:1,verDashboard:1,verTodosChamados:1}}];
 let clientes=JSON.parse(localStorage.getItem('cli_v793')||'[]');let estoque=JSON.parse(localStorage.getItem('est_v793')||'[]');let chamados=JSON.parse(localStorage.getItem('cha_v793')||'[]');let oss=JSON.parse(localStorage.getItem('oss_v793')||'[]');let financeiro=JSON.parse(localStorage.getItem('fin_v793')||'[]');let meuFinanceiro=JSON.parse(localStorage.getItem('meuf_v793')||'[]');
 let logado=null,editIndex=-1,editTipo='';
@@ -103,8 +96,6 @@ function salvarMeuFin(){let obj={nome:document.getElementById('mf-nome').value,f
 function renderMeuFin(){let b=document.getElementById('buscaMeuFin').value.toLowerCase();let tab='<tr><th>Nome</th><th>Venc</th><th>Quando Paga</th><th>Valor</th><th>Total</th><th>Status</th><th>Ações</th></tr>';meuFinanceiro.forEach((f,i)=>{if(b&&!JSON.stringify(f).toLowerCase().includes(b))return;tab+=`<tr><td>${f.nome}</td><td>${f.venc}</td><td>${f.quandoPaga||''}</td><td>R$${f.valor}</td><td>R$${f.total}</td><td>${f.status}</td><td><button class=btn-d onclick="excluirMeuFin(${i})">Excluir</button></td></tr>`});document.getElementById('tabMeuFin').innerHTML=tab;}
 function excluirMeuFin(i){meuFinanceiro.splice(i,1);saveAll();renderMeuFin();}
 function relatorio(t){let area=document.getElementById('areaRel');let h='<h3>Rel '+t+'</h3><table>';if(t==='clientes')h+=clientes.map(c=>`<tr><td>${c.empresa}</td><td>${c.cidade}</td><td>${c.tel}</td></tr>`).join('');if(t==='estoque')h+=estoque.filter(e=>e.qtd<=e.min).map(e=>`<tr><td>${e.nome}</td><td>${e.qtd}</td></tr>`).join('');if(t==='os')h+=oss.map(o=>`<tr><td>${o.cliente}</td><td>${o.serv}</td><td>R$${o.valor}</td></tr>`).join('');if(t==='financeiro')h+=financeiro.map(f=>`<tr><td>${f.nome}</td><td>${f.venc}</td><td>R$${f.valor}</td><td>R$${f.total}</td><td>${f.status}</td></tr>`).join('');if(t==='chamados')h+=chamados.map(c=>`<tr><td>${c.id}</td><td>${c.titulo}</td><td>${c.status}</td></tr>`).join('');h+='</table>';area.innerHTML=h;}
-
-// NOVA ABA USUÁRIOS - V79.4
 function aplicarModeloPerm(tipo){document.querySelectorAll('.perm-criar').forEach(c=>c.checked=false);if(tipo==='funcionario'){document.getElementById('perm-abrirChamado').checked=true;} else if(tipo==='dono'){document.getElementById('perm-abrirChamado').checked=true;document.getElementById('perm-verTodosChamados').checked=true;document.getElementById('perm-verDashboard').checked=true;document.getElementById('perm-dash').checked=true;} else if(tipo==='tecnico'){document.getElementById('perm-abrirChamado').checked=true;document.getElementById('perm-verTodosChamados').checked=true;document.getElementById('perm-atenderChamado').checked=true;document.getElementById('perm-os').checked=true;document.getElementById('perm-dash').checked=true;} else if(tipo==='admin'){document.querySelectorAll('.perm-criar').forEach(c=>c.checked=true);}}
 function renderUsuarios(){let bloq=JSON.parse(localStorage.getItem('bloq_v793')||'{}');let b=document.getElementById('buscaUsu').value.toLowerCase();let html='';usuarios.forEach((u,i)=>{if(b&&!JSON.stringify(u).toLowerCase().includes(b))return;let chave=u.empresa.toLowerCase()+'_'+u.nome.toLowerCase();let bloqueado=bloq[chave]&&Date.now()-bloq[chave]<15*60*1000;html+=`<div class=card style="margin:8px 0;background:#020617"><b style="color:#38bdf8">👤 ${u.nome}</b> @ ${u.empresa} ${u.clienteVinculado?` | Empresa Cliente: <b>${u.clienteVinculado}</b>`:''} ${bloqueado?'<span class=badge err>BLOQUEADO 15min</span>':''}<div class=perm-grid style="margin-top:8px"><label><input type=checkbox ${u.perms.dash||u.perms.verDashboard?'checked':''} onchange="togglePerm(${i},'dash');togglePerm(${i},'verDashboard')"> 📊 Dashboard</label><label><input type=checkbox ${u.perms.abrirChamado?'checked':''} onchange="togglePerm(${i},'abrirChamado')"> 🎫 Abrir Chamado</label><label><input type=checkbox ${u.perms.verTodosChamados?'checked':''} onchange="togglePerm(${i},'verTodosChamados')"> 👀 Ver Todos Chamados</label><label><input type=checkbox ${u.perms.atenderChamado||u.perms.admin?'checked':''} onchange="togglePerm(${i},'atenderChamado')"> 🛠️ Atender/Finalizar</label><label><input type=checkbox ${u.perms.cad?'checked':''} onchange="togglePerm(${i},'cad')"> 👥 Cadastro</label><label><input type=checkbox ${u.perms.est?'checked':''} onchange="togglePerm(${i},'est')"> 📦 Estoque</label><label><input type=checkbox ${u.perms.os?'checked':''} onchange="togglePerm(${i},'os')"> 📋 OS</label><label><input type=checkbox ${u.perms.fin?'checked':''} onchange="togglePerm(${i},'fin')"> 💰 Financeiro</label><label><input type=checkbox ${u.perms.rel?'checked':''} onchange="togglePerm(${i},'rel')"> 📈 Relatórios</label><label><input type=checkbox ${u.perms.usu?'checked':''} onchange="togglePerm(${i},'usu')"> 👑 Usuários</label></div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-p" onclick="alterarUsu(${i})">🔑 Alterar Senha</button><button class="btn btn-d" onclick="excluirUsu(${i})">🗑️ Excluir</button>${bloqueado?`<button class="btn btn-d" onclick="desbloquear('${u.empresa}','${u.nome}')">🔓 DESBLOQUEAR AGORA</button>`:''}</div></div>`;});let optsClientes = clientes.map(c=>`<option value="${c.empresa}">${c.empresa}</option>`).join('');html+=`<div class=card style="border:2px solid #3b82f6;background:#0f172a"><h3 style="margin:0 0 8px 0;color:#38bdf8">➕ Criar Novo Usuário com Permissões</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="u-emp" placeholder="Empresa de Login (ex: ramosinfotec)" autocomplete="off" value="ramosinfotec"><input id="u-nome" placeholder="Nome do Usuário (login)" autocomplete="off"><input id="u-senha" type="password" placeholder="Senha forte @Exemplo123" autocomplete="new-password"><select id="u-clienteVinculado"><option value="">Vincular a qual empresa cliente? (opcional)</option>${optsClientes}</select></div><div style="margin:10px 0;display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:12px;color:#94a3b8">Modelos rápidos:</span><button class="btn btn-s" onclick="aplicarModeloPerm('funcionario')">Funcionário Cliente: só Abrir Chamado</button><button class="btn btn-s" onclick="aplicarModeloPerm('dono')">Dono Cliente: Abrir + Ver Todos + Dashboard</button><button class="btn btn-s" onclick="aplicarModeloPerm('tecnico')">Técnico</button><button class="btn btn-s" onclick="aplicarModeloPerm('admin')">Admin Total</button></div><label style="font-size:14px;color:#38bdf8;font-weight:bold">Defina as permissões deste usuário:</label><div class=perm-grid><label><input class="perm-criar" id="perm-verDashboard" type=checkbox> 📊 Ver Dashboard</label><label><input class="perm-criar" id="perm-abrirChamado" type=checkbox checked> 🎫 Abrir Chamado</label><label><input class="perm-criar" id="perm-verTodosChamados" type=checkbox> 👀 Ver Todos Chamados da Empresa</label><label><input class="perm-criar" id="perm-atenderChamado" type=checkbox> 🛠️ Atender/Fechar Chamado (Técnico)</label><label><input class="perm-criar" id="perm-dash" type=checkbox> 📊 Dash (antigo)</label><label><input class="perm-criar" id="perm-cad" type=checkbox> 👥 Cadastro</label><label><input class="perm-criar" id="perm-est" type=checkbox> 📦 Estoque</label><label><input class="perm-criar" id="perm-os" type=checkbox> 📋 OS</label><label><input class="perm-criar" id="perm-fin" type=checkbox> 💰 Financeiro</label><label><input class="perm-criar" id="perm-rel" type=checkbox> 📈 Relatórios</label><label><input class="perm-criar" id="perm-usu" type=checkbox> 👑 Gerenciar Usuários</label><label><input class="perm-criar" id="perm-admin" type=checkbox> 👑 Admin Total</label></div><button class="btn btn-p" style="width:100%;margin-top:10px;padding:12px" onclick="criarUsu()">💾 SALVAR USUÁRIO COM PERMISSÕES</button></div>`;document.getElementById('areaUsuarios').innerHTML=html;}
 function togglePerm(i,p){usuarios[i].perms[p]=usuarios[i].perms[p]?0:1;if(p==='dash') usuarios[i].perms['verDashboard']=usuarios[i].perms[p];saveAll();}
@@ -113,7 +104,7 @@ function alterarUsu(i){let n=prompt('Nova senha para '+usuarios[i].nome,usuarios
 function excluirUsu(i){if(i===0)return alert('Não pode excluir o admin principal ramosinfotec');if(confirm('Excluir usuário '+usuarios[i].nome+'?')){usuarios.splice(i,1);saveAll();renderUsuarios();}}
 function desbloquear(emp,nome){let chave=emp.toLowerCase()+'_'+nome.toLowerCase();let t=JSON.parse(localStorage.getItem('tent_v793')||'{}');let b=JSON.parse(localStorage.getItem('bloq_v793')||'{}');delete t[chave];delete b[chave];localStorage.setItem('tent_v793',JSON.stringify(t));localStorage.setItem('bloq_v793',JSON.stringify(b));alert('Desbloqueado!');renderUsuarios();}
 function sair(){localStorage.removeItem('logado_v793');location.reload();}
-function resetar(){if(confirm('Resetar V79.4?')){localStorage.clear();location.reload();}}
+function resetar(){if(confirm('Resetar?')){localStorage.clear();location.reload();}}
 let l=JSON.parse(localStorage.getItem('logado_v793')||'null');if(l){logado=l;iniciar();}
 </script>
 </body>
