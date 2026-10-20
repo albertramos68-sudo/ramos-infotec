@@ -24,12 +24,20 @@ table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:9px;bord
 <body>
 <div id="loginPage" class="card">
 <h2>Ramos Info Tec V79.4 COM ABA USUÁRIO PERMISSÕES</h2>
-<input id="emp" placeholder="Empresa" autocomplete="off" value="ramosinfotec">
-<input id="log" placeholder="Usuário" autocomplete="off" value="ramosinfotec">
-<input id="sen" type="password" placeholder="Senha @Xumone@197353" autocomplete="new-password">
-<button class="btn btn-p" style="width:100%" onclick="fazerLogin()">Entrar</button>
+<div id="loginPage" class="card">
+<h2>Ramos Info Tec V79.5 LIMPO</h2>
+
+<input id="emp" placeholder="Empresa" autocomplete="off">
+
+<input id="log" placeholder="Usuário" autocomplete="off">
+
+<div style="position:relative">
+<input id="sen" type="password" placeholder="Senha" autocomplete="new-password" style="padding-right:40px">
+<span onclick="let s=document.getElementById('sen');s.type=s.type==='password'?'text':'password'" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:18px">👁️</span>
+</div>
+
+<button class="btn btn-p" style="width:100%;margin-top:10px" onclick="fazerLogin()">Entrar</button>
 <p id="erro" style="color:#fb7185"></p>
-<button class="btn btn-s" onclick="resetar()">RESETAR</button>
 </div>
 <div id="app" class="hidden">
 <header><b id="userInfo"></b><nav id="menu"></nav><button class="btn btn-d" onclick="sair()">Sair</button></header>
