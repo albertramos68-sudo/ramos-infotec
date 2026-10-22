@@ -1,84 +1,197 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramos Infotec V80.1 FIX</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ramos Info Tec - V80.2 MEGA COMPLETA</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
-body{background:#0f172a;color:#e2e8f0}
-.login-screen{height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f172a,#1e3a8a)}
-.login-box{background:#1e293b;padding:35px;border-radius:16px;width:390px}
-.login-box h1{color:#38bdf8;text-align:center}
-input,select,textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #334155;background:#0f172a;color:white}
-button{width:100%;padding:12px;background:#0284c7;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:10px}
-.sidebar{width:250px;background:#1e293b;height:100vh;position:fixed;padding:20px}
-.menu-item{padding:12px;border-radius:8px;cursor:pointer;margin:5px 0}
-.menu-item:hover{background:#334155;color:#38bdf8}
-.main{margin-left:250px;padding:30px}
-.card{background:#1e293b;padding:20px;border-radius:12px;margin-bottom:20px;border:1px solid #334155}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#020617;color:#e2e8f0}
+header{background:#0f172a;padding:12px;display:flex;justify-content:space-between;flex-wrap:wrap;position:sticky;top:0;z-index:9}
+nav{display:flex;gap:5px;flex-wrap:wrap}nav button{background:#1e293b;color:#cbd5e1;padding:7px 11px;border-radius:8px;border:1px solid #334155;cursor:pointer}
+nav button.active,nav button:hover{background:#3b82f6;color:#fff}
+.card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:16px;margin:12px}
+input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#fff}
+label{font-size:12px;color:#94a3b8}
+.btn{padding:9px 13px;border-radius:8px;border:none;font-weight:bold;cursor:pointer}
+.btn-p{background:#3b82f6;color:#fff}.btn-s{background:#334155;color:#fff}.btn-g{background:#22c55e;color:#000}.btn-r{background:#ef4444;color:#fff}
+table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:8px;text-align:left;border-bottom:1px solid #334155;font-size:13px}
+.login-screen{height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#020617,#1e3a8a)}
+.login-box{background:#1e293b;padding:30px;border-radius:16px;width:380px;border:1px solid #334155}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .hidden{display:none!important}
-.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
-.badge-pendente{background:#f59e0b;color:#000}
-.badge-enviado{background:#22c55e;color:#000}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-table{width:100%;border-collapse:collapse;margin-top:15px}
-th,td{padding:10px;text-align:left;border-bottom:1px solid #334155;font-size:13px}
-.lead-msg{background:#0f172a;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:12px;border:1px dashed #475569;margin:10px 0}
+.badge{padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold}
+.badge-pendente{background:#f59e0b;color:#000}.badge-enviado{background:#22c55e;color:#000}.badge-respondeu{background:#38bdf8;color:#000}
+.lead-msg{background:#020617;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:12px;border:1px dashed #334155;margin:8px 0}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.kpi .card{text-align:center}
 </style>
 </head>
 <body>
 <div id="loginScreen" class="login-screen">
   <div class="login-box">
-    <h1>RAMOSINFOTEC</h1>
-    <p style="text-align:center;color:#94a3b8;margin:10px 0">Sistema V80.1 FIX - Zap +55 11 97199-5422</p>
-    <input id="user" value="ramosinfotec">
-    <input id="pass" type="text" value="ramosinfotec">
-    <input id="empresa" value="ramosinfotec">
-    <button onclick="login()">ENTRAR NO SISTEMA - CLIQUE AQUI</button>
+    <h2 style="color:#38bdf8;text-align:center">RAMOS INFOTEC</h2>
+    <p style="text-align:center;color:#94a3b8;font-size:13px">V80.2 MEGA - V79.8 + Agente Comercial<br>Zap: +55 11 97199-5422</p>
+    <label>Usuário</label><input id="user" value="ramosinfotec">
+    <label>Senha</label><input id="pass" type="text" value="ramosinfotec">
+    <label>Empresa</label><input id="empresa" value="ramosinfotec">
+    <button class="btn btn-p" style="width:100%;margin-top:12px" onclick="login()">ENTRAR NO SISTEMA</button>
   </div>
 </div>
 <div id="app" class="hidden">
-  <div class="sidebar">
-    <h2>RAMOS INFOTEC</h2>
-    <div class="menu-item" onclick="showTab('dashboard')">📊 Dashboard</div>
-    <div class="menu-item" onclick="showTab('clientes')">👥 Clientes</div>
-    <div class="menu-item" onclick="showTab('chamados')">🎫 Chamados</div>
-    <div class="menu-item" onclick="showTab('financeiro')">💰 Financeiro</div>
-    <div class="menu-item" onclick="showTab('comercial')" style="background:#0284c7;color:white">🤖 Agente Comercial</div>
-    <div class="menu-item" onclick="logout()">🚪 Sair</div>
+<header>
+  <b style="color:#38bdf8">RAMOS INFOTEC V80.2 MEGA</b>
+  <nav>
+    <button id="m-dashboard" class="active" onclick="showTab('dashboard')">📊 Dashboard</button>
+    <button id="m-clientes" onclick="showTab('clientes')">👥 Clientes</button>
+    <button id="m-chamados" onclick="showTab('chamados')">🎫 Chamados</button>
+    <button id="m-financeiro" onclick="showTab('financeiro')">💰 Financeiro</button>
+    <button id="m-estoque" onclick="showTab('estoque')">📦 Estoque</button>
+    <button id="m-remoto" onclick="showTab('remoto')">🖥️ Remoto</button>
+    <button id="m-comercial" onclick="showTab('comercial')" style="background:#0284c7;color:white">🤖 Agente Comercial</button>
+    <button onclick="logout()">🚪 Sair</button>
+  </nav>
+</header>
+
+<div id="dashboard" class="tab">
+  <div class="kpi">
+    <div class="card"><h3>Clientes</h3><h1 id="kClientes">0</h1></div>
+    <div class="card"><h3>Chamados</h3><h1 id="kChamados">0</h1></div>
+    <div class="card"><h3>Leads</h3><h1 id="kLeads">0</h1></div>
+    <div class="card"><h3>Faturamento</h3><h1>R$ <span id="kFat">0,00</span></h1></div>
   </div>
-  <div class="main">
-    <div id="dashboard" class="tab"><h2>Dashboard V80.1 - OK!</h2><div id="totalClientes"></div></div>
-    <div id="clientes" class="tab hidden">Clientes aqui</div>
-    <div id="chamados" class="tab hidden">Chamados aqui</div>
-    <div id="financeiro" class="tab hidden">Financeiro aqui</div>
-    <div id="comercial" class="tab hidden">
-      <h2>🤖 Agente Comercial - Zap +55 11 97199-5422</h2>
-      <div class="card">
-        <input id="lead_cidade" value="São Paulo"><select id="lead_tipo"><option>Contabilidade</option><option>Advocacia</option><option>Pet Shop</option><option>Auto Peças</option><option>Lojas</option></select>
-        <button onclick="buscarLeads()">Buscar Clientes</button>
-        <div id="msgLonga" class="lead-msg"></div>
-        <div id="msgCurta" class="lead-msg"></div>
-        <table id="tabelaLeads"><tbody></tbody></table>
-      </div>
+  <div class="card"><h3>✅ V80.2 MEGA - V79.8 Restaurada + Agente Comercial</h3><p>Zap +55 11 97199-5422 configurado</p></div>
+</div>
+
+<div id="clientes" class="tab hidden">
+  <div class="card">
+    <h3>👥 Clientes - Campos Completos</h3>
+    <div class="grid3">
+      <div><label>Nome Empresa</label><input id="c_nome"></div>
+      <div><label>CNPJ/CPF</label><input id="c_cnpj"></div>
+      <div><label>Telefone</label><input id="c_tel"></div>
     </div>
+    <div class="grid3">
+      <div><label>Estado</label><input id="c_estado" placeholder="SP"></div>
+      <div><label>Município</label><input id="c_municipio"></div>
+      <div><label>CEP</label><input id="c_cep"></div>
+    </div>
+    <div class="grid3">
+      <div><label>Endereço</label><input id="c_endereco"></div>
+      <div><label>Número</label><input id="c_numero"></div>
+      <div><label>Bairro</label><input id="c_bairro"></div>
+    </div>
+    <div class="grid2">
+      <div><label>E-mail</label><input id="c_email"></div>
+      <div><label>Responsável</label><input id="c_resp"></div>
+    </div>
+    <button class="btn btn-p" onclick="addCliente()">💾 Salvar Cliente</button>
+    <table id="tabClientes"><thead><tr><th>Empresa</th><th>Cidade/UF</th><th>CEP</th><th>Endereço</th><th>Tel</th><th>Ações</th></tr></thead><tbody></tbody></table>
   </div>
 </div>
+
+<div id="chamados" class="tab hidden">
+  <div class="card">
+    <h3>🎫 Chamados</h3>
+    <div class="grid2">
+      <div><label>Título</label><input id="ch_titulo"></div>
+      <div><label>Tipo</label><select id="ch_tipo"><option>Falta Internet</option><option>Suporte Computador</option><option>Infra Rede</option><option>Pentest</option></select></div>
+    </div>
+    <div class="grid2">
+      <div><label>Cliente</label><select id="ch_cliente"></select></div>
+      <div><label>Quem Abriu</label><input id="ch_quem" value="Albert Ramos"></div>
+    </div>
+    <label>Descrição</label><textarea id="ch_desc" rows="3"></textarea>
+    <button class="btn btn-p" onclick="addChamado()">➕ Abrir Chamado</button>
+    <table id="tabChamados"><thead><tr><th>ID</th><th>Título</th><th>Cliente</th><th>Quem</th><th>Data/Hora</th><th>Tipo</th><th>Ação</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<div id="financeiro" class="tab hidden">
+  <div class="card">
+    <h3>💰 Financeiro V15.4 com Ícones</h3>
+    <div class="grid3">
+      <div><label>Descrição</label><input id="f_desc"></div>
+      <div><label>Valor</label><input id="f_valor" type="number"></div>
+      <div><label>Tipo</label><select id="f_tipo"><option>💰 Receita</option><option>💸 Despesa</option><option>🧾 Mensalidade</option></select></div>
+    </div>
+    <button class="btn btn-p" onclick="addFin()">💰 Lançar</button>
+    <table id="tabFin"><thead><tr><th>Descrição</th><th>Valor</th><th>Data</th><th>Ação</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<div id="estoque" class="tab hidden">
+  <div class="card">
+    <h3>📦 Estoque</h3>
+    <div class="grid3">
+      <div><label>Produto</label><input id="e_nome"></div>
+      <div><label>Qtd</label><input id="e_qtd" type="number"></div>
+      <div><label>Valor</label><input id="e_valor" type="number"></div>
+    </div>
+    <button class="btn btn-p" onclick="addEstoque()">📦 Adicionar</button>
+    <table id="tabEstoque"><thead><tr><th>Produto</th><th>Qtd</th><th>Valor</th><th>Ação</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<div id="remoto" class="tab hidden">
+  <div class="card">
+    <h3>🖥️ Acesso Remoto</h3>
+    <div class="grid2">
+      <div><label>ID AnyDesk</label><input id="r_id"></div>
+      <div><label>Cliente</label><input id="r_cliente"></div>
+    </div>
+    <button class="btn btn-p" onclick="gerarRemoto()">🔑 Gerar Senha</button>
+    <div id="r_out"></div>
+  </div>
+</div>
+
+<div id="comercial" class="tab hidden">
+  <div class="card">
+    <h2>🤖 Agente Comercial - Zap +55 11 97199-5422</h2>
+    <div class="grid2">
+      <div><label>Cidade</label><input id="lead_cidade" value="São Paulo"></div>
+      <div><label>Tipo</label><select id="lead_tipo"><option>Contabilidade</option><option>Escritório de Advocacia</option><option>Pet Shop</option><option>Auto Peças</option><option>Pequenas Lojas</option></select></div>
+    </div>
+    <button class="btn btn-p" onclick="buscarLeads()">🤖 Buscar Clientes</button>
+    <button class="btn btn-s" onclick="addLeadManual()">+ Lead Manual</button>
+    <h3>Sua Mensagem Longa:</h3>
+    <div class="lead-msg" id="msgLonga"></div>
+    <h3>Versão Curta:</h3>
+    <div class="lead-msg" id="msgCurta"></div>
+    <table id="tabLeads"><thead><tr><th>Empresa</th><th>Tipo</th><th>Cidade</th><th>Tel</th><th>Status</th><th>Ação</th></tr></thead><tbody></tbody></table>
+    <button class="btn btn-g" onclick="dispararLote()">📩 Disparar Lote Anti-Spam</button>
+  </div>
+</div>
+
+</div>
 <script>
-function login(){
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-}
-function showTab(id){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
-}
+function login(){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('app').classList.remove('hidden');renderAll();}
+function showTab(id){document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));const m=document.getElementById('m-'+id);if(m)m.classList.add('active');}
 function logout(){location.reload();}
 const ZAP="+55 11 97199-5422";
-const msgLongaTxt=`Olá, tudo bem? Aqui é da Ramos Info Tec! 👋\n\nEmpresa [NOME DA EMPRESA] - vimos potencial aí.\n✅ Suporte, Infra, Pentest\nJá reduzimos 70% das paradas de TI.\nDiagnóstico gratuito?\n🌐 ramosinfotec.com.br\n📱 ${ZAP}\n📧 contato@ramosinfotec.com.br\nResponda QUERO ORÇAMENTO\nAlbert Ramos`;
+const msgLongaTxt=`Olá, tudo bem? Aqui é da Ramos Info Tec! 👋\n\nAnalisamos empresas da região e vimos grande potencial de otimização aí na [NOME DA EMPRESA].\n\nSomos especializados em deixar empresas como a sua mais seguras e produtivas, com:\n✅ Suporte completo a usuários e computadores\n✅ Infraestrutura de rede organizada e segura\n✅ Pentest e proteção contra invasões e perda de dados\n\nJá ajudamos escritórios de contabilidade, advocacia e comércios a reduzirem até 70% das paradas por problemas de TI.\n\nPodemos fazer um diagnóstico gratuito da sua estrutura sem compromisso?\n\n🌐 Site: ramosinfotec.com.br\n📱 WhatsApp: ${ZAP}\n📧 E-mail: contato@ramosinfotec.com.br\n\nÉ só responder "QUERO ORÇAMENTO" que agendamos uma visita.\n\nForte abraço,\nAlbert Ramos - Ramos Info Tec\nTI que protege e faz sua empresa crescer`;
+const msgCurtaTxt=`Olá [NOME]! Sou da Ramos Info Tec. Ajudamos empresas como a sua com suporte de TI, infra e segurança (Pentest). Que tal um orçamento sem compromisso? ramosinfotec.com.br | WhatsApp: ${ZAP} | contato@ramosinfotec.com.br`;
 document.getElementById('msgLonga').innerText=msgLongaTxt;
-document.getElementById('msgCurta').innerText=`Olá [NOME]! Ramos Info Tec - TI, infra, Pentest. Orçamento sem compromisso? ramosinfotec.com.br | ${ZAP}`;
+document.getElementById('msgCurta').innerText=msgCurtaTxt;
+let clientes=JSON.parse(localStorage.getItem('clientes_v80')||'[]');
+let chamados=JSON.parse(localStorage.getItem('chamados_v80')||'[]');
+let financeiro=JSON.parse(localStorage.getItem('financeiro_v80')||'[]');
+let estoque=JSON.parse(localStorage.getItem('estoque_v80')||'[]');
+let leads=JSON.parse(localStorage.getItem('leads_v80')||'[]');
+function renderAll(){renderClientes();renderChamados();renderFin();renderEstoque();renderLeads();}
+function addCliente(){const c={nome:c_nome.value,cnpj:c_cnpj.value,tel:c_tel.value,estado:c_estado.value,municipio:c_municipio.value,cep:c_cep.value,endereco:c_endereco.value,numero:c_numero.value,bairro:c_bairro.value,email:c_email.value,resp:c_resp.value};if(!c.nome)return alert('Nome');clientes.push(c);localStorage.setItem('clientes_v80',JSON.stringify(clientes));renderClientes();}
+function renderClientes(){const tb=document.querySelector('#tabClientes tbody');tb.innerHTML='';const sel=document.getElementById('ch_cliente');sel.innerHTML='<option>Selecione</option>';clientes.forEach((c,i)=>{tb.innerHTML+=`<tr><td>${c.nome}</td><td>${c.municipio}/${c.estado}</td><td>${c.cep}</td><td>${c.endereco}, ${c.numero} - ${c.bairro}</td><td>${c.tel}</td><td><button class="btn btn-r" onclick="clientes.splice(${i},1);localStorage.setItem('clientes_v80',JSON.stringify(clientes));renderClientes()">Excluir</button></td></tr>`;sel.innerHTML+=`<option>${c.nome}</option>`;});document.getElementById('kClientes').innerText=clientes.length;}
+function addChamado(){const id=3438+chamados.length;const ch={id,titulo:ch_titulo.value,tipo:ch_tipo.value,cliente:ch_cliente.value,quem:ch_quem.value,desc:ch_desc.value,data:new Date().toLocaleString()};chamados.push(ch);localStorage.setItem('chamados_v80',JSON.stringify(chamados));renderChamados();}
+function renderChamados(){const tb=document.querySelector('#tabChamados tbody');tb.innerHTML='';chamados.forEach((c,i)=>{tb.innerHTML+=`<tr><td>#${c.id}</td><td>${c.titulo}</td><td>${c.cliente}</td><td>${c.quem}</td><td>${c.data}</td><td>${c.tipo}</td><td><button class="btn btn-r" onclick="chamados.splice(${i},1);localStorage.setItem('chamados_v80',JSON.stringify(chamados));renderChamados()">Excluir</button></td></tr>`;});document.getElementById('kChamados').innerText=chamados.length;}
+function addFin(){const f={desc:f_desc.value,valor:parseFloat(f_valor.value)||0,tipo:f_tipo.value,data:new Date().toLocaleDateString()};financeiro.push(f);localStorage.setItem('financeiro_v80',JSON.stringify(financeiro));renderFin();}
+function renderFin(){const tb=document.querySelector('#tabFin tbody');tb.innerHTML='';let tot=0;financeiro.forEach((f,i)=>{tot+=f.valor;tb.innerHTML+=`<tr><td>${f.tipo} ${f.desc}</td><td>R$ ${f.valor.toFixed(2)}</td><td>${f.data}</td><td><button class="btn btn-r" onclick="financeiro.splice(${i},1);localStorage.setItem('financeiro_v80',JSON.stringify(financeiro));renderFin()">Excluir</button></td></tr>`;});document.getElementById('kFat').innerText=tot.toFixed(2);}
+function addEstoque(){const e={nome:e_nome.value,qtd:e_qtd.value,valor:e_valor.value};estoque.push(e);localStorage.setItem('estoque_v80',JSON.stringify(estoque));renderEstoque();}
+function renderEstoque(){const tb=document.querySelector('#tabEstoque tbody');tb.innerHTML='';estoque.forEach((e,i)=>{tb.innerHTML+=`<tr><td>${e.nome}</td><td>${e.qtd}</td><td>R$ ${e.valor}</td><td><button class="btn btn-r" onclick="estoque.splice(${i},1);localStorage.setItem('estoque_v80',JSON.stringify(estoque));renderEstoque()">Excluir</button></td></tr>`;});}
+function gerarRemoto(){const senha=Math.random().toString(36).substring(2,8).toUpperCase();document.getElementById('r_out').innerHTML=`<div class="card">ID: <b>${r_id.value}</b> Senha: <b>${senha}</b><br><a href="https://wa.me/5511971995422?text=Acesso ID ${r_id.value} Senha ${senha}" target="_blank">Enviar Zap ${ZAP}</a></div>`;}
+function buscarLeads(){const cidade=lead_cidade.value||'São Paulo';const tipo=lead_tipo.value;const exemplos=[`Contabilidade ${cidade} - Exito`,`Advocacia ${cidade} - Oliveira`,`${tipo} ${cidade} Centro`,`${tipo} ${cidade} - Silva ME`];exemplos.forEach(nome=>{leads.push({nome,tipo,cidade,tel:'(11) 9'+Math.floor(1000+Math.random()*9000)+'-'+Math.floor(1000+Math.random()*9000),status:'Pendente'});});localStorage.setItem('leads_v80',JSON.stringify(leads));renderLeads();}
+function addLeadManual(){const nome=prompt('Nome:');if(!nome)return;leads.push({nome,tipo:lead_tipo.value,cidade:lead_cidade.value,tel:prompt('Tel:')||'(11) 9xxxx',status:'Pendente'});localStorage.setItem('leads_v80',JSON.stringify(leads));renderLeads();}
+function renderLeads(){const tb=document.querySelector('#tabLeads tbody');tb.innerHTML='';leads.forEach((l,i)=>{tb.innerHTML+=`<tr><td>${l.nome}</td><td>${l.tipo}</td><td>${l.cidade}</td><td>${l.tel}</td><td><span class="badge badge-${l.status.toLowerCase()}">${l.status}</span></td><td><button class="btn btn-p" onclick="enviarLead(${i})">Enviar</button></td></tr>`;});document.getElementById('kLeads').innerText=leads.length;}
+function enviarLead(i){const l=leads[i];const msg=msgLongaTxt.replace('[NOME DA EMPRESA]',l.nome);window.open(`https://wa.me/55${l.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`,'_blank');leads[i].status='Enviado';localStorage.setItem('leads_v80',JSON.stringify(leads));renderLeads();}
+function dispararLote(){let idx=0;const it=setInterval(()=>{if(idx>=leads.length){clearInterval(it);return;}if(leads[idx].status==='Pendente')enviarLead(idx);idx++;},3000);}
 </script>
 </body>
 </html>
