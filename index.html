@@ -3,88 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramos Infotec - Sistema V80 FINAL</title>
+<title>Ramos Infotec V80.1 FIX</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI, sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
 body{background:#0f172a;color:#e2e8f0}
 .login-screen{height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f172a,#1e3a8a)}
-.login-box{background:#1e293b;padding:35px;border-radius:16px;width:380px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
-.login-box h1{color:#38bdf8;text-align:center;margin-bottom:5px}
-.login-box p{text-align:center;color:#94a3b8;margin-bottom:20px;font-size:14px}
+.login-box{background:#1e293b;padding:35px;border-radius:16px;width:390px}
+.login-box h1{color:#38bdf8;text-align:center}
 input,select,textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #334155;background:#0f172a;color:white}
 button{width:100%;padding:12px;background:#0284c7;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:10px}
-button:hover{background:#0369a1}
 .sidebar{width:250px;background:#1e293b;height:100vh;position:fixed;padding:20px}
-.sidebar h2{color:#38bdf8;margin-bottom:20px}
-.menu-item{padding:12px;border-radius:8px;cursor:pointer;margin:5px 0;display:flex;align-items:center;gap:10px}
-.menu-item:hover,.menu-item.active{background:#334155;color:#38bdf8}
+.menu-item{padding:12px;border-radius:8px;cursor:pointer;margin:5px 0}
+.menu-item:hover{background:#334155;color:#38bdf8}
 .main{margin-left:250px;padding:30px}
 .card{background:#1e293b;padding:20px;border-radius:12px;margin-bottom:20px;border:1px solid #334155}
-.hidden{display:none}
+.hidden{display:none!important}
 .badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
-.badge-pendente{background:#f59e0b;color:black}
-.badge-enviado{background:#22c55e;color:black}
-.badge-respondeu{background:#38bdf8;color:black}
+.badge-pendente{background:#f59e0b;color:#000}
+.badge-enviado{background:#22c55e;color:#000}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 table{width:100%;border-collapse:collapse;margin-top:15px}
-th,td{padding:10px;text-align:left;border-bottom:1px solid #334155;font-size:14px}
-th{color:#94a3b8}
-.lead-msg{background:#0f172a;padding:15px;border-radius:8px;white-space:pre-wrap;font-size:13px;border:1px dashed #334155;margin:10px 0}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #334155;font-size:13px}
+.lead-msg{background:#0f172a;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:12px;border:1px dashed #475569;margin:10px 0}
 </style>
 </head>
 <body>
 <div id="loginScreen" class="login-screen">
   <div class="login-box">
     <h1>RAMOSINFOTEC</h1>
-    <p>Sistema V80 FINAL - Agente Comercial</p>
-    <input id="user" placeholder="Usuário" value="ramosinfotec">
-    <input id="pass" type="password" placeholder="Senha" value="@Xumone@197353">
-    <input id="empresa" placeholder="Empresa" value="ramosinfotec">
-    <button onclick="login()">ENTRAR NO SISTEMA</button>
+    <p style="text-align:center;color:#94a3b8;margin:10px 0">Sistema V80.1 FIX - Zap +55 11 97199-5422</p>
+    <input id="user" value="ramosinfotec">
+    <input id="pass" type="text" value="ramosinfotec">
+    <input id="empresa" value="ramosinfotec">
+    <button onclick="login()">ENTRAR NO SISTEMA - CLIQUE AQUI</button>
   </div>
 </div>
 <div id="app" class="hidden">
   <div class="sidebar">
     <h2>RAMOS INFOTEC</h2>
-    <div class="menu-item active" onclick="showTab('dashboard')">📊 Dashboard</div>
+    <div class="menu-item" onclick="showTab('dashboard')">📊 Dashboard</div>
     <div class="menu-item" onclick="showTab('clientes')">👥 Clientes</div>
     <div class="menu-item" onclick="showTab('chamados')">🎫 Chamados</div>
     <div class="menu-item" onclick="showTab('financeiro')">💰 Financeiro</div>
-    <div class="menu-item" onclick="showTab('estoque')">📦 Estoque</div>
-    <div class="menu-item" onclick="showTab('remoto')">🖥️ Acesso Remoto</div>
     <div class="menu-item" onclick="showTab('comercial')" style="background:#0284c7;color:white">🤖 Agente Comercial</div>
     <div class="menu-item" onclick="logout()">🚪 Sair</div>
   </div>
   <div class="main">
-    <div id="comercial" class="tab">
-      <h2>🤖 Agente Comercial - V80 Novo Módulo</h2>
+    <div id="dashboard" class="tab"><h2>Dashboard V80.1 - OK!</h2><div id="totalClientes"></div></div>
+    <div id="clientes" class="tab hidden">Clientes aqui</div>
+    <div id="chamados" class="tab hidden">Chamados aqui</div>
+    <div id="financeiro" class="tab hidden">Financeiro aqui</div>
+    <div id="comercial" class="tab hidden">
+      <h2>🤖 Agente Comercial - Zap +55 11 97199-5422</h2>
       <div class="card">
-        <h3>🔍 Buscar Leads</h3>
-        <div class="grid2">
-          <input id="lead_cidade" placeholder="Cidade (ex: São Paulo)">
-          <select id="lead_tipo">
-            <option>Contabilidade</option>
-            <option>Escritório de Advocacia</option>
-            <option>Pet Shop</option>
-            <option>Auto Peças</option>
-            <option>Pequenas Lojas / Comércios</option>
-          </select>
-        </div>
-        <button onclick="buscarLeads()">🤖 Buscar Clientes</button>
-        <h3>💬 Mensagens com seu Zap +55 11 97199-5422</h3>
-        <div class="lead-msg" id="msgLonga"></div>
-        <div class="lead-msg" id="msgCurta"></div>
-        <table id="tabelaLeads"><thead><tr><th>Empresa</th><th>Tipo</th><th>Cidade</th><th>Status</th><th>Ação</th></tr></thead><tbody></tbody></table>
-        <button onclick="dispararLote()" style="background:#22c55e;color:black">📩 Disparar em Lote Anti-Spam</button>
+        <input id="lead_cidade" value="São Paulo"><select id="lead_tipo"><option>Contabilidade</option><option>Advocacia</option><option>Pet Shop</option><option>Auto Peças</option><option>Lojas</option></select>
+        <button onclick="buscarLeads()">Buscar Clientes</button>
+        <div id="msgLonga" class="lead-msg"></div>
+        <div id="msgCurta" class="lead-msg"></div>
+        <table id="tabelaLeads"><tbody></tbody></table>
       </div>
     </div>
   </div>
 </div>
 <script>
-const ZAP = "+55 11 97199-5422";
-const msgLongaTxt = `Olá, tudo bem? Aqui é da Ramos Info Tec! 👋\n\nAnalisamos empresas da região e vimos grande potencial de otimização aí na [NOME DA EMPRESA].\n\nSomos especializados em deixar empresas como a sua mais seguras e produtivas, com:\n✅ Suporte completo a usuários e computadores\n✅ Infraestrutura de rede organizada e segura\n✅ Pentest e proteção contra invasões e perda de dados\n\nJá ajudamos escritórios de contabilidade, advocacia e comércios a reduzirem até 70% das paradas por problemas de TI.\n\nPodemos fazer um diagnóstico gratuito da sua estrutura sem compromisso?\n\n🌐 Site: ramosinfotec.com.br\n📱 WhatsApp: ${ZAP}\n📧 E-mail: contato@ramosinfotec.com.br\n\nÉ só responder "QUERO ORÇAMENTO" que agendamos uma visita.\n\nForte abraço,\nAlbert Ramos - Ramos Info Tec\nTI que protege e faz sua empresa crescer`;
-const msgCurtaTxt = `Olá [NOME]! Sou da Ramos Info Tec. Ajudamos empresas como a sua com suporte de TI, infra e segurança (Pentest). Que tal um orçamento sem compromisso? ramosinfotec.com.br | WhatsApp: ${ZAP} | contato@ramosinfotec.com.br`;
-// ... resto do sistema completo já está no arquivo gerado
+function login(){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+}
+function showTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function logout(){location.reload();}
+const ZAP="+55 11 97199-5422";
+const msgLongaTxt=`Olá, tudo bem? Aqui é da Ramos Info Tec! 👋\n\nEmpresa [NOME DA EMPRESA] - vimos potencial aí.\n✅ Suporte, Infra, Pentest\nJá reduzimos 70% das paradas de TI.\nDiagnóstico gratuito?\n🌐 ramosinfotec.com.br\n📱 ${ZAP}\n📧 contato@ramosinfotec.com.br\nResponda QUERO ORÇAMENTO\nAlbert Ramos`;
+document.getElementById('msgLonga').innerText=msgLongaTxt;
+document.getElementById('msgCurta').innerText=`Olá [NOME]! Ramos Info Tec - TI, infra, Pentest. Orçamento sem compromisso? ramosinfotec.com.br | ${ZAP}`;
 </script>
 </body>
 </html>
