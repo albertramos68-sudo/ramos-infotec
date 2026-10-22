@@ -2,196 +2,152 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ramos Info Tec - V80.2 MEGA COMPLETA</title>
+<title>Ramos V81.4 - FINANCEIRO ADMIN BOLETO</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#020617;color:#e2e8f0}
-header{background:#0f172a;padding:12px;display:flex;justify-content:space-between;flex-wrap:wrap;position:sticky;top:0;z-index:9}
-nav{display:flex;gap:5px;flex-wrap:wrap}nav button{background:#1e293b;color:#cbd5e1;padding:7px 11px;border-radius:8px;border:1px solid #334155;cursor:pointer}
-nav button.active,nav button:hover{background:#3b82f6;color:#fff}
-.card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:16px;margin:12px}
-input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#fff}
-label{font-size:12px;color:#94a3b8}
-.btn{padding:9px 13px;border-radius:8px;border:none;font-weight:bold;cursor:pointer}
-.btn-p{background:#3b82f6;color:#fff}.btn-s{background:#334155;color:#fff}.btn-g{background:#22c55e;color:#000}.btn-r{background:#ef4444;color:#fff}
-table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:8px;text-align:left;border-bottom:1px solid #334155;font-size:13px}
-.login-screen{height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#020617,#1e3a8a)}
-.login-box{background:#1e293b;padding:30px;border-radius:16px;width:380px;border:1px solid #334155}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#020617;color:#e2e8f0}
+header{background:#0f172a;padding:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:99}
+nav{display:flex;gap:3px;flex-wrap:wrap}nav button{background:#1e293b;color:#cbd5e1;padding:6px 9px;border-radius:8px;border:1px solid #334155;cursor:pointer;font-size:11px}
+nav button:hover{background:#3b82f6;color:#fff}
+.card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:14px;margin:10px}
+input,select,textarea{width:100%;padding:9px;margin:4px 0;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#fff;font-size:12px}
+label{font-size:10px;color:#94a3b8;font-weight:bold}
+.btn{padding:7px 11px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;font-size:11px}
+.btn-p{background:#3b82f6;color:#fff}.btn-g{background:#22c55e;color:#000}.btn-r{background:#ef4444;color:#fff}.btn-y{background:#f59e0b;color:#000}.btn-purple{background:#a855f7;color:#fff}.btn-admin{background:#dc2626;color:#fff}
+table{width:100%;border-collapse:collapse;margin-top:8px}th,td{padding:6px;text-align:left;border-bottom:1px solid #334155;font-size:10px}
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#020617,#1e3a8a);padding:15px}
+.login-box{background:#1e293b;padding:18px;border-radius:16px;width:440px;border:1px solid #334155;text-align:center}
 .hidden{display:none!important}
-.badge{padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold}
-.badge-pendente{background:#f59e0b;color:#000}.badge-enviado{background:#22c55e;color:#000}.badge-respondeu{background:#38bdf8;color:#000}
-.lead-msg{background:#020617;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:12px;border:1px dashed #334155;margin:8px 0}
-.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-.kpi .card{text-align:center}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px}
 </style>
 </head>
 <body>
 <div id="loginScreen" class="login-screen">
-  <div class="login-box">
-    <h2 style="color:#38bdf8;text-align:center">RAMOS INFOTEC</h2>
-    <p style="text-align:center;color:#94a3b8;font-size:13px">V80.2 MEGA - V79.8 + Agente Comercial<br>Zap: +55 11 97199-5422</p>
-    <label>Usuário</label><input id="user" value="ramosinfotec">
-    <label>Senha</label><input id="pass" type="text" value="ramosinfotec">
-    <label>Empresa</label><input id="empresa" value="ramosinfotec">
-    <button class="btn btn-p" style="width:100%;margin-top:12px" onclick="login()">ENTRAR NO SISTEMA</button>
-  </div>
+<div class="login-box">
+<img src="logo_final.png" style="width:100%;border-radius:12px;margin-bottom:8px" onerror="this.style.display='none'">
+<h2 style="color:#38bdf8;margin:5px 0">RAMOS V81.4</h2>
+<p style="color:#94a3b8;font-size:10px">FINANCEIRO ADMIN EXCLUSIVO + BOLETO<br>Pentest | LGPD | +55 11 97199-5422</p>
+<div style="text-align:left"><label>Usuario</label><input id="user" value="ramosinfotec"><label>Senha</label><input id="pass" type="text" value="ramosinfotec"></div>
+<button class="btn btn-p" style="width:100%;margin-top:8px" onclick="login()">ENTRAR</button>
+</div>
 </div>
 <div id="app" class="hidden">
 <header>
-  <b style="color:#38bdf8">RAMOS INFOTEC V80.2 MEGA</b>
-  <nav>
-    <button id="m-dashboard" class="active" onclick="showTab('dashboard')">📊 Dashboard</button>
-    <button id="m-clientes" onclick="showTab('clientes')">👥 Clientes</button>
-    <button id="m-chamados" onclick="showTab('chamados')">🎫 Chamados</button>
-    <button id="m-financeiro" onclick="showTab('financeiro')">💰 Financeiro</button>
-    <button id="m-estoque" onclick="showTab('estoque')">📦 Estoque</button>
-    <button id="m-remoto" onclick="showTab('remoto')">🖥️ Remoto</button>
-    <button id="m-comercial" onclick="showTab('comercial')" style="background:#0284c7;color:white">🤖 Agente Comercial</button>
-    <button onclick="logout()">🚪 Sair</button>
-  </nav>
+<div style="display:flex;align-items:center"><img src="logo_final.png" style="height:40px;border-radius:8px;margin-right:8px" onerror="this.style.display='none'"><div><b style="color:#38bdf8;font-size:12px">RAMOS V81.4 FINANCEIRO ADMIN</b><br><span id="perfilBadge"></span> <span id="nomeLogado"></span></div></div>
+<nav id="navAdmin">
+<button onclick="showTab('dashboard')">📊 Dashboard</button>
+<button onclick="showTab('clientes')">👥 Clientes</button>
+<button onclick="showTab('usuarios')" style="background:#a855f7;color:#fff">👤 Usuarios</button>
+<button onclick="showTab('chamados')">🎫 Chamados</button>
+<button onclick="showTab('financeiro')">💰 Financeiro</button>
+<button onclick="showTab('financeiroAdmin')" style="background:#dc2626;color:#fff">🔒 Fin ADMIN</button>
+<button onclick="showTab('estoque')">📦 Estoque</button>
+<button onclick="showTab('remoto')">🖥️ Remoto</button>
+<button onclick="showTab('comercial')" style="background:#0284c7;color:#fff">🤖 Comercial</button>
+<button onclick="showTab('relatorios')" style="background:#f59e0b;color:#000">📑 Relatorios</button>
+<button onclick="logout()">🚪 Sair</button>
+</nav>
+<nav id="navCliente" class="hidden">
+<button onclick="showTab('areaCliente')" style="background:#22c55e;color:#000">🏠 Minha Area</button>
+<button onclick="showTab('areaAbrir')">➕ Abrir</button>
+<button onclick="showTab('areaMeus')">📋 Meus</button>
+<button onclick="showTab('areaDados')">🏢 Dados</button>
+<button onclick="logout()">🚪 Sair</button>
+</nav>
 </header>
-
-<div id="dashboard" class="tab">
-  <div class="kpi">
-    <div class="card"><h3>Clientes</h3><h1 id="kClientes">0</h1></div>
-    <div class="card"><h3>Chamados</h3><h1 id="kChamados">0</h1></div>
-    <div class="card"><h3>Leads</h3><h1 id="kLeads">0</h1></div>
-    <div class="card"><h3>Faturamento</h3><h1>R$ <span id="kFat">0,00</span></h1></div>
-  </div>
-  <div class="card"><h3>✅ V80.2 MEGA - V79.8 Restaurada + Agente Comercial</h3><p>Zap +55 11 97199-5422 configurado</p></div>
+<!-- DASHBOARD -->
+<div id="dashboard" class="tab"><div class="kpi"><div class="card"><h4>Clientes</h4><h1 id="kClientes">0</h1></div><div class="card"><h4>Chamados</h4><h1 id="kChamados">0</h1></div><div class="card"><h4>Financeiro Geral</h4><h2>R$ <span id="kFat">0</span></h2></div><div class="card" style="border-color:#dc2626"><h4>🔒 Fin ADMIN</h4><h2>R$ <span id="kFatAdmin">0</span></h2></div><div class="card"><h4>Estoque</h4><h1 id="kEstoque">0</h1></div><div class="card"><h4>Leads</h4><h1 id="kLeads">0</h1></div></div></div>
+<!-- CLIENTES -->
+<div id="clientes" class="tab hidden"><div class="card"><h3>👥 Clientes</h3><div class="grid3"><div><label>Nome *</label><input id="c_nome"></div><div><label>CNPJ</label><input id="c_cnpj"></div><div><label>Tel</label><input id="c_tel"></div></div><div class="grid3"><div><label>Estado *</label><input id="c_estado"></div><div><label>Municipio *</label><input id="c_municipio"></div><div><label>CEP *</label><input id="c_cep"></div></div><div class="grid3"><div><label>Endereco *</label><input id="c_endereco"></div><div><label>Numero *</label><input id="c_numero"></div><div><label>Bairro *</label><input id="c_bairro"></div></div><button class="btn btn-p" onclick="addCliente()">Salvar</button><table id="tabClientes"><thead><tr><th>Empresa</th><th>Cidade</th><th>CEP</th><th>Tel</th><th>Acao</th></tr></thead><tbody></tbody></table></div></div>
+<!-- USUARIOS -->
+<div id="usuarios" class="tab hidden"><div class="card"><h3>👤 Usuarios</h3><div class="grid2"><div><label>Usuario *</label><input id="u_user"></div><div><label>Senha *</label><input id="u_pass"></div></div><div class="grid2"><div><label>Empresa *</label><input id="u_empresa"></div><div><label>Perfil</label><select id="u_perfil"><option value="cliente">CLIENTE</option><option value="admin">ADMIN</option></select></div></div><button class="btn btn-purple" onclick="addUsuario()">Criar</button><table id="tabUsuarios"><thead><tr><th>Usuario</th><th>Empresa</th><th>Perfil</th><th>Acao</th></tr></thead><tbody></tbody></table></div></div>
+<!-- CHAMADOS -->
+<div id="chamados" class="tab hidden"><div class="card"><h3>🎫 Chamados</h3><div class="grid2"><div><label>Titulo</label><input id="ch_titulo"></div><div><label>Cliente</label><select id="ch_cliente"></select></div></div><div class="grid2"><div><label>Status</label><select id="ch_status"><option>Aberto</option><option>Em Andamento</option><option>Fechado</option></select></div><div><label>Tipo</label><select id="ch_tipo"><option>Falta Internet</option><option>Suporte</option><option>Infra</option><option>Pentest</option></select></div></div><textarea id="ch_desc" rows="2"></textarea><button class="btn btn-p" onclick="addChamado()">Abrir</button><table id="tabChamados"><thead><tr><th>ID</th><th>Titulo</th><th>Empresa</th><th>Status</th><th>Acao</th></tr></thead><tbody></tbody></table></div></div>
+<!-- FINANCEIRO GERAL -->
+<div id="financeiro" class="tab hidden"><div class="card"><h3>💰 Financeiro Geral</h3><div class="grid3"><div><label>Desc</label><input id="f_desc"></div><div><label>Valor</label><input id="f_valor" type="number"></div><div><label>Tipo</label><select id="f_tipo"><option>Receita</option><option>Despesa</option><option>Mensalidade</option></select></div></div><div class="grid2"><div><label>Cliente</label><select id="f_cliente"></select></div><div><label>Data</label><input id="f_data" type="date"></div></div><button class="btn btn-p" onclick="addFin()">Lancar</button><table id="tabFin"><thead><tr><th>Desc</th><th>Cliente</th><th>Valor</th><th>Data</th><th>Acao</th></tr></thead><tbody></tbody></table></div></div>
+<!-- FINANCEIRO ADMIN BOLETO -->
+<div id="financeiroAdmin" class="tab hidden">
+<div class="card" style="border-color:#dc2626;border-width:2px">
+<h3 style="color:#f87171">🔒 FINANCEIRO ADMIN - BOLETO EXCLUSIVO</h3>
+<div class="grid3">
+<div><label>📅 Data do Boleto *</label><input id="fa_dataBoleto" type="date"></div>
+<div><label>🏢 Cliente *</label><select id="fa_cliente"></select></div>
+<div><label>🧾 O que esta sendo pago *</label><input id="fa_oque" placeholder="Ex: Mensalidade TI Janeiro"></div>
 </div>
-
-<div id="clientes" class="tab hidden">
-  <div class="card">
-    <h3>👥 Clientes - Campos Completos</h3>
-    <div class="grid3">
-      <div><label>Nome Empresa</label><input id="c_nome"></div>
-      <div><label>CNPJ/CPF</label><input id="c_cnpj"></div>
-      <div><label>Telefone</label><input id="c_tel"></div>
-    </div>
-    <div class="grid3">
-      <div><label>Estado</label><input id="c_estado" placeholder="SP"></div>
-      <div><label>Município</label><input id="c_municipio"></div>
-      <div><label>CEP</label><input id="c_cep"></div>
-    </div>
-    <div class="grid3">
-      <div><label>Endereço</label><input id="c_endereco"></div>
-      <div><label>Número</label><input id="c_numero"></div>
-      <div><label>Bairro</label><input id="c_bairro"></div>
-    </div>
-    <div class="grid2">
-      <div><label>E-mail</label><input id="c_email"></div>
-      <div><label>Responsável</label><input id="c_resp"></div>
-    </div>
-    <button class="btn btn-p" onclick="addCliente()">💾 Salvar Cliente</button>
-    <table id="tabClientes"><thead><tr><th>Empresa</th><th>Cidade/UF</th><th>CEP</th><th>Endereço</th><th>Tel</th><th>Ações</th></tr></thead><tbody></tbody></table>
-  </div>
+<div class="grid4">
+<div><label>💰 Valor Pagamento *</label><input id="fa_valor" type="number" step="0.01"></div>
+<div><label>📈 Juros</label><input id="fa_juros" type="number" step="0.01" value="0"></div>
+<div><label>⚠️ Multa</label><input id="fa_multa" type="number" step="0.01" value="0"></div>
+<div><label>💵 Total Pago (auto)</label><input id="fa_total" type="number" disabled style="background:#450a0a;color:#fca5a5;font-weight:bold"></div>
 </div>
-
-<div id="chamados" class="tab hidden">
-  <div class="card">
-    <h3>🎫 Chamados</h3>
-    <div class="grid2">
-      <div><label>Título</label><input id="ch_titulo"></div>
-      <div><label>Tipo</label><select id="ch_tipo"><option>Falta Internet</option><option>Suporte Computador</option><option>Infra Rede</option><option>Pentest</option></select></div>
-    </div>
-    <div class="grid2">
-      <div><label>Cliente</label><select id="ch_cliente"></select></div>
-      <div><label>Quem Abriu</label><input id="ch_quem" value="Albert Ramos"></div>
-    </div>
-    <label>Descrição</label><textarea id="ch_desc" rows="3"></textarea>
-    <button class="btn btn-p" onclick="addChamado()">➕ Abrir Chamado</button>
-    <table id="tabChamados"><thead><tr><th>ID</th><th>Título</th><th>Cliente</th><th>Quem</th><th>Data/Hora</th><th>Tipo</th><th>Ação</th></tr></thead><tbody></tbody></table>
-  </div>
+<div class="grid3">
+<div><label>📅 Data Pagamento</label><input id="fa_dataPago" type="date"></div>
+<div><label>💳 Forma</label><select id="fa_forma"><option>Boleto</option><option>PIX</option><option>Cartao</option><option>Dinheiro</option></select></div>
+<div><label>📊 Status</label><select id="fa_status"><option>Pendente</option><option>Pago</option><option>Atrasado</option></select></div>
 </div>
-
-<div id="financeiro" class="tab hidden">
-  <div class="card">
-    <h3>💰 Financeiro V15.4 com Ícones</h3>
-    <div class="grid3">
-      <div><label>Descrição</label><input id="f_desc"></div>
-      <div><label>Valor</label><input id="f_valor" type="number"></div>
-      <div><label>Tipo</label><select id="f_tipo"><option>💰 Receita</option><option>💸 Despesa</option><option>🧾 Mensalidade</option></select></div>
-    </div>
-    <button class="btn btn-p" onclick="addFin()">💰 Lançar</button>
-    <table id="tabFin"><thead><tr><th>Descrição</th><th>Valor</th><th>Data</th><th>Ação</th></tr></thead><tbody></tbody></table>
-  </div>
+<div><label>Obs / Num Boleto</label><input id="fa_obs" placeholder="Boleto 001 - Banco Inter"></div>
+<button class="btn btn-admin" onclick="addFinanceiroAdmin()" style="width:100%;margin-top:10px;padding:12px">🔒 LANCAR NO FINANCEIRO ADMIN</button>
+<div class="kpi" style="margin-top:15px">
+<div class="card" style="background:#450a0a"><h4>Total Geral</h4><h2>R$ <span id="kTotalGeral">0.00</span></h2></div>
+<div class="card" style="background:#022c22"><h4>Total Pago</h4><h2>R$ <span id="kTotalPago">0.00</span></h2></div>
+<div class="card" style="background:#422006"><h4>Pendente</h4><h2>R$ <span id="kTotalPendente">0.00</span></h2></div>
+<div class="card" style="background:#1e1b4b"><h4>Juros+Multa</h4><h2>R$ <span id="kTotalJurosMulta">0.00</span></h2></div>
 </div>
-
-<div id="estoque" class="tab hidden">
-  <div class="card">
-    <h3>📦 Estoque</h3>
-    <div class="grid3">
-      <div><label>Produto</label><input id="e_nome"></div>
-      <div><label>Qtd</label><input id="e_qtd" type="number"></div>
-      <div><label>Valor</label><input id="e_valor" type="number"></div>
-    </div>
-    <button class="btn btn-p" onclick="addEstoque()">📦 Adicionar</button>
-    <table id="tabEstoque"><thead><tr><th>Produto</th><th>Qtd</th><th>Valor</th><th>Ação</th></tr></thead><tbody></tbody></table>
-  </div>
+<table id="tabFinAdmin"><thead><tr><th>Data Boleto</th><th>Cliente</th><th>O que sendo pago</th><th>Valor</th><th>Juros</th><th>Multa</th><th>Total</th><th>Status</th><th>Acao</th></tr></thead><tbody></tbody></table>
+<button class="btn btn-y" onclick="relatorioFinanceiroAdmin()">🖨️ Relatorio ADMIN com Logo</button>
 </div>
-
-<div id="remoto" class="tab hidden">
-  <div class="card">
-    <h3>🖥️ Acesso Remoto</h3>
-    <div class="grid2">
-      <div><label>ID AnyDesk</label><input id="r_id"></div>
-      <div><label>Cliente</label><input id="r_cliente"></div>
-    </div>
-    <button class="btn btn-p" onclick="gerarRemoto()">🔑 Gerar Senha</button>
-    <div id="r_out"></div>
-  </div>
 </div>
-
-<div id="comercial" class="tab hidden">
-  <div class="card">
-    <h2>🤖 Agente Comercial - Zap +55 11 97199-5422</h2>
-    <div class="grid2">
-      <div><label>Cidade</label><input id="lead_cidade" value="São Paulo"></div>
-      <div><label>Tipo</label><select id="lead_tipo"><option>Contabilidade</option><option>Escritório de Advocacia</option><option>Pet Shop</option><option>Auto Peças</option><option>Pequenas Lojas</option></select></div>
-    </div>
-    <button class="btn btn-p" onclick="buscarLeads()">🤖 Buscar Clientes</button>
-    <button class="btn btn-s" onclick="addLeadManual()">+ Lead Manual</button>
-    <h3>Sua Mensagem Longa:</h3>
-    <div class="lead-msg" id="msgLonga"></div>
-    <h3>Versão Curta:</h3>
-    <div class="lead-msg" id="msgCurta"></div>
-    <table id="tabLeads"><thead><tr><th>Empresa</th><th>Tipo</th><th>Cidade</th><th>Tel</th><th>Status</th><th>Ação</th></tr></thead><tbody></tbody></table>
-    <button class="btn btn-g" onclick="dispararLote()">📩 Disparar Lote Anti-Spam</button>
-  </div>
-</div>
-
+<!-- OUTRAS ABAS -->
+<div id="estoque" class="tab hidden"><div class="card"><h3>📦 Estoque</h3><div class="grid3"><div><label>Produto</label><input id="e_nome"></div><div><label>Qtd</label><input id="e_qtd" type="number"></div><div><label>Valor</label><input id="e_valor" type="number"></div></div><button class="btn btn-p" onclick="addEstoque()">Adicionar</button><table id="tabEstoque"><thead><tr><th>Produto</th><th>Qtd</th><th>Valor</th><th>Acao</th></tr></thead><tbody></tbody></table></div></div>
+<div id="remoto" class="tab hidden"><div class="card"><h3>🖥️ Remoto</h3><div class="grid2"><div><label>ID Remoto</label><input id="r_id"></div><div><label>Cliente</label><select id="r_clienteSel"></select></div></div><button class="btn btn-p" onclick="gerarRemoto()">Gerar</button><div id="r_out"></div><table id="tabRemoto"><thead><tr><th>ID</th><th>Cliente</th><th>Senha</th><th>Data</th><th>Acao</th></tr></thead><tbody></tbody></table></div></div>
+<div id="comercial" class="tab hidden"><div class="card"><h3>🤖 Comercial</h3><div class="grid2"><div><label>Cidade</label><input id="lead_cidade" value="Sao Paulo"></div><div><label>Tipo</label><select id="lead_tipo"><option>Contabilidade</option><option>Advocacia</option></select></div></div><button class="btn btn-p" onclick="buscarLeads()">Buscar</button><table id="tabLeads"><thead><tr><th>Empresa</th><th>Status</th><th>Acao</th></tr></thead><tbody></tbody></table></div></div>
+<div id="relatorios" class="tab hidden"><div class="card"><h3>📑 Relatorios</h3><button class="btn btn-y" onclick="relatorioClientes()">Clientes</button> <button class="btn btn-y" onclick="relatorioChamados()">Chamados</button> <button class="btn btn-y" onclick="relatorioFinanceiro()">Financeiro</button> <button class="btn btn-admin" onclick="relatorioFinanceiroAdmin()">🔒 Fin ADMIN</button></div></div>
+<div id="areaCliente" class="tab hidden"><div class="card"><h3>Area Cliente - <span id="cliEmpresaNome"></span></h3><div class="kpi"><div class="card"><h4>Meus Chamados</h4><h1 id="kMeusChamados">0</h1></div><div class="card"><h4>Abertos</h4><h1 id="kAbertos">0</h1></div><div class="card"><h4>Fechados</h4><h1 id="kFechados">0</h1></div></div></div></div>
+<div id="areaAbrir" class="tab hidden"><div class="card"><h3>Abrir Chamado</h3><input id="cli_titulo"><textarea id="cli_desc" rows="3"></textarea><button class="btn btn-g" onclick="abrirChamadoCliente()">Enviar</button></div></div>
+<div id="areaMeus" class="tab hidden"><div class="card"><table id="tabMeusChamados"><thead><tr><th>ID</th><th>Titulo</th><th>Data</th><th>Status</th></tr></thead><tbody></tbody></table></div></div>
+<div id="areaDados" class="tab hidden"><div class="card"><div id="dadosClienteCompleto"></div></div></div>
 </div>
 <script>
-function login(){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('app').classList.remove('hidden');renderAll();}
-function showTab(id){document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));const m=document.getElementById('m-'+id);if(m)m.classList.add('active');}
-function logout(){location.reload();}
-const ZAP="+55 11 97199-5422";
-const msgLongaTxt=`Olá, tudo bem? Aqui é da Ramos Info Tec! 👋\n\nAnalisamos empresas da região e vimos grande potencial de otimização aí na [NOME DA EMPRESA].\n\nSomos especializados em deixar empresas como a sua mais seguras e produtivas, com:\n✅ Suporte completo a usuários e computadores\n✅ Infraestrutura de rede organizada e segura\n✅ Pentest e proteção contra invasões e perda de dados\n\nJá ajudamos escritórios de contabilidade, advocacia e comércios a reduzirem até 70% das paradas por problemas de TI.\n\nPodemos fazer um diagnóstico gratuito da sua estrutura sem compromisso?\n\n🌐 Site: ramosinfotec.com.br\n📱 WhatsApp: ${ZAP}\n📧 E-mail: contato@ramosinfotec.com.br\n\nÉ só responder "QUERO ORÇAMENTO" que agendamos uma visita.\n\nForte abraço,\nAlbert Ramos - Ramos Info Tec\nTI que protege e faz sua empresa crescer`;
-const msgCurtaTxt=`Olá [NOME]! Sou da Ramos Info Tec. Ajudamos empresas como a sua com suporte de TI, infra e segurança (Pentest). Que tal um orçamento sem compromisso? ramosinfotec.com.br | WhatsApp: ${ZAP} | contato@ramosinfotec.com.br`;
-document.getElementById('msgLonga').innerText=msgLongaTxt;
-document.getElementById('msgCurta').innerText=msgCurtaTxt;
+// MESMO SCRIPT DA V81.4 - COMPLETO COM BOLETO
+let usuarioLogado=null;
+let usuarios=JSON.parse(localStorage.getItem('usuarios_v81')||'[]');
+if(usuarios.length===0){usuarios=[{user:'ramosinfotec',pass:'ramosinfotec',empresa:'Ramos Infotec',perfil:'admin'},{user:'cliente1',pass:'123',empresa:'Contabilidade Sao Paulo',perfil:'cliente'}];localStorage.setItem('usuarios_v81',JSON.stringify(usuarios));}
 let clientes=JSON.parse(localStorage.getItem('clientes_v80')||'[]');
 let chamados=JSON.parse(localStorage.getItem('chamados_v80')||'[]');
 let financeiro=JSON.parse(localStorage.getItem('financeiro_v80')||'[]');
+let financeiroAdmin=JSON.parse(localStorage.getItem('financeiroAdmin_v81_4')||'[]');
 let estoque=JSON.parse(localStorage.getItem('estoque_v80')||'[]');
+let remoto=JSON.parse(localStorage.getItem('remoto_v81')||'[]');
 let leads=JSON.parse(localStorage.getItem('leads_v80')||'[]');
-function renderAll(){renderClientes();renderChamados();renderFin();renderEstoque();renderLeads();}
-function addCliente(){const c={nome:c_nome.value,cnpj:c_cnpj.value,tel:c_tel.value,estado:c_estado.value,municipio:c_municipio.value,cep:c_cep.value,endereco:c_endereco.value,numero:c_numero.value,bairro:c_bairro.value,email:c_email.value,resp:c_resp.value};if(!c.nome)return alert('Nome');clientes.push(c);localStorage.setItem('clientes_v80',JSON.stringify(clientes));renderClientes();}
-function renderClientes(){const tb=document.querySelector('#tabClientes tbody');tb.innerHTML='';const sel=document.getElementById('ch_cliente');sel.innerHTML='<option>Selecione</option>';clientes.forEach((c,i)=>{tb.innerHTML+=`<tr><td>${c.nome}</td><td>${c.municipio}/${c.estado}</td><td>${c.cep}</td><td>${c.endereco}, ${c.numero} - ${c.bairro}</td><td>${c.tel}</td><td><button class="btn btn-r" onclick="clientes.splice(${i},1);localStorage.setItem('clientes_v80',JSON.stringify(clientes));renderClientes()">Excluir</button></td></tr>`;sel.innerHTML+=`<option>${c.nome}</option>`;});document.getElementById('kClientes').innerText=clientes.length;}
-function addChamado(){const id=3438+chamados.length;const ch={id,titulo:ch_titulo.value,tipo:ch_tipo.value,cliente:ch_cliente.value,quem:ch_quem.value,desc:ch_desc.value,data:new Date().toLocaleString()};chamados.push(ch);localStorage.setItem('chamados_v80',JSON.stringify(chamados));renderChamados();}
-function renderChamados(){const tb=document.querySelector('#tabChamados tbody');tb.innerHTML='';chamados.forEach((c,i)=>{tb.innerHTML+=`<tr><td>#${c.id}</td><td>${c.titulo}</td><td>${c.cliente}</td><td>${c.quem}</td><td>${c.data}</td><td>${c.tipo}</td><td><button class="btn btn-r" onclick="chamados.splice(${i},1);localStorage.setItem('chamados_v80',JSON.stringify(chamados));renderChamados()">Excluir</button></td></tr>`;});document.getElementById('kChamados').innerText=chamados.length;}
-function addFin(){const f={desc:f_desc.value,valor:parseFloat(f_valor.value)||0,tipo:f_tipo.value,data:new Date().toLocaleDateString()};financeiro.push(f);localStorage.setItem('financeiro_v80',JSON.stringify(financeiro));renderFin();}
-function renderFin(){const tb=document.querySelector('#tabFin tbody');tb.innerHTML='';let tot=0;financeiro.forEach((f,i)=>{tot+=f.valor;tb.innerHTML+=`<tr><td>${f.tipo} ${f.desc}</td><td>R$ ${f.valor.toFixed(2)}</td><td>${f.data}</td><td><button class="btn btn-r" onclick="financeiro.splice(${i},1);localStorage.setItem('financeiro_v80',JSON.stringify(financeiro));renderFin()">Excluir</button></td></tr>`;});document.getElementById('kFat').innerText=tot.toFixed(2);}
+function login(){const u=user.value.trim(), p=pass.value.trim();let f=usuarios.find(x=>x.user===u && x.pass===p);if(!f && u==='ramosinfotec')f={user:'ramosinfotec',perfil:'admin',empresa:'Ramos Infotec'};if(!f){alert('invalido');return;}usuarioLogado=f;loginScreen.classList.add('hidden');app.classList.remove('hidden');nomeLogado.innerText=usuarioLogado.empresa;perfilBadge.innerText=usuarioLogado.perfil;if(usuarioLogado.perfil==='cliente'){navAdmin.classList.add('hidden');navCliente.classList.remove('hidden');showTab('areaCliente');cliEmpresaNome.innerText=usuarioLogado.empresa;}else{navAdmin.classList.remove('hidden');navCliente.classList.add('hidden');showTab('dashboard');}renderAll();}
+function showTab(id){document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');}
+function logout(){location.reload();}
+function calcTotal(){const v=parseFloat(fa_valor.value)||0,j=parseFloat(fa_juros.value)||0,m=parseFloat(fa_multa.value)||0;fa_total.value=(v+j+m).toFixed(2);}
+fa_valor&&fa_valor.addEventListener('input',calcTotal);fa_juros&&fa_juros.addEventListener('input',calcTotal);fa_multa&&fa_multa.addEventListener('input',calcTotal);
+function renderAll(){renderClientes();renderUsuarios();renderChamados();renderFin();renderFinAdmin();renderEstoque();renderRemoto();renderLeads();renderAreaCliente();}
+function addCliente(){const c={nome:c_nome.value,cnpj:c_cnpj.value,tel:c_tel.value,estado:c_estado.value,municipio:c_municipio.value,cep:c_cep.value,endereco:c_endereco.value,numero:c_numero.value,bairro:c_bairro.value};if(!c.nome)return alert('Nome');clientes.push(c);localStorage.setItem('clientes_v80',JSON.stringify(clientes));renderClientes();}
+function renderClientes(){const tb=document.querySelector('#tabClientes tbody');tb.innerHTML='';const sel=document.getElementById('ch_cliente');const selF=document.getElementById('f_cliente');const selFA=document.getElementById('fa_cliente');const selR=document.getElementById('r_clienteSel');sel.innerHTML='<option>Selecione</option>';selF.innerHTML='<option>Selecione</option>';selFA.innerHTML='<option>Selecione</option>';selR.innerHTML='<option>Selecione</option>';clientes.forEach((c,i)=>{tb.innerHTML+=`<tr><td>${c.nome}</td><td>${c.municipio}/${c.estado}</td><td>${c.cep}</td><td>${c.tel}</td><td><button class="btn btn-r" onclick="clientes.splice(${i},1);localStorage.setItem('clientes_v80',JSON.stringify(clientes));renderAll()">X</button></td></tr>`;sel.innerHTML+=`<option>${c.nome}</option>`;selF.innerHTML+=`<option>${c.nome}</option>`;selFA.innerHTML+=`<option>${c.nome}</option>`;selR.innerHTML+=`<option>${c.nome}</option>`;});kClientes.innerText=clientes.length;}
+function addUsuario(){const u={user:u_user.value,pass:u_pass.value,empresa:u_empresa.value,perfil:u_perfil.value};if(!u.user)return alert('Usuario');usuarios.push(u);localStorage.setItem('usuarios_v81',JSON.stringify(usuarios));renderUsuarios();}
+function renderUsuarios(){const tb=document.querySelector('#tabUsuarios tbody');tb.innerHTML='';usuarios.forEach((u,i)=>{tb.innerHTML+=`<tr><td>${u.user}</td><td>${u.empresa}</td><td>${u.perfil}</td><td><button class="btn btn-r" onclick="usuarios.splice(${i},1);localStorage.setItem('usuarios_v81',JSON.stringify(usuarios));renderUsuarios()">X</button></td></tr>`;});}
+function addChamado(){const ch={id:3438+chamados.length,titulo:ch_titulo.value,tipo:ch_tipo.value,cliente:ch_cliente.value,status:ch_status.value,desc:ch_desc.value,data:new Date().toLocaleString()};chamados.push(ch);localStorage.setItem('chamados_v80',JSON.stringify(chamados));renderChamados();}
+function renderChamados(){const tb=document.querySelector('#tabChamados tbody');tb.innerHTML='';chamados.forEach((c,i)=>{tb.innerHTML+=`<tr><td>#${c.id}</td><td>${c.titulo}</td><td>${c.cliente}</td><td>${c.status}</td><td><button class="btn btn-r" onclick="chamados.splice(${i},1);localStorage.setItem('chamados_v80',JSON.stringify(chamados));renderAll()">X</button></td></tr>`;});kChamados.innerText=chamados.length;}
+function addFin(){const f={desc:f_desc.value,valor:parseFloat(f_valor.value)||0,tipo:f_tipo.value,cliente:f_cliente.value,data:f_data.value};financeiro.push(f);localStorage.setItem('financeiro_v80',JSON.stringify(financeiro));renderFin();}
+function renderFin(){const tb=document.querySelector('#tabFin tbody');tb.innerHTML='';let tot=0;financeiro.forEach((f,i)=>{tot+=f.valor;tb.innerHTML+=`<tr><td>${f.desc}</td><td>${f.cliente}</td><td>R$ ${f.valor.toFixed(2)}</td><td>${f.data}</td><td><button class="btn btn-r" onclick="financeiro.splice(${i},1);localStorage.setItem('financeiro_v80',JSON.stringify(financeiro));renderFin()">X</button></td></tr>`;});kFat.innerText=tot.toFixed(2);}
+function addFinanceiroAdmin(){if(!fa_dataBoleto.value||!fa_cliente.value||!fa_oque.value||!fa_valor.value){alert('Preencha Data Boleto, Cliente, O que sendo pago, Valor');return;}calcTotal();const fa={dataBoleto:fa_dataBoleto.value,cliente:fa_cliente.value,oque:fa_oque.value,valor:parseFloat(fa_valor.value)||0,juros:parseFloat(fa_juros.value)||0,multa:parseFloat(fa_multa.value)||0,total:parseFloat(fa_total.value)||0,dataPago:fa_dataPago.value,forma:fa_forma.value,status:fa_status.value,obs:fa_obs.value};financeiroAdmin.push(fa);localStorage.setItem('financeiroAdmin_v81_4',JSON.stringify(financeiroAdmin));renderFinAdmin();fa_oque.value='';fa_valor.value='';fa_juros.value='0';fa_multa.value='0';fa_total.value='';fa_obs.value='';}
+function renderFinAdmin(){const tb=document.querySelector('#tabFinAdmin tbody');if(!tb)return;tb.innerHTML='';let tg=0,tp=0,tpen=0,tjm=0;financeiroAdmin.forEach((f,i)=>{tg+=f.total;tjm+=f.juros+f.multa;if(f.status==='Pago')tp+=f.total;else tpen+=f.total;tb.innerHTML+=`<tr><td>${f.dataBoleto}</td><td>${f.cliente}</td><td>${f.oque}</td><td>R$ ${f.valor.toFixed(2)}</td><td>R$ ${f.juros.toFixed(2)}</td><td>R$ ${f.multa.toFixed(2)}</td><td><b>R$ ${f.total.toFixed(2)}</b></td><td>${f.status}</td><td><button class="btn btn-r" onclick="financeiroAdmin.splice(${i},1);localStorage.setItem('financeiroAdmin_v81_4',JSON.stringify(financeiroAdmin));renderFinAdmin()">X</button></td></tr>`;});document.getElementById('kTotalGeral').innerText=tg.toFixed(2);document.getElementById('kTotalPago').innerText=tp.toFixed(2);document.getElementById('kTotalPendente').innerText=tpen.toFixed(2);document.getElementById('kTotalJurosMulta').innerText=tjm.toFixed(2);document.getElementById('kFatAdmin').innerText=tg.toFixed(2);}
 function addEstoque(){const e={nome:e_nome.value,qtd:e_qtd.value,valor:e_valor.value};estoque.push(e);localStorage.setItem('estoque_v80',JSON.stringify(estoque));renderEstoque();}
-function renderEstoque(){const tb=document.querySelector('#tabEstoque tbody');tb.innerHTML='';estoque.forEach((e,i)=>{tb.innerHTML+=`<tr><td>${e.nome}</td><td>${e.qtd}</td><td>R$ ${e.valor}</td><td><button class="btn btn-r" onclick="estoque.splice(${i},1);localStorage.setItem('estoque_v80',JSON.stringify(estoque));renderEstoque()">Excluir</button></td></tr>`;});}
-function gerarRemoto(){const senha=Math.random().toString(36).substring(2,8).toUpperCase();document.getElementById('r_out').innerHTML=`<div class="card">ID: <b>${r_id.value}</b> Senha: <b>${senha}</b><br><a href="https://wa.me/5511971995422?text=Acesso ID ${r_id.value} Senha ${senha}" target="_blank">Enviar Zap ${ZAP}</a></div>`;}
-function buscarLeads(){const cidade=lead_cidade.value||'São Paulo';const tipo=lead_tipo.value;const exemplos=[`Contabilidade ${cidade} - Exito`,`Advocacia ${cidade} - Oliveira`,`${tipo} ${cidade} Centro`,`${tipo} ${cidade} - Silva ME`];exemplos.forEach(nome=>{leads.push({nome,tipo,cidade,tel:'(11) 9'+Math.floor(1000+Math.random()*9000)+'-'+Math.floor(1000+Math.random()*9000),status:'Pendente'});});localStorage.setItem('leads_v80',JSON.stringify(leads));renderLeads();}
-function addLeadManual(){const nome=prompt('Nome:');if(!nome)return;leads.push({nome,tipo:lead_tipo.value,cidade:lead_cidade.value,tel:prompt('Tel:')||'(11) 9xxxx',status:'Pendente'});localStorage.setItem('leads_v80',JSON.stringify(leads));renderLeads();}
-function renderLeads(){const tb=document.querySelector('#tabLeads tbody');tb.innerHTML='';leads.forEach((l,i)=>{tb.innerHTML+=`<tr><td>${l.nome}</td><td>${l.tipo}</td><td>${l.cidade}</td><td>${l.tel}</td><td><span class="badge badge-${l.status.toLowerCase()}">${l.status}</span></td><td><button class="btn btn-p" onclick="enviarLead(${i})">Enviar</button></td></tr>`;});document.getElementById('kLeads').innerText=leads.length;}
-function enviarLead(i){const l=leads[i];const msg=msgLongaTxt.replace('[NOME DA EMPRESA]',l.nome);window.open(`https://wa.me/55${l.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`,'_blank');leads[i].status='Enviado';localStorage.setItem('leads_v80',JSON.stringify(leads));renderLeads();}
-function dispararLote(){let idx=0;const it=setInterval(()=>{if(idx>=leads.length){clearInterval(it);return;}if(leads[idx].status==='Pendente')enviarLead(idx);idx++;},3000);}
+function renderEstoque(){const tb=document.querySelector('#tabEstoque tbody');tb.innerHTML='';estoque.forEach((e,i)=>{tb.innerHTML+=`<tr><td>${e.nome}</td><td>${e.qtd}</td><td>${e.valor}</td><td><button class="btn btn-r" onclick="estoque.splice(${i},1);localStorage.setItem('estoque_v80',JSON.stringify(estoque));renderEstoque()">X</button></td></tr>`;});kEstoque.innerText=estoque.length;}
+function gerarRemoto(){const senha=Math.random().toString(36).substring(2,8).toUpperCase();const r={id:r_id.value,cliente:r_clienteSel.value,senha:senha,data:new Date().toLocaleString()};remoto.push(r);localStorage.setItem('remoto_v81',JSON.stringify(remoto));r_out.innerHTML=`ID: ${r.id} Senha: ${senha}`;renderRemoto();}
+function renderRemoto(){const tb=document.querySelector('#tabRemoto tbody');tb.innerHTML='';remoto.forEach((r,i)=>{tb.innerHTML+=`<tr><td>${r.id}</td><td>${r.cliente}</td><td>${r.senha}</td><td>${r.data}</td><td><button class="btn btn-r" onclick="remoto.splice(${i},1);localStorage.setItem('remoto_v81',JSON.stringify(remoto));renderRemoto()">X</button></td></tr>`;});}
+function buscarLeads(){leads.push({nome:'Lead '+lead_cidade.value,tipo:lead_tipo.value,cidade:lead_cidade.value,status:'Pendente'});localStorage.setItem('leads_v80',JSON.stringify(leads));renderLeads();}
+function renderLeads(){const tb=document.querySelector('#tabLeads tbody');tb.innerHTML='';leads.forEach((l,i)=>{tb.innerHTML+=`<tr><td>${l.nome}</td><td>${l.status}</td><td><button class="btn btn-p" onclick="window.open('https://wa.me/5511971995422','_blank')">Enviar</button></td></tr>`;});kLeads.innerText=leads.length;}
+function renderAreaCliente(){if(!usuarioLogado||usuarioLogado.perfil!=='cliente')return;const meus=chamados.filter(c=>c.cliente===usuarioLogado.empresa);const tb=document.querySelector('#tabMeusChamados tbody');tb.innerHTML='';meus.forEach(c=>{tb.innerHTML+=`<tr><td>#${c.id}</td><td>${c.titulo}</td><td>${c.data}</td><td>${c.status}</td></tr>`;});kMeusChamados.innerText=meus.length;kAbertos.innerText=meus.filter(c=>c.status==='Aberto').length;kFechados.innerText=meus.filter(c=>c.status==='Fechado').length;}
+function abrirChamadoCliente(){const ch={id:3438+chamados.length,titulo:cli_titulo.value,cliente:usuarioLogado.empresa,status:'Aberto',desc:cli_desc.value,data:new Date().toLocaleString()};chamados.push(ch);localStorage.setItem('chamados_v80',JSON.stringify(chamados));renderAll();showTab('areaMeus');}
+function gerarCabecalhoHTML(titulo){return `<div style="text-align:center;border-bottom:3px solid #3b82f6;padding-bottom:10px"><img src="logo_final.png" style="width:100%;max-height:140px;object-fit:contain"><h2>Ramos Tecnologia</h2><p>Pentest | LGPD | +55 11 97199-5422</p><h3>${titulo}</h3></div>`;}
+function relatorioClientes(){let h=gerarCabecalhoHTML('Clientes');h+=`<table border="1" cellpadding="5" style="width:100%"><tr><th>Empresa</th><th>Cidade</th><th>Tel</th></tr>`;clientes.forEach(c=>{h+=`<tr><td>${c.nome}</td><td>${c.municipio}/${c.estado}</td><td>${c.tel}</td></tr>`;});h+=`</table>`;const w=window.open('','','width=900,height=700');w.document.write(h);w.document.close();w.print();}
+function relatorioChamados(){let h=gerarCabecalhoHTML('Chamados');h+=`<table border="1" cellpadding="5" style="width:100%"><tr><th>ID</th><th>Titulo</th><th>Empresa</th><th>Status</th></tr>`;chamados.forEach(c=>{h+=`<tr><td>#${c.id}</td><td>${c.titulo}</td><td>${c.cliente}</td><td>${c.status}</td></tr>`;});h+=`</table>`;const w=window.open('','','width=900,height=700');w.document.write(h);w.document.close();w.print();}
+function relatorioFinanceiro(){let h=gerarCabecalhoHTML('Financeiro');h+=`<table border="1" cellpadding="5" style="width:100%"><tr><th>Desc</th><th>Valor</th></tr>`;financeiro.forEach(f=>{h+=`<tr><td>${f.desc}</td><td>${f.valor}</td></tr>`;});h+=`</table>`;const w=window.open('','','width=900,height=700');w.document.write(h);w.document.close();w.print();}
+function relatorioFinanceiroAdmin(){let h=gerarCabecalhoHTML('🔒 FINANCEIRO ADMIN - BOLETOS');h+=`<p style="color:red"><b>CONFIDENCIAL - SO ADMIN</b></p><table border="1" cellpadding="4" style="width:100%;font-size:10px"><tr style="background:#7f1d1d;color:#fff"><th>Data Boleto</th><th>Cliente</th><th>O que sendo pago</th><th>Valor</th><th>Juros</th><th>Multa</th><th>Total Pago</th><th>Status</th></tr>`;let tot=0;financeiroAdmin.forEach(f=>{tot+=f.total;h+=`<tr><td>${f.dataBoleto}</td><td>${f.cliente}</td><td>${f.oque}</td><td>${f.valor.toFixed(2)}</td><td>${f.juros.toFixed(2)}</td><td>${f.multa.toFixed(2)}</td><td><b>${f.total.toFixed(2)}</b></td><td>${f.status}</td></tr>`;});h+=`</table><h3>Total: R$ ${tot.toFixed(2)}</h3>`;const w=window.open('','','width=900,height=700');w.document.write(h);w.document.close();w.print();}
 </script>
 </body>
 </html>
