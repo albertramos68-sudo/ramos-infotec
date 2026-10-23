@@ -1,20 +1,23 @@
-<!DOCTYPE html><html lang="pt-br"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ramos V82.1 COM EMPRESA</title>
-<style>*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#020617;color:#e2e8f0}header{background:#0f172a;padding:10px;display:flex;justify-content:space-between;flex-wrap:wrap;position:sticky;top:0;z-index:99}nav{display:flex;gap:3px;flex-wrap:wrap}nav button{background:#1e293b;color:#cbd5e1;padding:6px 9px;border-radius:8px;border:1px solid #334155;cursor:pointer;font-size:11px}nav button:hover{background:#3b82f6;color:#fff}.card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:14px;margin:10px}input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#fff;font-size:13px}label{font-size:12px;color:#94a3b8;font-weight:bold}.btn{padding:9px 13px;border-radius:8px;border:none;font-weight:bold;cursor:pointer}.btn-p{background:#3b82f6;color:#fff}.btn-r{background:#ef4444;color:#fff}.btn-y{background:#f59e0b;color:#000}.btn-admin{background:#dc2626;color:#fff}.hidden{display:none!important}.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px}.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#020617,#1e3a8a);padding:15px}.login-box{background:#1e293b;padding:22px;border-radius:16px;width:480px;border:1px solid #334155;text-align:center}table{width:100%;border-collapse:collapse;margin-top:8px}th,td{padding:6px;text-align:left;border-bottom:1px solid #334155;font-size:10px}</style>
-</head><body>
-<div id="loginScreen" class="login-screen"><div class="login-box">
-<img src="logo_final.png" style="width:100%;border-radius:12px;margin-bottom:12px" onerror="this.style.display='none'">
-<h2 style="color:#38bdf8">RAMOS V82.1 COM EMPRESA</h2>
-<p style="color:#94a3b8;font-size:10px">V79.8 + V81.4 - EMPRESA + USUARIO + SENHA</p>
+<div id="loginScreen" class="login-box">
+<h2 style="color:#38bdf8">RAMOS V82.2 COM EMPRESA + OLHO + CADASTRO</h2>
+<p style="color:#94a3b8;font-size:10px">V79.8 + V81.4 + V82.2 - EMPRESA + USUARIO + SENHA</p>
 <div style="text-align:left">
-<label style="color:#fbbf24">🏢 EMPRESA *</label><input id="emp" placeholder="Ramos Infotec" value="Ramos Infotec" style="border-color:#f59e0b;border-width:2px">
+<label style="color:#fbbf24">🏢 EMPRESA *</label><input id="emp" placeholder="Ramos Infotec" value="Ramos Infotec">
 <label>👤 USUARIO *</label><input id="user" placeholder="ramosinfotec" value="ramosinfotec">
-<label>🔑 SENHA *</label><input id="pass" type="password" placeholder="Senha" value="ramosinfotec">
+<label>🔒 SENHA *</label><div style="position:relative;display:flex;align-items:center"><input id="pass" type="password" placeholder="Senha" value="ramosinfotec" style="width:100%"><span onclick="togglePass()" style="position:absolute;right:12px;cursor:pointer;z-index:10">👁️</span></div>
 </div>
 <button class="btn btn-p" style="width:100%;margin-top:12px;padding:14px" onclick="login()">ENTRAR - EMPRESA + USUARIO + SENHA</button>
 <p id="erro" style="color:#fb7185"></p>
-</div></div>
+</div>
+
+<script>
+function togglePass(){
+  const p = document.getElementById('pass');
+  if(p) p.type = p.type === 'password' ? 'text' : 'password';
+}
+</script>
+
 <div id="app" class="hidden">
-<header><div style="display:flex;align-items:center"><img src="logo_final.png" style="height:38px;border-radius:8px;margin-right:8px"><div><b style="color:#38bdf8">RAMOS V82.1</b><br><span id="perfilBadge"></span> <span id="nomeLogado"></span> | <span id="empresaLogada" style="color:#fbbf24"></span></div></div>
 <nav id="navAdmin"><button onclick="showTab('dashboard')">📊 Dashboard</button><button onclick="showTab('cadastro')">👥 Clientes</button><button onclick="showTab('usuarios')">👤 Usuarios</button><button onclick="showTab('chamadoAbertura')">🎫 Abrir</button><button onclick="showTab('chamado')">🛠️ Atendimento</button><button onclick="showTab('os')">📋 OS</button><button onclick="showTab('financeiro')">💰 Financeiro</button><button onclick="showTab('financeiroAdmin')" style="background:#dc2626;color:#fff">🔒 Fin ADMIN</button><button onclick="showTab('meuFinanceiro')" style="background:#f59e0b;color:#000">🔐 Meu Fin</button><button onclick="showTab('estoque')">📦 Estoque</button><button onclick="showTab('remoto')">🖥️ Remoto</button><button onclick="showTab('comercial')">🤖 Comercial</button><button onclick="showTab('relatorios')">📈 Relatorios</button><button onclick="logout()">🚪 Sair</button></nav>
 <nav id="navCliente" class="hidden"><button onclick="showTab('areaCliente')">🏠 Minha Area</button><button onclick="showTab('chamadoAbertura')">➕ Abrir</button><button onclick="showTab('areaMeus')">📋 Meus</button><button onclick="logout()">🚪 Sair</button></nav>
 </header>
