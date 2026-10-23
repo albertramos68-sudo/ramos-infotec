@@ -9,14 +9,12 @@
 <button class="btn btn-p" style="width:100%;margin-top:12px;padding:14px" onclick="login()">ENTRAR - EMPRESA + USUARIO + SENHA</button>
 <p id="erro" style="color:#fb7185"></p>
 </div>
-
 <script>
 function togglePass(){
   const p = document.getElementById('pass');
   if(p) p.type = p.type === 'password' ? 'text' : 'password';
 }
 </script>
-
 <div id="app" class="hidden">
 <nav id="navAdmin"><button onclick="showTab('dashboard')">📊 Dashboard</button><button onclick="showTab('cadastro')">👥 Clientes</button><button onclick="showTab('usuarios')">👤 Usuarios</button><button onclick="showTab('chamadoAbertura')">🎫 Abrir</button><button onclick="showTab('chamado')">🛠️ Atendimento</button><button onclick="showTab('os')">📋 OS</button><button onclick="showTab('financeiro')">💰 Financeiro</button><button onclick="showTab('financeiroAdmin')" style="background:#dc2626;color:#fff">🔒 Fin ADMIN</button><button onclick="showTab('meuFinanceiro')" style="background:#f59e0b;color:#000">🔐 Meu Fin</button><button onclick="showTab('estoque')">📦 Estoque</button><button onclick="showTab('remoto')">🖥️ Remoto</button><button onclick="showTab('comercial')">🤖 Comercial</button><button onclick="showTab('relatorios')">📈 Relatorios</button><button onclick="logout()">🚪 Sair</button></nav>
 <nav id="navCliente" class="hidden"><button onclick="showTab('areaCliente')">🏠 Minha Area</button><button onclick="showTab('chamadoAbertura')">➕ Abrir</button><button onclick="showTab('areaMeus')">📋 Meus</button><button onclick="logout()">🚪 Sair</button></nav>
