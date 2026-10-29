@@ -1,87 +1,20 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAMOS INFOTEC V83 FINAL - LOGO HEX 12 CAMPOS</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#0b1220;color:#e2e8f0;font-family:Arial,sans-serif}
-.login-bg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#1e3a5f,#0b1220);padding:16px}
-.login-box{width:100%;max-width:420px;background:#1e293b;padding:32px 28px;border-radius:20px;border:1px solid #22d3ee;text-align:center;box-shadow:0 0 40px rgba(34,211,238,0.25)}
-.logo-hex{width:90px;height:90px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at center,#0f172a,#0b1220);border:2px solid #22d3ee;border-radius:18px;box-shadow:0 0 25px rgba(34,211,238,0.5)}
-.field{text-align:left;margin:12px 0;position:relative}.field label{font-size:11px;color:#7dd3fc;display:block;margin-bottom:5px}
-.field input{width:100%;padding:12px 44px 12px 14px;border-radius:12px;border:1px solid #334155;background:#0f172a;color:#fff}
-.eye{position:absolute;right:14px;top:33px;cursor:pointer}
-.btn{border:none;border-radius:12px;cursor:pointer;font-weight:bold}.btn-p{background:#22d3ee;color:#000;width:100%;padding:13px;margin-top:14px}.btn-s{background:#334155;color:#e2e8f0;padding:8px 14px;border-radius:10px;font-size:13px}.hidden{display:none!important}
-header{background:#1e293b;padding:12px 16px;display:flex;justify-content:space-between;position:sticky;top:0;border-bottom:1px solid #334155}
-.card{background:#1e293b;padding:18px;border-radius:14px;border:1px solid #334155;margin-bottom:14px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
-@media(max-width:800px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
-input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff}
-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}th,td{border-bottom:1px solid #334155;padding:7px;text-align:left}th{color:#22d3ee}
-</style>
-</head>
-<body>
-<div id="login" class="login-bg"><div class="login-box">
-<div class="logo-hex">
-<!-- LOGO HEXAGONO RAMOS INFOTEC -->
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-<path d="M32 2 L58 16 V46 L32 60 L6 46 V16 Z" stroke="#22d3ee" stroke-width="2.5" fill="rgba(34,211,238,0.10)"/>
-<path d="M32 10 L50 20 V40 L32 50 L14 40 V20 Z" stroke="#0ea5e9" stroke-width="1.2" fill="none"/>
-<g transform="translate(0,2)">
-<rect x="20" y="26" width="24" height="18" rx="4" stroke="#7dd3fc" stroke-width="2" fill="none"/>
-<path d="M26 26 V21 C26 17.5 28.7 15 32 15 C35.3 15 38 17.5 38 21 V26" stroke="#7dd3fc" stroke-width="2" fill="none"/>
-<circle cx="32" cy="35" r="2.5" fill="#22d3ee"/>
-<circle cx="32" cy="33" r="0.8" fill="#0b1220"/>
-<!-- rede -->
-<circle cx="32" cy="30" r="1" stroke="#22d3ee" stroke-width="0.8" fill="none"/><circle cx="26" cy="34" r="1" stroke="#22d3ee" stroke-width="0.8" fill="none"/><circle cx="38" cy="34" r="1" stroke="#22d3ee" stroke-width="0.8" fill="none"/><line x1="32" y1="30" x2="26" y2="34" stroke="#22d3ee" stroke-width="0.6"/><line x1="32" y1="30" x2="38" y2="34" stroke="#22d3ee" stroke-width="0.6"/><line x1="26" y1="34" x2="38" y2="34" stroke="#22d3ee" stroke-width="0.6"/>
-</g>
-</svg>
-</div>
-<h2 style="color:#22d3ee;margin:0">RAMOS INFOTEC</h2><div style="color:#94a3b8;font-size:11px;margin:6px 0 20px">V83 FINAL - LOGO HEX - 12 CAMPOS<br/>contato@ramosinfotec.com.br - Cibersegurança | LGPD</div>
-<div class="field"><label>EMPRESA</label><input id="lEmpresa" placeholder="RAMOS INFOTEC" value="RAMOS INFOTEC"></div>
-<div class="field"><label>USUARIO</label><input id="lUsuario" placeholder="admin" value="admin"></div>
-<div class="field"><label>SENHA</label><input id="lSenha" type="password" placeholder="@Xumone@197353" value="@Xumone@197353"><span class="eye" onclick="document.getElementById('lSenha').type=document.getElementById('lSenha').type==='password'?'text':'password'">👁️</span></div>
-<button class="btn btn-p" onclick="fazerLogin()">ENTRAR</button><p id="loginMsg" style="color:#f87171;font-size:12px;margin-top:10px;min-height:16px"></p>
-</div></div>
-<div id="app" class="hidden">
-<header><div style="display:flex;gap:10px;align-items:center"><div style="width:38px;height:38px;border-radius:10px;background:#0f172a;border:1px solid #22d3ee;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 64 64"><path d="M32 4 L54 16 V44 L32 56 L10 44 V16 Z" stroke="#22d3ee" stroke-width="2" fill="none"/><rect x="22" y="28" width="20" height="14" rx="3" stroke="#7dd3fc" stroke-width="1.5" fill="none"/></svg></div><div><b id="hEmpresa" style="color:#22d3ee"></b><br><small id="hUsuario" style="color:#94a3b8"></small></div></div><div><span id="hPerfil" style="background:#22d3ee;color:#000;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:bold"></span> <button class="btn btn-s" onclick="location.reload()">Sair</button></div></header>
-<div style="padding:14px">
-<nav id="menuAdmin" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"><button class="btn btn-s" onclick="aba('dashboard')">Dashboard</button><button class="btn btn-s" onclick="aba('clientes')">Clientes 12</button><button class="btn btn-s" onclick="aba('usuarios')">Usuarios</button><button class="btn btn-s" onclick="aba('atendimento')">Chamados</button><button class="btn btn-s" onclick="aba('comercial')">Comercial Robo</button><button class="btn btn-s" onclick="aba('os')">O.S</button><button class="btn btn-s" onclick="aba('estoque')">Estoque</button><button class="btn btn-s" style="background:#22d3ee;color:#000" onclick="aba('financeiro')">Financeiro 12</button><button class="btn btn-s" onclick="aba('relatorios')">Relatorios</button></nav>
-<nav id="menuCliente" class="hidden" style="display:flex;gap:6px;margin-bottom:12px"><button class="btn btn-s" onclick="aba('meuschamados')">Meus Chamados</button><button class="btn btn-p" style="width:auto;padding:8px 14px;margin:0" onclick="abrirNovoChamado()">+ Abrir Chamado</button></nav>
-<div id="aba-dashboard" class="card"><h3 style="color:#22d3ee">Dashboard V83 FINAL - LOGO HEX</h3><div id="dashInfo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px"></div></div>
-<div id="aba-clientes" class="card hidden"><h3 style="color:#22d3ee">Clientes - 12 CAMPOS</h3><div class="grid3"><input id="cRazao" placeholder="1-Razao"><input id="cCnpj" placeholder="2-CNPJ"><input id="cContato" placeholder="3-Contato"></div><div class="grid3"><input id="cEndereco" placeholder="4-Endereco"><input id="cNumero" placeholder="5-Numero"><input id="cBairro" placeholder="6-Bairro"></div><div class="grid3"><input id="cMunicipio" placeholder="7-Municipio"><input id="cEstado" placeholder="8-Estado"><input id="cCep" placeholder="9-CEP"></div><div class="grid3"><input id="cTelefone" placeholder="10-Telefone"><input id="cTelefone2" placeholder="11-WhatsApp"><input id="cEmail" placeholder="12-Email"></div><button class="btn btn-p" style="width:auto" onclick="salvarCliente()">Salvar Cliente 12 campos</button><table id="tblClientes"><thead><tr><th>Empresa</th><th>CNPJ</th><th>Municipio/UF</th><th>Endereco</th><th>Contato</th></tr></thead><tbody></tbody></table></div>
-<div id="aba-usuarios" class="card hidden"><h3>Usuarios</h3><div class="grid3"><input id="uEmpresa" placeholder="Empresa"><select id="uClienteVinculo"><option value="">Vincular Cliente</option></select><select id="uPerfil"><option value="cliente">Cliente</option><option value="admin">Admin</option></select></div><div class="grid3"><input id="uUsuario" placeholder="Usuario"><input id="uSenha" placeholder="Senha"><input id="uNome" placeholder="Nome"></div><button class="btn btn-p" style="width:auto" onclick="salvarUsuario()">Salvar Usuario</button><table id="tblUsuarios"><thead><tr><th>Empresa</th><th>Usuario</th><th>Perfil</th></tr></thead><tbody></tbody></table></div>
-<div id="aba-atendimento" class="card hidden"><h3>Chamados Admin</h3><div id="listaChamadosAdmin"></div><button class="btn btn-s" onclick="criarChamadoAdmin()">+ Criar Chamado</button></div>
-<div id="aba-meuschamados" class="card hidden"><h3>Meus Chamados</h3><b id="clienteEmpresaNome" style="color:#22d3ee"></b><div id="listaChamadosCliente"></div></div>
-<div id="aba-financeiro" class="card hidden"><h3 style="color:#22d3ee">Financeiro - 12 CAMPOS - So Admin</h3><div class="grid4"><input id="fData" type="date"><input id="fCliente" placeholder="Cliente"><input id="fCnpj" placeholder="CNPJ"><input id="fValor" type="number" placeholder="Valor"></div><div class="grid4"><select id="fTipo"><option>Entrada</option><option>Saida</option></select><select id="fForma"><option>Pix</option><option>Boleto</option><option>Cartao</option><option>Dinheiro</option></select><input id="fVenc" type="date"><select id="fStatus"><option>Pago</option><option>Pendente</option><option>Atrasado</option></select></div><div class="grid2"><input id="fCategoria" placeholder="Categoria"><input id="fComprov" placeholder="Comprovante"></div><div class="grid2"><input id="fDesc" placeholder="Descricao"><input id="fObs" placeholder="Observacao"></div><button class="btn btn-p" style="width:auto;background:#22d3ee;color:#000" onclick="salvarFinanceiro()">Lancar Financeiro 12 campos</button><table id="tblFinanceiro"><thead><tr><th>Data</th><th>Cliente</th><th>Valor</th><th>Tipo</th><th>Forma</th><th>Status</th></tr></thead><tbody></tbody></table></div>
-<div id="aba-comercial" class="card hidden"><h3>Comercial Robo - contato@ramosinfotec.com.br</h3><input id="roboBusca" placeholder="Buscar"><textarea id="msgPadrao">Ola {empresa}</textarea><button class="btn btn-p" style="width:auto" onclick="roboBuscar()">RODAR ROBO</button><div id="roboResultado"></div><div id="roboLista"></div></div>
-<div id="aba-os" class="card hidden"><h3>O.S</h3></div>
-<div id="aba-estoque" class="card hidden"><h3>Estoque</h3></div>
-<div id="aba-relatorios" class="card hidden"><h3>Relatorios</h3><button class="btn btn-s" onclick="window.print()">Imprimir PDF</button></div>
+<!DOCTYPE html><html lang="pt-br"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>RAMOS INFOTEC V83.1 FIX</title><style>*{box-sizing:border-box}body{margin:0;background:#0b1220;color:#e2e8f0;font-family:Arial} .login-bg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#1e3a5f,#0b1220);padding:16px} .login-box{width:100%;max-width:420px;background:#1e293b;padding:28px;border-radius:20px;border:1px solid #22d3ee;text-align:center} .logo-hex{width:88px;height:88px;margin:0 auto 12px;border-radius:18px;background:#0f172a;border:2px solid #22d3ee;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(34,211,238,.4)} .field{text-align:left;margin:10px 0} .field input{width:100%;padding:12px;border-radius:12px;border:1px solid #334155;background:#0f172a;color:#fff} .btn{border:none;border-radius:12px;padding:13px;width:100%;font-weight:bold;cursor:pointer;background:#22d3ee;color:#000;margin-top:10px}</style></head><body>
+<div class="login-bg"><div class="login-box">
+<div class="logo-hex"><svg width="60" height="60" viewBox="0 0 64 64"><path d="M32 3 L57 17 V45 L32 59 L7 45 V17 Z" stroke="#22d3ee" stroke-width="2.3" fill="rgba(34,211,238,.1)"/><rect x="20" y="28" width="24" height="16" rx="4" stroke="#7dd3fc" stroke-width="2" fill="none"/><path d="M26 28 V22 C26 18 28.5 16 32 16 C35.5 16 38 18 38 22 V28" stroke="#7dd3fc" stroke-width="2" fill="none"/></svg></div>
+<h2 style="color:#22d3ee;margin:0">RAMOS INFOTEC</h2><div style="color:#94a3b8;font-size:11px;margin:8px 0 18px">V83.1 FIX - ramosinfotec / admin / @Xumone@197353<br>contato@ramosinfotec.com.br</div>
+<div class="field"><label>EMPRESA</label><input id="lEmpresa" value="ramosinfotec"></div>
+<div class="field"><label>USUARIO</label><input id="lUsuario" value="admin"></div>
+<div class="field"><label>SENHA</label><input id="lSenha" type="password" value="@Xumone@197353"></div>
+<button class="btn" onclick="fazerLogin()">ENTRAR</button>
+<p id="msg" style="color:#f87171;font-size:12px"></p>
+<button onclick="resetar()" style="background:none;border:none;color:#7dd3fc;font-size:11px;margin-top:10px;cursor:pointer">Limpar cache e resetar login</button>
 </div></div>
 <script>
-let clientes=JSON.parse(localStorage.getItem('ramos_c12')||'[]');
-// CORRIGIDO: agora aceita RAMOS INFOTEC / admin / @Xumone@197353
-let usuarios=JSON.parse(localStorage.getItem('ramos_u12')||'[{"empresa_nome":"RAMOS INFOTEC","usuario_nome":"admin","senha_hash":"@Xumone@197353","perfil":"admin"},{"empresa_nome":"ramosinfotec","usuario_nome":"admin","senha_hash":"@Xumone@197353","perfil":"admin"}]');
-let chamados=JSON.parse(localStorage.getItem('ramos_ch12')||'[]');
-let financeiros=JSON.parse(localStorage.getItem('ramos_f12')||'[]');
-let usuarioLogado=null;
-function fazerLogin(){let e=document.getElementById('lEmpresa').value.trim(),u=document.getElementById('lUsuario').value.trim(),s=document.getElementById('lSenha').value.trim(),m=document.getElementById('loginMsg');if(!e||!u||!s){m.textContent='Preencha Empresa, Usuario e Senha';return;}let ach=usuarios.find(x=>x.empresa_nome.toLowerCase()===e.toLowerCase()&&x.usuario_nome.toLowerCase()===u.toLowerCase()&&x.senha_hash===s);if(!ach){m.textContent='Empresa, usuario ou senha invalidos - verifique RAMOS INFOTEC / admin / @Xumone@197353';return;}usuarioLogado=ach;document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');document.getElementById('hEmpresa').textContent=ach.empresa_nome;document.getElementById('hUsuario').textContent=ach.usuario_nome;document.getElementById('hPerfil').textContent=ach.perfil.toUpperCase();if(ach.perfil==='admin'){document.getElementById('menuAdmin').style.display='flex';document.getElementById('menuCliente').classList.add('hidden');aba('dashboard');}else{document.getElementById('menuAdmin').style.display='none';document.getElementById('menuCliente').classList.remove('hidden');document.getElementById('clienteEmpresaNome').textContent=ach.empresa_nome;aba('meuschamados');renderChamadosCliente();}renderTudo();}
-function aba(n){document.querySelectorAll('[id^="aba-"]').forEach(d=>d.classList.add('hidden'));let el=document.getElementById('aba-'+n);if(el)el.classList.remove('hidden');}
-function salvarCliente(){let c={id:Date.now(),razao:document.getElementById('cRazao').value,cnpj:document.getElementById('cCnpj').value,contato:document.getElementById('cContato').value,endereco:document.getElementById('cEndereco').value,numero:document.getElementById('cNumero').value,bairro:document.getElementById('cBairro').value,municipio:document.getElementById('cMunicipio').value,estado:document.getElementById('cEstado').value,cep:document.getElementById('cCep').value,telefone:document.getElementById('cTelefone').value,telefone2:document.getElementById('cTelefone2').value,email:document.getElementById('cEmail').value};if(!c.razao){alert('Informe Razao');return;}clientes.push(c);localStorage.setItem('ramos_c12',JSON.stringify(clientes));renderClientes();alert('Cliente 12 campos salvo!');}
-function renderClientes(){let tb=document.querySelector('#tblClientes tbody');tb.innerHTML='';let sel=document.getElementById('uClienteVinculo');if(sel)sel.innerHTML='<option value="">Vincular Cliente</option>';clientes.forEach(c=>{tb.innerHTML+=`<tr><td>${c.razao}</td><td>${c.cnpj||''}</td><td>${c.municipio||''}/${c.estado||''}</td><td>${c.endereco||''}, ${c.numero||''}</td><td>${c.contato||''} ${c.telefone||''}</td></tr>`;if(sel)sel.innerHTML+=`<option value="${c.id}">${c.razao}</option>`;});let dash=document.getElementById('dashInfo');dash.innerHTML=`<div class="card" style="background:#0f172a"><b>Clientes 12</b><br><span style="font-size:22px;color:#22d3ee">${clientes.length}</span></div><div class="card" style="background:#0f172a"><b>Financeiro 12</b><br><span style="font-size:22px;color:#22d3ee">${financeiros.length}</span></div>`;}
-function salvarUsuario(){let u={empresa_nome:document.getElementById('uEmpresa').value,usuario_nome:document.getElementById('uUsuario').value,senha_hash:document.getElementById('uSenha').value,perfil:document.getElementById('uPerfil').value};if(!u.empresa_nome||!u.usuario_nome||!u.senha_hash){alert('Preencha');return;}usuarios.push(u);localStorage.setItem('ramos_u12',JSON.stringify(usuarios));renderUsuarios();alert('Usuario salvo');}
-function renderUsuarios(){let tb=document.querySelector('#tblUsuarios tbody');tb.innerHTML='';usuarios.forEach(u=>{tb.innerHTML+=`<tr><td>${u.empresa_nome}</td><td>${u.usuario_nome}</td><td>${u.perfil}</td></tr>`;});}
-function criarChamadoAdmin(){let e=prompt('Empresa:'),d=prompt('Descricao:');if(e&&d){chamados.push({id:Date.now(),empresa:e,desc:d,status:'aberto'});localStorage.setItem('ramos_ch12',JSON.stringify(chamados));renderChamadosAdmin();}}
-function renderChamadosAdmin(){let d=document.getElementById('listaChamadosAdmin');d.innerHTML=chamados.map(c=>`<div class="card" style="background:#0f172a"><b>${c.empresa}</b> - ${c.status}<br>${c.desc}</div>`).join('')||'Nenhum';}
-function renderChamadosCliente(){let lista=chamados.filter(c=>c.empresa.toLowerCase()===usuarioLogado.empresa_nome.toLowerCase());let d=document.getElementById('listaChamadosCliente');d.innerHTML=lista.map(c=>`<div class="card" style="background:#0f172a">${c.desc} - ${c.status} <button class="btn btn-s">Abrir</button><button class="btn btn-s">Alterar</button><button class="btn btn-s">Reabrir</button><button class="btn btn-s">Fechar</button></div>`).join('')||'Nenhum';}
-function abrirNovoChamado(){let t=prompt('Descricao:');if(t){chamados.push({id:Date.now(),empresa:usuarioLogado.empresa_nome,desc:t,status:'aberto'});localStorage.setItem('ramos_ch12',JSON.stringify(chamados));renderChamadosCliente();}}
-function salvarFinanceiro(){if(!usuarioLogado||usuarioLogado.perfil!=='admin'){alert('So admin');return;}let f={id:Date.now(),data:document.getElementById('fData').value,cliente:document.getElementById('fCliente').value,cnpj:document.getElementById('fCnpj').value,valor:document.getElementById('fValor').value,tipo:document.getElementById('fTipo').value,forma:document.getElementById('fForma').value,venc:document.getElementById('fVenc').value,status:document.getElementById('fStatus').value,categoria:document.getElementById('fCategoria').value,comprov:document.getElementById('fComprov').value,desc:document.getElementById('fDesc').value,obs:document.getElementById('fObs').value};if(!f.cliente||!f.valor){alert('Preencha Cliente e Valor');return;}financeiros.push(f);localStorage.setItem('ramos_f12',JSON.stringify(financeiros));renderFinanceiro();alert('Financeiro 12 campos salvo!');}
-function renderFinanceiro(){let tb=document.querySelector('#tblFinanceiro tbody');tb.innerHTML='';financeiros.forEach(f=>{tb.innerHTML+=`<tr><td>${f.data||''}</td><td>${f.cliente}<br><small>${f.cnpj||''}</small></td><td>R$ ${f.valor}</td><td>${f.tipo}</td><td>${f.forma}</td><td>${f.status}</td></tr>`;});}
-function roboBuscar(){document.getElementById('roboResultado').innerHTML='Buscando...';setTimeout(()=>{document.getElementById('roboLista').innerHTML=`<div class="card" style="background:#0f172a">Empresa ABC - SP<br><button class="btn btn-s">Email contato@ramosinfotec.com.br</button> <button class="btn btn-s" style="background:#25d366">Zap</button></div>`;},800);}
-function renderTudo(){renderClientes();renderUsuarios();renderChamadosAdmin();renderFinanceiro();}
-renderTudo();
+// V83.1 - FORÇA LIMPEZA DA VERSÃO ANTIGA
+localStorage.removeItem('ramos_u12');
+let usuarios=[{"empresa_nome":"ramosinfotec","usuario_nome":"admin","senha_hash":"@Xumone@197353","perfil":"admin"},{"empresa_nome":"RAMOS INFOTEC","usuario_nome":"admin","senha_hash":"@Xumone@197353","perfil":"admin"}];
+localStorage.setItem('ramos_u83',JSON.stringify(usuarios));
+function fazerLogin(){let e=document.getElementById('lEmpresa').value.trim().toLowerCase(),u=document.getElementById('lUsuario').value.trim().toLowerCase(),s=document.getElementById('lSenha').value.trim();let ach=usuarios.find(x=>x.empresa_nome.toLowerCase()===e&&x.usuario_nome.toLowerCase()===u&&x.senha_hash===s);if(!ach){document.getElementById('msg').textContent='Ainda inválido - clique em limpar cache abaixo';return;}alert('ENTROU! V83.1 OK - '+ach.empresa_nome);location.href='about:blank';}
+function resetar(){localStorage.clear();location.reload();}
 </script>
-</body>
-</html>
+</body></html>
