@@ -139,13 +139,18 @@ body.printing #print-area{display:block;padding:20px;background:#fff;color:#000;
   <div class="loginbox">
     <h1>RAMOS <span>INFOTEC</span></h1>
     <div class="sub">Atendimento · Ordens de Serviço · Financeiro integrado</div>
-    <label>Empresa</label><input id="l-emp" value="ramosinfotec">
-    <label>Usuário</label><input id="l-login" value="admin">
-    <label>Senha</label><input id="l-senha" type="password" value="@Xumone@197353">
-    <button class="bt verde w100" onclick="entrar()">ENTRAR NO SISTEMA</button>
-    <button class="bt contorno w100" onclick="entrar(true)">Entrar em modo demonstração</button>
+    <label>Empresa</label><input id="l-emp" placeholder="ex: ramosinfotec" autocomplete="off">
+    <label>Usuário</label><input id="l-login" placeholder="seu usuário" autocomplete="username">
+    <label>Senha</label>
+    <div style="position:relative;display:flex;align-items:center;">
+      <input id="l-senha" type="password" placeholder="sua senha" autocomplete="current-password" style="padding-right:40px;">
+      <button type="button" onclick="var c=document.getElementById('l-senha'); if(c.type==='password'){c.type='text'; this.textContent='🙈';}else{c.type='password'; this.textContent='👁️';}" style="position:absolute;right:10px;background:none;border:none;cursor:pointer;font-size:18px;">👁️</button>
+    </div>
+    <button class="bt verde w100" onclick="entrar()" style="margin-top:16px;">ENTRAR NO SISTEMA</button>
     <p class="dica">Os dados ficam salvos no próprio navegador (localStorage). Nada é enviado para servidor.</p>
   </div>
+</div>
+</div>
 </div>
 
 <div id="app" class="hidden">
